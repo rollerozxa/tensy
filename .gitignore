@@ -1,0 +1,6 @@
+build/
+build_*/
+.cache
+compile_commands.json
+misc/
+packaging/bin/
