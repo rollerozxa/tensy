@@ -19,7 +19,7 @@ SDL_AppResult SDL_AppInit(void **rustptr, int argc, char **argv) {
 	SDL_Init(SDL_INIT_VIDEO);
 
 	SDL_CreateWindowAndRenderer(
-		"roller <3 kittynunu",
+		"Tensy",
 		SCREEN_WIDTH, SCREEN_HEIGHT,
 		0, &window, &renderer);
 
