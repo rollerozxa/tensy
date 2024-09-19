@@ -1,0 +1,46 @@
+name: Web (Emscripten)
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  web:
+    runs-on: ubuntu-latest
+    container:
+      image: emscripten/emsdk:latest
+      env: { LANG: "C.UTF-8" }
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install deps
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ninja-build
+
+      - name: Run build
+        run: |
+          ./packaging/build-web.sh
+
+      - name: Upload output as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: tensy-web
+          path: packaging/bin/web/
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v3
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v2
+        with:
+          path: packaging/bin/web/
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v2
