@@ -28,7 +28,14 @@ SDL_Texture* load_font(SDL_Renderer *renderer) {
 #define FGRID_WIDTH (FONT_WIDTH/GLYPH_WIDTH)
 #define FGRID_HEIGHT (FONT_HEIGHT/GLYPH_HEIGHT)
 
+SDL_Color font_color;
+
+SDL_Color get_font_color() {
+	return font_color;
+}
+
 void set_font_color(SDL_Color clr) {
+	font_color = clr;
 	SDL_SetTextureColorMod(font_tex, clr.r, clr.g, clr.b);
 }
 
@@ -47,8 +54,23 @@ void draw_char(SDL_Renderer *renderer, unsigned char character, int cx, int cy, 
 	);
 }
 
+void draw_char_shadow(SDL_Renderer *renderer, unsigned char character, int cx, int cy, int scale) {
+	SDL_Color temp = get_font_color();
+
+	set_font_color((SDL_Color){0, 0, 0});
+	draw_char(renderer, character, cx+scale, cy+scale, scale);
+	set_font_color(temp);
+	draw_char(renderer, character, cx, cy, scale);
+}
+
 void draw_text(SDL_Renderer *renderer, const char* text, int x, int y, int scale) {
 	for (size_t i = 0; text[i] != '\0'; i++) {
 		draw_char(renderer, text[i], x+i*GLYPH_WIDTH*scale, y*scale, scale);
+	}
+}
+
+void draw_text_shadow(SDL_Renderer *renderer, const char* text, int x, int y, int scale) {
+	for (size_t i = 0; text[i] != '\0'; i++) {
+		draw_char_shadow(renderer, text[i], x+i*GLYPH_WIDTH*scale, y*scale, scale);
 	}
 }
