@@ -16,16 +16,19 @@ typedef struct {
 	int y;
 } Neighbour;
 
-#define BOARD_W 32
-#define BOARD_H 18
+#define BOARD_W 30
+#define BOARD_H 16
 
 Cell board[BOARD_W][BOARD_H];
 
 bool helddown = false;
 SDL_Point first_held_pos = {-1,-1};
 SDL_Point current_held_pos = {-1,-1};
+int held_sum = -1;
 
-void calculate_move() {
+int score = 0;
+
+int calculate_sum() {
 	int sum = 0;
 
 	for (size_t x = fminf(first_held_pos.x, current_held_pos.x); x <= fmaxf(current_held_pos.x, first_held_pos.x); x++) {
@@ -35,14 +38,23 @@ void calculate_move() {
 		}
 	}
 
-	printf("%d\n", sum);
+	return sum;
+}
+
+void do_move() {
+	int sum = calculate_sum();
 
 	if (sum == 10) {
+		int removed_cells = 0;
+
 		for (size_t x = fminf(first_held_pos.x, current_held_pos.x); x <= fmaxf(current_held_pos.x, first_held_pos.x); x++) {
 			for (size_t y = fminf(first_held_pos.y, current_held_pos.y); y <= fmaxf(current_held_pos.y, first_held_pos.y); y++) {
 				board[x][y].removed = true;
+				removed_cells++;
 			}
 		}
+
+		score += sum * (removed_cells-1);
 	}
 }
 
@@ -57,35 +69,31 @@ void game_init(void) {
 
 void game_event(const SDL_Event *ev) {
 	if (ev->type == SDL_EVENT_MOUSE_BUTTON_DOWN) {
-		float mx = ev->button.x;
-		float my = ev->button.y;
+		int cx = floorf(ev->button.x / 20)-1;
+		int cy = floorf(ev->button.y / 20)-1;
 
-		first_held_pos.x = floorf(mx / 20);
-		first_held_pos.y = floorf(my / 20);
-
-		current_held_pos.x = first_held_pos.x;
-		current_held_pos.y = first_held_pos.y;
-
-		helddown = true;
-
-		printf("%f, %f\n", mx, my);
+		if (SDL_clamp(cx, 0, 30-1) == cx && SDL_clamp(cy, 0, 16-1) == cy) {
+			first_held_pos = (struct SDL_Point){cx,cy};
+			current_held_pos = first_held_pos;
+			helddown = true;
+		}
 	} else if (ev->type == SDL_EVENT_MOUSE_MOTION) {
 		if (helddown) {
-			float mx = ev->motion.x;
-			float my = ev->motion.y;
+			current_held_pos.x = floorf(ev->motion.x / 20)-1;
+			current_held_pos.y = floorf(ev->motion.y / 20)-1;
 
-			current_held_pos.x = floorf(mx / 20);
-			current_held_pos.y = floorf(my / 20);
+			current_held_pos.x = SDL_clamp(current_held_pos.x, 0, 30-1);
+			current_held_pos.y = SDL_clamp(current_held_pos.y, 0, 16-1);
+
+			held_sum = calculate_sum();
 		}
 	} else if (ev->type == SDL_EVENT_MOUSE_BUTTON_UP) {
-		calculate_move();
+		do_move();
 
-		first_held_pos.x = -1;
-		first_held_pos.y = -1;
+		first_held_pos = (struct SDL_Point){-1,-1};
+		current_held_pos = (struct SDL_Point){-1,-1};
 
-		current_held_pos.x = -1;
-		current_held_pos.y = -1;
-
+		held_sum = -1;
 		helddown = false;
 	}
 }
@@ -96,23 +104,45 @@ void game_update(void) {
 }
 
 void game_draw(SDL_Renderer *renderer) {
-	//SDL_SetRenderDrawColor(renderer, 0xAA, 0x22, 0x22, 0xFF);
-	//SDL_RenderFillRect(renderer, RECT(first_held_pos.x*20,first_held_pos.y*20,20,20));
+	SDL_SetRenderDrawColor(renderer, 0x1f, 0x3f, 0x8f, 0xFF);
 
-	//SDL_SetRenderDrawColor(renderer, 0x22, 0x22, 0xAA, 0xFF);
-	//SDL_RenderFillRect(renderer, RECT(current_held_pos.x*20,current_held_pos.y*20,20,20));
+	SDL_RenderClear(renderer);
 
-	SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
-	SDL_RenderRect(renderer,
-		RECT(fminf(first_held_pos.x*20, current_held_pos.x*20),
-		fminf(first_held_pos.y*20, current_held_pos.y*20),
-		abs((current_held_pos.x - first_held_pos.x) * 20)+20,
-		abs((current_held_pos.y - first_held_pos.y) * 20)+20));
+	set_font_color((SDL_Color){0xFF, 0xFF, 0xFF});
+
+	if (first_held_pos.x != -1) {
+		if (held_sum == 10) {
+			SDL_SetRenderDrawColor(renderer, 0x00, 0xA0, 0x00, 0xFF);
+			SDL_RenderFillRect(renderer,
+				RECT(fminf((first_held_pos.x+1)*20, (current_held_pos.x+1)*20),
+				fminf((first_held_pos.y+1)*20, (current_held_pos.y+1)*20),
+				abs((current_held_pos.x - first_held_pos.x) * 20)+20,
+				abs((current_held_pos.y - first_held_pos.y) * 20)+20));
+		}
+
+	}
 
 	for (size_t x = 0; x < BOARD_W; x++) {
 		for (size_t y = 0; y < BOARD_H; y++) {
 			if (!board[x][y].removed)
-				draw_char(renderer, board[x][y].number+'0', 3+x*20, y*20-1, 2);
+				draw_char_shadow(renderer, board[x][y].number+'0', 3+(x+1)*20, (y+1)*20-1, 2);
 		}
 	}
+
+	if (first_held_pos.x != -1) {
+		SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+		SDL_RenderRect(renderer,
+			RECT(fminf((first_held_pos.x+1)*20, (current_held_pos.x+1)*20),
+			fminf((first_held_pos.y+1)*20, (current_held_pos.y+1)*20),
+			abs((current_held_pos.x - first_held_pos.x) * 20)+20,
+			abs((current_held_pos.y - first_held_pos.y) * 20)+20));
+	}
+
+	SDL_SetRenderDrawColor(renderer, 0x10, 0x2a, 0x6e, 0xFF);
+	SDL_RenderFillRect(renderer, RECT(0,0,NATIVE_WIDTH,20));
+	SDL_RenderFillRect(renderer, RECT(0,NATIVE_HEIGHT-20,NATIVE_WIDTH,20));
+
+	char msg[512];
+	snprintf(msg, 511, "Score: %d", score);
+	draw_text(renderer, msg, 0,0, 2);
 }

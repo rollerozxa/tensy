@@ -58,10 +58,6 @@ SDL_AppResult SDL_AppEvent(void *rustptr, SDL_Event *ev) {
 SDL_AppResult SDL_AppIterate(void *rustptr) {
 	run_scene_update();
 
-	SDL_SetRenderDrawColor(renderer, 0x11, 0x11, 0x11, 0xFF);
-
-	SDL_RenderClear(renderer);
-
 	run_scene_draw(renderer);
 
 	SDL_RenderPresent(renderer);
