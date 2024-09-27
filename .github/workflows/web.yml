@@ -34,13 +34,16 @@ jobs:
           path: packaging/bin/web/
 
       - name: Setup Pages
-        uses: actions/configure-pages@v3
+        if: github.repository == 'rollerozxa/tensy'
+        uses: actions/configure-pages@v5
 
       - name: Upload artifact
-        uses: actions/upload-pages-artifact@v2
+        if: github.repository == 'rollerozxa/tensy'
+        uses: actions/upload-pages-artifact@v3
         with:
           path: packaging/bin/web/
 
       - name: Deploy to GitHub Pages
+        if: github.repository == 'rollerozxa/tensy'
         id: deployment
-        uses: actions/deploy-pages@v2
+        uses: actions/deploy-pages@v4
