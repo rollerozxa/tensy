@@ -1,22 +1,12 @@
 #!/bin/bash -e
 
+TARGET=web
+
 topdir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 source $topdir/_common.sh
 
-BUILDDIR="/tmp/ffdeps/web"
-BINDIR="$topdir/bin/web"
-
-mkdir -p "$BUILDDIR"
-rm -rf "$BINDIR"
-mkdir -p "$BINDIR"
-
-CMAKE_FLAGS=(
-	"-G Ninja"
-	"-DCMAKE_BUILD_TYPE=Release"
-)
-
 build_sdl() {
-	get_tar_archive SDL3 "https://github.com/libsdl-org/SDL/archive/c797ae161929070a3e4087aa4ad4c6185b776954.tar.gz"
+	get_tar_archive SDL3 "https://github.com/libsdl-org/SDL/archive/${SDL3_tag}.tar.gz"
 
 	mk_build_dir
 	emcmake cmake .. "${CMAKE_FLAGS[@]}" \

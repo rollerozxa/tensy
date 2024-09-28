@@ -1,0 +1,29 @@
+name: Linux
+
+on:
+  - push
+  - pull_request
+
+jobs:
+  linux:
+    runs-on: ubuntu-latest
+    container:
+      image: debian:bullseye
+      env: { LANG: "C.UTF-8" }
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install deps
+        run: |
+          apt-get update
+          apt-get install -y build-essential git make pkg-config cmake ninja-build libasound2-dev libpulse-dev libjack-dev libsndio-dev libx11-dev libxext-dev libxrandr-dev libxcursor-dev libxfixes-dev libxi-dev libxss-dev libxkbcommon-dev libdrm-dev libgbm-dev libgl1-mesa-dev libgles2-mesa-dev libegl1-mesa-dev libdbus-1-dev libibus-1.0-dev libudev-dev fcitx-libs-dev ca-certificates wget zip file --no-install-recommends
+
+      - name: Build
+        run: |
+          ./packaging/build-lin.sh
+
+      - name: Upload output as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: tensy-lin-64
+          path: packaging/bin/Tensy-x86_64.AppImage

@@ -1,0 +1,9 @@
+[Desktop Entry]
+Name=Tensy
+GenericName=Sum 10
+Exec=tensy
+Type=Application
+StartupNotify=true
+Icon=tensy
+StartupWMClass=tensy
+Categories=Game;
