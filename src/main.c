@@ -16,6 +16,8 @@ SDL_AppResult SDL_AppInit(void **rustptr, int argc, char **argv) {
 	const char* exedir = SDL_GetBasePath();
 	chdir(exedir);
 
+	SDL_srand(0);
+
 	SDL_Init(SDL_INIT_VIDEO);
 
 	SDL_CreateWindowAndRenderer(

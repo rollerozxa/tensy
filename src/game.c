@@ -61,7 +61,7 @@ void do_move() {
 void game_init(void) {
 	for (size_t x = 0; x < BOARD_W; x++) {
 		for (size_t y = 0; y < BOARD_H; y++) {
-			board[x][y].number = rand() % 9 + 1;
+			board[x][y].number = SDL_rand(9) + 1;
 			board[x][y].removed = false;
 		}
 	}
