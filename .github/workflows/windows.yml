@@ -6,7 +6,7 @@ on:
 
 jobs:
   windows:
-    name: "Windows (${{ matrix.bits }}-bit)"
+    name: "${{ matrix.bits }}-bit"
     runs-on: ubuntu-22.04
     strategy:
       fail-fast: false

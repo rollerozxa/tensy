@@ -1,4 +1,4 @@
-name: Web (Emscripten)
+name: Web
 
 permissions:
   contents: read
@@ -11,6 +11,7 @@ on:
 
 jobs:
   web:
+    name: Emscripten
     runs-on: ubuntu-latest
     container:
       image: emscripten/emsdk:latest

@@ -6,6 +6,7 @@ on:
 
 jobs:
   linux:
+    name: AppImage
     runs-on: ubuntu-latest
     container:
       image: debian:bullseye
