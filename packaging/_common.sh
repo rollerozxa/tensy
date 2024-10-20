@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-SDL3_tag=c797ae161929070a3e4087aa4ad4c6185b776954
+SDL3_tag=preview-3.1.3
 
 get_tar_archive() {
 	# $1: folder to extract to, $2: URL

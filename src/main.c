@@ -31,7 +31,7 @@ SDL_AppResult SDL_AppInit(void **rustptr, int argc, char **argv) {
 		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Game", msg, NULL);
 	}
 
-	SDL_SetRenderLogicalPresentation(renderer, NATIVE_WIDTH, NATIVE_HEIGHT, SDL_LOGICAL_PRESENTATION_LETTERBOX, SDL_SCALEMODE_NEAREST);
+	SDL_SetRenderLogicalPresentation(renderer, NATIVE_WIDTH, NATIVE_HEIGHT, SDL_LOGICAL_PRESENTATION_LETTERBOX);
 
 	SDL_SetRenderVSync(renderer, 1);
 
@@ -67,7 +67,7 @@ SDL_AppResult SDL_AppIterate(void *rustptr) {
 	return SDL_APP_CONTINUE;
 }
 
-void SDL_AppQuit(void *rustptr) {
+void SDL_AppQuit(void *rustptr, SDL_AppResult result) {
 	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
 
