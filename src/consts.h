@@ -12,6 +12,7 @@
 #define MAX_SCENES 10
 
 
+//#define BOARD_PHYSICS
 //#define COLOURED_NUMBERS
 
 

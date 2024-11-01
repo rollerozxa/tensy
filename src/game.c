@@ -45,18 +45,42 @@ int calculate_sum() {
 void do_move() {
 	int sum = calculate_sum();
 
-	if (sum == 10) {
-		int removed_cells = 0;
+	if (sum != 10)
+		return;
 
-		for (size_t x = fminf(first_held_pos.x, current_held_pos.x); x <= fmaxf(current_held_pos.x, first_held_pos.x); x++) {
-			for (size_t y = fminf(first_held_pos.y, current_held_pos.y); y <= fmaxf(current_held_pos.y, first_held_pos.y); y++) {
+	int removed_cells = 0;
+
+	for (size_t x = fminf(first_held_pos.x, current_held_pos.x); x <= fmaxf(current_held_pos.x, first_held_pos.x); x++) {
+		for (size_t y = fminf(first_held_pos.y, current_held_pos.y); y <= fmaxf(current_held_pos.y, first_held_pos.y); y++) {
+			board[x][y].removed = true;
+			removed_cells++;
+		}
+	}
+
+#ifdef BOARD_PHYSICS
+	for (size_t x = fminf(first_held_pos.x, current_held_pos.x); x <= fmaxf(current_held_pos.x, first_held_pos.x); x++) {
+		for (int y = BOARD_H - 1; y >= 0; y--) {
+			if (!board[x][y].removed)
+				continue;
+
+			int src_y = y - 1;
+			while (src_y >= 0 && board[x][src_y].removed) {
+				src_y--;
+			}
+
+			if (src_y >= 0) {
+				board[x][y].number = board[x][src_y].number;
+				board[x][y].removed = false;
+				board[x][src_y].removed = true;
+			} else {
+				board[x][y].number = 0;
 				board[x][y].removed = true;
-				removed_cells++;
 			}
 		}
-
-		score += sum * (removed_cells-1);
 	}
+#endif
+
+	score += sum * (removed_cells-1);
 }
 
 void game_init(void) {
