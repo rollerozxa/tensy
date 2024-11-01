@@ -2,6 +2,9 @@
 
 #include <SDL3/SDL.h>
 
+#define GLYPH_WIDTH 6
+#define GLYPH_HEIGHT 12
+
 SDL_Texture* load_font(SDL_Renderer *renderer);
 
 SDL_Color get_font_color();

@@ -1,5 +1,6 @@
 #include "game.h"
 #include "consts.h"
+#include "colours.h"
 #include "font.h"
 
 #include <stdio.h>
@@ -119,11 +120,13 @@ void game_draw(SDL_Renderer *renderer) {
 				abs((current_held_pos.x - first_held_pos.x) * 20)+20,
 				abs((current_held_pos.y - first_held_pos.y) * 20)+20));
 		}
-
 	}
 
 	for (size_t x = 0; x < BOARD_W; x++) {
 		for (size_t y = 0; y < BOARD_H; y++) {
+#ifdef COLOURED_NUMBERS
+			set_font_color(num_to_colour(board[x][y].number));
+#endif
 			if (!board[x][y].removed)
 				draw_char_shadow(renderer, board[x][y].number+'0', 3+(x+1)*20, (y+1)*20-1, 2);
 		}
@@ -142,6 +145,7 @@ void game_draw(SDL_Renderer *renderer) {
 	SDL_RenderFillRect(renderer, RECT(0,0,NATIVE_WIDTH,20));
 	SDL_RenderFillRect(renderer, RECT(0,NATIVE_HEIGHT-20,NATIVE_WIDTH,20));
 
+	set_font_color((SDL_Color){0xFF, 0xFF, 0xFF});
 	char msg[512];
 	snprintf(msg, 511, "Score: %d", score);
 	draw_text(renderer, msg, 0,0, 2);

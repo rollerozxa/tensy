@@ -8,12 +8,11 @@
 #define SCREEN_WIDTH    NATIVE_WIDTH*2
 #define SCREEN_HEIGHT   NATIVE_HEIGHT*2
 
-#define GLYPH_WIDTH 6
-#define GLYPH_HEIGHT 12
-
-
 // Max scenes to be allocated
 #define MAX_SCENES 10
+
+
+//#define COLOURED_NUMBERS
 
 
 // Misc helper macros
