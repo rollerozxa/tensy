@@ -65,12 +65,12 @@ void draw_char_shadow(SDL_Renderer *renderer, unsigned char character, int cx, i
 
 void draw_text(SDL_Renderer *renderer, const char* text, int x, int y, int scale) {
 	for (size_t i = 0; text[i] != '\0'; i++) {
-		draw_char(renderer, text[i], x+i*GLYPH_WIDTH*scale, y*scale, scale);
+		draw_char(renderer, text[i], x+i*GLYPH_WIDTH*scale, y, scale);
 	}
 }
 
 void draw_text_shadow(SDL_Renderer *renderer, const char* text, int x, int y, int scale) {
 	for (size_t i = 0; text[i] != '\0'; i++) {
-		draw_char_shadow(renderer, text[i], x+i*GLYPH_WIDTH*scale, y*scale, scale);
+		draw_char_shadow(renderer, text[i], x+i*GLYPH_WIDTH*scale, y, scale);
 	}
 }

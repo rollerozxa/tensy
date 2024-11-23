@@ -21,6 +21,7 @@ int switch_scene(const char* name) {
 	for (size_t i = 0; i < MAX_SCENES; i++) {
 		if (name == scenes[i].name) {
 			current_scene = i;
+			run_scene_init();
 			return 1;
 		}
 	}
