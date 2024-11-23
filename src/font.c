@@ -74,3 +74,10 @@ void draw_text_shadow(SDL_Renderer *renderer, const char* text, int x, int y, in
 		draw_char_shadow(renderer, text[i], x+i*GLYPH_WIDTH*scale, y, scale);
 	}
 }
+
+SDL_Rect calculate_text_rect(const char* text, int scale) {
+	return ((SDL_Rect){
+		0,0,
+		strlen(text)*GLYPH_WIDTH*scale,
+		GLYPH_HEIGHT*scale});
+}

@@ -15,3 +15,5 @@ void draw_char_shadow(SDL_Renderer *renderer, unsigned char character, int cx, i
 
 void draw_text(SDL_Renderer *renderer, const char* text, int x, int y, int scale);
 void draw_text_shadow(SDL_Renderer *renderer, const char* text, int x, int y, int scale);
+
+SDL_Rect calculate_text_rect(const char* text, int scale);
