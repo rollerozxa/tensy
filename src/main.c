@@ -7,6 +7,7 @@
 
 #include "consts.h"
 #include "game.h"
+#include "mainmenu.h"
 #include "scene.h"
 
 SDL_Window *window;
@@ -37,7 +38,9 @@ SDL_AppResult SDL_AppInit(void **rustptr, int argc, char **argv) {
 
 	add_scene((Scene){"game", game_init, game_event, game_update, game_draw});
 
-	SDL_assert(switch_scene("game") == 1);
+	add_scene((Scene){"mainmenu", mainmenu_init, mainmenu_event, mainmenu_update, mainmenu_draw});
+
+	SDL_assert(switch_scene("mainmenu") == 1);
 
 	run_scene_init();
 
