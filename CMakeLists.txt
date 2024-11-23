@@ -18,6 +18,7 @@ include_directories(${SDL3_INCLUDE_DIRS})
 
 file(GLOB SRCS
 	src/*.c
+	src/gui/*.c
 	lib/*.c
 )
 
