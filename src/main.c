@@ -40,7 +40,7 @@ SDL_AppResult SDL_AppInit(void **rustptr, int argc, char **argv) {
 
 	add_scene((Scene){"mainmenu", mainmenu_init, mainmenu_event, mainmenu_update, mainmenu_draw});
 
-	SDL_assert(switch_scene("mainmenu") == 1);
+	switch_scene("mainmenu");
 
 	run_scene_init();
 
