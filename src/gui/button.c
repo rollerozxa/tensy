@@ -1,4 +1,5 @@
 #include "button.h"
+#include "colours.h"
 #include "font.h"
 #include "mouse.h"
 #include "render.h"
@@ -30,6 +31,6 @@ void button(SDL_Renderer *renderer, Button *button) {
 
 	SDL_Rect text_rect = calculate_text_rect(text, 2);
 
-	set_font_color((SDL_Color){0x00, 0x00, 0x00});
-	draw_text(renderer, text, rect->x+(rect->w-(float)text_rect.w)/2, rect->y+(rect->h-(float)text_rect.h)/2, 2);
+	set_font_color(CLR_WHITE);
+	draw_text_shadow(renderer, text, rect->x+(rect->w-(float)text_rect.w)/2, rect->y+(rect->h-(float)text_rect.h)/2, 2);
 }
