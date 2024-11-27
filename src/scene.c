@@ -31,17 +31,21 @@ int switch_scene(const char* name) {
 }
 
 void run_scene_init(void) {
-	scenes[current_scene].init();
+	if (scenes[current_scene].init)
+		scenes[current_scene].init();
 }
 
 void run_scene_event(const SDL_Event *ev) {
-	scenes[current_scene].event(ev);
+	if (scenes[current_scene].event)
+		scenes[current_scene].event(ev);
 }
 
 void run_scene_update(void) {
-	scenes[current_scene].update();
+	if (scenes[current_scene].update)
+		scenes[current_scene].update();
 }
 
 void run_scene_draw(SDL_Renderer *renderer) {
-	scenes[current_scene].draw(renderer);
+	if (scenes[current_scene].draw)
+		scenes[current_scene].draw(renderer);
 }
