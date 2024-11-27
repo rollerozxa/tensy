@@ -9,6 +9,7 @@
 #include "game.h"
 #include "mainmenu.h"
 #include "scene.h"
+#include "settings.h"
 
 SDL_Window *window;
 SDL_Renderer *renderer;
@@ -39,6 +40,8 @@ SDL_AppResult SDL_AppInit(void **rustptr, int argc, char **argv) {
 	add_scene((Scene){"game", game_init, game_event, game_update, game_draw});
 
 	add_scene((Scene){"mainmenu", mainmenu_init, mainmenu_event, mainmenu_update, mainmenu_draw});
+
+	add_scene((Scene){"settings", NULL, settings_event, settings_update, settings_draw});
 
 	switch_scene("mainmenu");
 

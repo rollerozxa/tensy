@@ -2,6 +2,7 @@
 #include "consts.h"
 #include "colours.h"
 #include "font.h"
+#include "settings.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -42,22 +43,7 @@ int calculate_sum() {
 	return sum;
 }
 
-void do_move() {
-	int sum = calculate_sum();
-
-	if (sum != 10)
-		return;
-
-	int removed_cells = 0;
-
-	for (size_t x = fminf(first_held_pos.x, current_held_pos.x); x <= fmaxf(current_held_pos.x, first_held_pos.x); x++) {
-		for (size_t y = fminf(first_held_pos.y, current_held_pos.y); y <= fmaxf(current_held_pos.y, first_held_pos.y); y++) {
-			board[x][y].removed = true;
-			removed_cells++;
-		}
-	}
-
-#ifdef BOARD_PHYSICS
+void board_physics() {
 	for (size_t x = fminf(first_held_pos.x, current_held_pos.x); x <= fmaxf(current_held_pos.x, first_held_pos.x); x++) {
 		for (int y = BOARD_H - 1; y >= 0; y--) {
 			if (!board[x][y].removed)
@@ -78,7 +64,25 @@ void do_move() {
 			}
 		}
 	}
-#endif
+}
+
+void do_move() {
+	int sum = calculate_sum();
+
+	if (sum != 10)
+		return;
+
+	int removed_cells = 0;
+
+	for (size_t x = fminf(first_held_pos.x, current_held_pos.x); x <= fmaxf(current_held_pos.x, first_held_pos.x); x++) {
+		for (size_t y = fminf(first_held_pos.y, current_held_pos.y); y <= fmaxf(current_held_pos.y, first_held_pos.y); y++) {
+			board[x][y].removed = true;
+			removed_cells++;
+		}
+	}
+
+	if (settings()->board_physics)
+		board_physics();
 
 	score += sum * (removed_cells-1);
 }
@@ -148,9 +152,9 @@ void game_draw(SDL_Renderer *renderer) {
 
 	for (size_t x = 0; x < BOARD_W; x++) {
 		for (size_t y = 0; y < BOARD_H; y++) {
-#ifdef COLOURED_NUMBERS
-			set_font_color(num_to_colour(board[x][y].number));
-#endif
+			if (settings()->coloured_numbers)
+				set_font_color(num_to_colour(board[x][y].number));
+
 			if (!board[x][y].removed)
 				draw_char_shadow(renderer, board[x][y].number+'0', 3+(x+1)*20, (y+1)*20-1, 2);
 		}

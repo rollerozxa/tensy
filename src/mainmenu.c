@@ -6,7 +6,6 @@
 #include "scene.h"
 
 #include <math.h>
-#include <stdio.h>
 
 #define BOARD_W 30
 #define BOARD_H 16
@@ -16,6 +15,7 @@ int temp_board[BOARD_W][BOARD_H];
 int mainmenu_step = 0;
 
 Button play_button = {RECT(245,200,150,40), "Play"};
+Button settings_button = {RECT(245,260,150,40), "Settings"};
 
 void mainmenu_init() {
 	mainmenu_step = 0;
@@ -24,6 +24,10 @@ void mainmenu_init() {
 void mainmenu_event(const SDL_Event *ev) {
 	if (button_event(ev, &play_button)) {
 		switch_scene("game");
+	}
+
+	if (button_event(ev, &settings_button)) {
+		switch_scene("settings");
 	}
 }
 
@@ -73,4 +77,5 @@ void mainmenu_draw(SDL_Renderer *renderer) {
 	}
 
 	button(renderer, &play_button);
+	button(renderer, &settings_button);
 }
