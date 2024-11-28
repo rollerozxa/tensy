@@ -31,6 +31,10 @@ elif [ $TARGET == 'win' ]; then
 		BUILDDIR="/tmp/tensy/win32"
 		BINDIR="$topdir/bin/win32"
 		CCPREFIX=i686-w64-mingw32
+	elif [ "$ARCH" == "arm64" ]; then
+		BUILDDIR="/tmp/tensy/winarm64"
+		BINDIR="$topdir/bin/winarm64"
+		CCPREFIX=aarch64-w64-mingw32
 	else
 		BUILDDIR="/tmp/tensy/win64"
 		BINDIR="$topdir/bin/win64"
