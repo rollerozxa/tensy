@@ -18,21 +18,21 @@ mk_build_dir() {
 }
 
 if [ $TARGET == 'lin' ]; then
-	BUILDDIR="/tmp/ffdeps/lin64"
+	BUILDDIR="/tmp/tensy/lin64"
 	BINDIR="$topdir/bin/lin64"
 elif [ $TARGET == 'web' ]; then
-	BUILDDIR="/tmp/ffdeps/web"
+	BUILDDIR="/tmp/tensy/web"
 	BINDIR="$topdir/bin/web"
 elif [ $TARGET == 'win' ]; then
 	ARCH="$1"
 	shift
 
 	if [ "$ARCH" == "32" ]; then
-		BUILDDIR="/tmp/ffdeps/win32"
+		BUILDDIR="/tmp/tensy/win32"
 		BINDIR="$topdir/bin/win32"
 		CCPREFIX=i686-w64-mingw32
 	else
-		BUILDDIR="/tmp/ffdeps/win64"
+		BUILDDIR="/tmp/tensy/win64"
 		BINDIR="$topdir/bin/win64"
 		CCPREFIX=x86_64-w64-mingw32
 	fi
