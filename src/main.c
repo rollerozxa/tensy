@@ -6,6 +6,7 @@
 #include <unistd.h>
 
 #include "consts.h"
+#include "exiting.h"
 #include "game.h"
 #include "mainmenu.h"
 #include "scene.h"
@@ -44,6 +45,7 @@ SDL_AppResult SDL_AppInit(void **rustptr, int argc, char **argv) {
 
 	add_scene((Scene){"settings", NULL, settings_event, settings_update, settings_draw});
 
+	add_scene((Scene){"exiting", NULL, NULL, exiting_update, NULL});
 
 	run_scene_init();
 
@@ -52,8 +54,10 @@ SDL_AppResult SDL_AppInit(void **rustptr, int argc, char **argv) {
 
 SDL_AppResult SDL_AppEvent(void *rustptr, SDL_Event *ev) {
 
-	if (ev->type == SDL_EVENT_QUIT || (ev->type == SDL_EVENT_KEY_DOWN && ev->key.key == SDL_SCANCODE_Q)) {
-		return SDL_APP_SUCCESS;
+	if (ev->type == SDL_EVENT_QUIT
+	|| (ev->type == SDL_EVENT_KEY_DOWN && ev->key.scancode == SDL_SCANCODE_Q)) {
+		switch_scene("exiting");
+		return SDL_APP_CONTINUE;
 	}
 
 	SDL_ConvertEventToRenderCoordinates(renderer, ev);
@@ -63,8 +67,13 @@ SDL_AppResult SDL_AppEvent(void *rustptr, SDL_Event *ev) {
 	return SDL_APP_CONTINUE;
 }
 
+extern bool exiting;
+
 SDL_AppResult SDL_AppIterate(void *rustptr) {
 	run_scene_update();
+
+	if (exiting)
+		return SDL_APP_SUCCESS;
 
 	run_scene_draw(renderer);
 
