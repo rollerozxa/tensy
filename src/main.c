@@ -37,13 +37,13 @@ SDL_AppResult SDL_AppInit(void **rustptr, int argc, char **argv) {
 
 	SDL_SetRenderVSync(renderer, 1);
 
-	add_scene((Scene){"game", game_init, game_event, game_update, game_draw});
-
+	// First scene needs to be first
 	add_scene((Scene){"mainmenu", mainmenu_init, mainmenu_event, mainmenu_update, mainmenu_draw});
+
+	add_scene((Scene){"game", game_init, game_event, game_update, game_draw});
 
 	add_scene((Scene){"settings", NULL, settings_event, settings_update, settings_draw});
 
-	switch_scene("mainmenu");
 
 	run_scene_init();
 
@@ -67,6 +67,8 @@ SDL_AppResult SDL_AppIterate(void *rustptr) {
 	run_scene_update();
 
 	run_scene_draw(renderer);
+
+	perform_scene_transition(renderer);
 
 	SDL_RenderPresent(renderer);
 

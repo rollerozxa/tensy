@@ -18,3 +18,5 @@ void run_scene_init(void);
 void run_scene_event(const SDL_Event *ev);
 void run_scene_update(void);
 void run_scene_draw(SDL_Renderer *renderer);
+
+void perform_scene_transition(SDL_Renderer *renderer);

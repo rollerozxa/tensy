@@ -17,11 +17,17 @@ int add_scene(Scene scene) {
 	return 1;
 }
 
+static bool trans = false;
+static int trans_step = 0;
+static int trans_to = -1;
+static int trans_alpha = 0;
+
 int switch_scene(const char* name) {
 	for (size_t i = 0; i < MAX_SCENES; i++) {
 		if (name == scenes[i].name) {
-			current_scene = i;
-			run_scene_init();
+			trans = true;
+			trans_step = 0;
+			trans_to = i;
 			return 1;
 		}
 	}
@@ -48,4 +54,29 @@ void run_scene_update(void) {
 void run_scene_draw(SDL_Renderer *renderer) {
 	if (scenes[current_scene].draw)
 		scenes[current_scene].draw(renderer);
+}
+
+void perform_scene_transition(SDL_Renderer *renderer) {
+	if (!trans) return;
+
+	if (trans_step < 25) {
+		trans_alpha += 10;
+	} else {
+		trans_alpha -= 10;
+	}
+
+	SDL_SetRenderDrawColor(renderer, 0, 0, 0, trans_alpha);
+
+	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+	SDL_RenderFillRect(renderer, RECT(0,0,SCREEN_WIDTH,SCREEN_HEIGHT));
+
+	trans_step++;
+
+	if (trans_step == 25) {
+		current_scene = trans_to;
+
+		run_scene_init();
+	} else if (trans_step == 50) {
+		trans = false;
+	}
 }
