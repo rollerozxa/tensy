@@ -10,15 +10,15 @@
 #define BOARD_W 30
 #define BOARD_H 16
 
-int temp_board[BOARD_W][BOARD_H];
+static int temp_board[BOARD_W][BOARD_H];
 
-int mainmenu_step = 0;
+static int step = 0;
 
-Button play_button = {RECT(245,200,150,40), "Play"};
-Button settings_button = {RECT(245,260,150,40), "Settings"};
+static Button play_button = {RECT(245,200,150,40), "Play"};
+static Button settings_button = {RECT(245,260,150,40), "Settings"};
 
-void mainmenu_init() {
-	mainmenu_step = 0;
+void mainmenu_init(void) {
+	step = 0;
 }
 
 void mainmenu_event(const SDL_Event *ev) {
@@ -32,7 +32,7 @@ void mainmenu_event(const SDL_Event *ev) {
 }
 
 void mainmenu_update(void) {
-	if (mainmenu_step % 5 == 0) {
+	if (step % 5 == 0) {
 		SDL_Point rand_pos;
 		while (true) {
 			rand_pos = (struct SDL_Point){SDL_rand(BOARD_W), SDL_rand(BOARD_H)};
@@ -48,7 +48,7 @@ void mainmenu_update(void) {
 		temp_board[SDL_rand(BOARD_W)][SDL_rand(BOARD_H)] = 0;
 	}
 
-	mainmenu_step++;
+	step++;
 }
 
 char title[] = "Tensy";

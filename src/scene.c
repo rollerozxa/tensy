@@ -1,9 +1,9 @@
 #include "scene.h"
 #include "consts.h"
 
-Scene scenes[MAX_SCENES];
-int current_scene = 0;
-int allocated_scenes = 0;
+static Scene scenes[MAX_SCENES];
+static int current_scene = 0;
+static int allocated_scenes = 0;
 
 int add_scene(Scene scene) {
 	if (allocated_scenes > MAX_SCENES) {

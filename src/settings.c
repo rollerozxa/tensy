@@ -13,7 +13,7 @@ static Settings settings_data = {
 	false,
 };
 
-Settings* settings() {
+Settings* settings(void) {
 	return &settings_data;
 }
 
@@ -39,7 +39,7 @@ void settings_event(const SDL_Event *ev) {
 		switch_scene("mainmenu");
 }
 
-void settings_update() {
+void settings_update(void) {
 
 }
 

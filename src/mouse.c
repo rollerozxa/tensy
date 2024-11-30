@@ -10,7 +10,7 @@ int mouse_get_state_scaled(SDL_Renderer *renderer, float *x, float *y) {
 	return clicked;
 }
 
-SDL_FPoint mouse_get_point(SDL_Renderer *renderer) {
+SDL_FPoint mouse_get_point(void) {
 	SDL_FPoint mouse;
 	SDL_GetMouseState(&mouse.x, &mouse.y);
 	return mouse;

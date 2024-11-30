@@ -21,16 +21,16 @@ typedef struct {
 #define BOARD_W 30
 #define BOARD_H 16
 
-Cell board[BOARD_W][BOARD_H];
+static Cell board[BOARD_W][BOARD_H];
 
-bool helddown = false;
-SDL_Point first_held_pos = {-1,-1};
-SDL_Point current_held_pos = {-1,-1};
-int held_sum = -1;
+static bool helddown = false;
+static SDL_Point first_held_pos = {-1,-1};
+static SDL_Point current_held_pos = {-1,-1};
+static int held_sum = -1;
 
-int score = 0;
+static int score = 0;
 
-int calculate_sum() {
+static int calculate_sum(void) {
 	int sum = 0;
 
 	for (size_t x = fminf(first_held_pos.x, current_held_pos.x); x <= fmaxf(current_held_pos.x, first_held_pos.x); x++) {
@@ -43,7 +43,7 @@ int calculate_sum() {
 	return sum;
 }
 
-void board_physics() {
+static void board_physics(void) {
 	for (size_t x = fminf(first_held_pos.x, current_held_pos.x); x <= fmaxf(current_held_pos.x, first_held_pos.x); x++) {
 		for (int y = BOARD_H - 1; y >= 0; y--) {
 			if (!board[x][y].removed)
@@ -66,7 +66,7 @@ void board_physics() {
 	}
 }
 
-void do_move() {
+static void do_move(void) {
 	int sum = calculate_sum();
 
 	if (sum != 10)

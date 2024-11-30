@@ -28,9 +28,9 @@ SDL_Texture* load_font(SDL_Renderer *renderer) {
 #define FGRID_WIDTH (FONT_WIDTH/GLYPH_WIDTH)
 #define FGRID_HEIGHT (FONT_HEIGHT/GLYPH_HEIGHT)
 
-SDL_Color font_color;
+static SDL_Color font_color;
 
-SDL_Color get_font_color() {
+SDL_Color get_font_color(void) {
 	return font_color;
 }
 
