@@ -20,6 +20,7 @@ file(GLOB SRCS
 	src/*.c
 	src/gui/*.c
 	lib/*.c
+	lib/SDL_QOI/*.c
 )
 
 if(WIN32)
