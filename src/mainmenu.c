@@ -5,6 +5,9 @@
 #include "gui/button.h"
 #include "scene.h"
 
+#include "data/background_stripes.h"
+#include <SDL_QOI/SDL_QOI.h>
+
 #include <math.h>
 
 #define BOARD_W 30
@@ -17,8 +20,15 @@ static int step = 0;
 static Button play_button = {RECT(245,200,150,40), "Play"};
 static Button settings_button = {RECT(245,260,150,40), "Settings"};
 
+SDL_Texture *texture;
+extern SDL_Renderer* renderer;
+
 void mainmenu_init(void) {
 	step = 0;
+
+	SDL_Surface* imagetest = SDL_LoadQOI_IO(SDL_IOFromMem(background_stripes_qoi, background_stripes_qoi_len));
+	texture = SDL_CreateTextureFromSurface(renderer, imagetest);
+	SDL_SetTextureScaleMode(texture, SDL_SCALEMODE_NEAREST);
 }
 
 void mainmenu_event(const SDL_Event *ev) {
@@ -51,13 +61,24 @@ void mainmenu_update(void) {
 	step++;
 }
 
-char title[] = "Tensy";
+static char title[] = "Tensy";
+static double bgpan = 0;
 
 void mainmenu_draw(SDL_Renderer *renderer) {
 	SDL_SetRenderDrawColor(renderer, 0x1f, 0x3f, 0x8f, 0xFF);
 
 	SDL_RenderClear(renderer);
 
+	bgpan = fmod(bgpan + 0.25, 32);
+
+	for (int x = -1; x < 20; x++) {
+		for (int y = -1; y < 12; y++) {
+			SDL_RenderTexture(renderer, texture, NULL,
+				RECT(x*32+bgpan, y*32+bgpan, 32, 32));
+		}
+	}
+
+#if 0
 	for (size_t x = 0; x < BOARD_W; x++) {
 		for (size_t y = 0; y < BOARD_H; y++) {
 			if (temp_board[x][y] == 0)
@@ -67,6 +88,7 @@ void mainmenu_draw(SDL_Renderer *renderer) {
 			draw_char_shadow(renderer, temp_board[x][y]+'0', 3+(x+1)*20, (y+1)*20-1, 2);
 		}
 	}
+#endif
 
 	set_font_color((SDL_Color){0xFF, 0xFF, 0xFF});
 
