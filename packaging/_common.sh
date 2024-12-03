@@ -41,6 +41,12 @@ elif [ $TARGET == 'win' ]; then
 		BINDIR="$topdir/bin/win64"
 		CCPREFIX=x86_64-w64-mingw32
 	fi
+elif [ $TARGET == 'android' ]; then
+	BUILDDIR="/tmp/tensy/android"
+	BINDIR="$topdir/../android/deps"
+
+	ANDROID_ABIS=("arm64-v8a" "armeabi-v7a" "x86_64")
+	ANDROID_API=21
 fi
 
 mkdir -p "$BUILDDIR"

@@ -1,0 +1,13 @@
+# Build stuff
+.gradle/
+.idea/
+app/.cxx/
+app/build/
+deps/
+gradle/
+gradlew
+gradlew.bat
+local.properties
+
+# SDL glue code is copied by SDL buildscript
+app/src/main/java/org/libsdl/app/

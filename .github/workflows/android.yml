@@ -1,0 +1,39 @@
+name: Android
+
+on:
+  - push
+  - pull_request
+
+jobs:
+  android:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Set up OpenJDK
+        uses: actions/setup-java@v4
+        with:
+            distribution: 'temurin'
+            java-version: '17'
+
+      - name: Install build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y cmake ninja-build
+
+      - name: Build Tensy Android dependencies
+        run: |
+          ./packaging/build-android-deps.sh
+        env:
+          ANDROID_NDK: /usr/local/lib/android/sdk/ndk/26.3.11579264
+
+      - name: Build Tensy
+        run: |
+          cd android
+          gradle assemblerelease
+
+      - name: Upload output as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: tensy-android
+          path: android/app/build/outputs/apk/release/app-release-unsigned.apk
