@@ -12,15 +12,14 @@ if [ ! -f /tmp/appimagetool ]; then
 fi
 
 CMAKE_FLAGS+=(
-	"-DCMAKE_INSTALL_PREFIX="
+	-DCMAKE_INSTALL_PREFIX=
 )
 
 build_sdl() {
-	get_tar_archive SDL3 "https://github.com/libsdl-org/SDL/archive/${SDL3_tag}.tar.gz"
+	get_tar_archive SDL3 "${SDL3_url}"
 
 	mk_build_dir
-	cmake .. "${CMAKE_FLAGS[@]}" \
-		-DSDL_SHARED=OFF -DSDL_STATIC=ON -DCMAKE_C_FLAGS="-DSDL_LEAN_AND_MEAN=1" \
+	cmake .. "${CMAKE_FLAGS[@]}" "${CMAKE_SDL_FLAGS[@]}" \
 		-DSDL_{GPU,CAMERA,JOYSTICK,HAPTIC,HIDAPI,OPENGLES,POWER,SENSOR,VULKAN,TESTS,WAYLAND}=OFF
 	ninja
 

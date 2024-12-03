@@ -1,6 +1,7 @@
 #!/bin/bash -e
 
-SDL3_tag=preview-3.1.3
+SDL3_tag=preview-3.1.6
+SDL3_url="https://github.com/libsdl-org/SDL/archive/${SDL3_tag}.tar.gz"
 
 get_tar_archive() {
 	# $1: folder to extract to, $2: URL
@@ -47,6 +48,12 @@ rm -rf "$BINDIR"
 mkdir -p "$BINDIR"
 
 CMAKE_FLAGS=(
-	"-GNinja"
-	"-DCMAKE_BUILD_TYPE=Release"
+	-GNinja
+	-DCMAKE_BUILD_TYPE=Release
+)
+
+# Common SDL flags for most platforms
+CMAKE_SDL_FLAGS=(
+	-DSDL_SHARED=OFF -DSDL_STATIC=ON
+	-DCMAKE_C_FLAGS="-DSDL_LEAN_AND_MEAN=1"
 )

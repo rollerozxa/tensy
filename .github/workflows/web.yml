@@ -19,12 +19,12 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Install deps
+      - name: Install build dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y ninja-build
 
-      - name: Run build
+      - name: Build Tensy
         run: |
           ./packaging/build-web.sh
 
@@ -34,17 +34,17 @@ jobs:
           name: tensy-web
           path: packaging/bin/web/
 
-      - name: Setup Pages
+      - name: Setup GitHub Pages
         if: github.repository == 'rollerozxa/tensy'
         uses: actions/configure-pages@v5
 
-      - name: Upload artifact
+      - name: Upload Pages artifact
         if: github.repository == 'rollerozxa/tensy'
         uses: actions/upload-pages-artifact@v3
         with:
           path: packaging/bin/web/
 
-      - name: Deploy to GitHub Pages
+      - name: Deploy to Pages
         if: github.repository == 'rollerozxa/tensy'
         id: deployment
         uses: actions/deploy-pages@v4

@@ -6,11 +6,10 @@ topdir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
 source $topdir/_common.sh
 
 build_sdl() {
-	get_tar_archive SDL3 "https://github.com/libsdl-org/SDL/archive/${SDL3_tag}.tar.gz"
+	get_tar_archive SDL3 "${SDL3_url}"
 
 	mk_build_dir
-	emcmake cmake .. "${CMAKE_FLAGS[@]}" \
-		-DCMAKE_C_FLAGS="-DSDL_LEAN_AND_MEAN=1" \
+	emcmake cmake .. "${CMAKE_FLAGS[@]}" "${CMAKE_SDL_FLAGS[@]}" \
 		-DSDL_{GPU,CAMERA,JOYSTICK,HAPTIC,HIDAPI,POWER,SENSOR,VULKAN,TESTS}=OFF
 	ninja
 
