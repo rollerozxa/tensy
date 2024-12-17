@@ -46,6 +46,10 @@ void mainmenu_event(const SDL_Event *ev) {
 	if (ev->type == SDL_EVENT_KEY_DOWN && ev->key.scancode == SDL_SCANCODE_F3) {
 		debug = !debug;
 	}
+
+	if (ev->type == SDL_EVENT_KEY_UP && ev->key.key == SDLK_AC_BACK) {
+		switch_scene("exiting");
+	}
 }
 
 void mainmenu_update(void) {

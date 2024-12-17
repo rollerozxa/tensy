@@ -34,6 +34,10 @@ SDL_AppResult SDL_AppInit(void **rustptr, int argc, char **argv) {
 		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Game", msg, NULL);
 	}
 
+#ifdef __ANDROID__
+	SDL_SetWindowFullscreen(window, true);
+#endif
+
 	SDL_SetRenderLogicalPresentation(renderer, NATIVE_WIDTH, NATIVE_HEIGHT, SDL_LOGICAL_PRESENTATION_LETTERBOX);
 
 	SDL_SetRenderVSync(renderer, 1);

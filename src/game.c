@@ -3,6 +3,7 @@
 #include "colours.h"
 #include "font.h"
 #include "settings.h"
+#include "scene.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -124,6 +125,10 @@ void game_event(const SDL_Event *ev) {
 
 		held_sum = -1;
 		helddown = false;
+	} else if (ev->type == SDL_EVENT_KEY_UP) {
+		if (ev->key.key == SDLK_AC_BACK) {
+			switch_scene("mainmenu");
+		}
 	}
 }
 
