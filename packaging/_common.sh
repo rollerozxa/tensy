@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-SDL3_tag=preview-3.1.6
+SDL3_tag=19bdc01b8c053ece473da095faaa8acabcb4f544
 SDL3_url="https://github.com/libsdl-org/SDL/archive/${SDL3_tag}.tar.gz"
 
 get_tar_archive() {
