@@ -9,7 +9,7 @@ get_tar_archive() {
 
 	wget -nc -c "$2" -O "../$filename" || echo 'ok, reusing archive'
 	mkdir -p "$1"
-	tar -xaf "../$filename" -C "$1" --strip-components=1
+	tar -xf "../$filename" -C "$1" --strip-components=1
 	cd "$1" || exit
 }
 
@@ -47,6 +47,9 @@ elif [ $TARGET == 'android' ]; then
 
 	ANDROID_ABIS=("arm64-v8a" "armeabi-v7a" "x86_64")
 	ANDROID_API=21
+elif [ $TARGET == 'macos' ]; then
+	BUILDDIR="/tmp/tensy/macos"
+	BINDIR="$topdir/bin/macos"
 fi
 
 mkdir -p "$BUILDDIR"

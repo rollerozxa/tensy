@@ -1,0 +1,29 @@
+name: macOS
+
+on:
+  - push
+  - pull_request
+
+jobs:
+  macos:
+    name: Universal
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install build dependencies
+        run: |
+          export HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=1
+          export HOMEBREW_NO_INSTALL_CLEANUP=1
+          brew update --auto-update
+          brew install cmake ninja
+
+      - name: Build Tensy
+        run: |
+          ./packaging/build-macos.sh
+
+      - name: Upload output as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: tensy-macos
+          path: packaging/bin/macos/
