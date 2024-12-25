@@ -23,6 +23,9 @@ static int trans_to = -1;
 static int trans_alpha = 0;
 
 int switch_scene(const char* name) {
+	if (trans)
+		return 2;
+
 	for (size_t i = 0; i < MAX_SCENES; i++) {
 		if (strcmp(name, scenes[i].name) == 0) {
 			trans = true;
