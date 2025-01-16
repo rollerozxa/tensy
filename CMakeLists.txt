@@ -40,3 +40,12 @@ else()
 endif()
 
 target_link_libraries(${PROJECT_NAME} m ${SDL3_LIBRARIES} ${EXTRA_LIBRARIES})
+
+if(VITA)
+	include("${VITASDK}/share/vita.cmake" REQUIRED)
+	vita_create_self(${PROJECT_NAME}.self ${PROJECT_NAME})
+	vita_create_vpk(${PROJECT_NAME}.vpk OZXA00010 ${PROJECT_NAME}.self
+		VERSION "00.00"
+		NAME Tensy
+	)
+endif()

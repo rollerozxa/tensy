@@ -50,6 +50,9 @@ elif [ $TARGET == 'android' ]; then
 elif [ $TARGET == 'macos' ]; then
 	BUILDDIR="/tmp/tensy/macos"
 	BINDIR="$topdir/bin/macos"
+elif [ $TARGET == 'vita' ]; then
+	BUILDDIR="/tmp/tensy/vita"
+	BINDIR="$topdir/bin/vita"
 fi
 
 mkdir -p "$BUILDDIR"
