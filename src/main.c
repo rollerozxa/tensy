@@ -21,9 +21,6 @@ SDL_AppResult SDL_AppInit(void **rustptr, int argc, char **argv) {
 
 	SDL_srand(0);
 
-	// XXX: Remove once the hint is fixed in SDL
-	SDL_SetHint(SDL_HINT_VITA_TOUCH_MOUSE_DEVICE, "1");
-
 	SDL_Init(SDL_INIT_VIDEO);
 
 	SDL_CreateWindowAndRenderer(
