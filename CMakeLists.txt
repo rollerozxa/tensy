@@ -47,5 +47,9 @@ if(VITA)
 	vita_create_vpk(${PROJECT_NAME}.vpk OZXA00010 ${PROJECT_NAME}.self
 		VERSION "00.00"
 		NAME Tensy
+		FILE packaging/vita/icon.png sce_sys/icon0.png
+		FILE packaging/vita/bg.png sce_sys/livearea/contents/bg.png
+		FILE packaging/vita/startup.png sce_sys/livearea/contents/startup.png
+		FILE packaging/vita/template.xml sce_sys/livearea/contents/template.xml
 	)
 endif()
