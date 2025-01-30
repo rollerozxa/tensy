@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/bash -eu
 
 TARGET=win
 
@@ -7,31 +7,34 @@ source $topdir/_common.sh
 
 CMAKE_FLAGS+=(
 	-DCMAKE_TOOLCHAIN_FILE="$topdir/toolchain-${CCPREFIX}.cmake"
-	-DCMAKE_INSTALL_PREFIX=
 )
 
 build_sdl() {
 	get_tar_archive SDL3 "${SDL3_url}"
 
 	mk_build_dir
-	cmake .. "${CMAKE_FLAGS[@]}" "${CMAKE_SDL_FLAGS[@]}" \
+	cmake .. "${CMAKE_FLAGS[@]}" "${SDL_FLAGS[@]}" \
 		-DSDL_{GPU,CAMERA,JOYSTICK,HAPTIC,HIDAPI,OPENGLES,POWER,SENSOR,VULKAN,TESTS}=OFF
-	ninja
+	dep_ninja_install
+}
 
-	DESTDIR="$BUILDDIR/deps" ninja install
-	cd ../..
+build_sdl_mixer() {
+	get_tar_archive SDL3_mixer "${SDL3_mixer_url}"
+
+	mk_build_dir
+	cmake .. "${CMAKE_FLAGS[@]}" "${SDL_MIXER_FLAGS[@]}"
+	dep_ninja_install
 }
 
 build_game() {
 	mk_build_dir
-	cmake "$topdir/../" "${CMAKE_FLAGS[@]}" -DSDL3_DIR="$BUILDDIR/deps/lib/cmake/SDL3"
+	cmake "$topdir/../" "${CMAKE_FLAGS[@]}" "${GAME_FLAGS[@]}"
 	ninja
 
 	x86_64-w64-mingw32-strip -s *.exe
 	mv *.exe "$BINDIR"
 }
 
-pushd "$BUILDDIR" || exit
-build_sdl
-build_game
-popd || exit
+build sdl
+build sdl_mixer
+build game

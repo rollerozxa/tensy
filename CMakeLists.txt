@@ -9,17 +9,16 @@ endif()
 
 if(ANDROID)
 	set(SDL3_DIR "android/deps/${ANDROID_ABI}/lib/cmake/SDL3")
+	set(SDL3_mixer_DIR "android/deps/${ANDROID_ABI}/lib/cmake/SDL3_mixer")
 	set(EXTRA_LIBRARIES -lGLESv1_CM -lGLESv2 -lOpenSLES -llog -landroid)
 endif()
 
 find_package(SDL3 REQUIRED)
+find_package(SDL3_mixer REQUIRED)
 
 include_directories(
 	src/
-	lib/
-)
-
-include_directories(${SDL3_INCLUDE_DIRS})
+	lib/)
 
 file(GLOB SRCS
 	src/*.c
@@ -39,7 +38,11 @@ else()
 	add_executable(${PROJECT_NAME} ${SRCS})
 endif()
 
-target_link_libraries(${PROJECT_NAME} m ${SDL3_LIBRARIES} ${EXTRA_LIBRARIES})
+target_link_libraries(${PROJECT_NAME}
+	m
+	SDL3_mixer::SDL3_mixer
+	SDL3::SDL3
+	${EXTRA_LIBRARIES})
 
 if(VITA)
 	include("${VITASDK}/share/vita.cmake" REQUIRED)

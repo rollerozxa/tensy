@@ -11,25 +11,26 @@ if [ ! -f /tmp/appimagetool ]; then
 	chmod +x /tmp/appimagetool
 fi
 
-CMAKE_FLAGS+=(
-	-DCMAKE_INSTALL_PREFIX=
-)
-
 build_sdl() {
 	get_tar_archive SDL3 "${SDL3_url}"
 
 	mk_build_dir
-	cmake .. "${CMAKE_FLAGS[@]}" "${CMAKE_SDL_FLAGS[@]}" \
+	cmake .. "${CMAKE_FLAGS[@]}" "${SDL_FLAGS[@]}" \
 		-DSDL_{GPU,CAMERA,JOYSTICK,HAPTIC,HIDAPI,OPENGLES,POWER,SENSOR,VULKAN,TESTS,WAYLAND}=OFF
-	ninja
+	dep_ninja_install
+}
 
-	DESTDIR="$BUILDDIR/deps" ninja install
-	cd ../..
+build_sdl_mixer() {
+		get_tar_archive SDL3_mixer "${SDL3_mixer_url}"
+
+	mk_build_dir
+	cmake .. "${CMAKE_FLAGS[@]}" "${SDL_MIXER_FLAGS[@]}"
+	dep_ninja_install
 }
 
 build_game() {
 	mk_build_dir
-	cmake "$topdir/../" "${CMAKE_FLAGS[@]}" -DSDL3_DIR="$BUILDDIR/deps/lib/cmake/SDL3"
+	cmake "$topdir/../" "${CMAKE_FLAGS[@]}" "${GAME_FLAGS[@]}"
 	ninja
 
 	strip -s tensy
@@ -46,8 +47,7 @@ build_appimage() {
 	mv *.AppImage bin/
 }
 
-pushd "$BUILDDIR" || exit
-build_sdl
-build_game
-build_appimage
-popd || exit
+build sdl
+build sdl_mixer
+build game
+build appimage
