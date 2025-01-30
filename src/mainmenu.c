@@ -5,7 +5,7 @@
 #include "gui/button.h"
 #include "scene.h"
 
-#include "data/background_stripes.h"
+#include <data/background_stripes.h>
 #include <SDL_QOI/SDL_QOI.h>
 
 #include <math.h>
@@ -27,7 +27,7 @@ extern SDL_Renderer* renderer;
 void mainmenu_init(void) {
 	step = 0;
 
-	SDL_Surface* imagetest = SDL_LoadQOI_IO(SDL_IOFromMem(background_stripes_qoi, background_stripes_qoi_len));
+	SDL_Surface* imagetest = SDL_LoadQOI_IO(SDL_IOFromMem(background_stripes, background_stripes_len));
 	texture = SDL_CreateTextureFromSurface(renderer, imagetest);
 	SDL_SetTextureScaleMode(texture, SDL_SCALEMODE_NEAREST);
 }

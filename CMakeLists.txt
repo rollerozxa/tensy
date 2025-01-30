@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.14)
 project(tensy C)
 set(CMAKE_C_STANDARD 99)
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 
 if (NOT CMAKE_BUILD_TYPE)
 	message(STATUS "No build type selected, default to Release")
@@ -18,7 +19,8 @@ find_package(SDL3_mixer REQUIRED)
 
 include_directories(
 	src/
-	lib/)
+	lib/
+	${CMAKE_CURRENT_BINARY_DIR})
 
 file(GLOB SRCS
 	src/*.c
@@ -56,3 +58,8 @@ if(VITA)
 		FILE packaging/vita/template.xml sce_sys/livearea/contents/template.xml
 	)
 endif()
+
+# Generate embedded data files as header files to be included
+include(GenerateDataFiles)
+generate_data_files()
+add_dependencies(${PROJECT_NAME} generate_data)
