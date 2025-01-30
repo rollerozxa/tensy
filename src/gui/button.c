@@ -3,10 +3,16 @@
 #include "font.h"
 #include "mouse.h"
 #include "render.h"
+#include <SDL3_mixer/SDL_mixer.h>
 
 bool button_event(const SDL_Event *ev, Button *button) {
 	if (ev->type == SDL_EVENT_MOUSE_BUTTON_UP
 			&& SDL_PointInRectFloat(&(SDL_FPoint){ev->motion.x, ev->motion.y}, button->rect)) {
+
+		// sound test
+		Mix_Chunk* sound = Mix_LoadWAV("click.ogg");
+		Mix_PlayChannel(-1, sound, 0);
+
 		return true;
 	}
 

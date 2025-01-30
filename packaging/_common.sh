@@ -2,6 +2,16 @@
 
 SDL3_tag=cdc5483cf9683fabf0a897954a510574e61af418 # basically 3.1.10 + vita fix
 SDL3_url="https://github.com/libsdl-org/SDL/archive/${SDL3_tag}.tar.gz"
+SDL3_mixer_tag=af6a29df4e14c6ce72608b3ccd49cf35e1014255
+SDL3_mixer_url="https://github.com/libsdl-org/SDL_mixer/archive/${SDL3_mixer_tag}.tar.gz"
+
+build() {
+	echo "Building $1..."
+
+	pushd "$BUILDDIR" || exit
+	"build_$1"
+	popd || exit
+}
 
 get_tar_archive() {
 	# $1: folder to extract to, $2: URL
@@ -16,6 +26,11 @@ get_tar_archive() {
 mk_build_dir() {
 	mkdir -p build
 	cd build || exit
+}
+
+dep_ninja_install() {
+	ninja
+	DESTDIR="$BUILDDIR/deps" ninja install
 }
 
 if [ $TARGET == 'lin' ]; then
@@ -62,10 +77,26 @@ mkdir -p "$BINDIR"
 CMAKE_FLAGS=(
 	-GNinja
 	-DCMAKE_BUILD_TYPE=Release
+	-DCMAKE_INSTALL_PREFIX=
 )
 
+SDL3_DIR=(-DSDL3_DIR="${BUILDDIR}/deps/lib/cmake/SDL3")
+SDL3_MIXER_DIR=(-DSDL3_mixer_DIR="${BUILDDIR}/deps/lib/cmake/SDL3_mixer")
+
 # Common SDL flags for most platforms
-CMAKE_SDL_FLAGS=(
+SDL_FLAGS=(
 	-DSDL_SHARED=OFF -DSDL_STATIC=ON
 	-DCMAKE_C_FLAGS="-DSDL_LEAN_AND_MEAN=1"
 )
+
+SDL_MIXER_FLAGS=(
+	"${SDL3_DIR}"
+	-DBUILD_SHARED_LIBS=OFF
+	-DSDLMIXER_{GME,MOD,MIDI,OPUS,FLAC,MP3,WAVE,WAVPACK,SAMPLES}=OFF
+)
+
+GAME_FLAGS=(
+	"${SDL3_DIR}"
+	"${SDL3_MIXER_DIR}"
+)
+
