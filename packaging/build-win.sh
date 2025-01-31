@@ -2,11 +2,10 @@
 
 TARGET=win
 
-topdir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-source $topdir/_common.sh
+source $(dirname "${BASH_SOURCE[0]}")/_common.sh
 
 CMAKE_FLAGS+=(
-	-DCMAKE_TOOLCHAIN_FILE="$topdir/toolchain-${CCPREFIX}.cmake"
+	-DCMAKE_TOOLCHAIN_FILE="${SRCDIR}/packaging/toolchain-${CCPREFIX}.cmake"
 )
 
 build_sdl() {
@@ -14,7 +13,7 @@ build_sdl() {
 
 	mk_build_dir
 	cmake .. "${CMAKE_FLAGS[@]}" "${SDL_FLAGS[@]}" \
-		-DSDL_{GPU,CAMERA,JOYSTICK,HAPTIC,HIDAPI,OPENGLES,POWER,SENSOR,VULKAN,TESTS}=OFF
+		-DSDL_{JOYSTICK,HIDAPI,OPENGLES}=OFF
 	dep_ninja_install
 }
 
@@ -28,7 +27,7 @@ build_sdl_mixer() {
 
 build_game() {
 	mk_build_dir
-	cmake "$topdir/../" "${CMAKE_FLAGS[@]}" "${GAME_FLAGS[@]}"
+	cmake "$SRCDIR" "${CMAKE_FLAGS[@]}" "${GAME_FLAGS[@]}"
 	ninja
 
 	x86_64-w64-mingw32-strip -s *.exe

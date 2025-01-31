@@ -1,9 +1,8 @@
-#!/bin/bash -e
+#!/bin/bash -eu
 
 TARGET=macos
 
-topdir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-source $topdir/_common.sh
+source $(dirname "${BASH_SOURCE[0]}")/_common.sh
 
 CMAKE_FLAGS+=(
 	"-DCMAKE_OSX_ARCHITECTURES=arm64;x86_64"
@@ -15,7 +14,7 @@ build_sdl() {
 
 	mk_build_dir
 	cmake .. "${CMAKE_FLAGS[@]}" "${SDL_FLAGS[@]}" \
-		-DSDL_{GPU,CAMERA,OPENGLES,POWER,SENSOR,VULKAN,TESTS}=OFF
+		-DSDL_{OPENGLES}=OFF
 	dep_ninja_install
 }
 
@@ -29,7 +28,7 @@ build_sdl_mixer() {
 
 build_game() {
 	mk_build_dir
-	cmake "$topdir/../" "${CMAKE_FLAGS[@]}" "${GAME_FLAGS[@]}"
+	cmake "$SRCDIR" "${CMAKE_FLAGS[@]}" "${GAME_FLAGS[@]}"
 	ninja
 
 	strip tensy
@@ -41,11 +40,11 @@ build_create_bundle() {
 	mkdir -p tensy.app/Contents/{MacOS,Resources}
 	cd tensy.app/Contents
 
-	cp "$topdir/Info.plist" .
+	cp "${SRCDIR}/packaging/Info.plist" .
 	echo "APPLtnsy" > PkgInfo
 
-	cp "$topdir/tensy.icns" Resources/
-	mv "$BINDIR/tensy" MacOS/
+	cp "${SRCDIR}/packaging/tensy.icns" Resources/
+	mv "${BINDIR}/tensy" MacOS/
 }
 
 build sdl

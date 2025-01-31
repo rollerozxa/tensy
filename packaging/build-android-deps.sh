@@ -1,11 +1,10 @@
-#!/bin/bash -e
+#!/bin/bash -eu
 
 TARGET=android
 
-topdir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-source $topdir/_common.sh
+source $(dirname "${BASH_SOURCE[0]}")/_common.sh
 
-export PATH="$toolchain/bin:$ANDROID_NDK:$PATH"
+export PATH="$ANDROID_NDK:$PATH"
 
 CMAKE_FLAGS+=(
 	-DCMAKE_TOOLCHAIN_FILE="${ANDROID_NDK}/build/cmake/android.toolchain.cmake"
@@ -28,7 +27,7 @@ build_sdl() {
 
 	conf_sdl() {
 		cmake .. "${CMAKE_FLAGS[@]}" "${SDL_FLAGS[@]}" \
-			-DSDL_{GPU,CAMERA,JOYSTICK,HAPTIC,POWER,SENSOR,VULKAN,TESTS}=OFF \
+			-DSDL_{JOYSTICK}=OFF \
 			-DANDROID_ABI="$ABI"
 	}
 	iterate_abis conf_sdl

@@ -1,9 +1,8 @@
-#!/bin/bash -e
+#!/bin/bash -eu
 
 TARGET=lin
 
-topdir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-source $topdir/_common.sh
+source $(dirname "${BASH_SOURCE[0]}")/_common.sh
 
 # Download appimagetool
 if [ ! -f /tmp/appimagetool ]; then
@@ -16,7 +15,7 @@ build_sdl() {
 
 	mk_build_dir
 	cmake .. "${CMAKE_FLAGS[@]}" "${SDL_FLAGS[@]}" \
-		-DSDL_{GPU,CAMERA,JOYSTICK,HAPTIC,HIDAPI,OPENGLES,POWER,SENSOR,VULKAN,TESTS,WAYLAND}=OFF
+		-DSDL_{JOYSTICK,HIDAPI,OPENGLES,WAYLAND}=OFF
 	dep_ninja_install
 }
 
@@ -30,7 +29,7 @@ build_sdl_mixer() {
 
 build_game() {
 	mk_build_dir
-	cmake "$topdir/../" "${CMAKE_FLAGS[@]}" "${GAME_FLAGS[@]}"
+	cmake "$SRCDIR" "${CMAKE_FLAGS[@]}" "${GAME_FLAGS[@]}"
 	ninja
 
 	strip -s tensy
@@ -38,7 +37,7 @@ build_game() {
 }
 
 build_appimage() {
-	cd "$topdir"
+	cd "${SRCDIR}/packaging"
 
 	cp "$BINDIR/tensy" AppDir/AppRun
 

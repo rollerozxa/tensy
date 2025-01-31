@@ -1,16 +1,15 @@
-#!/bin/bash -e
+#!/bin/bash -eu
 
 TARGET=web
 
-topdir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-source $topdir/_common.sh
+source $(dirname "${BASH_SOURCE[0]}")/_common.sh
 
 build_sdl() {
 	get_tar_archive SDL3 "${SDL3_url}"
 
 	mk_build_dir
 	emcmake cmake .. "${CMAKE_FLAGS[@]}" "${SDL_FLAGS[@]}" \
-		-DSDL_{GPU,CAMERA,JOYSTICK,HAPTIC,HIDAPI,POWER,SENSOR,VULKAN,TESTS}=OFF
+		-DSDL_{JOYSTICK,HIDAPI}=OFF
 	dep_ninja_install
 }
 
@@ -24,10 +23,10 @@ build_sdl_mixer() {
 
 build_game() {
 	mk_build_dir
-	emcmake cmake "$topdir/../" "${CMAKE_FLAGS[@]}" "${GAME_FLAGS[@]}"
+	emcmake cmake "$SRCDIR" "${CMAKE_FLAGS[@]}" "${GAME_FLAGS[@]}"
 	ninja
 
-	cp *.js *.wasm "$topdir/index.html" "$BINDIR"
+	cp *.js *.wasm "${SRCDIR}/packaging/index.html" "$BINDIR"
 }
 
 build sdl

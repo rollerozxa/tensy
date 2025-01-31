@@ -1,9 +1,8 @@
-#!/bin/bash -e
+#!/bin/bash -eu
 
 TARGET=vita
 
-topdir="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
-source $topdir/_common.sh
+source $(dirname "${BASH_SOURCE[0]}")/_common.sh
 
 CMAKE_FLAGS+=(
 	-DCMAKE_TOOLCHAIN_FILE="$VITASDK/share/vita.toolchain.cmake"
@@ -13,8 +12,7 @@ build_sdl() {
 	get_tar_archive SDL3 "${SDL3_url}"
 
 	mk_build_dir
-	cmake .. "${CMAKE_FLAGS[@]}" "${SDL_FLAGS[@]}" \
-		-DSDL_{GPU,CAMERA,HAPTIC,POWER,SENSOR}=OFF
+	cmake .. "${CMAKE_FLAGS[@]}" "${SDL_FLAGS[@]}"
 	dep_ninja_install
 }
 
@@ -28,7 +26,7 @@ build_sdl_mixer() {
 
 build_game() {
 	mk_build_dir
-	cmake "$topdir/../" "${CMAKE_FLAGS[@]}" "${GAME_FLAGS[@]}"
+	cmake "$SRCDIR" "${CMAKE_FLAGS[@]}" "${GAME_FLAGS[@]}"
 	ninja
 
 	mv tensy.vpk "$BINDIR"
