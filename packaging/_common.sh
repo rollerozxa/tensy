@@ -1,6 +1,6 @@
 #!/bin/bash -e
 
-SDL3_tag=cdc5483cf9683fabf0a897954a510574e61af418 # basically 3.1.10 + vita fix
+SDL3_tag=release-3.2.0
 SDL3_url="https://github.com/libsdl-org/SDL/archive/${SDL3_tag}.tar.gz"
 SDL3_mixer_tag=af6a29df4e14c6ce72608b3ccd49cf35e1014255
 SDL3_mixer_url="https://github.com/libsdl-org/SDL_mixer/archive/${SDL3_mixer_tag}.tar.gz"

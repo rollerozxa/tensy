@@ -1,13 +1,13 @@
 name: Windows
 
 on:
-  push:
-  pull_request:
+  - push
+  - pull_request
 
 jobs:
   windows:
     name: "${{ matrix.bits }}-bit"
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
@@ -22,7 +22,7 @@ jobs:
 
       - name: Download toolchain
         run: |
-          curl -L "https://github.com/mstorsjo/llvm-mingw/releases/download/20240619/llvm-mingw-20240619-ucrt-ubuntu-20.04-x86_64.tar.xz" | sudo tar xJvf - -C "/usr" --strip-components=1
+          curl -L "https://github.com/mstorsjo/llvm-mingw/releases/download/20250114/llvm-mingw-20250114-ucrt-ubuntu-20.04-x86_64.tar.xz" | sudo tar xJvf - -C "/usr" --strip-components=1
 
       - name: Build Tensy
         run: |

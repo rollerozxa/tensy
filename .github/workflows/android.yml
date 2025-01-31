@@ -6,7 +6,7 @@ on:
 
 jobs:
   android:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
@@ -25,7 +25,7 @@ jobs:
         run: |
           ./packaging/build-android-deps.sh
         env:
-          ANDROID_NDK: /usr/local/lib/android/sdk/ndk/26.3.11579264
+          ANDROID_NDK: /usr/local/lib/android/sdk/ndk/27.2.12479018
 
       - name: Build Tensy
         run: |

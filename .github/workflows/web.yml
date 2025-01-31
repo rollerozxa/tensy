@@ -6,8 +6,8 @@ permissions:
   id-token: write
 
 on:
-  push:
-  pull_request:
+  - push
+  - pull_request
 
 jobs:
   web:
