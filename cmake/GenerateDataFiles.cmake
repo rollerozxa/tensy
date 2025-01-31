@@ -13,8 +13,6 @@ function(generate_data_files)
 			COMMENT "Generating ${GENERATED_HEADER} from ${DATA_FILE}"
 		)
 
-		set(GENERATED_HEADERS ${GENERATED_HEADERS} ${GENERATED_HEADER} PARENT_SCOPE)
+		set(GENERATED_DATA_HEADERS ${GENERATED_DATA_HEADERS} ${GENERATED_HEADER} PARENT_SCOPE)
 	endforeach()
-
-	add_custom_target(generate_data DEPENDS ${GENERATED_HEADERS})
 endfunction()

@@ -62,4 +62,5 @@ endif()
 # Generate embedded data files as header files to be included
 include(GenerateDataFiles)
 generate_data_files()
+add_custom_target(generate_data DEPENDS ${GENERATED_DATA_HEADERS})
 add_dependencies(${PROJECT_NAME} generate_data)
