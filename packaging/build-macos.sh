@@ -15,7 +15,7 @@ build_sdl() {
 
 	mk_build_dir
 	cmake .. "${CMAKE_FLAGS[@]}" "${SDL_FLAGS[@]}" \
-		-DSDL_{GPU,CAMERA,OPENGLES,POWER,SENSOR,VULKAN,TESTS}=OFF
+		-DSDL_{GPU,CAMERA,HAPTIC,OPENGLES,POWER,SENSOR,VULKAN,TESTS}=OFF
 	dep_ninja_install
 }
 
