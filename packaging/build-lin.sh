@@ -15,7 +15,7 @@ build_sdl() {
 
 	mk_build_dir
 	cmake .. "${CMAKE_FLAGS[@]}" "${SDL_FLAGS[@]}" \
-		-DSDL_{JOYSTICK,HIDAPI,OPENGLES,WAYLAND}=OFF
+		-DSDL_{HIDAPI,OPENGLES,WAYLAND}=OFF
 	dep_ninja_install
 }
 

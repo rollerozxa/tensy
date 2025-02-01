@@ -27,7 +27,6 @@ build_sdl() {
 
 	conf_sdl() {
 		cmake .. "${CMAKE_FLAGS[@]}" "${SDL_FLAGS[@]}" \
-			-DSDL_{JOYSTICK}=OFF \
 			-DANDROID_ABI="$ABI"
 	}
 	iterate_abis conf_sdl

@@ -14,7 +14,7 @@ build_sdl() {
 
 	mk_build_dir
 	cmake .. "${CMAKE_FLAGS[@]}" "${SDL_FLAGS[@]}" \
-		-DSDL_{OPENGLES}=OFF
+		-DSDL_OPENGLES=OFF
 	dep_ninja_install
 }
 

@@ -9,7 +9,7 @@ build_sdl() {
 
 	mk_build_dir
 	emcmake cmake .. "${CMAKE_FLAGS[@]}" "${SDL_FLAGS[@]}" \
-		-DSDL_{JOYSTICK,HIDAPI}=OFF
+		-DSDL_HIDAPI=OFF
 	dep_ninja_install
 }
 
