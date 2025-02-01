@@ -67,6 +67,9 @@ elif [ $TARGET == 'android' ]; then
 elif [ $TARGET == 'macos' ]; then
 	BUILDDIR="/tmp/tensy/macos"
 	BINDIR="${SRCDIR}/packaging/bin/macos"
+elif [ $TARGET == 'haiku' ]; then
+	BUILDDIR="/tmp/tensy/haiku"
+	BINDIR="${SRCDIR}/packaging/bin/haiku"
 elif [ $TARGET == 'vita' ]; then
 	BUILDDIR="/tmp/tensy/vita"
 	BINDIR="${SRCDIR}/packaging/bin/vita"

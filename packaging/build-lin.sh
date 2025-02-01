@@ -20,7 +20,7 @@ build_sdl() {
 }
 
 build_sdl_mixer() {
-		get_tar_archive SDL3_mixer "${SDL3_mixer_url}"
+	get_tar_archive SDL3_mixer "${SDL3_mixer_url}"
 
 	mk_build_dir
 	cmake .. "${CMAKE_FLAGS[@]}" "${SDL_MIXER_FLAGS[@]}"
