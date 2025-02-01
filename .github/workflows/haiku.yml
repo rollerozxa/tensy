@@ -1,0 +1,32 @@
+name: Haiku OS
+
+on:
+  - push
+  - pull_request
+
+jobs:
+  haiku:
+    name: Haiku OS
+    runs-on: ubuntu-latest
+    container:
+      image: ghcr.io/haiku/cross-compiler:x86_64-r1beta5
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install build dependencies
+        run: |
+          apt-get update
+          apt-get install -y cmake ninja-build ca-certificates wget xxd --no-install-recommends
+
+      - name: Build Tensy
+        run: |
+          ./packaging/build-haiku.sh
+        env:
+          CC: x86_64-unknown-haiku-gcc
+          CXX: x86_64-unknown-haiku-g++
+
+      - name: Upload output as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: tensy-haiku
+          path: packaging/bin/haiku/tensy
