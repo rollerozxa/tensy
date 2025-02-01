@@ -4,11 +4,16 @@ TARGET=haiku
 
 source $(dirname "${BASH_SOURCE[0]}")/_common.sh
 
+CMAKE_FLAGS+=(
+	-DCMAKE_TOOLCHAIN_FILE="${SRCDIR}/packaging/toolchain-haiku.cmake"
+)
+
 build_sdl() {
 	get_tar_archive SDL3 "${SDL3_url}"
 
 	mk_build_dir
-	cmake .. "${CMAKE_FLAGS[@]}" "${SDL_FLAGS[@]}"
+	cmake .. "${CMAKE_FLAGS[@]}" "${SDL_FLAGS[@]}" \
+		-DSDL_UNIX_CONSOLE_BUILD=ON
 	dep_ninja_install
 }
 
