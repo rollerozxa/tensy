@@ -20,7 +20,10 @@ typedef struct {
 } Neighbour;
 
 #define BOARD_W 30
-#define BOARD_H 16
+#define BOARD_H 15
+
+#define BOARD_SCALE 2
+#define CELL_SIZE (BOARD_SCALE * 10)
 
 static Cell board[BOARD_W][BOARD_H];
 
@@ -98,22 +101,25 @@ void game_init(void) {
 }
 
 void game_event(const SDL_Event *ev) {
-	if (ev->type == SDL_EVENT_MOUSE_BUTTON_DOWN) {
-		int cx = floorf(ev->button.x / 20)-1;
-		int cy = floorf(ev->button.y / 20)-1;
+	#define CELL_X floorf(ev->motion.x / CELL_SIZE) - 1
+	#define CELL_Y floorf((ev->motion.y - 10) / CELL_SIZE) - 1
 
-		if (SDL_clamp(cx, 0, 30-1) == cx && SDL_clamp(cy, 0, 16-1) == cy) {
+	if (ev->type == SDL_EVENT_MOUSE_BUTTON_DOWN) {
+		int cx = CELL_X;
+		int cy = CELL_Y;
+
+		if (SDL_clamp(cx, 0, BOARD_W-1) == cx && SDL_clamp(cy, 0, BOARD_H-1) == cy) {
 			first_held_pos = (struct SDL_Point){cx,cy};
 			current_held_pos = first_held_pos;
 			helddown = true;
 		}
 	} else if (ev->type == SDL_EVENT_MOUSE_MOTION) {
 		if (helddown) {
-			current_held_pos.x = floorf(ev->motion.x / 20)-1;
-			current_held_pos.y = floorf(ev->motion.y / 20)-1;
+			current_held_pos.x = CELL_X;
+			current_held_pos.y = CELL_Y;
 
-			current_held_pos.x = SDL_clamp(current_held_pos.x, 0, 30-1);
-			current_held_pos.y = SDL_clamp(current_held_pos.y, 0, 16-1);
+			current_held_pos.x = SDL_clamp(current_held_pos.x, 0, BOARD_W-1);
+			current_held_pos.y = SDL_clamp(current_held_pos.y, 0, BOARD_H-1);
 
 			held_sum = calculate_sum();
 		}
@@ -144,14 +150,18 @@ void game_draw(SDL_Renderer *renderer) {
 
 	set_font_color((SDL_Color){0xFF, 0xFF, 0xFF});
 
+	SDL_FRect sel_rect = {
+		fminf((first_held_pos.x + 1) * CELL_SIZE, (current_held_pos.x + 1) * CELL_SIZE),
+		fminf((first_held_pos.y + 1.5) * CELL_SIZE, (current_held_pos.y + 1.5) * CELL_SIZE),
+		abs((current_held_pos.x - first_held_pos.x) * CELL_SIZE) + CELL_SIZE,
+		abs((current_held_pos.y - first_held_pos.y) * CELL_SIZE) + CELL_SIZE
+	};
+
 	if (first_held_pos.x != -1) {
 		if (held_sum == 10) {
 			SDL_SetRenderDrawColor(renderer, 0x00, 0xA0, 0x00, 0xFF);
-			SDL_RenderFillRect(renderer,
-				RECT(fminf((first_held_pos.x+1)*20, (current_held_pos.x+1)*20),
-				fminf((first_held_pos.y+1)*20, (current_held_pos.y+1)*20),
-				abs((current_held_pos.x - first_held_pos.x) * 20)+20,
-				abs((current_held_pos.y - first_held_pos.y) * 20)+20));
+
+			SDL_RenderFillRect(renderer, &sel_rect);
 		}
 	}
 
@@ -161,17 +171,14 @@ void game_draw(SDL_Renderer *renderer) {
 				set_font_color(num_to_colour(board[x][y].number));
 
 			if (!board[x][y].removed)
-				draw_char_shadow(renderer, board[x][y].number+'0', 3+(x+1)*20, (y+1)*20-1, 2);
+				draw_char_shadow(renderer, board[x][y].number + '0',
+					3 + (x + 1) * CELL_SIZE, (y + 1.5) * CELL_SIZE - 1, BOARD_SCALE);
 		}
 	}
 
 	if (first_held_pos.x != -1) {
 		SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
-		SDL_RenderRect(renderer,
-			RECT(fminf((first_held_pos.x+1)*20, (current_held_pos.x+1)*20),
-			fminf((first_held_pos.y+1)*20, (current_held_pos.y+1)*20),
-			abs((current_held_pos.x - first_held_pos.x) * 20)+20,
-			abs((current_held_pos.y - first_held_pos.y) * 20)+20));
+		SDL_RenderRect(renderer, &sel_rect);
 	}
 
 	SDL_SetRenderDrawColor(renderer, 0x10, 0x2a, 0x6e, 0xFF);
