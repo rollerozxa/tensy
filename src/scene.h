@@ -10,6 +10,8 @@ typedef struct {
 	void (*draw)(SDL_Renderer*);
 } Scene;
 
+#define MAX_SCENES 10
+
 int add_scene(Scene scene);
 
 int switch_scene(const char* name);

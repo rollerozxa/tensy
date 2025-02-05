@@ -38,10 +38,10 @@ static int calculate_sum(void) {
 	int sum = 0;
 
 	for (size_t x = fminf(first_held_pos.x, current_held_pos.x); x <= fmaxf(current_held_pos.x, first_held_pos.x); x++) {
-		for (size_t y = fminf(first_held_pos.y, current_held_pos.y); y <= fmaxf(current_held_pos.y, first_held_pos.y); y++) {
-			if (!board[x][y].removed)
-				sum += board[x][y].number;
-		}
+	for (size_t y = fminf(first_held_pos.y, current_held_pos.y); y <= fmaxf(current_held_pos.y, first_held_pos.y); y++) {
+		if (!board[x][y].removed)
+			sum += board[x][y].number;
+	}
 	}
 
 	return sum;
@@ -49,24 +49,24 @@ static int calculate_sum(void) {
 
 static void board_physics(void) {
 	for (size_t x = fminf(first_held_pos.x, current_held_pos.x); x <= fmaxf(current_held_pos.x, first_held_pos.x); x++) {
-		for (int y = BOARD_H - 1; y >= 0; y--) {
-			if (!board[x][y].removed)
-				continue;
+	for (int y = BOARD_H - 1; y >= 0; y--) {
+		if (!board[x][y].removed)
+			continue;
 
-			int src_y = y - 1;
-			while (src_y >= 0 && board[x][src_y].removed) {
-				src_y--;
-			}
-
-			if (src_y >= 0) {
-				board[x][y].number = board[x][src_y].number;
-				board[x][y].removed = false;
-				board[x][src_y].removed = true;
-			} else {
-				board[x][y].number = 0;
-				board[x][y].removed = true;
-			}
+		int src_y = y - 1;
+		while (src_y >= 0 && board[x][src_y].removed) {
+			src_y--;
 		}
+
+		if (src_y >= 0) {
+			board[x][y].number = board[x][src_y].number;
+			board[x][y].removed = false;
+			board[x][src_y].removed = true;
+		} else {
+			board[x][y].number = 0;
+			board[x][y].removed = true;
+		}
+	}
 	}
 }
 
@@ -79,10 +79,10 @@ static void do_move(void) {
 	int removed_cells = 0;
 
 	for (size_t x = fminf(first_held_pos.x, current_held_pos.x); x <= fmaxf(current_held_pos.x, first_held_pos.x); x++) {
-		for (size_t y = fminf(first_held_pos.y, current_held_pos.y); y <= fmaxf(current_held_pos.y, first_held_pos.y); y++) {
-			board[x][y].removed = true;
-			removed_cells++;
-		}
+	for (size_t y = fminf(first_held_pos.y, current_held_pos.y); y <= fmaxf(current_held_pos.y, first_held_pos.y); y++) {
+		board[x][y].removed = true;
+		removed_cells++;
+	}
 	}
 
 	if (settings()->board_physics)
@@ -93,10 +93,10 @@ static void do_move(void) {
 
 void game_init(void) {
 	for (size_t x = 0; x < BOARD_W; x++) {
-		for (size_t y = 0; y < BOARD_H; y++) {
-			board[x][y].number = SDL_rand(9) + 1;
-			board[x][y].removed = false;
-		}
+	for (size_t y = 0; y < BOARD_H; y++) {
+		board[x][y].number = SDL_rand(9) + 1;
+		board[x][y].removed = false;
+	}
 	}
 }
 
@@ -166,14 +166,14 @@ void game_draw(SDL_Renderer *renderer) {
 	}
 
 	for (size_t x = 0; x < BOARD_W; x++) {
-		for (size_t y = 0; y < BOARD_H; y++) {
-			if (settings()->coloured_numbers)
-				set_font_color(num_to_colour(board[x][y].number));
+	for (size_t y = 0; y < BOARD_H; y++) {
+		if (settings()->coloured_numbers)
+			set_font_color(num_to_colour(board[x][y].number));
 
-			if (!board[x][y].removed)
-				draw_char_shadow(renderer, board[x][y].number + '0',
-					3 + (x + 1) * CELL_SIZE, (y + 1.5) * CELL_SIZE - 1, BOARD_SCALE);
-		}
+		if (!board[x][y].removed)
+			draw_char_shadow(renderer, board[x][y].number + '0',
+				3 + (x + 1) * CELL_SIZE, (y + 1.5) * CELL_SIZE - 1, BOARD_SCALE);
+	}
 	}
 
 	if (first_held_pos.x != -1) {

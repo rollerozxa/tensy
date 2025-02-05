@@ -8,10 +8,6 @@
 #define SCREEN_WIDTH    NATIVE_WIDTH*2
 #define SCREEN_HEIGHT   NATIVE_HEIGHT*2
 
-// Max scenes to be allocated
-#define MAX_SCENES 10
-
-
 
 // Misc helper macros
 

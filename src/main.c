@@ -1,17 +1,18 @@
-#define SDL_MAIN_USE_CALLBACKS
-#include <SDL3/SDL_main.h>
-#include <SDL3/SDL.h>
-#include <SDL3_mixer/SDL_mixer.h>
-#include <stdbool.h>
-#include <stdio.h>
-#include <unistd.h>
-
 #include "consts.h"
 #include "exiting.h"
 #include "game.h"
 #include "mainmenu.h"
 #include "scene.h"
 #include "settings.h"
+
+#include <SDL3/SDL.h>
+#include <SDL3_mixer/SDL_mixer.h>
+#include <stdbool.h>
+#include <stdio.h>
+#include <unistd.h>
+
+#define SDL_MAIN_USE_CALLBACKS
+#include <SDL3/SDL_main.h>
 
 SDL_Window *window;
 SDL_Renderer *renderer;
