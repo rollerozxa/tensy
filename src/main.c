@@ -2,6 +2,7 @@
 #include "exiting.h"
 #include "game.h"
 #include "mainmenu.h"
+#include "overlay.h"
 #include "scene.h"
 #include "settings.h"
 
@@ -73,6 +74,7 @@ SDL_AppResult SDL_AppEvent(void *rustptr, SDL_Event *ev) {
 	SDL_ConvertEventToRenderCoordinates(renderer, ev);
 
 	run_scene_event(ev);
+	run_overlay_event(ev);
 
 	return SDL_APP_CONTINUE;
 }
@@ -81,11 +83,13 @@ extern bool exiting;
 
 SDL_AppResult SDL_AppIterate(void *rustptr) {
 	run_scene_update();
+	run_overlay_update();
 
 	if (exiting)
 		return SDL_APP_SUCCESS;
 
 	run_scene_draw(renderer);
+	run_overlay_draw(renderer);
 
 	perform_scene_transition(renderer);
 
