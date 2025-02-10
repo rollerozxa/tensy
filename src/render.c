@@ -5,6 +5,22 @@ void SDLex_SetRenderDrawColor(SDL_Renderer *renderer, SDL_Color color) {
 	SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
 }
 
+void set_draw_color(SDL_Renderer *renderer, unsigned int color) {
+	SDL_SetRenderDrawColor(renderer,
+		(color >> 16) & 0xFF,
+		(color >> 8)  & 0xFF,
+		color & 0xFF,
+		SDL_ALPHA_OPAQUE);
+}
+
+void set_draw_color_alpha(SDL_Renderer *renderer, unsigned int color) {
+	SDL_SetRenderDrawColor(renderer,
+		(color >> 24) & 0xFF,
+		(color >> 16) & 0xFF,
+		(color >> 8)  & 0xFF,
+		color & 0xFF);
+}
+
 void draw_box(SDL_Renderer *renderer, SDL_FRect *rect) {
 	SDL_SetRenderDrawColor(renderer, 0x13, 0x13, 0x13, 0xFF);
 	SDL_RenderFillRect(renderer, RECT(rect->x, rect->y, rect->w, rect->h));
