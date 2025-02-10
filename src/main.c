@@ -1,4 +1,5 @@
 #include "consts.h"
+#include "debug.h"
 #include "exiting.h"
 #include "game.h"
 #include "mainmenu.h"
@@ -76,6 +77,8 @@ SDL_AppResult SDL_AppEvent(void *rustptr, SDL_Event *ev) {
 	run_scene_event(ev);
 	run_overlay_event(ev);
 
+	debug_event(ev);
+
 	return SDL_APP_CONTINUE;
 }
 
@@ -90,6 +93,8 @@ SDL_AppResult SDL_AppIterate(void *rustptr) {
 
 	run_scene_draw(renderer);
 	run_overlay_draw(renderer);
+
+	debug_draw(renderer);
 
 	perform_scene_transition(renderer);
 
