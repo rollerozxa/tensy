@@ -71,6 +71,12 @@ void draw_text_shadow(SDL_Renderer *renderer, const char *text, int x, int y, in
 	}
 }
 
+void draw_text_shadow_centered(SDL_Renderer *renderer, const char *text, SDL_Rect *rect, int scale) {
+	SDL_Rect text_rect = calculate_text_rect(text, scale);
+
+	draw_text_shadow(renderer, text, rect->x + (rect->w - text_rect.w) / 2, rect->y + (rect->h - text_rect.h) / 2, scale);
+}
+
 SDL_Rect calculate_text_rect(const char* text, int scale) {
 	return ((SDL_Rect){
 		0,0,
