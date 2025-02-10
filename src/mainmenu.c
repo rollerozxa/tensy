@@ -1,5 +1,4 @@
 #include "mainmenu.h"
-#include "colours.h"
 #include "consts.h"
 #include "font.h"
 #include "gui/button.h"
@@ -32,8 +31,6 @@ void mainmenu_init(void) {
 	SDL_SetTextureScaleMode(texture, SDL_SCALEMODE_NEAREST);
 }
 
-static bool debug = false;
-
 void mainmenu_event(const SDL_Event *ev) {
 	if (button_event(ev, &play_button)) {
 		switch_scene("game");
@@ -41,10 +38,6 @@ void mainmenu_event(const SDL_Event *ev) {
 
 	if (button_event(ev, &settings_button)) {
 		switch_scene("settings");
-	}
-
-	if (ev->type == SDL_EVENT_KEY_DOWN && ev->key.scancode == SDL_SCANCODE_F3) {
-		debug = !debug;
 	}
 
 	if (ev->type == SDL_EVENT_KEY_UP && ev->key.key == SDLK_AC_BACK) {
@@ -111,11 +104,4 @@ void mainmenu_draw(SDL_Renderer *renderer) {
 
 	button(renderer, &play_button);
 	button(renderer, &settings_button);
-
-	if (debug) {
-		char text[1024];
-		snprintf(text, 1023, "%s, using %s driver",
-			SDL_GetPlatform(), SDL_GetRendererName(renderer));
-		draw_text_shadow(renderer, text, 0, 0, 1);
-	}
 }

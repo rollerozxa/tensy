@@ -5,6 +5,7 @@
 typedef struct {
 	SDL_FRect *rect;
 	const char *text;
+	bool _held;
 } Button;
 
 bool button_event(const SDL_Event *ev, Button *button);

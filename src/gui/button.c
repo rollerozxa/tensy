@@ -6,12 +6,14 @@
 #include "sound.h"
 
 bool button_event(const SDL_Event *ev, Button *button) {
-	if (ev->type == SDL_EVENT_MOUSE_BUTTON_UP
-			&& SDL_PointInRectFloat(&(SDL_FPoint){ev->motion.x, ev->motion.y}, button->rect)) {
-
-		sound_play(SND_CLICK);
-
-		return true;
+	if (SDL_PointInRectFloat(&(SDL_FPoint){ev->motion.x, ev->motion.y}, button->rect)) {
+		if (ev->type == SDL_EVENT_MOUSE_BUTTON_DOWN) {
+			button->_held = true;
+		} else if (ev->type == SDL_EVENT_MOUSE_BUTTON_UP && button->_held) {
+			button->_held = false;
+			sound_play(SND_CLICK);
+			return true;
+		}
 	}
 
 	return false;
@@ -26,7 +28,7 @@ void button(SDL_Renderer *renderer, Button *button) {
 	int clicked = mouse_get_state_scaled(renderer, &mouse.x, &mouse.y);
 
 	if (SDL_PointInRectFloat(&mouse, rect)) {
-		if (clicked & SDL_BUTTON_MASK(SDL_BUTTON_LEFT))
+		if (button->_held)
 			draw_box_active(renderer, button->rect);
 		else
 			draw_box_hover(renderer, button->rect);

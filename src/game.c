@@ -41,8 +41,7 @@ static int calculate_sum(void) {
 	for (size_t y = fminf(first_held_pos.y, current_held_pos.y); y <= fmaxf(current_held_pos.y, first_held_pos.y); y++) {
 		if (!board[x][y].removed)
 			sum += board[x][y].number;
-	}
-	}
+	}}
 
 	return sum;
 }
@@ -66,8 +65,7 @@ static void board_physics(void) {
 			board[x][y].number = 0;
 			board[x][y].removed = true;
 		}
-	}
-	}
+	}}
 }
 
 static void do_move(void) {
@@ -82,8 +80,7 @@ static void do_move(void) {
 	for (size_t y = fminf(first_held_pos.y, current_held_pos.y); y <= fmaxf(current_held_pos.y, first_held_pos.y); y++) {
 		board[x][y].removed = true;
 		removed_cells++;
-	}
-	}
+	}}
 
 	if (settings()->board_physics)
 		board_physics();
@@ -96,13 +93,14 @@ void game_init(void) {
 	for (size_t y = 0; y < BOARD_H; y++) {
 		board[x][y].number = SDL_rand(9) + 1;
 		board[x][y].removed = false;
-	}
-	}
+	}}
 }
 
 void game_event(const SDL_Event *ev) {
 	#define CELL_X floorf(ev->motion.x / CELL_SIZE) - 1
 	#define CELL_Y floorf((ev->motion.y - 10) / CELL_SIZE) - 1
+
+	if (has_overlay()) return;
 
 	if (ev->type == SDL_EVENT_MOUSE_BUTTON_DOWN) {
 		int cx = CELL_X;
@@ -173,8 +171,7 @@ void game_draw(SDL_Renderer *renderer) {
 		if (!board[x][y].removed)
 			draw_char_shadow(renderer, board[x][y].number + '0',
 				3 + (x + 1) * CELL_SIZE, (y + 1.5) * CELL_SIZE - 1, BOARD_SCALE);
-	}
-	}
+	}}
 
 	if (first_held_pos.x != -1) {
 		SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);

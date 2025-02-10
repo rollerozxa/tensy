@@ -16,6 +16,9 @@ int add_overlay(Overlay overlay);
 
 int switch_overlay(const char* name);
 
+void hide_overlay(void);
+bool has_overlay(void);
+
 void run_overlay_init(void);
 void run_overlay_event(const SDL_Event *ev);
 void run_overlay_update(void);
