@@ -4,6 +4,7 @@
 #include "game.h"
 #include "mainmenu.h"
 #include "overlay.h"
+#include "pause.h"
 #include "scene.h"
 #include "settings.h"
 
@@ -58,6 +59,8 @@ SDL_AppResult SDL_AppInit(void **rustptr, int argc, char **argv) {
 	add_scene((Scene){"settings", NULL, settings_event, settings_update, settings_draw});
 
 	add_scene((Scene){"exiting", NULL, NULL, exiting_update, NULL});
+
+	add_overlay((Overlay){"pause", NULL, pause_event, NULL, pause_draw});
 
 	run_scene_init();
 
