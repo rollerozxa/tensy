@@ -2,6 +2,8 @@
 #include "consts.h"
 #include "colours.h"
 #include "font.h"
+#include "gui/button.h"
+#include "overlay.h"
 #include "settings.h"
 #include "scene.h"
 
@@ -33,6 +35,8 @@ static SDL_Point current_held_pos = {-1,-1};
 static int held_sum = -1;
 
 static int score = 0;
+
+static Button pause_button = {RECT(NATIVE_WIDTH-100,0,100,25), "Pause"};
 
 static int calculate_sum(void) {
 	int sum = 0;
@@ -134,6 +138,10 @@ void game_event(const SDL_Event *ev) {
 			switch_scene("mainmenu");
 		}
 	}
+
+	if (button_event(ev, &pause_button)) {
+		switch_overlay("pause");
+	}
 }
 
 void game_update(void) {
@@ -186,4 +194,6 @@ void game_draw(SDL_Renderer *renderer) {
 	char msg[512];
 	snprintf(msg, 511, "Score: %d", score);
 	draw_text(renderer, msg, 0,0, 2);
+
+	button(renderer, &pause_button);
 }
