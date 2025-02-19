@@ -10,7 +10,7 @@ static bool sound_loaded = false;
 #define LOAD_SOUND(id, var) \
 	sound_bank[id] = Mix_LoadWAV_IO(SDL_IOFromMem(var, var##_len), true)
 
-void sound_init() {
+void sound_init(void) {
 	LOAD_SOUND(SND_CLICK, click_ogg);
 
 	sound_loaded = true;

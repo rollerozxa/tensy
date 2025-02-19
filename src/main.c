@@ -7,6 +7,7 @@
 #include "pause.h"
 #include "scene.h"
 #include "settings.h"
+#include "sound.h"
 
 #include <SDL3/SDL.h>
 #include <SDL3_mixer/SDL_mixer.h>
@@ -50,6 +51,8 @@ SDL_AppResult SDL_AppInit(void **rustptr, int argc, char **argv) {
 	SDL_SetRenderVSync(renderer, 1);
 
 	Mix_OpenAudio(0, &(SDL_AudioSpec){SDL_AUDIO_S16, 2, 44100});
+
+	sound_init();
 
 	// First scene needs to be first
 	add_scene((Scene){"mainmenu", mainmenu_init, mainmenu_event, mainmenu_update, mainmenu_draw});
