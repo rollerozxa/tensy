@@ -14,6 +14,7 @@ static bool textures_loaded = false;
 
 void textures_init(SDL_Renderer *renderer) {
 	LOAD_TEX(TEX_BG_STRIPES, background_stripes_qoi, background_stripes_qoi_len);
+	LOAD_TEX(TEX_CHECK, check_qoi, check_qoi_len);
 
 	textures_loaded = true;
 }

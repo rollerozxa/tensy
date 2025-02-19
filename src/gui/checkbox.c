@@ -1,8 +1,10 @@
 #include "checkbox.h"
 #include "colours.h"
+#include "consts.h"
 #include "font.h"
 #include "mouse.h"
 #include "render.h"
+#include "textures.h"
 
 #define CALCULATE_RECTS() \
 	SDL_Rect label_rect = calculate_text_rect(label, 2); \
@@ -43,8 +45,8 @@ bool checkbox(SDL_Renderer *renderer, Checkbox *checkbox) {
 		draw_box(renderer, check_rect);
 
 	if (checkbox->checked) {
-		set_font_color(CLR_BLACK);
-		draw_text(renderer, "V", check_rect->x+3, check_rect->y-1, 2);
+		SDL_RenderTexture(renderer, textures_get(TEX_CHECK), NULL,
+				RECT(check_rect->x, check_rect->y, 20, 20));
 	}
 
 	set_font_color(CLR_WHITE);
