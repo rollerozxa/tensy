@@ -3,9 +3,7 @@
 #include "font.h"
 #include "gui/button.h"
 #include "scene.h"
-
-#include <data/background_stripes.h>
-#include <SDL_QOI/SDL_QOI.h>
+#include "textures.h"
 
 #include <math.h>
 #include <stdio.h>
@@ -20,15 +18,8 @@ static int step = 0;
 static Button play_button = {RECT(245,200,150,40), "Play"};
 static Button settings_button = {RECT(245,260,150,40), "Settings"};
 
-SDL_Texture *texture;
-extern SDL_Renderer* renderer;
-
 void mainmenu_init(void) {
 	step = 0;
-
-	SDL_Surface* imagetest = SDL_LoadQOI_IO(SDL_IOFromMem(background_stripes_qoi, background_stripes_qoi_len));
-	texture = SDL_CreateTextureFromSurface(renderer, imagetest);
-	SDL_SetTextureScaleMode(texture, SDL_SCALEMODE_NEAREST);
 }
 
 void mainmenu_event(const SDL_Event *ev) {
@@ -77,7 +68,7 @@ void mainmenu_draw(SDL_Renderer *renderer) {
 
 	for (int x = -1; x < 20; x++) {
 		for (int y = -1; y < 12; y++) {
-			SDL_RenderTexture(renderer, texture, NULL,
+			SDL_RenderTexture(renderer, textures_get(TEX_BG_STRIPES), NULL,
 				RECT(x*32+bgpan, y*32+bgpan, 32, 32));
 		}
 	}
