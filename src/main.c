@@ -1,12 +1,8 @@
 #include "consts.h"
 #include "debug.h"
-#include "exiting.h"
-#include "game.h"
-#include "mainmenu.h"
 #include "overlay.h"
-#include "pause.h"
 #include "scene.h"
-#include "settings.h"
+#include "scenes.h"
 #include "sound.h"
 #include "textures.h"
 
@@ -51,21 +47,10 @@ SDL_AppResult SDL_AppInit(void **rustptr, int argc, char **argv) {
 
 	SDL_SetRenderVSync(renderer, 1);
 
-	Mix_OpenAudio(0, &(SDL_AudioSpec){SDL_AUDIO_S16, 2, 44100});
-
 	sound_init();
 	textures_init(renderer);
 
-	// First scene needs to be first
-	add_scene((Scene){"mainmenu", mainmenu_init, mainmenu_event, mainmenu_update, mainmenu_draw});
-
-	add_scene((Scene){"game", game_init, game_event, game_update, game_draw});
-
-	add_scene((Scene){"settings", NULL, settings_event, settings_update, settings_draw});
-
-	add_scene((Scene){"exiting", NULL, NULL, exiting_update, NULL});
-
-	add_overlay((Overlay){"pause", NULL, pause_event, NULL, pause_draw});
+	register_scenes();
 
 	run_scene_init();
 

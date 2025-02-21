@@ -11,6 +11,8 @@ static bool sound_loaded = false;
 	sound_bank[id] = Mix_LoadWAV_IO(SDL_IOFromMem(var, var##_len), true)
 
 void sound_init(void) {
+	Mix_OpenAudio(0, &(SDL_AudioSpec){SDL_AUDIO_S16, 2, 44100});
+
 	LOAD_SOUND(SND_CLICK, click_ogg);
 
 	sound_loaded = true;
