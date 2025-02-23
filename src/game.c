@@ -26,6 +26,8 @@ typedef struct {
 
 #define BOARD_SCALE 2
 #define CELL_SIZE (BOARD_SCALE * 10)
+#define FULL_BOARD_WIDTH (BOARD_W * CELL_SIZE)
+#define FULL_BOARD_HEIGHT (BOARD_H * CELL_SIZE)
 
 static Cell board[BOARD_W][BOARD_H];
 
@@ -57,9 +59,8 @@ static void board_physics(void) {
 			continue;
 
 		int src_y = y - 1;
-		while (src_y >= 0 && board[x][src_y].removed) {
+		while (src_y >= 0 && board[x][src_y].removed)
 			src_y--;
-		}
 
 		if (src_y >= 0) {
 			board[x][y].number = board[x][src_y].number;
@@ -92,6 +93,17 @@ static void do_move(void) {
 	score += sum * (removed_cells-1);
 }
 
+static SDL_Point board_to_screen_coord(int x, int y) {
+	SDL_Point point = {
+		(NATIVE_WIDTH-FULL_BOARD_WIDTH) / 2,
+		(NATIVE_HEIGHT-FULL_BOARD_HEIGHT) / 2
+	};
+	point.x += x * CELL_SIZE;
+	point.y += y * CELL_SIZE;
+
+	return point;
+}
+
 void game_init(void) {
 	for (size_t x = 0; x < BOARD_W; x++) {
 	for (size_t y = 0; y < BOARD_H; y++) {
@@ -101,8 +113,8 @@ void game_init(void) {
 }
 
 void game_event(const SDL_Event *ev) {
-	#define CELL_X floorf(ev->motion.x / CELL_SIZE) - 1
-	#define CELL_Y floorf((ev->motion.y - 10) / CELL_SIZE) - 1
+	#define CELL_X (ev->motion.x - (float)(NATIVE_WIDTH-FULL_BOARD_WIDTH) / 2) / CELL_SIZE
+	#define CELL_Y (ev->motion.y - (float)(NATIVE_HEIGHT-FULL_BOARD_HEIGHT) / 2) / CELL_SIZE
 
 	if (has_overlay()) return;
 
@@ -134,14 +146,12 @@ void game_event(const SDL_Event *ev) {
 		held_sum = -1;
 		helddown = false;
 	} else if (ev->type == SDL_EVENT_KEY_UP) {
-		if (ev->key.key == SDLK_AC_BACK) {
+		if (ev->key.key == SDLK_AC_BACK)
 			switch_scene("mainmenu");
-		}
 	}
 
-	if (button_event(ev, &pause_button)) {
+	if (button_event(ev, &pause_button))
 		switch_overlay("pause");
-	}
 }
 
 void game_update(void) {
@@ -156,11 +166,14 @@ void game_draw(SDL_Renderer *renderer) {
 
 	set_font_color((SDL_Color){0xFF, 0xFF, 0xFF});
 
+	SDL_Point first_held_point = board_to_screen_coord(first_held_pos.x,first_held_pos.y);
+	SDL_Point current_held_point = board_to_screen_coord(current_held_pos.x, current_held_pos.y);
+
 	SDL_FRect sel_rect = {
-		fminf((first_held_pos.x + 1) * CELL_SIZE, (current_held_pos.x + 1) * CELL_SIZE),
-		fminf((first_held_pos.y + 1.5) * CELL_SIZE, (current_held_pos.y + 1.5) * CELL_SIZE),
-		abs((current_held_pos.x - first_held_pos.x) * CELL_SIZE) + CELL_SIZE,
-		abs((current_held_pos.y - first_held_pos.y) * CELL_SIZE) + CELL_SIZE
+		fminf(first_held_point.x, current_held_point.x),
+		fminf(first_held_point.y, current_held_point.y),
+		abs(current_held_point.x - first_held_point.x) + CELL_SIZE,
+		abs(current_held_point.y - first_held_point.y) + CELL_SIZE
 	};
 
 	if (first_held_pos.x != -1) {
@@ -176,9 +189,13 @@ void game_draw(SDL_Renderer *renderer) {
 		if (settings()->coloured_numbers)
 			set_font_color(num_to_colour(board[x][y].number));
 
+		SDL_Point point = board_to_screen_coord(x,y);
+		point.x += 3;
+		point.y -= 1;
+
 		if (!board[x][y].removed)
 			draw_char_shadow(renderer, board[x][y].number + '0',
-				3 + (x + 1) * CELL_SIZE, (y + 1.5) * CELL_SIZE - 1, BOARD_SCALE);
+				point.x, point.y, BOARD_SCALE);
 	}}
 
 	if (first_held_pos.x != -1) {
