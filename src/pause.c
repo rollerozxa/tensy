@@ -36,7 +36,7 @@ void pause_draw(SDL_Renderer *renderer) {
 	set_draw_color(renderer, 0x102a63);
 	SDL_RenderFillRect(renderer, &pausebg_rect);
 
-	SDL_Rect text_rect = {pausebg_rect.x, pausebg_rect.y, pausebg_rect.w, 20*2};
+	SDL_FRect text_rect = {pausebg_rect.x, pausebg_rect.y, pausebg_rect.w, 20*2};
 	draw_text_shadow_centered(renderer, "Game paused", &text_rect, 2);
 
 	resume_button.rect->x = pausebg_rect.x + CENTER(pausebg_rect.w, resume_button.rect->w);

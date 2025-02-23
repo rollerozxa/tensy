@@ -1,9 +1,9 @@
 #include "font.h"
 #include "font_bitmap.h"
 
-SDL_Texture* font_tex;
+SDL_Texture *font_tex;
 
-SDL_Texture* load_font(SDL_Renderer *renderer) {
+SDL_Texture *load_font(SDL_Renderer *renderer) {
 	SDL_Surface *surface = SDL_CreateSurface(FONT_WIDTH, FONT_HEIGHT,
 		SDL_GetPixelFormatForMasks(32, 0x00FF0000, 0x0000FF00, 0x000000FF, 0xFF000000));
 
@@ -35,7 +35,7 @@ void set_font_color(SDL_Color clr) {
 	SDL_SetTextureColorMod(font_tex, clr.r, clr.g, clr.b);
 }
 
-void draw_char(SDL_Renderer *renderer, unsigned char character, int cx, int cy, int scale) {
+void draw_char(SDL_Renderer *renderer, unsigned char character, float cx, float cy, float scale) {
 	SDL_Point cell = {
 		(character-32) % (FONT_WIDTH/GLYPH_WIDTH),
 		(character-32) / (FONT_WIDTH/GLYPH_WIDTH)
@@ -50,7 +50,7 @@ void draw_char(SDL_Renderer *renderer, unsigned char character, int cx, int cy, 
 	SDL_RenderTexture(renderer, font_tex, &srcrect, &dstrect);
 }
 
-void draw_char_shadow(SDL_Renderer *renderer, unsigned char character, int cx, int cy, int scale) {
+void draw_char_shadow(SDL_Renderer *renderer, unsigned char character, float cx, float cy, float scale) {
 	SDL_Color temp = get_font_color();
 
 	set_font_color((SDL_Color){0, 0, 0});
@@ -59,27 +59,28 @@ void draw_char_shadow(SDL_Renderer *renderer, unsigned char character, int cx, i
 	draw_char(renderer, character, cx, cy, scale);
 }
 
-void draw_text(SDL_Renderer *renderer, const char* text, int x, int y, int scale) {
-	for (size_t i = 0; text[i] != '\0'; i++) {
+void draw_text(SDL_Renderer *renderer, const char *text, float x, float y, float scale) {
+	for (size_t i = 0; text[i] != '\0'; i++)
 		draw_char(renderer, text[i], x + i * GLYPH_WIDTH * scale, y, scale);
-	}
 }
 
-void draw_text_shadow(SDL_Renderer *renderer, const char *text, int x, int y, int scale) {
-	for (size_t i = 0; text[i] != '\0'; i++) {
-		draw_char_shadow(renderer, text[i], x+i*GLYPH_WIDTH*scale, y, scale);
-	}
+void draw_text_shadow(SDL_Renderer *renderer, const char *text, float x, float y, float scale) {
+	for (size_t i = 0; text[i] != '\0'; i++)
+		draw_char_shadow(renderer, text[i], x + i * GLYPH_WIDTH * scale, y, scale);
 }
 
-void draw_text_shadow_centered(SDL_Renderer *renderer, const char *text, SDL_Rect *rect, int scale) {
-	SDL_Rect text_rect = calculate_text_rect(text, scale);
+void draw_text_shadow_centered(SDL_Renderer *renderer, const char *text, SDL_FRect *rect, float scale) {
+	SDL_FRect text_rect = calculate_text_rect(text, scale);
 
 	draw_text_shadow(renderer, text, rect->x + (rect->w - text_rect.w) / 2, rect->y + (rect->h - text_rect.h) / 2, scale);
 }
 
-SDL_Rect calculate_text_rect(const char* text, int scale) {
-	return ((SDL_Rect){
-		0,0,
-		strlen(text)*GLYPH_WIDTH*scale,
-		GLYPH_HEIGHT*scale});
+SDL_FRect calculate_text_rect(const char *text, float scale) {
+	SDL_FRect rect = {
+		0, 0,
+		strlen(text) * GLYPH_WIDTH * scale,
+		GLYPH_HEIGHT * scale
+	};
+
+	return rect;
 }

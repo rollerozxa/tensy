@@ -1,12 +1,13 @@
 #include "button.h"
 #include "colours.h"
+#include "consts.h"
 #include "font.h"
 #include "mouse.h"
 #include "render.h"
 #include "sound.h"
 
 bool button_event(const SDL_Event *ev, Button *button) {
-	if (SDL_PointInRectFloat(&(SDL_FPoint){ev->motion.x, ev->motion.y}, button->rect)) {
+	if (SDL_PointInRectFloat(POINT(ev->motion.x, ev->motion.y), button->rect)) {
 		if (ev->type == SDL_EVENT_MOUSE_BUTTON_DOWN) {
 			button->_held = true;
 		} else if (ev->type == SDL_EVENT_MOUSE_BUTTON_UP && button->_held) {
@@ -35,7 +36,7 @@ void button(SDL_Renderer *renderer, Button *button) {
 	} else
 		draw_box(renderer, button->rect);
 
-	SDL_Rect text_rect = calculate_text_rect(text, 2);
+	SDL_FRect text_rect = calculate_text_rect(text, 2);
 
 	set_font_color(CLR_WHITE);
 	draw_text_shadow(renderer, text, rect->x+(rect->w-(float)text_rect.w)/2, rect->y+(rect->h-(float)text_rect.h)/2, 2);

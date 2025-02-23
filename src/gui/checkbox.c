@@ -7,8 +7,8 @@
 #include "textures.h"
 
 #define CALCULATE_RECTS() \
-	SDL_Rect label_rect = calculate_text_rect(label, 2); \
-	SDL_FRect *check_rect = &((SDL_FRect){pos->x+2, pos->y+2, 20, 20}); \
+	SDL_FRect label_rect = calculate_text_rect(label, 2); \
+	SDL_FRect *check_rect = RECT(pos->x+2, pos->y+2, 20, 20); \
 	SDL_FRect full_rect = {pos->x, pos->y, 24+26+label_rect.w, label_rect.h}
 
 bool checkbox_event(const SDL_Event *ev, Checkbox *checkbox) {
@@ -18,7 +18,7 @@ bool checkbox_event(const SDL_Event *ev, Checkbox *checkbox) {
 	CALCULATE_RECTS();
 
 	if (ev->type == SDL_EVENT_MOUSE_BUTTON_UP
-			&& SDL_PointInRectFloat(&(SDL_FPoint){ev->motion.x, ev->motion.y}, &full_rect)) {
+			&& SDL_PointInRectFloat(POINT(ev->motion.x, ev->motion.y), &full_rect)) {
 		checkbox->checked = !checkbox->checked;
 		return true;
 	}
