@@ -7,7 +7,7 @@ typedef struct {
 	bool coloured_numbers;
 } Settings;
 
-Settings* settings(void);
+Settings *settings(void);
 
 void settings_event(const SDL_Event *ev);
 void settings_update(void);

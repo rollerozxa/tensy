@@ -95,8 +95,8 @@ static void do_move(void) {
 
 static SDL_Point board_to_screen_coord(int x, int y) {
 	SDL_Point point = {
-		(NATIVE_WIDTH-FULL_BOARD_WIDTH) / 2,
-		(NATIVE_HEIGHT-FULL_BOARD_HEIGHT) / 2
+		(NATIVE_WIDTH - FULL_BOARD_WIDTH) / 2,
+		(NATIVE_HEIGHT - FULL_BOARD_HEIGHT) / 2
 	};
 	point.x += x * CELL_SIZE;
 	point.y += y * CELL_SIZE;
@@ -113,8 +113,8 @@ void game_init(void) {
 }
 
 void game_event(const SDL_Event *ev) {
-	#define CELL_X (ev->motion.x - (float)(NATIVE_WIDTH-FULL_BOARD_WIDTH) / 2) / CELL_SIZE
-	#define CELL_Y (ev->motion.y - (float)(NATIVE_HEIGHT-FULL_BOARD_HEIGHT) / 2) / CELL_SIZE
+	#define CELL_X (ev->motion.x - (float)(NATIVE_WIDTH - FULL_BOARD_WIDTH) / 2) / CELL_SIZE
+	#define CELL_Y (ev->motion.y - (float)(NATIVE_HEIGHT - FULL_BOARD_HEIGHT) / 2) / CELL_SIZE
 
 	if (has_overlay()) return;
 
@@ -123,7 +123,7 @@ void game_event(const SDL_Event *ev) {
 		int cy = CELL_Y;
 
 		if (SDL_clamp(cx, 0, BOARD_W-1) == cx && SDL_clamp(cy, 0, BOARD_H-1) == cy) {
-			first_held_pos = (struct SDL_Point){cx,cy};
+			first_held_pos = (struct SDL_Point){cx, cy};
 			current_held_pos = first_held_pos;
 			helddown = true;
 		}

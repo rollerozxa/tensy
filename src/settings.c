@@ -13,7 +13,7 @@ static Settings settings_data = {
 	false,
 };
 
-Settings* settings(void) {
+Settings *settings(void) {
 	return &settings_data;
 }
 

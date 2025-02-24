@@ -4,7 +4,7 @@
 
 #include <SDL3_mixer/SDL_mixer.h>
 
-static Mix_Chunk* sound_bank[100];
+static Mix_Chunk *sound_bank[100];
 static bool sound_loaded = false;
 
 #define LOAD_SOUND(id, var) \

@@ -24,12 +24,11 @@ bool slider_event(const SDL_Event *ev, Slider *slider) {
 			calculate_handle_pos(ev, slider);
 		}
 	} else if (ev->type == SDL_EVENT_MOUSE_MOTION) {
-		if (slider->_dragging) {
+		if (slider->_dragging)
 			calculate_handle_pos(ev, slider);
-		}
-	} else if (ev->type == SDL_EVENT_MOUSE_BUTTON_UP) {
+
+	} else if (ev->type == SDL_EVENT_MOUSE_BUTTON_UP)
 		slider->_dragging = false;
-	}
 
 	return false;
 }

@@ -5,7 +5,7 @@
 
 #include <SDL_QOI/SDL_QOI.h>
 
-static SDL_Texture* texture_bank[100];
+static SDL_Texture *texture_bank[100];
 static bool textures_loaded = false;
 
 #define LOAD_TEX(id, data, len) \

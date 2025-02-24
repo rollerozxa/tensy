@@ -10,10 +10,8 @@ static Button resume_button = (Button){RECT(0, 0, 150, 40), "Resume"};
 static Button exit_button = (Button){RECT(0, 0, 150, 40), "Exit"};
 
 void pause_event(const SDL_Event *ev) {
-	if (button_event(ev, &resume_button)) {
+	if (button_event(ev, &resume_button))
 		hide_overlay();
-
-	}
 
 	if (button_event(ev, &exit_button)) {
 		hide_overlay();
@@ -27,8 +25,8 @@ void pause_draw(SDL_Renderer *renderer) {
 
 	SDL_FRect pausebg_rect = {
 		0, 0,
-		20*10,
-		20*12,
+		20 * 10,
+		20 * 12,
 	};
 	pausebg_rect.x = (NATIVE_WIDTH - pausebg_rect.w) / 2;
 	pausebg_rect.y = (NATIVE_HEIGHT - pausebg_rect.h) / 2;

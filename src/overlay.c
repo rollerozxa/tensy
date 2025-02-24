@@ -16,7 +16,7 @@ int add_overlay(Overlay overlay) {
 	return 1;
 }
 
-int switch_overlay(const char* name) {
+int switch_overlay(const char *name) {
 	for (size_t i = 0; i < MAX_OVERLAYS; i++) {
 		if (strcmp(name, overlays[i].name) == 0) {
 			current_overlay = i;

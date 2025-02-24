@@ -19,7 +19,7 @@ SDL_Window *window;
 SDL_Renderer *renderer;
 
 SDL_AppResult SDL_AppInit(void **rustptr, int argc, char **argv) {
-	const char* exedir = SDL_GetBasePath();
+	const char *exedir = SDL_GetBasePath();
 	chdir(exedir);
 
 	SDL_srand(0);

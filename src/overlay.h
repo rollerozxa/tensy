@@ -3,18 +3,18 @@
 #include <SDL3/SDL.h>
 
 typedef struct {
-	const char* name;
+	const char *name;
 	void (*init)(void);
-	void (*event)(const SDL_Event*);
+	void (*event)(const SDL_Event *);
 	void (*update)(void);
-	void (*draw)(SDL_Renderer*);
+	void (*draw)(SDL_Renderer *);
 } Overlay;
 
 #define MAX_OVERLAYS 10
 
 int add_overlay(Overlay overlay);
 
-int switch_overlay(const char* name);
+int switch_overlay(const char *name);
 
 void hide_overlay(void);
 bool has_overlay(void);

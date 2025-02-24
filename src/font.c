@@ -54,7 +54,7 @@ void draw_char_shadow(SDL_Renderer *renderer, unsigned char character, float cx,
 	SDL_Color temp = get_font_color();
 
 	set_font_color((SDL_Color){0, 0, 0});
-	draw_char(renderer, character, cx+scale, cy+scale, scale);
+	draw_char(renderer, character, cx + scale, cy + scale, scale);
 	set_font_color(temp);
 	draw_char(renderer, character, cx, cy, scale);
 }

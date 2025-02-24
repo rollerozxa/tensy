@@ -7,7 +7,6 @@ bool exiting = false;
 void exiting_update(void) {
 	timeout++;
 
-	if (timeout > 30) {
+	if (timeout > 30)
 		exiting = true;
-	}
 }

@@ -22,7 +22,7 @@ static int trans_step = 0;
 static int trans_to = -1;
 static int trans_alpha = 0;
 
-int switch_scene(const char* name) {
+int switch_scene(const char *name) {
 	if (trans)
 		return 2;
 
@@ -62,11 +62,10 @@ void run_scene_draw(SDL_Renderer *renderer) {
 void perform_scene_transition(SDL_Renderer *renderer) {
 	if (!trans) return;
 
-	if (trans_step < 25) {
+	if (trans_step < 25)
 		trans_alpha += 10;
-	} else {
+	else
 		trans_alpha -= 10;
-	}
 
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, trans_alpha);
 
@@ -79,7 +78,6 @@ void perform_scene_transition(SDL_Renderer *renderer) {
 		current_scene = trans_to;
 
 		run_scene_init();
-	} else if (trans_step == 50) {
+	} else if (trans_step == 50)
 		trans = false;
-	}
 }
