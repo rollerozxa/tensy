@@ -26,6 +26,8 @@ SDL_AppResult SDL_AppInit(void **rustptr, int argc, char **argv) {
 
 	SDL_SetHint(SDL_HINT_VITA_TOUCH_MOUSE_DEVICE, "0");
 
+	SDL_SetAppMetadata("Tensy", NULL, "se.voxelmanip.tensy");
+
 	SDL_Init(SDL_INIT_VIDEO);
 
 	SDL_CreateWindowAndRenderer(
