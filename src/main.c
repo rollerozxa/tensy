@@ -67,6 +67,12 @@ SDL_AppResult SDL_AppEvent(void *rustptr, SDL_Event *ev) {
 		return SDL_APP_CONTINUE;
 	}
 
+	static bool is_fullscreen = false;
+	if (ev->type == SDL_EVENT_KEY_DOWN && ev->key.scancode == SDL_SCANCODE_F11 && !ev->key.repeat) {
+		is_fullscreen = !is_fullscreen;
+		SDL_SetWindowFullscreen(window, is_fullscreen);
+	}
+
 	SDL_ConvertEventToRenderCoordinates(renderer, ev);
 
 	run_scene_event(ev);
