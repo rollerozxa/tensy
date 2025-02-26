@@ -5,11 +5,15 @@
 #include "render.h"
 #include <stdio.h>
 
-void calculate_handle_pos(const SDL_Event *ev, Slider *slider) {
+bool calculate_handle_pos(const SDL_Event *ev, Slider *slider) {
 	slider->_pos = ev->motion.x - slider->rect->x - ((float)slider->_handle_width/2);
 	slider->_pos = SDL_clamp(slider->_pos, 0, slider->rect->w - slider->_handle_width);
 
+	int old_value = slider->value;
+
 	slider->value = slider->min + SDL_round(slider->_pos / ((slider->rect->w - slider->_handle_width) / (slider->max - slider->min)));
+
+	return old_value != slider->value;
 
 	// Trying to make it snap to each integer value...
 	//slider->_pos = SDL_round(slider->_pos / ((slider->rect->w - slider->_handle_width) / (slider->max-slider->min)));
@@ -21,11 +25,11 @@ bool slider_event(const SDL_Event *ev, Slider *slider) {
 	if (ev->type == SDL_EVENT_MOUSE_BUTTON_DOWN) {
 		if (SDL_PointInRectFloat(&(SDL_FPoint){ev->motion.x, ev->motion.y}, slider->rect)) {
 			slider->_dragging = true;
-			calculate_handle_pos(ev, slider);
+			return calculate_handle_pos(ev, slider);
 		}
 	} else if (ev->type == SDL_EVENT_MOUSE_MOTION) {
 		if (slider->_dragging)
-			calculate_handle_pos(ev, slider);
+			return calculate_handle_pos(ev, slider);
 
 	} else if (ev->type == SDL_EVENT_MOUSE_BUTTON_UP)
 		slider->_dragging = false;
