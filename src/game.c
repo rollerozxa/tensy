@@ -1,4 +1,5 @@
 #include "game.h"
+#include "board.h"
 #include "consts.h"
 #include "colours.h"
 #include "font.h"
@@ -10,23 +11,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-
-typedef struct {
-	int number;
-	bool removed;
-} Cell;
-
-typedef struct {
-	Cell **p;
-	int w;
-	int h;
-	float scale;
-	float cell_size;
-	float full_width;
-	float full_height;
-} Board;
-
-static Board board = {NULL, 20, 10, 2.5};
 
 static bool helddown = false;
 static SDL_Point first_held_pos = {-1,-1};
@@ -90,35 +74,9 @@ static void do_move(void) {
 	score += sum * (removed_cells-1);
 }
 
-static SDL_Point board_to_screen_coord(int x, int y) {
-	SDL_Point point = {
-		(NATIVE_WIDTH - board.full_width) / 2,
-		(NATIVE_HEIGHT - board.full_height) / 2
-	};
-	point.x += x * board.cell_size;
-	point.y += y * board.cell_size;
-
-	return point;
-}
-
-static void board_create() {
-	board.p = malloc(sizeof(Cell *) * board.w);
-	board.cell_size = board.scale * 10;
-	board.full_width = board.w * board.cell_size;
-	board.full_height = board.h * board.cell_size;
-
-	for (size_t x = 0; x < board.w; x++) {
-		board.p[x] = malloc(sizeof(Cell) * board.h);
-
-		for (size_t y = 0; y < board.h; y++) {
-			board.p[x][y].number = SDL_rand(9) + 1;
-			board.p[x][y].removed = false;
-		}
-	}
-}
-
 void game_init(void) {
-	board_create();
+	board_change_size(board.w, board.h, board.scale);
+	board_reset();
 }
 
 void game_event(const SDL_Event *ev) {
@@ -164,7 +122,6 @@ void game_event(const SDL_Event *ev) {
 }
 
 void game_update(void) {
-
 
 }
 
