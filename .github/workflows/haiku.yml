@@ -20,7 +20,7 @@ jobs:
 
       - name: Build Tensy
         run: |
-          ./packaging/build-haiku.sh
+          ./packaging/build.sh haiku
         env:
           CC: x86_64-unknown-haiku-gcc
           CXX: x86_64-unknown-haiku-g++

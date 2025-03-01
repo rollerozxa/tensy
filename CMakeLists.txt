@@ -33,9 +33,13 @@ file(GLOB SRCS
 	lib/SDL_QOI/*.c
 )
 
+if(NOT VITA)
+	set(CMAKE_EXE_LINKER_FLAGS_RELEASE "-Wl,-s")
+endif()
+
 if(WIN32)
 	set(SRCS ${SRCS} packaging/tensy.rc)
-	set(CMAKE_EXE_LINKER_FLAGS_RELEASE "-mwindows -Wl,-s")
+	set(CMAKE_EXE_LINKER_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -mwindows")
 endif()
 
 if(ANDROID)
@@ -61,6 +65,23 @@ if(VITA)
 		FILE packaging/vita/startup.png sce_sys/livearea/contents/startup.png
 		FILE packaging/vita/template.xml sce_sys/livearea/contents/template.xml
 	)
+	install(FILES "${CMAKE_BINARY_DIR}/tensy.vpk" DESTINATION .)
+endif()
+
+if(APPLE)
+	set(BUNDLE_PATH "${PROJECT_NAME}.app/Contents")
+
+	install(FILES "packaging/tensy.icns" DESTINATION "${BUNDLE_PATH}/Resources")
+	install(FILES "packaging/Info.plist" DESTINATION "${BUNDLE_PATH}")
+	install(FILES "packaging/PkgInfo" DESTINATION "${BUNDLE_PATH}")
+	install(TARGETS ${PROJECT_NAME} DESTINATION "${BUNDLE_PATH}/MacOS")
+elseif(NOT VITA)
+	if(EMSCRIPTEN)
+		install(FILES "packaging/index.html" DESTINATION .)
+		install(FILES ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.wasm DESTINATION .)
+	endif()
+
+	install(TARGETS ${PROJECT_NAME} DESTINATION .)
 endif()
 
 # Generate embedded data files as header files to be included

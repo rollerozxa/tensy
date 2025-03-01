@@ -20,7 +20,7 @@ jobs:
 
       - name: Build Tensy
         run: |
-          ./packaging/build-macos.sh
+          ./packaging/build.sh macos
 
       - name: Upload output as artifact
         uses: actions/upload-artifact@v4

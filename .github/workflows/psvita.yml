@@ -19,7 +19,7 @@ jobs:
 
       - name: Build Tensy
         run: |
-          ./packaging/build-vita.sh
+          ./packaging/build.sh vita
 
       - name: Upload output as artifact
         uses: actions/upload-artifact@v4
