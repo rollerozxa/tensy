@@ -10,26 +10,9 @@ if [ ! -f /tmp/appimagetool ]; then
 	chmod +x /tmp/appimagetool
 fi
 
-build_sdl() {
-	get_tar_archive SDL3 "${SDL3_url}"
-
-	mk_build_dir
-	cmake .. "${CMAKE_FLAGS[@]}" "${SDL_FLAGS[@]}" \
-		-DSDL_{HIDAPI,OPENGLES,WAYLAND}=OFF
-	dep_ninja_install
-}
-
-build_sdl_mixer() {
-	get_tar_archive SDL3_mixer "${SDL3_mixer_url}"
-
-	mk_build_dir
-	cmake .. "${CMAKE_FLAGS[@]}" "${SDL_MIXER_FLAGS[@]}"
-	dep_ninja_install
-}
-
 build_game() {
 	mk_build_dir
-	cmake "$SRCDIR" "${CMAKE_FLAGS[@]}" "${GAME_FLAGS[@]}"
+	cmake "$SRCDIR" "${CMAKE_FLAGS[@]}"
 	ninja
 
 	strip -s tensy
@@ -46,7 +29,5 @@ build_appimage() {
 	mv *.AppImage bin/
 }
 
-build sdl
-build sdl_mixer
 build game
 build appimage

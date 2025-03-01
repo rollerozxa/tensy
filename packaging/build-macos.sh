@@ -9,26 +9,9 @@ CMAKE_FLAGS+=(
 	-DCMAKE_OSX_DEPLOYMENT_TARGET=10.11
 )
 
-build_sdl() {
-	get_tar_archive SDL3 "${SDL3_url}"
-
-	mk_build_dir
-	cmake .. "${CMAKE_FLAGS[@]}" "${SDL_FLAGS[@]}" \
-		-DSDL_OPENGLES=OFF
-	dep_ninja_install
-}
-
-build_sdl_mixer() {
-	get_tar_archive SDL3_mixer "${SDL3_mixer_url}"
-
-	mk_build_dir
-	cmake .. "${CMAKE_FLAGS[@]}" "${SDL_MIXER_FLAGS[@]}"
-	dep_ninja_install
-}
-
 build_game() {
 	mk_build_dir
-	cmake "$SRCDIR" "${CMAKE_FLAGS[@]}" "${GAME_FLAGS[@]}"
+	cmake "$SRCDIR" "${CMAKE_FLAGS[@]}"
 	ninja
 
 	strip tensy
@@ -47,7 +30,5 @@ build_create_bundle() {
 	mv "${BINDIR}/tensy" MacOS/
 }
 
-build sdl
-build sdl_mixer
 build game
 build create_bundle

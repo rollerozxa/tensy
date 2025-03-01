@@ -1,7 +1,6 @@
 cmake_minimum_required(VERSION 3.14)
 project(tensy C)
 set(CMAKE_C_STANDARD 99)
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/")
 
 if (NOT CMAKE_BUILD_TYPE)
 	message(STATUS "No build type selected, default to Release")
@@ -9,13 +8,18 @@ if (NOT CMAKE_BUILD_TYPE)
 endif()
 
 if(ANDROID)
-	set(SDL3_DIR "android/deps/${ANDROID_ABI}/lib/cmake/SDL3")
-	set(SDL3_mixer_DIR "android/deps/${ANDROID_ABI}/lib/cmake/SDL3_mixer")
 	set(EXTRA_LIBRARIES -lGLESv1_CM -lGLESv2 -lOpenSLES -llog -landroid)
 endif()
 
-find_package(SDL3 REQUIRED)
-find_package(SDL3_mixer REQUIRED)
+option(USE_VENDORED_LIBS "Build with vendored libraries for SDL and such" FALSE)
+
+if(USE_VENDORED_LIBS)
+	include(cmake/SDL.cmake)
+	include(cmake/SDL_mixer.cmake)
+else()
+	find_package(SDL3 REQUIRED)
+	find_package(SDL3_mixer REQUIRED)
+endif()
 
 include_directories(
 	src/
@@ -60,7 +64,7 @@ if(VITA)
 endif()
 
 # Generate embedded data files as header files to be included
-include(GenerateDataFiles)
+include(cmake/GenerateDataFiles.cmake)
 generate_data_files()
 add_custom_target(generate_data DEPENDS ${GENERATED_DATA_HEADERS})
 add_dependencies(${PROJECT_NAME} generate_data)

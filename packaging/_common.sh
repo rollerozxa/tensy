@@ -1,10 +1,5 @@
 #!/bin/bash -eu
 
-SDL3_tag=release-3.2.0
-SDL3_url="https://github.com/libsdl-org/SDL/archive/${SDL3_tag}.tar.gz"
-SDL3_mixer_tag=af6a29df4e14c6ce72608b3ccd49cf35e1014255
-SDL3_mixer_url="https://github.com/libsdl-org/SDL_mixer/archive/${SDL3_mixer_tag}.tar.gz"
-
 build() {
 	echo "Building $1..."
 
@@ -13,24 +8,9 @@ build() {
 	popd || exit
 }
 
-get_tar_archive() {
-	# $1: folder to extract to, $2: URL
-	local filename="${2##*/}"
-
-	wget -nc -c "$2" -O "../$filename" || echo 'ok, reusing archive'
-	mkdir -p "$1"
-	tar -xf "../$filename" -C "$1" --strip-components=1
-	cd "$1" || exit
-}
-
 mk_build_dir() {
 	mkdir -p build
 	cd build || exit
-}
-
-dep_ninja_install() {
-	ninja
-	DESTDIR="$BUILDDIR/deps" ninja install
 }
 
 SRCDIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )/.." && pwd )"
@@ -58,12 +38,6 @@ elif [ $TARGET == 'win' ]; then
 		BINDIR="${SRCDIR}/packaging/bin/win64"
 		CCPREFIX=x86_64-w64-mingw32
 	fi
-elif [ $TARGET == 'android' ]; then
-	BUILDDIR="/tmp/tensy/android"
-	BINDIR="${SRCDIR}/android/deps"
-
-	ANDROID_ABIS=("arm64-v8a" "armeabi-v7a" "x86_64")
-	ANDROID_API=21
 elif [ $TARGET == 'macos' ]; then
 	BUILDDIR="/tmp/tensy/macos"
 	BINDIR="${SRCDIR}/packaging/bin/macos"
@@ -81,27 +55,7 @@ mkdir -p "$BINDIR"
 
 CMAKE_FLAGS=(
 	-GNinja
-	-DCMAKE_BUILD_TYPE=Release
-	-DCMAKE_INSTALL_PREFIX=
+	-DUSE_VENDORED_LIBS=1
 )
 
-SDL3_DIR=(-DSDL3_DIR="${BUILDDIR}/deps/lib/cmake/SDL3")
-SDL3_MIXER_DIR=(-DSDL3_mixer_DIR="${BUILDDIR}/deps/lib/cmake/SDL3_mixer")
-
-# Common SDL flags for most platforms
-SDL_FLAGS=(
-	-DSDL_SHARED=OFF -DSDL_STATIC=ON
-	-DCMAKE_C_FLAGS="-DSDL_LEAN_AND_MEAN=1"
-	-DSDL_{CAMERA,GPU,HAPTIC,JOYSTICK,POWER,SENSOR,TESTS,VULKAN}=OFF
-)
-
-SDL_MIXER_FLAGS=(
-	"${SDL3_DIR}"
-	-DBUILD_SHARED_LIBS=OFF
-	-DSDLMIXER_{GME,MOD,MIDI,OPUS,FLAC,MP3,WAVE,WAVPACK,SAMPLES}=OFF
-)
-
-GAME_FLAGS=(
-	"${SDL3_DIR}"
-	"${SDL3_MIXER_DIR}"
-)
+source "${SRCDIR}/packaging/dl-deps.sh"
