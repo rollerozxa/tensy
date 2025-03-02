@@ -30,8 +30,9 @@ jobs:
           cd android
           gradle assemblerelease
 
-      - name: Upload output as artifact
-        uses: actions/upload-artifact@v4
+      - name: Upload output
+        uses: ./.github/actions/upload-output
         with:
-          name: tensy-android
-          path: android/app/build/outputs/apk/release/app-release-unsigned.apk
+          file: android/app/build/outputs/apk/release/app-release-unsigned.apk
+          name: tensy-android-unsigned.apk
+          repo_token: ${{ secrets.GITHUB_TOKEN }}

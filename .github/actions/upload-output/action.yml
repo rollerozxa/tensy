@@ -1,0 +1,31 @@
+name: Upload output
+description: Uploads output both as an artifact and to a rolling release tag
+inputs:
+  file:
+    description: "Path to the file to upload"
+    required: true
+  name:
+    description: "Name of the file for uploading artifact and to release"
+    required: true
+  repo_token:
+    description: "Repo token for authentication"
+    required: true
+runs:
+  using: "composite"
+  steps:
+    - name: Upload Artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ inputs.name }}
+        path: ${{ inputs.file }}
+
+    - name: Upload to Release
+      if: github.ref == 'refs/heads/master'
+      uses: svenstaro/upload-release-action@v2
+      with:
+        file: ${{ inputs.file }}
+        asset_name: ${{ inputs.name }}
+        tag: rolling
+        prerelease: true
+        overwrite: true
+        repo_token: ${{ inputs.repo_token }}

@@ -28,8 +28,9 @@ jobs:
         run: |
           ./packaging/build.sh win ${{ matrix.bits }}
 
-      - name: Upload output as artifact
-        uses: actions/upload-artifact@v4
+      - name: Upload output
+        uses: ./.github/actions/upload-output
         with:
-          name: tensy-win-${{ matrix.bits }}
-          path: packaging/bin/win${{ matrix.bits }}/tensy.exe
+          file: packaging/bin/win${{ matrix.bits }}/tensy.exe
+          name: tensy-win${{ matrix.bits }}.exe
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
