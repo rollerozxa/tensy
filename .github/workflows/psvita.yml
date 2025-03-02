@@ -21,8 +21,9 @@ jobs:
         run: |
           ./packaging/build.sh vita
 
-      - name: Upload output as artifact
-        uses: actions/upload-artifact@v4
+      - name: Upload output
+        uses: ./.github/actions/upload-output
         with:
-          name: tensy-vita
-          path: packaging/bin/vita/tensy.vpk
+          file: packaging/bin/vita/tensy.vpk
+          name: tensy-vita.vpk
+          repo_token: ${{ secrets.GITHUB_TOKEN }}

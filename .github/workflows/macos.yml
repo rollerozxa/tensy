@@ -16,14 +16,16 @@ jobs:
           export HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=1
           export HOMEBREW_NO_INSTALL_CLEANUP=1
           brew update --auto-update
-          brew install cmake ninja
+          brew install cmake ninja zip
 
       - name: Build Tensy
         run: |
           ./packaging/build.sh macos
+          cd packaging/bin/macos && zip -r ../tensy-macos.zip -- tensy.app
 
-      - name: Upload output as artifact
-        uses: actions/upload-artifact@v4
+      - name: Upload output
+        uses: ./.github/actions/upload-output
         with:
-          name: tensy-macos
-          path: packaging/bin/macos/
+          file: packaging/bin/tensy-macos.zip
+          name: tensy-macos.zip
+          repo_token: ${{ secrets.GITHUB_TOKEN }}

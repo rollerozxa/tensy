@@ -23,8 +23,16 @@ jobs:
         run: |
           ./packaging/build.sh linux
 
-      - name: Upload output as artifact
-        uses: actions/upload-artifact@v4
+      - name: Upload output
+        uses: ./.github/actions/upload-output
         with:
-          name: tensy-lin-64
-          path: packaging/bin/Tensy-x86_64.AppImage
+          file: packaging/bin/lin64/tensy
+          name: tensy-linux-x64
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Upload output
+        uses: ./.github/actions/upload-output
+        with:
+          file: packaging/bin/Tensy-x86_64.AppImage
+          name: tensy-x86_64.AppImage
+          repo_token: ${{ secrets.GITHUB_TOKEN }}

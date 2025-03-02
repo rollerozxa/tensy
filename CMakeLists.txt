@@ -39,7 +39,7 @@ endif()
 
 if(WIN32)
 	set(SRCS ${SRCS} packaging/tensy.rc)
-	set(CMAKE_EXE_LINKER_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} -mwindows")
+	set(CMAKE_EXE_LINKER_FLAGS_RELEASE "${CMAKE_EXE_LINKER_FLAGS_RELEASE} -mwindows")
 endif()
 
 if(ANDROID)
