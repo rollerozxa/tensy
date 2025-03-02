@@ -6,11 +6,17 @@ on:
 
 jobs:
   linux:
-    name: AppImage
-    runs-on: ubuntu-latest
+    name: AppImage (${{ matrix.arch }})
+    runs-on: ${{ matrix.runner }}
+    strategy:
+      matrix:
+        include:
+          - arch: x86_64
+            runner: ubuntu-latest
+          - arch: aarch64
+            runner: ubuntu-24.04-arm
     container:
       image: debian:bullseye
-      env: { LANG: "C.UTF-8" }
     steps:
       - uses: actions/checkout@v4
 
@@ -21,18 +27,18 @@ jobs:
 
       - name: Build Tensy
         run: |
-          ./packaging/build.sh linux
+          ./packaging/build.sh linux ${{ matrix.arch }}
 
       - name: Upload output
         uses: ./.github/actions/upload-output
         with:
-          file: packaging/bin/lin64/tensy
-          name: tensy-linux-x64
+          file: packaging/bin/lin_${{ matrix.arch }}/tensy
+          name: tensy-linux-${{ matrix.arch }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
 
       - name: Upload output
         uses: ./.github/actions/upload-output
         with:
-          file: packaging/bin/Tensy-x86_64.AppImage
-          name: tensy-x86_64.AppImage
+          file: packaging/bin/Tensy-${{ matrix.arch }}.AppImage
+          name: tensy-${{ matrix.arch }}.AppImage
           repo_token: ${{ secrets.GITHUB_TOKEN }}

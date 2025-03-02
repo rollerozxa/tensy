@@ -9,7 +9,6 @@ jobs:
     name: "${{ matrix.bits }}-bit"
     runs-on: ubuntu-latest
     strategy:
-      fail-fast: false
       matrix:
         bits: [32, 64, arm64]
     steps:
