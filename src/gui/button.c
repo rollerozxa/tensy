@@ -17,6 +17,10 @@ bool button_event(const SDL_Event *ev, Button *button) {
 		}
 	}
 
+	if (ev->type == SDL_EVENT_MOUSE_BUTTON_UP && button->_held) {
+		button->_held = false;
+	}
+
 	return false;
 }
 
