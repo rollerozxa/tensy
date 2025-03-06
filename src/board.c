@@ -12,8 +12,13 @@ void board_change_size(int w, int h, float scale) {
 	board.h = h;
 	board.scale = scale;
 	board.cell_size = board.scale * 10;
-	board.full_width = board.w * board.cell_size;
-	board.full_height = board.h * board.cell_size;
+
+	board.rect = (SDL_FRect){0,0,0,0};
+	board.rect.w = board.w * board.cell_size;
+	board.rect.h = board.h * board.cell_size;
+	board.rect.x = (NATIVE_WIDTH - board.rect.w) / 2;
+	board.rect.y = (NATIVE_HEIGHT - board.rect.h) / 2;
+	
 	board_reset();
 }
 
@@ -45,8 +50,8 @@ void board_reset(void) {
 
 SDL_Point board_to_screen_coord(int x, int y) {
 	SDL_Point point = {
-		(NATIVE_WIDTH - board.full_width) / 2,
-		(NATIVE_HEIGHT - board.full_height) / 2
+		board.rect.x,
+		board.rect.y
 	};
 	point.x += x * board.cell_size;
 	point.y += y * board.cell_size;

@@ -4,7 +4,9 @@
 #include "colours.h"
 #include "font.h"
 #include "gui/button.h"
+#include "mouse.h"
 #include "overlay.h"
+#include "render.h"
 #include "settings.h"
 #include "scene.h"
 
@@ -75,13 +77,18 @@ static void do_move(void) {
 }
 
 void game_init(void) {
+	helddown = false;
+
+	first_held_pos = (SDL_Point){-1,-1};
+	current_held_pos = (SDL_Point){-1,-1};
+
 	board_change_size(board.w, board.h, board.scale);
 	board_reset();
 }
 
 void game_event(const SDL_Event *ev) {
-	#define CELL_X (ev->motion.x - (float)(NATIVE_WIDTH - board.full_width) / 2) / board.cell_size
-	#define CELL_Y (ev->motion.y - (float)(NATIVE_HEIGHT - board.full_height) / 2) / board.cell_size
+	#define CELL_X (ev->motion.x - board.rect.x) / board.cell_size
+	#define CELL_Y (ev->motion.y - board.rect.y) / board.cell_size
 
 	if (has_overlay()) return;
 
@@ -89,7 +96,7 @@ void game_event(const SDL_Event *ev) {
 		int cx = CELL_X;
 		int cy = CELL_Y;
 
-		if (SDL_clamp(cx, 0, board.w-1) == cx && SDL_clamp(cy, 0, board.h-1) == cy) {
+		if (SDL_PointInRectFloat(POINT(ev->motion.x, ev->motion.y), &board.rect)) {
 			first_held_pos = (struct SDL_Point){cx, cy};
 			current_held_pos = first_held_pos;
 			helddown = true;
@@ -107,8 +114,8 @@ void game_event(const SDL_Event *ev) {
 	} else if (ev->type == SDL_EVENT_MOUSE_BUTTON_UP) {
 		do_move();
 
-		first_held_pos = (struct SDL_Point){-1,-1};
-		current_held_pos = (struct SDL_Point){-1,-1};
+		first_held_pos = (SDL_Point){-1,-1};
+		current_held_pos = (SDL_Point){-1,-1};
 
 		held_sum = -1;
 		helddown = false;
@@ -142,7 +149,7 @@ void game_draw(SDL_Renderer *renderer) {
 		abs(current_held_point.y - first_held_point.y) + board.cell_size
 	};
 
-	if (first_held_pos.x != -1) {
+	if (helddown) {
 		if (held_sum == 10) {
 			SDL_SetRenderDrawColor(renderer, 0x00, 0xA0, 0x00, 0xFF);
 
@@ -164,7 +171,7 @@ void game_draw(SDL_Renderer *renderer) {
 				point.x, point.y, board.scale);
 	}}
 
-	if (first_held_pos.x != -1) {
+	if (helddown) {
 		SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
 		SDL_RenderRect(renderer, &sel_rect);
 	}

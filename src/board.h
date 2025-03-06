@@ -14,8 +14,7 @@ typedef struct {
 	int h;
 	float scale;
 	float cell_size;
-	float full_width;
-	float full_height;
+	SDL_FRect rect;
 } Board;
 
 extern Board board;
