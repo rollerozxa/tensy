@@ -55,7 +55,7 @@ void mainmenu_draw(SDL_Renderer *renderer) {
 	set_font_color((SDL_Color){0xFF, 0xFF, 0xFF});
 
 	for (size_t i = 0; title[i] != '\0'; i++) {
-		const int y = 20+sin(SDL_GetTicks()/400.0+i)*16;
+		const float y = 20+sin(SDL_GetTicks()/400.0+i)*16;
 
 		draw_char_shadow(renderer, title[i], 190+i*GLYPH_WIDTH*8, y, 8);
 	}
