@@ -7,8 +7,6 @@
 #include "textures.h"
 
 #include <SDL3/SDL.h>
-#include <SDL3_mixer/SDL_mixer.h>
-#include <stdbool.h>
 #include <stdio.h>
 #include <unistd.h>
 
@@ -38,7 +36,7 @@ SDL_AppResult SDL_AppInit(void **rustptr, int argc, char **argv) {
 	if (!window || !renderer) {
 		char msg[1024];
 		snprintf(msg, 1023, "Failed to start the game. Error: %s", SDL_GetError());
-		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Game", msg, NULL);
+		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Tensy", msg, NULL);
 	}
 
 #if defined(__ANDROID__) || defined(__vita__)

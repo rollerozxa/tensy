@@ -12,8 +12,6 @@
 #define BOARD_W 30
 #define BOARD_H 16
 
-static int temp_board[BOARD_W][BOARD_H];
-
 static Button play_button = {RECT(245,200,150,40), "Play"};
 static Button settings_button = {RECT(245,260,150,40), "Settings"};
 

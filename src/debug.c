@@ -28,7 +28,7 @@ void debug_draw(SDL_Renderer *renderer) {
 		SDL_RenderLine(renderer, 0, y, NATIVE_WIDTH, y);
 
 	SDL_FPoint mouse;
-	int clicked = mouse_get_state_scaled(renderer, &mouse.x, &mouse.y);
+	mouse_get_state_scaled(renderer, &mouse.x, &mouse.y);
 	set_draw_color(renderer, 0xFFFF00);
 	SDL_RenderLine(renderer, mouse.x, 0, mouse.x, NATIVE_HEIGHT);
 	SDL_RenderLine(renderer, 0, mouse.y, NATIVE_WIDTH, mouse.y);

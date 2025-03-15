@@ -157,8 +157,8 @@ void game_draw(SDL_Renderer *renderer) {
 		}
 	}
 
-	for (size_t x = 0; x < board.w; x++) {
-	for (size_t y = 0; y < board.h; y++) {
+	for (int x = 0; x < board.w; x++) {
+	for (int y = 0; y < board.h; y++) {
 		if (settings()->coloured_numbers)
 			set_font_color(num_to_colour(board.p[x][y].number));
 

@@ -18,14 +18,14 @@ void board_change_size(int w, int h, float scale) {
 	board.rect.h = board.h * board.cell_size;
 	board.rect.x = (NATIVE_WIDTH - board.rect.w) / 2;
 	board.rect.y = (NATIVE_HEIGHT - board.rect.h) / 2;
-	
+
 	board_reset();
 }
 
 void board_cleanup(void) {
 	SDL_assert(board.p);
 
-	for (size_t x = 0; x < allocated_columns; x++)
+	for (int x = 0; x < allocated_columns; x++)
 		free(board.p[x]);
 
 	free(board.p);
@@ -37,10 +37,10 @@ void board_reset(void) {
 
 	board.p = malloc(sizeof(Cell *) * board.w);
 
-	for (size_t x = 0; x < board.w; x++) {
+	for (int x = 0; x < board.w; x++) {
 		board.p[x] = malloc(sizeof(Cell) * board.h);
 
-		for (size_t y = 0; y < board.h; y++) {
+		for (int y = 0; y < board.h; y++) {
 			board.p[x][y].number = SDL_rand(9) + 1;
 			board.p[x][y].removed = false;
 		}

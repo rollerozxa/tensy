@@ -30,7 +30,7 @@ void button(SDL_Renderer *renderer, Button *button) {
 	const char *text = button->text;
 
 	SDL_FPoint mouse;
-	int clicked = mouse_get_state_scaled(renderer, &mouse.x, &mouse.y);
+	mouse_get_state_scaled(renderer, &mouse.x, &mouse.y);
 
 	if (SDL_PointInRectFloat(&mouse, rect)) {
 		if (button->_held)
