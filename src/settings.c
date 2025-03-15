@@ -4,6 +4,7 @@
 #include "gui/button.h"
 #include "gui/checkbox.h"
 #include "font.h"
+#include "render.h"
 #include "scene.h"
 
 // Settings storage
@@ -44,7 +45,7 @@ void settings_update(void) {
 }
 
 void settings_draw(SDL_Renderer *renderer) {
-	SDL_SetRenderDrawColor(renderer, 0x1f, 0x3f, 0x8f, 0xFF);
+	set_draw_color(renderer, 0x1F3F8F);
 
 	SDL_RenderClear(renderer);
 

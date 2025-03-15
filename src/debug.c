@@ -2,6 +2,7 @@
 #include "consts.h"
 #include "font.h"
 #include "mouse.h"
+#include "render.h"
 #include <stdio.h>
 
 static bool debug = false;
@@ -15,7 +16,7 @@ void debug_draw(SDL_Renderer *renderer) {
 	if (!debug)
 		return;
 
-	SDL_SetRenderDrawColor(renderer, 0xff, 0xff, 0xff, 0x30);
+	set_draw_color_alpha(renderer, 0xFFFFFF30);
 	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 
 	int cellSize = 20;
@@ -28,7 +29,7 @@ void debug_draw(SDL_Renderer *renderer) {
 
 	SDL_FPoint mouse;
 	int clicked = mouse_get_state_scaled(renderer, &mouse.x, &mouse.y);
-	SDL_SetRenderDrawColor(renderer, 0xff, 0xff, 0x00, 0xff);
+	set_draw_color(renderer, 0xFFFF00);
 	SDL_RenderLine(renderer, mouse.x, 0, mouse.x, NATIVE_HEIGHT);
 	SDL_RenderLine(renderer, 0, mouse.y, NATIVE_WIDTH, mouse.y);
 

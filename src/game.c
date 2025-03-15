@@ -133,7 +133,7 @@ void game_update(void) {
 }
 
 void game_draw(SDL_Renderer *renderer) {
-	SDL_SetRenderDrawColor(renderer, 0x1f, 0x3f, 0x8f, 0xFF);
+	set_draw_color(renderer, 0x1F3F8F);
 
 	SDL_RenderClear(renderer);
 
@@ -151,7 +151,7 @@ void game_draw(SDL_Renderer *renderer) {
 
 	if (helddown) {
 		if (held_sum == 10) {
-			SDL_SetRenderDrawColor(renderer, 0x00, 0xA0, 0x00, 0xFF);
+			set_draw_color(renderer, 0x00A000);
 
 			SDL_RenderFillRect(renderer, &sel_rect);
 		}
@@ -172,11 +172,11 @@ void game_draw(SDL_Renderer *renderer) {
 	}}
 
 	if (helddown) {
-		SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
+		set_draw_color(renderer, 0xFFFFFF);
 		SDL_RenderRect(renderer, &sel_rect);
 	}
 
-	SDL_SetRenderDrawColor(renderer, 0x10, 0x2a, 0x6e, 0xFF);
+	set_draw_color(renderer, 0x102A6E);
 	SDL_RenderFillRect(renderer, RECT(0,0,NATIVE_WIDTH,20));
 	SDL_RenderFillRect(renderer, RECT(0,NATIVE_HEIGHT-20,NATIVE_WIDTH,20));
 

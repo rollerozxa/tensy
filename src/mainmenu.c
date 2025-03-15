@@ -2,6 +2,7 @@
 #include "consts.h"
 #include "font.h"
 #include "gui/button.h"
+#include "render.h"
 #include "scene.h"
 #include "textures.h"
 
@@ -39,7 +40,7 @@ static char title[] = "Tensy";
 static double bgpan = 0;
 
 void mainmenu_draw(SDL_Renderer *renderer) {
-	SDL_SetRenderDrawColor(renderer, 0x1f, 0x3f, 0x8f, 0xFF);
+	set_draw_color(renderer, 0x1F3F8F);
 
 	SDL_RenderClear(renderer);
 

@@ -43,7 +43,7 @@ void slider(SDL_Renderer *renderer, Slider *slider) {
 
 	slider->_handle_width = rect->w / (slider->max - slider->min);
 
-	SDL_SetRenderDrawColor(renderer, 0x2A, 0x2A, 0x2A, 0xFF);
+	set_draw_color(renderer, 0x2A2A2A);
 	SDL_RenderFillRect(renderer, RECT(rect->x, rect->y, rect->w, rect->h));
 
 	SDL_FPoint mouse;
