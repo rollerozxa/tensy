@@ -1,10 +1,5 @@
+#include "app.h"
 #include "consts.h"
-#include "debug.h"
-#include "overlay.h"
-#include "scene.h"
-#include "scenes.h"
-#include "sound.h"
-#include "textures.h"
 
 #include <SDL3/SDL.h>
 #include <stdio.h>
@@ -47,12 +42,7 @@ SDL_AppResult SDL_AppInit(void **rustptr, int argc, char **argv) {
 
 	SDL_SetRenderVSync(renderer, 1);
 
-	sound_init();
-	textures_init(renderer);
-
-	register_scenes();
-
-	run_scene_init();
+	AppInit(renderer);
 
 	return SDL_APP_CONTINUE;
 }
@@ -61,7 +51,7 @@ SDL_AppResult SDL_AppEvent(void *rustptr, SDL_Event *ev) {
 
 	if (ev->type == SDL_EVENT_QUIT
 	|| (ev->type == SDL_EVENT_KEY_DOWN && ev->key.scancode == SDL_SCANCODE_Q)) {
-		switch_scene("exiting");
+		AppQuit();
 		return SDL_APP_CONTINUE;
 	}
 
@@ -73,10 +63,7 @@ SDL_AppResult SDL_AppEvent(void *rustptr, SDL_Event *ev) {
 
 	SDL_ConvertEventToRenderCoordinates(renderer, ev);
 
-	run_scene_event(ev);
-	run_overlay_event(ev);
-
-	debug_event(ev);
+	AppEvent(ev);
 
 	return SDL_APP_CONTINUE;
 }
@@ -84,18 +71,12 @@ SDL_AppResult SDL_AppEvent(void *rustptr, SDL_Event *ev) {
 extern bool exiting;
 
 SDL_AppResult SDL_AppIterate(void *rustptr) {
-	run_scene_update();
-	run_overlay_update();
+	AppUpdate();
 
 	if (exiting)
 		return SDL_APP_SUCCESS;
 
-	run_scene_draw(renderer);
-	run_overlay_draw(renderer);
-
-	debug_draw(renderer);
-
-	perform_scene_transition(renderer);
+	AppDraw(renderer);
 
 	SDL_RenderPresent(renderer);
 
