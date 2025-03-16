@@ -3,7 +3,7 @@
 #include <SDL3/SDL.h>
 
 typedef struct {
-	SDL_FPoint *pos;
+	SDL_FPoint pos;
 	bool checked;
 	const char *label;
 } Checkbox;

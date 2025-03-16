@@ -21,13 +21,13 @@ Settings *settings(void) {
 // Settings scene
 
 static Checkbox board_physics_checkbox = {
-	POINT(20,80), false, "Board physics"};
+	*POINT(20,80), false, "Board physics"};
 
 static Checkbox coloured_numbers_checkbox = {
-	POINT(20,120), false, "Coloured numbers"};
+	*POINT(20,120), false, "Coloured numbers"};
 
 static Button save_button = {
-	RECT(220,280,200,40), "Save & Go back"};
+	*RECT(220,280,200,40), "Save & Go back"};
 
 void settings_event(const SDL_Event *ev) {
 	if (checkbox_event(ev, &board_physics_checkbox))

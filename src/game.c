@@ -21,7 +21,7 @@ static int held_sum = -1;
 
 static int score = 0;
 
-static Button pause_button = {RECT(NATIVE_WIDTH-100,0,100,25), "Pause"};
+static Button pause_button = {*RECT(NATIVE_WIDTH-100,0,100,25), "Pause"};
 
 static int calculate_sum(void) {
 	int sum = 0;

@@ -3,7 +3,7 @@
 #include <SDL3/SDL.h>
 
 typedef struct {
-	SDL_FRect *rect;
+	SDL_FRect rect;
 	int min;
 	int max;
 	int value;

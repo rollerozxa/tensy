@@ -8,11 +8,11 @@
 
 #define CALCULATE_RECTS() \
 	SDL_FRect label_rect = calculate_text_rect(label, 2); \
-	SDL_FRect *check_rect = RECT(pos->x+2, pos->y+2, 20, 20); \
-	SDL_FRect full_rect = {pos->x, pos->y, 24+26+label_rect.w, label_rect.h}
+	SDL_FRect *check_rect = RECT(pos.x+2, pos.y+2, 20, 20); \
+	SDL_FRect full_rect = {pos.x, pos.y, 24+26+label_rect.w, label_rect.h}
 
 bool checkbox_event(const SDL_Event *ev, Checkbox *checkbox) {
-	SDL_FPoint *pos = checkbox->pos;
+	SDL_FPoint pos = checkbox->pos;
 	const char *label = checkbox->label;
 
 	CALCULATE_RECTS();
@@ -28,7 +28,7 @@ bool checkbox_event(const SDL_Event *ev, Checkbox *checkbox) {
 
 bool checkbox(SDL_Renderer *renderer, Checkbox *checkbox) {
 
-	SDL_FPoint *pos = checkbox->pos;
+	SDL_FPoint pos = checkbox->pos;
 	const char *label = checkbox->label;
 
 	SDL_FPoint mouse;
@@ -50,7 +50,7 @@ bool checkbox(SDL_Renderer *renderer, Checkbox *checkbox) {
 	}
 
 	set_font_color(CLR_WHITE);
-	draw_text_shadow(renderer, label, pos->x+26, pos->y, 2);
+	draw_text_shadow(renderer, label, pos.x+26, pos.y, 2);
 
 	return checkbox->checked;
 }
