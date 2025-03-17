@@ -12,5 +12,10 @@ typedef struct {
 	int _handle_width;
 } Slider;
 
+#define SLIDER(obj, rect, min, max, value) \
+	obj = (Slider){(rect), min, max, value}; \
+	slider_init(&obj)
+
+void slider_init(Slider *slider);
 bool slider_event(const SDL_Event *ev, Slider *slider);
 void slider(SDL_Renderer *renderer, Slider *slider);

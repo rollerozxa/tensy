@@ -8,5 +8,8 @@ typedef struct {
 	const char *label;
 } Checkbox;
 
+#define CHECKBOX(obj, pos, checked, label) \
+	obj = (Checkbox){pos, checked, label}
+
 bool checkbox_event(const SDL_Event *ev, Checkbox *checkbox);
 bool checkbox(SDL_Renderer *renderer, Checkbox *checkbox);

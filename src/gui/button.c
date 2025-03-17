@@ -7,7 +7,7 @@
 #include "sound.h"
 
 bool button_event(const SDL_Event *ev, Button *button) {
-	if (SDL_PointInRectFloat(POINT(ev->motion.x, ev->motion.y), &button->rect)) {
+	if (SDL_PointInRectFloat(&POINT(ev->motion.x, ev->motion.y), &button->rect)) {
 		if (ev->type == SDL_EVENT_MOUSE_BUTTON_DOWN) {
 			button->_held = true;
 		} else if (ev->type == SDL_EVENT_MOUSE_BUTTON_UP && button->_held) {

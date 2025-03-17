@@ -20,10 +20,14 @@ bool calculate_handle_pos(const SDL_Event *ev, Slider *slider) {
 	//slider->_pos = slider->_pos * (slider->rect->w / (slider->max-slider->min+1));
 }
 
+void slider_init(Slider *slider) {
+
+}
+
 bool slider_event(const SDL_Event *ev, Slider *slider) {
 
 	if (ev->type == SDL_EVENT_MOUSE_BUTTON_DOWN) {
-		if (SDL_PointInRectFloat(POINT(ev->motion.x, ev->motion.y), &slider->rect)) {
+		if (SDL_PointInRectFloat(&POINT(ev->motion.x, ev->motion.y), &slider->rect)) {
 			slider->_dragging = true;
 			return calculate_handle_pos(ev, slider);
 		}

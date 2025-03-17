@@ -6,8 +6,12 @@
 #include "render.h"
 #include "scene.h"
 
-static Button resume_button = (Button){*RECT(0, 0, 150, 40), "Resume"};
-static Button exit_button = (Button){*RECT(0, 0, 150, 40), "Exit"};
+static Button resume_button, exit_button;
+
+void pause_init(void) {
+	BUTTON(resume_button, RECT(0, 0, 150, 40), "Resume");
+	BUTTON(exit_button, RECT(0, 0, 150, 40), "Exit");
+}
 
 void pause_event(const SDL_Event *ev) {
 	if (button_event(ev, &resume_button))
@@ -21,7 +25,7 @@ void pause_event(const SDL_Event *ev) {
 
 void pause_draw(SDL_Renderer *renderer) {
 	set_draw_color_alpha(renderer, 0x000000d0);
-	SDL_RenderFillRect(renderer, RECT(0,0,NATIVE_WIDTH,NATIVE_HEIGHT));
+	SDL_RenderFillRect(renderer, &RECT(0,0,NATIVE_WIDTH,NATIVE_HEIGHT));
 
 	SDL_FRect pausebg_rect = {
 		0, 0,

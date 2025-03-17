@@ -12,11 +12,11 @@
 #define BOARD_W 30
 #define BOARD_H 16
 
-static Button play_button = {*RECT(245,200,150,40), "Play"};
-static Button settings_button = {*RECT(245,260,150,40), "Settings"};
+static Button play_button, settings_button;
 
 void mainmenu_init(void) {
-
+	BUTTON(play_button, RECT(245,200,150,40), "Play");
+	BUTTON(settings_button, RECT(245,260,150,40), "Settings");
 }
 
 void mainmenu_event(const SDL_Event *ev) {
@@ -47,7 +47,7 @@ void mainmenu_draw(SDL_Renderer *renderer) {
 	for (int x = -1; x < 20; x++) {
 		for (int y = -1; y < 12; y++) {
 			SDL_RenderTexture(renderer, textures_get(TEX_BG_STRIPES), NULL,
-				RECT(x*32+bgpan, y*32+bgpan, 32, 32));
+				&RECT(x*32+bgpan, y*32+bgpan, 32, 32));
 		}
 	}
 

@@ -9,6 +9,7 @@ typedef struct {
 
 Settings *settings(void);
 
+void settings_init(void);
 void settings_event(const SDL_Event *ev);
 void settings_update(void);
 void settings_draw(SDL_Renderer *renderer);

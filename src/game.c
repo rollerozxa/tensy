@@ -21,7 +21,7 @@ static int held_sum = -1;
 
 static int score = 0;
 
-static Button pause_button = {*RECT(NATIVE_WIDTH-100,0,100,25), "Pause"};
+static Button pause_button;
 
 static int calculate_sum(void) {
 	int sum = 0;
@@ -77,6 +77,8 @@ static void do_move(void) {
 }
 
 void game_init(void) {
+	BUTTON(pause_button, RECT(NATIVE_WIDTH-100,0,100,25), "Pause");
+
 	helddown = false;
 
 	first_held_pos = (SDL_Point){-1,-1};
@@ -96,7 +98,7 @@ void game_event(const SDL_Event *ev) {
 		int cx = CELL_X;
 		int cy = CELL_Y;
 
-		if (SDL_PointInRectFloat(POINT(ev->motion.x, ev->motion.y), &board.rect)) {
+		if (SDL_PointInRectFloat(&POINT(ev->motion.x, ev->motion.y), &board.rect)) {
 			first_held_pos = (struct SDL_Point){cx, cy};
 			current_held_pos = first_held_pos;
 			helddown = true;
@@ -177,8 +179,10 @@ void game_draw(SDL_Renderer *renderer) {
 	}
 
 	set_draw_color(renderer, 0x102A6E);
-	SDL_RenderFillRect(renderer, RECT(0,0,NATIVE_WIDTH,20));
-	SDL_RenderFillRect(renderer, RECT(0,NATIVE_HEIGHT-20,NATIVE_WIDTH,20));
+	SDL_FRect bar_rect = {0, 0, NATIVE_WIDTH, 20};
+	SDL_RenderFillRect(renderer, &bar_rect);
+	bar_rect.y = NATIVE_HEIGHT - 20;
+	SDL_RenderFillRect(renderer, &bar_rect);
 
 	set_font_color((SDL_Color){0xFF, 0xFF, 0xFF});
 	char msg[512];
