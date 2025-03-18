@@ -9,6 +9,7 @@
 #include "render.h"
 #include "settings.h"
 #include "scene.h"
+#include "sound.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -62,6 +63,8 @@ static void do_move(void) {
 	if (sum != 10)
 		return;
 
+	sound_play(SND_MATCH);
+
 	int removed_cells = 0;
 
 	for (size_t x = fminf(first_held_pos.x, current_held_pos.x); x <= fmaxf(current_held_pos.x, first_held_pos.x); x++) {
@@ -102,14 +105,21 @@ void game_event(const SDL_Event *ev) {
 			first_held_pos = (struct SDL_Point){cx, cy};
 			current_held_pos = first_held_pos;
 			helddown = true;
+			sound_play(SND_SELECT);
 		}
 	} else if (ev->type == SDL_EVENT_MOUSE_MOTION) {
 		if (helddown) {
+			SDL_Point old_held_pos = {current_held_pos.x, current_held_pos.y};
+
 			current_held_pos.x = CELL_X;
 			current_held_pos.y = CELL_Y;
 
 			current_held_pos.x = SDL_clamp(current_held_pos.x, 0, board.w-1);
 			current_held_pos.y = SDL_clamp(current_held_pos.y, 0, board.h-1);
+
+			if (current_held_pos.x != old_held_pos.x || current_held_pos.y != old_held_pos.y) {
+				sound_play(SND_SELECT);
+			}
 
 			held_sum = calculate_sum();
 		}
