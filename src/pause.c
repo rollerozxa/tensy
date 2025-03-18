@@ -51,3 +51,11 @@ void pause_draw(SDL_Renderer *renderer) {
 
 	button(renderer, &exit_button);
 }
+
+Overlay pause_overlay = {
+	"pause",
+	pause_init,
+	pause_event,
+	NULL,
+	pause_draw
+};

@@ -62,3 +62,11 @@ void mainmenu_draw(SDL_Renderer *renderer) {
 	button(renderer, &play_button);
 	button(renderer, &settings_button);
 }
+
+Scene mainmenu_scene = {
+	"mainmenu",
+	mainmenu_init,
+	mainmenu_event,
+	mainmenu_update,
+	mainmenu_draw
+};

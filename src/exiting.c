@@ -10,3 +10,11 @@ void exiting_update(void) {
 	if (timeout > 30)
 		exiting = true;
 }
+
+Scene exiting_scene = {
+	"exiting",
+	NULL,
+	NULL,
+	exiting_update,
+	NULL
+};

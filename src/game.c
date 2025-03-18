@@ -191,3 +191,11 @@ void game_draw(SDL_Renderer *renderer) {
 
 	button(renderer, &pause_button);
 }
+
+Scene game_scene = {
+	"game",
+	game_init,
+	game_event,
+	game_update,
+	game_draw
+};

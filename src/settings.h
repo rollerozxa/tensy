@@ -1,5 +1,6 @@
 #pragma once
 
+#include "scene.h"
 #include <SDL3/SDL.h>
 
 typedef struct {
@@ -9,7 +10,4 @@ typedef struct {
 
 Settings *settings(void);
 
-void settings_init(void);
-void settings_event(const SDL_Event *ev);
-void settings_update(void);
-void settings_draw(SDL_Renderer *renderer);
+extern Scene settings_scene;

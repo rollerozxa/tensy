@@ -1,5 +1,6 @@
 #pragma once
 
+#include "scene.h"
 #include <SDL3/SDL.h>
 
-void exiting_update(void);
+extern Scene exiting_scene;

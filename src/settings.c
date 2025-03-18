@@ -57,3 +57,11 @@ void settings_draw(SDL_Renderer *renderer) {
 	checkbox(renderer, &coloured_numbers_checkbox);
 	button(renderer, &save_button);
 }
+
+Scene settings_scene = {
+	"settings",
+	settings_init,
+	settings_event,
+	settings_update,
+	settings_draw
+};
