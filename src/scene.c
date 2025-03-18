@@ -39,6 +39,10 @@ int switch_scene(const char *name) {
 	return 0;
 }
 
+const char *get_current_scene(void) {
+	return scenes[current_scene].name;
+}
+
 void run_scene_init(void) {
 	if (scenes[current_scene].init)
 		scenes[current_scene].init();

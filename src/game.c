@@ -84,7 +84,7 @@ void game_init(void) {
 	first_held_pos = (SDL_Point){-1,-1};
 	current_held_pos = (SDL_Point){-1,-1};
 
-	board_change_size(board.w, board.h, board.scale);
+	board_change_size(board.w, board.h, 2);
 	board_reset();
 }
 
@@ -159,19 +159,7 @@ void game_draw(SDL_Renderer *renderer) {
 		}
 	}
 
-	for (int x = 0; x < board.w; x++) {
-	for (int y = 0; y < board.h; y++) {
-		if (settings()->coloured_numbers)
-			set_font_color(num_to_colour(board.p[x][y].number));
-
-		SDL_Point point = board_to_screen_coord(x,y);
-		point.x += 3;
-		point.y -= 1;
-
-		if (!board.p[x][y].removed)
-			draw_char_shadow(renderer, board.p[x][y].number + '0',
-				point.x, point.y, board.scale);
-	}}
+	board_draw(renderer, settings()->coloured_numbers);
 
 	if (helddown) {
 		set_draw_color(renderer, 0xFFFFFF);

@@ -16,6 +16,8 @@ int add_scene(Scene scene);
 
 int switch_scene(const char *name);
 
+const char *get_current_scene(void);
+
 void run_scene_init(void);
 void run_scene_event(const SDL_Event *ev);
 void run_scene_update(void);

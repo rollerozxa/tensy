@@ -11,6 +11,8 @@
 
 // Misc helper macros
 
+#define RECTCPY(rect) {rect.x, rect.y, rect.w, rect.h}
+
 #define RECT(x,y,w,h) ((SDL_FRect){x,y,w,h})
 #define POINT(x,y) ((SDL_FPoint){x,y})
 
