@@ -4,7 +4,6 @@
 #include "consts.h"
 #include "font.h"
 #include "gui/button.h"
-#include "render.h"
 #include "scene.h"
 
 typedef struct {
@@ -60,10 +59,6 @@ void gameconfig_update(void) {
 }
 
 void gameconfig_draw(SDL_Renderer *renderer) {
-	set_draw_color(renderer, 0x1F3F8F);
-
-	SDL_RenderClear(renderer);
-
 	set_font_color(CLR_WHITE);
 	draw_text_shadow(renderer, "Configure game", 20, 20, 3);
 
@@ -84,5 +79,6 @@ Scene gameconfig_scene = {
 	gameconfig_init,
 	gameconfig_event,
 	gameconfig_update,
-	gameconfig_draw
+	gameconfig_draw,
+	0x1F3F8F
 };

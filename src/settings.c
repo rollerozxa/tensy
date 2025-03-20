@@ -46,10 +46,6 @@ void settings_update(void) {
 }
 
 void settings_draw(SDL_Renderer *renderer) {
-	set_draw_color(renderer, 0x1F3F8F);
-
-	SDL_RenderClear(renderer);
-
 	set_font_color(CLR_WHITE);
 	draw_text_shadow(renderer, "Settings", 20, 20, 3);
 
@@ -63,5 +59,6 @@ Scene settings_scene = {
 	settings_init,
 	settings_event,
 	settings_update,
-	settings_draw
+	settings_draw,
+	0x1F3F8F
 };

@@ -1,5 +1,6 @@
 #include "scene.h"
 #include "consts.h"
+#include "render.h"
 
 static Scene scenes[MAX_SCENES];
 static int current_scene = 0;
@@ -59,6 +60,9 @@ void run_scene_update(void) {
 }
 
 void run_scene_draw(SDL_Renderer *renderer) {
+	set_draw_color(renderer, scenes[current_scene].colour);
+	SDL_RenderClear(renderer);
+
 	if (scenes[current_scene].draw)
 		scenes[current_scene].draw(renderer);
 }

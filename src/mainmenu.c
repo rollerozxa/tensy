@@ -38,10 +38,6 @@ static char title[] = "Tensy";
 static double bgpan = 0;
 
 void mainmenu_draw(SDL_Renderer *renderer) {
-	set_draw_color(renderer, 0x1F3F8F);
-
-	SDL_RenderClear(renderer);
-
 	bgpan = fmod(bgpan + 0.25, 32);
 
 	for (int x = -1; x < 20; x++) {
@@ -68,5 +64,6 @@ Scene mainmenu_scene = {
 	mainmenu_init,
 	mainmenu_event,
 	mainmenu_update,
-	mainmenu_draw
+	mainmenu_draw,
+	0x1F3F8F
 };

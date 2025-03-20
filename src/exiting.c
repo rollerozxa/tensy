@@ -16,5 +16,6 @@ Scene exiting_scene = {
 	NULL,
 	NULL,
 	exiting_update,
-	NULL
+	NULL,
+	0
 };

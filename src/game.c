@@ -145,10 +145,6 @@ void game_update(void) {
 }
 
 void game_draw(SDL_Renderer *renderer) {
-	set_draw_color(renderer, 0x1F3F8F);
-
-	SDL_RenderClear(renderer);
-
 	set_font_color((SDL_Color){0xFF, 0xFF, 0xFF});
 
 	SDL_Point first_held_point = board_to_screen_coord(first_held_pos.x,first_held_pos.y);
@@ -195,5 +191,6 @@ Scene game_scene = {
 	game_init,
 	game_event,
 	game_update,
-	game_draw
+	game_draw,
+	0x1F3F8F
 };

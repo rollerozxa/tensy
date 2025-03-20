@@ -8,6 +8,7 @@ typedef struct {
 	void (*event)(const SDL_Event *);
 	void (*update)(void);
 	void (*draw)(SDL_Renderer *);
+	int colour;
 } Scene;
 
 #define MAX_SCENES 10
