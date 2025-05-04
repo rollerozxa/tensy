@@ -19,19 +19,19 @@ SDL_AppResult SDL_AppInit(void **rustptr, int argc, char **argv) {
 
 	SDL_SetHint(SDL_HINT_VITA_TOUCH_MOUSE_DEVICE, "0");
 
-	SDL_SetAppMetadata("Tensy", NULL, "se.voxelmanip.tensy");
+	SDL_SetAppMetadata(APP_NAME, NULL, APP_ID);
 
 	SDL_Init(SDL_INIT_VIDEO);
 
 	SDL_CreateWindowAndRenderer(
-		"Tensy",
+		APP_NAME,
 		SCREEN_WIDTH, SCREEN_HEIGHT,
 		0, &window, &renderer);
 
 	if (!window || !renderer) {
 		char msg[1024];
 		snprintf(msg, 1023, "Failed to start the game. Error: %s", SDL_GetError());
-		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, "Tensy", msg, NULL);
+		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, APP_NAME, msg, NULL);
 	}
 
 #if defined(__ANDROID__) || defined(__vita__)

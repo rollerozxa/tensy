@@ -24,19 +24,9 @@ void pause_event(const SDL_Event *ev) {
 }
 
 void pause_draw(SDL_Renderer *renderer) {
-	set_draw_color_alpha(renderer, 0x000000d0);
-	SDL_RenderFillRect(renderer, &RECT(0,0,NATIVE_WIDTH,NATIVE_HEIGHT));
+	draw_translucent_overlay(renderer);
 
-	SDL_FRect pausebg_rect = {
-		0, 0,
-		20 * 10,
-		20 * 12,
-	};
-	pausebg_rect.x = (NATIVE_WIDTH - pausebg_rect.w) / 2;
-	pausebg_rect.y = (NATIVE_HEIGHT - pausebg_rect.h) / 2;
-
-	set_draw_color(renderer, 0x102a63);
-	SDL_RenderFillRect(renderer, &pausebg_rect);
+	SDL_FRect pausebg_rect = draw_centered_fill_rect(renderer, POINT(20 * 10, 20 * 12));
 
 	SDL_FRect text_rect = {pausebg_rect.x, pausebg_rect.y, pausebg_rect.w, 20*2};
 	draw_text_shadow_centered(renderer, "Game paused", &text_rect, 2);

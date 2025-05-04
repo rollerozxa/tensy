@@ -2,9 +2,8 @@
 #include "consts.h"
 #include "font.h"
 #include "gui/button.h"
-#include "render.h"
+#include "media/textures.h"
 #include "scene.h"
-#include "textures.h"
 
 #include <math.h>
 #include <stdio.h>

@@ -2,9 +2,9 @@
 #include "colours.h"
 #include "consts.h"
 #include "font.h"
+#include "media/textures.h"
 #include "mouse.h"
 #include "render.h"
-#include "textures.h"
 
 #define CALCULATE_RECTS() \
 	SDL_FRect label_rect = calculate_text_rect(label, 2); \

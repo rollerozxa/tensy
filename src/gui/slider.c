@@ -3,6 +3,7 @@
 #include "font.h"
 #include "mouse.h"
 #include "render.h"
+
 #include <stdio.h>
 
 bool calculate_handle_pos(const SDL_Event *ev, Slider *slider) {

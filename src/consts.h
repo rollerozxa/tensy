@@ -8,6 +8,10 @@
 #define SCREEN_WIDTH    NATIVE_WIDTH*2
 #define SCREEN_HEIGHT   NATIVE_HEIGHT*2
 
+// Shared constant for app name
+#define APP_NAME "Tensy"
+// Shared constant for app ID
+#define APP_ID "se.voxelmanip.tensy"
 
 // Misc helper macros
 

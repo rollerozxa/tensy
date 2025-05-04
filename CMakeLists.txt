@@ -29,6 +29,9 @@ include_directories(
 file(GLOB SRCS
 	src/*.c
 	src/gui/*.c
+	src/media/*.c
+	src/overlays/*.c
+	src/scenes/*.c
 	lib/*.c
 	lib/SDL_QOI/*.c
 )

@@ -1,10 +1,10 @@
 #include "app.h"
 #include "debug.h"
+#include "media/sound.h"
+#include "media/textures.h"
 #include "overlay.h"
 #include "scene.h"
 #include "scenes.h"
-#include "sound.h"
-#include "textures.h"
 
 void AppInit(SDL_Renderer *renderer) {
 	sound_init();

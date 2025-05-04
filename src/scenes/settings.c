@@ -1,10 +1,9 @@
 #include "settings.h"
-#include "consts.h"
 #include "colours.h"
+#include "consts.h"
+#include "font.h"
 #include "gui/button.h"
 #include "gui/checkbox.h"
-#include "font.h"
-#include "render.h"
 #include "scene.h"
 
 // Settings storage
