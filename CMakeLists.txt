@@ -13,6 +13,10 @@ endif()
 
 option(USE_VENDORED_LIBS "Build with vendored libraries for SDL and such" FALSE)
 
+if(WIN32)
+	option(WINDOWS_XP "Build for Windows XP (requires MSVCRT toolchain)" FALSE)
+endif()
+
 if(USE_VENDORED_LIBS)
 	include(cmake/SDL.cmake)
 	include(cmake/SDL_mixer.cmake)
@@ -43,6 +47,11 @@ endif()
 if(WIN32)
 	set(SRCS ${SRCS} packaging/tensy.rc)
 	set(CMAKE_EXE_LINKER_FLAGS_RELEASE "${CMAKE_EXE_LINKER_FLAGS_RELEASE} -mwindows")
+
+	if(WINDOWS_XP)
+		set(CMAKE_EXE_LINKER_FLAGS "-Wl,--major-os-version=5,--major-subsystem-version=5")
+		set(CMAKE_C_FLAGS "-DWINVER=0x501 -D_WIN32_WINNT=0x501")
+	endif()
 endif()
 
 if(ANDROID)

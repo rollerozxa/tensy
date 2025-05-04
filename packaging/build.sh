@@ -50,6 +50,12 @@ elif [ $TARGET == 'win' ]; then
 	if [ "$ARCH" == "32" ]; then
 		FOLDER="win32"
 		CCPREFIX=i686-w64-mingw32
+	elif [ "$ARCH" == "32_xp" ]; then
+		FOLDER="win32_xp"
+		CCPREFIX=i686-w64-mingw32
+		CMAKE_FLAGS+=(
+			-DWINDOWS_XP=1
+		)
 	elif [ "$ARCH" == "arm64" ]; then
 		FOLDER="winarm64"
 		CCPREFIX=aarch64-w64-mingw32
