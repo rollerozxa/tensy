@@ -4,7 +4,7 @@
 #include <stdbool.h>
 
 typedef struct {
-	int number;
+	char number;
 	bool removed;
 } Cell;
 

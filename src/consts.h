@@ -12,6 +12,8 @@
 #define APP_NAME "Tensy"
 // Shared constant for app ID
 #define APP_ID "se.voxelmanip.tensy"
+// Shared constant for app "org"
+#define APP_ORG "ROllerozxa"
 
 // Misc helper macros
 

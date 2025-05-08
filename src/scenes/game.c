@@ -6,6 +6,7 @@
 #include "media/sound.h"
 #include "overlay.h"
 #include "render.h"
+#include "savestate.h"
 #include "scene.h"
 #include "settings.h"
 
@@ -18,7 +19,7 @@ static SDL_Point first_held_pos = {-1,-1};
 static SDL_Point current_held_pos = {-1,-1};
 static int held_sum = -1;
 
-static int score = 0;
+int score = 0;
 
 static Button pause_button;
 
@@ -132,6 +133,12 @@ void game_event(const SDL_Event *ev) {
 	} else if (ev->type == SDL_EVENT_KEY_UP) {
 		if (ev->key.key == SDLK_AC_BACK)
 			switch_scene("mainmenu");
+
+		if (ev->key.key == SDLK_F5)
+			savestate_save();
+
+		if (ev->key.key == SDLK_F6)
+			savestate_load();
 	}
 
 	if (button_event(ev, &pause_button))
