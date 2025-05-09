@@ -15,9 +15,9 @@ typedef struct {
 	float scale;
 	float cell_size;
 	SDL_FRect rect;
+	SDL_FPoint rect_offset;
+	int _allocated_columns;
 } Board;
-
-extern Board board;
 
 void board_change_size(Board *board, int w, int h, float scale);
 void board_change_width(Board *board, int w);

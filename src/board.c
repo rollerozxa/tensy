@@ -6,21 +6,12 @@
 #include <stdlib.h>
 #include <string.h>
 
-Board board = {NULL, 30, 15, 2};
-
-int allocated_columns = -1;
-
 void board_recalculate_rect(Board *board) {
 	board->rect = (SDL_FRect){0,0,0,0};
 	board->rect.w = board->w * board->cell_size;
 	board->rect.h = board->h * board->cell_size;
-	board->rect.x = (NATIVE_WIDTH - board->rect.w) / 2;
-	board->rect.y = (NATIVE_HEIGHT - board->rect.h) / 2;
-	// haha oh my god
-	// GET RID OF THIS AS SOON AS FUCKING POSSIBLE
-	if (strcmp(get_current_scene(), "gameconfig") == 0) {
-		board->rect.y += 50;
-	}
+	board->rect.x = (NATIVE_WIDTH - board->rect.w) / 2 + board->rect_offset.x;
+	board->rect.y = (NATIVE_HEIGHT - board->rect.h) / 2 + board->rect_offset.y;
 }
 
 void board_change_size(Board *board, int w, int h, float scale) {
@@ -50,7 +41,7 @@ void board_change_scale(Board *board, float scale) {
 void board_cleanup(Board *board) {
 	SDL_assert(board->p);
 
-	for (int x = 0; x < allocated_columns; x++)
+	for (int x = 0; x < board->_allocated_columns; x++)
 		free(board->p[x]);
 
 	free(board->p);
@@ -70,7 +61,7 @@ void board_reset(Board *board) {
 			board->p[x][y].removed = false;
 		}
 	}
-	allocated_columns = board->w;
+	board->_allocated_columns = board->w;
 }
 
 void board_zerofill(Board *board) {

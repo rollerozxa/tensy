@@ -21,6 +21,8 @@ static int held_sum = -1;
 
 int score = 0;
 
+Board board = {NULL, 30, 15, 2};
+
 static Button pause_button;
 
 static int calculate_sum(void) {
