@@ -10,100 +10,101 @@ Board board = {NULL, 30, 15, 2};
 
 int allocated_columns = -1;
 
-void board_recalculate_rect(void) {
-	board.rect = (SDL_FRect){0,0,0,0};
-	board.rect.w = board.w * board.cell_size;
-	board.rect.h = board.h * board.cell_size;
-	board.rect.x = (NATIVE_WIDTH - board.rect.w) / 2;
-	board.rect.y = (NATIVE_HEIGHT - board.rect.h) / 2;
+void board_recalculate_rect(Board *board) {
+	board->rect = (SDL_FRect){0,0,0,0};
+	board->rect.w = board->w * board->cell_size;
+	board->rect.h = board->h * board->cell_size;
+	board->rect.x = (NATIVE_WIDTH - board->rect.w) / 2;
+	board->rect.y = (NATIVE_HEIGHT - board->rect.h) / 2;
 	// haha oh my god
+	// GET RID OF THIS AS SOON AS FUCKING POSSIBLE
 	if (strcmp(get_current_scene(), "gameconfig") == 0) {
-		board.rect.y += 50;
+		board->rect.y += 50;
 	}
 }
 
-void board_change_size(int w, int h, float scale) {
-	board.w = w;
-	board.h = h;
-	board.scale = scale;
-	board.cell_size = board.scale * 10;
+void board_change_size(Board *board, int w, int h, float scale) {
+	board->w = w;
+	board->h = h;
+	board->scale = scale;
+	board->cell_size = board->scale * 10;
 
-	board_recalculate_rect();
+	board_recalculate_rect(board);
 
-	board_reset();
+	board_reset(board);
 }
 
-void board_change_width(int w) {
-	board_change_size(w, board.h, board.scale);
+void board_change_width(Board *board, int w) {
+	board_change_size(board, w, board->h, board->scale);
 }
 
-void board_change_height(int h) {
-	board_change_size(board.w, h, board.scale);
+void board_change_height(Board *board, int h) {
+	board_change_size(board, board->w, h, board->scale);
 }
 
-void board_change_scale(float scale) {
-	board.scale = scale;
-	board_recalculate_rect();
+void board_change_scale(Board *board, float scale) {
+	board->scale = scale;
+	board_recalculate_rect(board);
 }
 
-void board_cleanup(void) {
-	SDL_assert(board.p);
+void board_cleanup(Board *board) {
+	SDL_assert(board->p);
 
 	for (int x = 0; x < allocated_columns; x++)
-		free(board.p[x]);
+		free(board->p[x]);
 
-	free(board.p);
+	free(board->p);
 }
 
-void board_reset(void) {
-	if (board.p != NULL)
-		board_cleanup();
+void board_reset(Board *board) {
+	if (board->p != NULL)
+		board_cleanup(board);
 
-	board.p = malloc(sizeof(Cell *) * board.w);
+	board->p = malloc(sizeof(Cell *) * board->w);
 
-	for (int x = 0; x < board.w; x++) {
-		board.p[x] = malloc(sizeof(Cell) * board.h);
+	for (int x = 0; x < board->w; x++) {
+		board->p[x] = malloc(sizeof(Cell) * board->h);
 
-		for (int y = 0; y < board.h; y++) {
-			board.p[x][y].number = SDL_rand(9) + 1;
-			board.p[x][y].removed = false;
+		for (int y = 0; y < board->h; y++) {
+			board->p[x][y].number = SDL_rand(9) + 1;
+			board->p[x][y].removed = false;
 		}
 	}
-	allocated_columns = board.w;
+	allocated_columns = board->w;
 }
 
-void board_zerofill(void) {
-	for (int x = 0; x < board.w; x++) {
-		for (int y = 0; y < board.h; y++) {
-			board.p[x][y].number = 0;
-			board.p[x][y].removed = false;
+void board_zerofill(Board *board) {
+	for (int x = 0; x < board->w; x++) {
+		for (int y = 0; y < board->h; y++) {
+			board->p[x][y].number = 0;
+			board->p[x][y].removed = false;
 		}
 	}
 }
 
-void board_draw(SDL_Renderer *renderer, bool coloured_numbers) {
-	for (int x = 0; x < board.w; x++) {
-	for (int y = 0; y < board.h; y++) {
+void board_draw(Board *board, SDL_Renderer *renderer, bool coloured_numbers) {
+	for (int x = 0; x < board->w; x++) {
+	for (int y = 0; y < board->h; y++) {
 		if (coloured_numbers)
-			set_font_color(num_to_colour(board.p[x][y].number));
+			set_font_color(num_to_colour(board->p[x][y].number));
 
-		SDL_Point point = board_to_screen_coord(x,y);
+		SDL_Point point = board_to_screen_coord(&*&*board, x,y);
 		point.x += 3;
 		point.y -= 1;
 
-		if (!board.p[x][y].removed)
-			draw_char_shadow(renderer, board.p[x][y].number + '0',
-				point.x, point.y, board.scale);
+		if (!board->p[x][y].removed)
+			draw_char_shadow(renderer, board->p[x][y].number + '0',
+				point.x, point.y, board->scale);
 	}}
 }
 
-SDL_Point board_to_screen_coord(int x, int y) {
+SDL_Point board_to_screen_coord(Board *board, int x, int y) {
 	SDL_Point point = {
-		board.rect.x,
-		board.rect.y
+		board->rect.x,
+		board->rect.y
 	};
-	point.x += x * board.cell_size;
-	point.y += y * board.cell_size;
+	point.x += x * board->cell_size;
+	point.y += y * board->cell_size;
 
 	return point;
 }

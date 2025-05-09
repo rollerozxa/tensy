@@ -86,8 +86,8 @@ void game_init(void) {
 	first_held_pos = (SDL_Point){-1,-1};
 	current_held_pos = (SDL_Point){-1,-1};
 
-	board_change_size(board.w, board.h, 2);
-	board_reset();
+	board_change_size(&board, board.w, board.h, board.scale);
+	board_reset(&board);
 }
 
 void game_event(const SDL_Event *ev) {
@@ -152,8 +152,8 @@ void game_update(void) {
 void game_draw(SDL_Renderer *renderer) {
 	set_font_color((SDL_Color){0xFF, 0xFF, 0xFF});
 
-	SDL_Point first_held_point = board_to_screen_coord(first_held_pos.x,first_held_pos.y);
-	SDL_Point current_held_point = board_to_screen_coord(current_held_pos.x, current_held_pos.y);
+	SDL_Point first_held_point = board_to_screen_coord(&board, first_held_pos.x, first_held_pos.y);
+	SDL_Point current_held_point = board_to_screen_coord(&board, current_held_pos.x, current_held_pos.y);
 
 	SDL_FRect sel_rect = {
 		fminf(first_held_point.x, current_held_point.x),
@@ -170,7 +170,7 @@ void game_draw(SDL_Renderer *renderer) {
 		}
 	}
 
-	board_draw(renderer, settings()->coloured_numbers);
+	board_draw(&board, renderer, settings()->coloured_numbers);
 
 	if (helddown) {
 		set_draw_color(renderer, 0xFFFFFF);

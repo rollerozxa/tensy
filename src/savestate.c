@@ -66,8 +66,8 @@ bool savestate_load(void) {
 	READ_INT(board.h);
 	READ_FLOAT(board.scale);
 	READ_FLOAT(board.cell_size);
-	board_change_scale(board.scale);
-	board_reset();
+	board_change_scale(&board, board.scale);
+	board_reset(&board);
 	for (int x = 0; x < board.w; x++) {
 		for (int y = 0; y < board.h; y++) {
 			char packed;

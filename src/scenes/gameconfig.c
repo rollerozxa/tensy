@@ -32,8 +32,8 @@ void gameconfig_init(void) {
 
 	BUTTON(go_button, RECT(0,NATIVE_HEIGHT-40, NATIVE_WIDTH, 40), "Play");
 
-	board_change_size(board.w, board.h, 1);
-	board_zerofill();
+	board_change_size(&board, board.w, board.h, 1);
+	board_zerofill(&board);
 }
 
 void gameconfig_event(const SDL_Event *ev) {
@@ -42,10 +42,9 @@ void gameconfig_event(const SDL_Event *ev) {
 	for (size_t i = 0; i < num_board_sizes; i++) {
 		BoardSize *board_size = &board_sizes[i];
 		if (button_event(ev, &board_size->button)) {
-			board_change_size(board_size->w, board_size->h, board.scale);
-			board_zerofill();
+			board_change_size(&board, board_size->w, board_size->h, board.scale);
+			board_zerofill(&board);
 		}
-
 	}
 
 	if (button_event(ev, &go_button)) {
@@ -62,7 +61,7 @@ void gameconfig_draw(SDL_Renderer *renderer) {
 	set_font_color(CLR_WHITE);
 	draw_text_shadow(renderer, "Configure game", 20, 20, 3);
 
-	board_draw(renderer, false);
+	board_draw(&board, renderer, false);
 
 	SDL_FRect label_rect = RECTCPY(board_sizes[0].button.rect);
 	label_rect.x = 20;

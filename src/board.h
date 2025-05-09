@@ -19,14 +19,14 @@ typedef struct {
 
 extern Board board;
 
-void board_change_size(int w, int h, float scale);
-void board_change_width(int w);
-void board_change_height(int h);
-void board_change_scale(float scale);
+void board_change_size(Board *board, int w, int h, float scale);
+void board_change_width(Board *board, int w);
+void board_change_height(Board *board, int h);
+void board_change_scale(Board *board, float scale);
 
-void board_reset(void);
-void board_zerofill(void);
+void board_reset(Board *board);
+void board_zerofill(Board *board);
 
-void board_draw(SDL_Renderer *renderer, bool coloured_numbers);
+void board_draw(Board *board, SDL_Renderer *renderer, bool coloured_numbers);
 
-SDL_Point board_to_screen_coord(int x, int y);
+SDL_Point board_to_screen_coord(Board *board, int x, int y);
