@@ -21,7 +21,7 @@ jobs:
 
       - name: Download toolchain
         run: |
-          curl -L "https://github.com/mstorsjo/llvm-mingw/releases/download/20250114/llvm-mingw-20250114-ucrt-ubuntu-20.04-x86_64.tar.xz" | sudo tar xJvf - -C "/usr" --strip-components=1
+          curl -L "https://github.com/mstorsjo/llvm-mingw/releases/download/20250430/llvm-mingw-20250430-ucrt-ubuntu-22.04-x86_64.tar.xz" | sudo tar xJvf - -C "/usr" --strip-components=1
 
       - name: Build Tensy
         run: |
