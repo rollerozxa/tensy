@@ -1,6 +1,6 @@
 #!/bin/bash -eu
 
-SDL3_tag=release-3.2.12
+SDL3_tag=7b3bd8c5387ebb51d919ecdf188ff998dd74f99e
 SDL3_url="https://github.com/libsdl-org/SDL/archive/${SDL3_tag}.tar.gz"
 SDL3_mixer_tag=b3a6fa8b5ad183f0a1bad02527d89a00c3c90106
 SDL3_mixer_url="https://github.com/libsdl-org/SDL_mixer/archive/${SDL3_mixer_tag}.tar.gz"
