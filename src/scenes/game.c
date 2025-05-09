@@ -141,6 +141,9 @@ void game_event(const SDL_Event *ev) {
 
 		if (ev->key.key == SDLK_F6)
 			savestate_load();
+
+		if (ev->key.key == SDLK_F1)
+			board_shuffle(&board);
 	}
 
 	if (button_event(ev, &pause_button))

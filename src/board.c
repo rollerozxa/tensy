@@ -99,3 +99,25 @@ SDL_Point board_to_screen_coord(Board *board, int x, int y) {
 
 	return point;
 }
+
+void board_shuffle(Board *board) {
+    int w = board->w;
+    int h = board->h;
+
+	// Fisher-Yates shuffle
+    for (int i = w * h - 1; i > 0; --i) {
+        // Current coordinates (x1, y1)
+        int x1 = i / h;
+        int y1 = i % h;
+
+        // Random target index
+        int j = rand() % (i + 1);
+        int x2 = j / h;
+        int y2 = j % h;
+
+        // Swap elements
+        Cell tmp = board->p[x1][y1];
+        board->p[x1][y1] = board->p[x2][y2];
+        board->p[x2][y2] = tmp;
+    }
+}
