@@ -56,6 +56,11 @@ void mainmenu_draw(SDL_Renderer *renderer) {
 
 	button(renderer, &play_button);
 	button(renderer, &settings_button);
+
+	set_font_color((SDL_Color){255,255,255});
+	char statusmsg[512];
+	snprintf(statusmsg, 511, "Tensy ver. 1.0-dev (%s)", SDL_GetPlatform());
+	draw_text_shadow(renderer, statusmsg, 0, NATIVE_HEIGHT-12, 1);
 }
 
 Scene mainmenu_scene = {
