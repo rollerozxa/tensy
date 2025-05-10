@@ -1,6 +1,12 @@
 #include "render.h"
 #include "consts.h"
 
+unsigned int sdl_color_to_bitpack(SDL_Color color) {
+	return (color.r << 16)
+		 + (color.g << 8)
+		 + color.b;
+}
+
 void set_draw_color(SDL_Renderer *renderer, unsigned int color) {
 	SDL_SetRenderDrawColor(renderer,
 		(color >> 16) & 0xFF,
