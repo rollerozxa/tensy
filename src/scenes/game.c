@@ -88,6 +88,7 @@ void game_init(void) {
 	first_held_pos = (SDL_Point){-1,-1};
 	current_held_pos = (SDL_Point){-1,-1};
 
+	score = 0;
 	board_change_size(&board, board.w, board.h, board.scale);
 	board_reset(&board);
 }
