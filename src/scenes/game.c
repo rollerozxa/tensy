@@ -38,7 +38,7 @@ static int calculate_sum(void) {
 }
 
 static void board_physics(void) {
-	for (size_t x = fminf(first_held_pos.x, current_held_pos.x); x <= fmaxf(current_held_pos.x, first_held_pos.x); x++) {
+	for (int x = 0; x < board.w; x++) {
 	for (int y = board.h - 1; y >= 0; y--) {
 		if (!board.p[x][y].removed)
 			continue;
