@@ -55,8 +55,16 @@ void run_scene_event(const SDL_Event *ev) {
 }
 
 void run_scene_update(void) {
+	static uint64_t last_time = 0;
+	if (last_time == 0)
+		last_time = SDL_GetTicksNS();
+
+	uint64_t now = SDL_GetTicksNS();
+	float dt = (now - last_time) / 1e9f;
+	last_time = now;
+
 	if (scenes[current_scene].update)
-		scenes[current_scene].update();
+		scenes[current_scene].update(dt);
 }
 
 void run_scene_draw(SDL_Renderer *renderer) {

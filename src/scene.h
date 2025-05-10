@@ -6,7 +6,7 @@ typedef struct {
 	const char *name;
 	void (*init)(void);
 	void (*event)(const SDL_Event *);
-	void (*update)(void);
+	void (*update)(float dt);
 	void (*draw)(SDL_Renderer *);
 	int colour;
 } Scene;

@@ -60,10 +60,6 @@ void gameconfig_event(const SDL_Event *ev) {
 
 }
 
-void gameconfig_update(void) {
-
-}
-
 void gameconfig_draw(SDL_Renderer *renderer) {
 	set_font_color(CLR_WHITE);
 	draw_text_shadow(renderer, "Configure game", 20, 20, 3);
@@ -84,7 +80,7 @@ Scene gameconfig_scene = {
 	"gameconfig",
 	gameconfig_init,
 	gameconfig_event,
-	gameconfig_update,
+	NULL,
 	gameconfig_draw,
 	0x1F3F8F
 };

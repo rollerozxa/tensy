@@ -40,10 +40,6 @@ void settings_event(const SDL_Event *ev) {
 		switch_scene("mainmenu");
 }
 
-void settings_update(void) {
-
-}
-
 void settings_draw(SDL_Renderer *renderer) {
 	set_font_color(CLR_WHITE);
 	draw_text_shadow(renderer, "Settings", 20, 20, 3);
@@ -57,7 +53,7 @@ Scene settings_scene = {
 	"settings",
 	settings_init,
 	settings_event,
-	settings_update,
+	NULL,
 	settings_draw,
 	0x1F3F8F
 };

@@ -4,7 +4,7 @@ static int timeout = 0;
 
 bool exiting = false;
 
-void exiting_update(void) {
+void exiting_update(float dt) {
 	timeout++;
 
 	if (timeout > 30)

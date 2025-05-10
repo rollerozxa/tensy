@@ -29,10 +29,6 @@ void mainmenu_event(const SDL_Event *ev) {
 		switch_scene("exiting");
 }
 
-void mainmenu_update(void) {
-
-}
-
 static char title[] = "Tensy";
 static double bgpan = 0;
 
@@ -67,7 +63,7 @@ Scene mainmenu_scene = {
 	"mainmenu",
 	mainmenu_init,
 	mainmenu_event,
-	mainmenu_update,
+	NULL,
 	mainmenu_draw,
 	0x1F3F8F
 };

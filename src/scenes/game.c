@@ -150,8 +150,7 @@ void game_event(const SDL_Event *ev) {
 		switch_overlay("pause");
 }
 
-void game_update(void) {
-
+void game_update(float dt) {
 }
 
 void game_draw(SDL_Renderer *renderer) {
