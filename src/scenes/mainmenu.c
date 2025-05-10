@@ -20,7 +20,7 @@ void mainmenu_init(void) {
 
 void mainmenu_event(const SDL_Event *ev) {
 	if (button_event(ev, &play_button))
-		switch_scene("gameconfig");
+		switch_scene("selectmode");
 
 	if (button_event(ev, &settings_button))
 		switch_scene("settings");

@@ -4,15 +4,17 @@
 #include "scenes/game.h"
 #include "scenes/gameconfig.h"
 #include "scenes/mainmenu.h"
+#include "scenes/selectmode.h"
 #include "scenes/settings.h"
 
 void register_scenes(void) {
 	// First scene needs to be first
 	add_scene(mainmenu_scene);
+	add_scene(exiting_scene);
 	add_scene(game_scene);
 	add_scene(gameconfig_scene);
+	add_scene(selectmode_scene);
 	add_scene(settings_scene);
-	add_scene(exiting_scene);
 
 	add_overlay(pause_overlay);
 }
