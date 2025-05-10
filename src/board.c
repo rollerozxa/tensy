@@ -73,19 +73,55 @@ void board_zerofill(Board *board) {
 	}
 }
 
+void board_update(Board *board, float dt) {
+	if (!board->anim.animating)
+		return;
+
+	board->anim.timer += dt;
+
+	if (board->anim.timer >= board->anim.duration) {
+		board->anim.timer = 0.0f;
+
+		if (!board->anim.returning) {
+			board_shuffle(board);
+			board->anim.returning = true;
+		} else {
+			board->anim.animating = false;
+		}
+	}
+}
+
 void board_draw(Board *board, SDL_Renderer *renderer, bool coloured_numbers) {
+	SDL_FPoint center = {
+		board->rect.x + board->rect.w / 2.0f,
+		board->rect.y + board->rect.h / 2.0f
+	};
+
+	float t = board->anim.timer / board->anim.duration;
+	if (t > 1.0f) t = 1.0f;
+	if (board->anim.returning) t = 1.0f - t; // reverse direction
+
 	for (int x = 0; x < board->w; x++) {
 	for (int y = 0; y < board->h; y++) {
+		if (board->p[x][y].removed)
+			continue;
+
 		if (coloured_numbers)
 			set_font_color(num_to_colour(board->p[x][y].number));
 
-		SDL_Point point = board_to_screen_coord(&*&*board, x,y);
-		point.x += 3;
-		point.y -= 1;
+		SDL_Point point = board_to_screen_coord(board, x, y);
+		SDL_FPoint pos = {
+			point.x + 3,
+			point.y - 1
+		};
 
-		if (!board->p[x][y].removed)
-			draw_char_shadow(renderer, board->p[x][y].number + '0',
-				point.x, point.y, board->scale);
+		if (board->anim.animating) {
+			pos.x = pos.x * (1.0f - t) + center.x * t;
+			pos.y = pos.y * (1.0f - t) + center.y * t;
+		}
+
+		draw_char_shadow(renderer, board->p[x][y].number + '0',
+			pos.x, pos.y, board->scale);
 	}}
 }
 
@@ -101,23 +137,30 @@ SDL_Point board_to_screen_coord(Board *board, int x, int y) {
 }
 
 void board_shuffle(Board *board) {
-    int w = board->w;
-    int h = board->h;
+	int w = board->w;
+	int h = board->h;
 
 	// Fisher-Yates shuffle
-    for (int i = w * h - 1; i > 0; --i) {
-        // Current coordinates (x1, y1)
-        int x1 = i / h;
-        int y1 = i % h;
+	for (int i = w * h - 1; i > 0; --i) {
+		// Current coordinates (x1, y1)
+		int x1 = i / h;
+		int y1 = i % h;
 
-        // Random target index
-        int j = rand() % (i + 1);
-        int x2 = j / h;
-        int y2 = j % h;
+		// Random target index
+		int j = rand() % (i + 1);
+		int x2 = j / h;
+		int y2 = j % h;
 
-        // Swap elements
-        Cell tmp = board->p[x1][y1];
-        board->p[x1][y1] = board->p[x2][y2];
-        board->p[x2][y2] = tmp;
-    }
+		// Swap elements
+		Cell tmp = board->p[x1][y1];
+		board->p[x1][y1] = board->p[x2][y2];
+		board->p[x2][y2] = tmp;
+	}
+}
+
+void board_shuffle_animated(Board *board, float duration) {
+	if (board->anim.animating)
+		return;
+
+	board->anim = (BoardAnimation){true, false, 0.0f, duration};
 }

@@ -9,6 +9,13 @@ typedef struct {
 } Cell;
 
 typedef struct {
+	bool animating;
+	bool returning;
+	float timer;
+	float duration;
+} BoardAnimation;
+
+typedef struct {
 	Cell **p;
 	int w;
 	int h;
@@ -17,6 +24,7 @@ typedef struct {
 	SDL_FRect rect;
 	SDL_FPoint rect_offset;
 	int _allocated_columns;
+	BoardAnimation anim;
 } Board;
 
 void board_change_size(Board *board, int w, int h, float scale);
@@ -27,8 +35,10 @@ void board_change_scale(Board *board, float scale);
 void board_reset(Board *board);
 void board_zerofill(Board *board);
 
+void board_update(Board *board, float dt);
 void board_draw(Board *board, SDL_Renderer *renderer, bool coloured_numbers);
 
 SDL_Point board_to_screen_coord(Board *board, int x, int y);
 
 void board_shuffle(Board *board);
+void board_shuffle_animated(Board *board, float duration);

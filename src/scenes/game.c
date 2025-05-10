@@ -143,7 +143,7 @@ void game_event(const SDL_Event *ev) {
 			savestate_load();
 
 		if (ev->key.key == SDLK_F1)
-			board_shuffle(&board);
+			board_shuffle_animated(&board, 1);
 	}
 
 	if (button_event(ev, &pause_button))
@@ -151,6 +151,7 @@ void game_event(const SDL_Event *ev) {
 }
 
 void game_update(float dt) {
+	board_update(&board, dt);
 }
 
 void game_draw(SDL_Renderer *renderer) {
