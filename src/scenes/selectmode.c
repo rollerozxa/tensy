@@ -4,6 +4,7 @@
 #include "mouse.h"
 #include "render.h"
 #include "media/sound.h"
+#include "scenes/game.h"
 
 typedef struct {
 	const char *title;
@@ -14,10 +15,14 @@ typedef struct {
 	void (*click)(void);
 } Mode;
 
-static void leisure_click(void) {
+static void classic_click(void) {
+	gamemode = GM_Classic;
 	switch_scene("gameconfig");
 }
-static void dummy_function(void) {}
+static void leisure_click(void) {
+	gamemode = GM_Leisure;
+	switch_scene("gameconfig");
+}
 
 static Mode modes[] = {
 	{
@@ -40,8 +45,8 @@ static Mode modes[] = {
 			{0,0,1,0,0,0,0},
 			{0,0,1,0,0,0,0},
 		},
-		true,
-		dummy_function
+		false,
+		classic_click
 	},
 	{
 		"Leisure",

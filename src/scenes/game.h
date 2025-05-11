@@ -6,5 +6,12 @@
 
 extern Scene game_scene;
 
+enum GameMode {
+	GM_Classic,
+	GM_Leisure
+};
+
 extern int score;
 extern Board board;
+extern float time_left;
+extern enum GameMode gamemode;

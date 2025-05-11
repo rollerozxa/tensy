@@ -21,6 +21,9 @@ static int held_sum = -1;
 
 int score = 0;
 
+float time_left, total_time = 0.f;
+bool dead = false;
+
 Board board = {NULL, 30, 15, 2};
 
 static Button pause_button;
@@ -80,6 +83,8 @@ static void do_move(void) {
 	score += sum * (removed_cells-1);
 }
 
+enum GameMode gamemode = GM_Leisure;
+
 void game_init(void) {
 	BUTTON(pause_button, RECT(NATIVE_WIDTH-100,0,100,25), "Pause");
 
@@ -88,7 +93,13 @@ void game_init(void) {
 	first_held_pos = (SDL_Point){-1,-1};
 	current_held_pos = (SDL_Point){-1,-1};
 
+	if (gamemode == GM_Classic) {
+		total_time = 3*60;
+		time_left = 3*60;
+	}
+
 	score = 0;
+	dead = false;
 	board_change_size(&board, board.w, board.h, board.scale);
 	board_reset(&board);
 }
@@ -153,6 +164,15 @@ void game_event(const SDL_Event *ev) {
 
 void game_update(float dt) {
 	board_update(&board, dt);
+
+	if (gamemode == GM_Classic && !dead) {
+		if (time_left < 0) {
+			switch_overlay("timeout");
+			dead = true;
+		} else {
+			time_left -= dt;
+		}
+	}
 }
 
 void game_draw(SDL_Renderer *renderer) {
@@ -191,10 +211,28 @@ void game_draw(SDL_Renderer *renderer) {
 
 	set_font_color((SDL_Color){0xFF, 0xFF, 0xFF});
 	char msg[512];
-	snprintf(msg, 511, "Score: %d", score);
+	if (gamemode == GM_Classic) {
+		int minutes = time_left / 60;
+		int seconds = SDL_max((int)SDL_ceilf(time_left) % 60, 0);
+
+		snprintf(msg, 511, "Score: %d - %d:%02d", score, minutes, seconds);
+	} else {
+		snprintf(msg, 511, "Score: %d", score);
+	}
+
 	draw_text(renderer, msg, 0,0, 2);
 
 	button(renderer, &pause_button);
+
+	SDL_FRect progbar_rect = {0, NATIVE_HEIGHT - 20, -1, 20};
+	progbar_rect.w = NATIVE_WIDTH * (time_left / total_time);
+	if (progbar_rect.w < 40) {
+		set_draw_color(renderer, 0xff0000);
+	} else {
+		set_draw_color(renderer, 0x4871da);
+	}
+
+	SDL_RenderFillRect(renderer, &progbar_rect);
 }
 
 Scene game_scene = {
