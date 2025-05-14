@@ -1,6 +1,7 @@
 #include "selectmode.h"
 #include "colours.h"
 #include "font.h"
+#include "media/textures.h"
 #include "mouse.h"
 #include "render.h"
 #include "media/sound.h"
@@ -10,7 +11,6 @@ typedef struct {
 	const char *title;
 	const char *description[4];
 	char board[4][7];
-	char board_claimed[4][7];
 	bool disabled;
 	void (*click)(void);
 } Mode;
@@ -34,16 +34,10 @@ static Mode modes[] = {
 			"limit."
 		},
 		{
-			{2,2,3,1,3,1,2},
-			{1,2,2,2,2,4,1},
-			{1,4,2,4,1,3,1},
-			{2,3,2,3,4,3,1},
-		},
-		{
-			{1,1,0,0,0,0,0},
-			{0,1,1,1,1,0,0},
-			{0,0,1,0,0,0,0},
-			{0,0,1,0,0,0,0},
+			{2,2,3,1,0,0},
+			{1,2,2,2,0,0},
+			{1,4,2,4,1,3},
+			{2,3,2,3,4,3},
 		},
 		false,
 		classic_click
@@ -56,16 +50,10 @@ static Mode modes[] = {
 			"infinite calm."
 		},
 		{
-			{2,2,2,2,2,2,2},
-			{2,2,2,2,2,2,2},
-			{2,2,1,1,1,1,1},
-			{2,2,1,1,1,1,1},
-		},
-		{
-			{1,1,1,1,1,1,1},
-			{1,1,1,1,1,1,1},
-			{1,1,0,0,0,0,0},
-			{1,1,0,0,0,0,0},
+			{2,2,2,2,0,0},
+			{2,2,2,2,0,0},
+			{2,2,1,1,1,1},
+			{2,2,1,1,1,1},
 		},
 		false,
 		leisure_click
@@ -156,12 +144,40 @@ void selectmode_draw(SDL_Renderer *renderer) {
 
 		for (int x = 0; x < 6; x++) {
 			for (int y = 0; y < 4; y++) {
-				SDL_FPoint point = {
-					x * 36 + rect.x + 6,
-					y * 36 + rect.y + 6};
+				if (mode.board[y][x] == 0) continue;
 
-				//draw_cell(renderer, point, num_to_colour(mode.board[y][x]), 36, mode.board_claimed[y][x]);
+				SDL_FPoint point = {
+					x * 30 + rect.x + 28,
+					y * 30 + rect.y + 10};
+
+				draw_char_shadow(renderer, mode.board[y][x] + '0', point.x, point.y, 3);
 			}
+		}
+
+		if (strcmp(mode.title, "Classic") == 0) {
+			SDL_FRect clock_rect = {
+				rect.x + 140,
+				rect.y + 10,
+				64, 64
+			};
+
+			SDL_RenderTexture(renderer, textures_get(TEX_CLOCK), NULL,
+				&clock_rect);
+		} else if (strcmp(mode.title, "Leisure") == 0) {
+			SDL_FPoint z_rect = {
+				rect.x + 154, rect.y + 10
+			};
+			draw_char_shadow(renderer, 'Z', z_rect.x, z_rect.y, 2.5);
+
+			z_rect.x += 19;
+			z_rect.y += 15;
+
+			draw_char_shadow(renderer, 'z', z_rect.x, z_rect.y, 2.5);
+
+			z_rect.x -= 17;
+			z_rect.y += 16;
+
+			draw_char_shadow(renderer, 'z', z_rect.x, z_rect.y, 2.5);
 		}
 
 		float centerx = (rect.w - calculate_text_rect(mode.title, 3).w) / 2;

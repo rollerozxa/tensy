@@ -4,7 +4,8 @@
 
 enum {
 	TEX_BG_STRIPES,
-	TEX_CHECK
+	TEX_CHECK,
+	TEX_CLOCK
 };
 
 void textures_init(SDL_Renderer *renderer);
