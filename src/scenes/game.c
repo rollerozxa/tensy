@@ -165,7 +165,7 @@ void game_event(const SDL_Event *ev) {
 void game_update(float dt) {
 	board_update(&board, dt);
 
-	if (gamemode == GM_Classic && !dead) {
+	if (gamemode == GM_Classic && !dead && !has_overlay()) {
 		if (time_left < 0) {
 			switch_overlay("timeout");
 			dead = true;
@@ -224,15 +224,17 @@ void game_draw(SDL_Renderer *renderer) {
 
 	button(renderer, &pause_button);
 
-	SDL_FRect progbar_rect = {0, NATIVE_HEIGHT - 20, -1, 20};
-	progbar_rect.w = NATIVE_WIDTH * (time_left / total_time);
-	if (progbar_rect.w < 40) {
-		set_draw_color(renderer, 0xff0000);
-	} else {
-		set_draw_color(renderer, 0x4871da);
-	}
+	if (gamemode == GM_Classic) {
+		SDL_FRect progbar_rect = {0, NATIVE_HEIGHT - 20, -1, 20};
+		progbar_rect.w = NATIVE_WIDTH * (time_left / total_time);
+		if (progbar_rect.w < 40) {
+			set_draw_color(renderer, 0xff0000);
+		} else {
+			set_draw_color(renderer, 0x4871da);
+		}
 
-	SDL_RenderFillRect(renderer, &progbar_rect);
+		SDL_RenderFillRect(renderer, &progbar_rect);
+	}
 }
 
 Scene game_scene = {
