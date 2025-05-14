@@ -13,5 +13,5 @@ enum GameMode {
 
 extern int score;
 extern Board board;
-extern float time_left;
+extern float time_left, total_time;
 extern enum GameMode gamemode;

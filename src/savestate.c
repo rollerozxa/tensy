@@ -4,15 +4,15 @@
 #include "scenes/game.h"
 #include <stdio.h>
 
-#define WRITE_INT(data) fwrite(&data, sizeof(int), 1, fp)
+#define WRITE_INT(data)   fwrite(&data, sizeof(int), 1, fp)
 #define WRITE_FLOAT(data) fwrite(&data, sizeof(float), 1, fp)
-#define WRITE_CHAR(data) fwrite(&data, sizeof(char), 1, fp)
-#define WRITE_BOOL(data) fwrite(&data, sizeof(bool), 1, fp)
+#define WRITE_CHAR(data)  fwrite(&data, sizeof(char), 1, fp)
+#define WRITE_BOOL(data)  fwrite(&data, sizeof(bool), 1, fp)
 
-#define READ_INT(data) fread(&data, sizeof(int), 1, fp)
-#define READ_FLOAT(data) fread(&data, sizeof(float), 1, fp)
-#define READ_CHAR(data) fread(&data, sizeof(char), 1, fp)
-#define READ_BOOL(data) fread(&data, sizeof(bool), 1, fp)
+#define READ_INT(data)    fread(&data, sizeof(int), 1, fp)
+#define READ_FLOAT(data)  fread(&data, sizeof(float), 1, fp)
+#define READ_CHAR(data)   fread(&data, sizeof(char), 1, fp)
+#define READ_BOOL(data)   fread(&data, sizeof(bool), 1, fp)
 
 const static char filever = 1;
 
@@ -34,6 +34,9 @@ bool savestate_save(void) {
 
 	WRITE_CHAR(filever);
 	WRITE_INT(score);
+	WRITE_INT(gamemode);
+	WRITE_INT(time_left);
+	WRITE_INT(total_time);
 	WRITE_INT(board.w);
 	WRITE_INT(board.h);
 	WRITE_FLOAT(board.scale);
@@ -62,6 +65,9 @@ bool savestate_load(void) {
 		return false; // uhh
 
 	READ_INT(score);
+	READ_INT(gamemode);
+	READ_INT(time_left);
+	READ_INT(total_time);
 	READ_INT(board.w);
 	READ_INT(board.h);
 	READ_FLOAT(board.scale);
