@@ -2,8 +2,9 @@
 #include "board.h"
 #include "consts.h"
 #include "font.h"
-#include "gui/button.h"
+#include "gui/tex_button.h"
 #include "media/sound.h"
+#include "media/textures.h"
 #include "overlay.h"
 #include "render.h"
 #include "savestate.h"
@@ -26,7 +27,7 @@ bool dead = false;
 
 Board board = {NULL, 30, 15, 2};
 
-static Button pause_button;
+static TexButton pause_button;
 
 static int calculate_sum(void) {
 	int sum = 0;
@@ -86,7 +87,7 @@ static void do_move(void) {
 enum GameMode gamemode = GM_Leisure;
 
 void game_init(void) {
-	BUTTON(pause_button, RECT(NATIVE_WIDTH-100,0,100,25), "Pause");
+	TEX_BUTTON(pause_button, RECT(NATIVE_WIDTH-24, 0, 24, 24), TEX_PAUSE);
 
 	helddown = false;
 
@@ -158,7 +159,7 @@ void game_event(const SDL_Event *ev) {
 			board_shuffle_animated(&board, 1);
 	}
 
-	if (button_event(ev, &pause_button))
+	if (tex_button_event(ev, &pause_button))
 		switch_overlay("pause");
 }
 
@@ -204,9 +205,9 @@ void game_draw(SDL_Renderer *renderer) {
 	}
 
 	set_draw_color(renderer, 0x102A6E);
-	SDL_FRect bar_rect = {0, 0, NATIVE_WIDTH, 20};
+	SDL_FRect bar_rect = {0, 0, NATIVE_WIDTH, 24};
 	SDL_RenderFillRect(renderer, &bar_rect);
-	bar_rect.y = NATIVE_HEIGHT - 20;
+	bar_rect.y = NATIVE_HEIGHT - 24;
 	SDL_RenderFillRect(renderer, &bar_rect);
 
 	set_font_color((SDL_Color){0xFF, 0xFF, 0xFF});
@@ -222,7 +223,7 @@ void game_draw(SDL_Renderer *renderer) {
 
 	draw_text(renderer, msg, 0,0, 2);
 
-	button(renderer, &pause_button);
+	tex_button(renderer, &pause_button);
 
 	if (gamemode == GM_Classic) {
 		SDL_FRect progbar_rect = {0, NATIVE_HEIGHT - 20, -1, 20};
