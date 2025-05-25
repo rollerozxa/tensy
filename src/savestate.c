@@ -18,13 +18,22 @@ const static char filever = 1;
 
 static char statesave_file[512];
 
-static char *get_filepath() {
+static char *get_filepath(void) {
 	if (statesave_file[0] == '\0') {
 		strncpy(statesave_file, SDL_GetPrefPath(APP_ORG, APP_NAME), 511);
 		strncat(statesave_file, "savestate.bin", 511);
 	}
 
 	return statesave_file;
+}
+
+bool savestate_exists(void) {
+    FILE *file = fopen(get_filepath(), "r");
+    if (file) {
+        fclose(file);
+        return true;
+    }
+    return false;
 }
 
 bool savestate_save(void) {

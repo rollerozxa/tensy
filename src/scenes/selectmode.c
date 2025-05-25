@@ -1,10 +1,13 @@
 #include "selectmode.h"
 #include "colours.h"
+#include "consts.h"
 #include "font.h"
+#include "gui/button.h"
 #include "media/textures.h"
 #include "mouse.h"
 #include "render.h"
 #include "media/sound.h"
+#include "savestate.h"
 #include "scenes/game.h"
 
 typedef struct {
@@ -65,11 +68,15 @@ static int selected_mode = -1;
 static float xoff, xvel, motion = 0;
 static bool holdingdown = false;
 
+static Button continue_button;
+
 float lerp(float a, float b, float t) {
 	return a * (1-t) + b * t;
 }
 
 void selectmode_init(void) {
+	BUTTON(continue_button, RECT(NATIVE_WIDTH-180, 0, 180, 40), "Continue save");
+
 	selected_mode = -1;
 }
 
@@ -98,6 +105,12 @@ void selectmode_event(const SDL_Event *ev) {
 				motion += SDL_fabs(ev->motion.xrel);
 			}
 			break;
+	}
+
+	if (savestate_exists() && button_event(ev, &continue_button)) {
+		savestate_load();
+		loaded_existing = true;
+		switch_scene("game");
 	}
 }
 
@@ -198,6 +211,9 @@ void selectmode_draw(SDL_Renderer *renderer) {
 			}
 		}
 	}
+
+	if (savestate_exists())
+		button(renderer, &continue_button);
 }
 
 Scene selectmode_scene = {

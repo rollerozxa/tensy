@@ -24,6 +24,7 @@ int score = 0;
 
 float time_left, total_time = 0.f;
 bool dead = false;
+bool loaded_existing = false;
 
 Board board = {NULL, 30, 15, 2};
 
@@ -95,6 +96,11 @@ void game_init(void) {
 
 	first_held_pos = (SDL_Point){-1,-1};
 	current_held_pos = (SDL_Point){-1,-1};
+
+	if (loaded_existing) {
+		loaded_existing = false;
+		return;
+	}
 
 	if (gamemode == GM_Classic) {
 		total_time = 3*60;
