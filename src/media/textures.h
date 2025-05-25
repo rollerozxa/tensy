@@ -6,7 +6,8 @@ enum {
 	TEX_BG_STRIPES,
 	TEX_CHECK,
 	TEX_CLOCK,
-	TEX_PAUSE
+	TEX_PAUSE,
+	TEX_SHUFFLE
 };
 
 void textures_init(SDL_Renderer *renderer);

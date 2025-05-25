@@ -28,6 +28,7 @@ bool dead = false;
 Board board = {NULL, 30, 15, 2};
 
 static TexButton pause_button;
+static TexButton shuffle_button;
 
 static int calculate_sum(void) {
 	int sum = 0;
@@ -88,6 +89,7 @@ enum GameMode gamemode = GM_Leisure;
 
 void game_init(void) {
 	TEX_BUTTON(pause_button, RECT(NATIVE_WIDTH-24, 0, 24, 24), TEX_PAUSE);
+	TEX_BUTTON(shuffle_button, RECT(NATIVE_WIDTH-50, 0, 24, 24), TEX_SHUFFLE);
 
 	helddown = false;
 
@@ -161,6 +163,9 @@ void game_event(const SDL_Event *ev) {
 
 	if (tex_button_event(ev, &pause_button))
 		switch_overlay("pause");
+
+	if (tex_button_event(ev, &shuffle_button))
+		board_shuffle_animated(&board, 1);
 }
 
 void game_update(float dt) {
@@ -224,6 +229,7 @@ void game_draw(SDL_Renderer *renderer) {
 	draw_text(renderer, msg, 0,0, 2);
 
 	tex_button(renderer, &pause_button);
+	tex_button(renderer, &shuffle_button);
 
 	if (gamemode == GM_Classic) {
 		SDL_FRect progbar_rect = {0, NATIVE_HEIGHT - 20, -1, 20};
