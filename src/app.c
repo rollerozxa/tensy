@@ -23,7 +23,15 @@ void AppEvent(SDL_Event *ev) {
 }
 
 void AppUpdate(void) {
-	run_scene_update();
+	static uint64_t last_time = 0;
+	if (last_time == 0)
+		last_time = SDL_GetTicksNS();
+
+	uint64_t now = SDL_GetTicksNS();
+	float dt = (now - last_time) / 1e9f;
+	last_time = now;
+
+	run_scene_update(dt);
 	run_overlay_update();
 }
 
