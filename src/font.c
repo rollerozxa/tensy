@@ -53,10 +53,17 @@ void draw_char(SDL_Renderer *renderer, unsigned char character, float cx, float 
 void draw_char_shadow(SDL_Renderer *renderer, unsigned char character, float cx, float cy, float scale) {
 	SDL_Color temp = get_font_color();
 
+	// TODO: Make this more better (this is just to make toasts fade out)
+	unsigned char alpha;
+	SDL_GetRenderDrawColor(renderer, NULL, NULL, NULL, &alpha);
+	SDL_SetTextureAlphaMod(font_tex, alpha);
+
 	set_font_color((SDL_Color){0, 0, 0});
 	draw_char(renderer, character, cx + scale, cy + scale, scale);
 	set_font_color(temp);
 	draw_char(renderer, character, cx, cy, scale);
+
+	SDL_SetTextureAlphaMod(font_tex, SDL_ALPHA_OPAQUE);
 }
 
 void draw_text(SDL_Renderer *renderer, const char *text, float x, float y, float scale) {

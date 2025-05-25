@@ -5,6 +5,7 @@
 #include "overlay.h"
 #include "scene.h"
 #include "scenes.h"
+#include "toast.h"
 
 void AppInit(SDL_Renderer *renderer) {
 	sound_init();
@@ -33,11 +34,15 @@ void AppUpdate(void) {
 
 	run_scene_update(dt);
 	run_overlay_update();
+
+	update_toast(dt);
 }
 
 void AppDraw(SDL_Renderer *renderer) {
 	run_scene_draw(renderer);
 	run_overlay_draw(renderer);
+
+	draw_toast(renderer);
 
 	debug_draw(renderer);
 

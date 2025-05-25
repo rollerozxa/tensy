@@ -6,6 +6,7 @@
 #include "render.h"
 #include "savestate.h"
 #include "scene.h"
+#include "toast.h"
 
 static Button resume_button, save_button, exit_button;
 
@@ -21,6 +22,7 @@ void pause_event(const SDL_Event *ev) {
 
 	if (button_event(ev, &save_button)) {
 		savestate_save();
+		show_toast("Saved!", 2);
 	}
 
 	if (button_event(ev, &exit_button)) {
