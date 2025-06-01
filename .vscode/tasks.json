@@ -4,7 +4,7 @@
 		{
 			"label": "build",
 			"type": "shell",
-			"command": "ninja",
+			"command": "cmake --build .",
 			"problemMatcher": [],
 			"options": {
 				"cwd": "build/"
