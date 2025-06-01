@@ -42,7 +42,7 @@ SDL_AppResult SDL_AppInit(void **rustptr, int argc, char **argv) {
 
 	SDL_SetRenderVSync(renderer, 1);
 
-	AppInit(renderer);
+	AppInit(window, renderer);
 
 	return SDL_APP_CONTINUE;
 }

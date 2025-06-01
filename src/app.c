@@ -7,9 +7,13 @@
 #include "scenes.h"
 #include "toast.h"
 
-void AppInit(SDL_Renderer *renderer) {
+void AppInit(SDL_Window *window, SDL_Renderer *renderer) {
 	sound_init();
 	textures_init(renderer);
+
+	SDL_Surface *icon = get_icon_surface();
+	SDL_SetWindowIcon(window, icon);
+	SDL_DestroySurface(icon);
 
 	register_scenes();
 

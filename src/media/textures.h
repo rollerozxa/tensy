@@ -13,3 +13,5 @@ enum {
 void textures_init(SDL_Renderer *renderer);
 
 SDL_Texture *textures_get(int texture_id);
+
+SDL_Surface *get_icon_surface(void);

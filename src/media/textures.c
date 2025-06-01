@@ -5,6 +5,7 @@
 #include <data/clock.h>
 #include <data/pause.h>
 #include <data/shuffle.h>
+#include <data/icon.h>
 
 #include <SDL_QOI/SDL_QOI.h>
 
@@ -23,6 +24,10 @@ void textures_init(SDL_Renderer *renderer) {
 	LOAD_TEX(TEX_SHUFFLE, shuffle_qoi);
 
 	textures_loaded = true;
+}
+
+SDL_Surface *get_icon_surface(void) {
+	return SDL_LoadQOI_IO(SDL_IOFromMem(icon_qoi, icon_qoi_len));
 }
 
 SDL_Texture *textures_get(int texture_id) {

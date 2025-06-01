@@ -2,7 +2,7 @@
 
 #include <SDL3/SDL.h>
 
-void AppInit(SDL_Renderer *renderer);
+void AppInit(SDL_Window *window, SDL_Renderer *renderer);
 void AppEvent(SDL_Event *ev);
 void AppUpdate(void);
 void AppDraw(SDL_Renderer *renderer);
