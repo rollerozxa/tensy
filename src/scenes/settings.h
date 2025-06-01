@@ -6,6 +6,7 @@
 typedef struct {
 	bool board_physics;
 	bool coloured_numbers;
+	bool secret_five;
 } Settings;
 
 Settings *settings(void);

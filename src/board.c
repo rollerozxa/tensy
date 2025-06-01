@@ -2,7 +2,7 @@
 #include "colours.h"
 #include "consts.h"
 #include "font.h"
-#include "scene.h"
+#include "scenes/game.h"
 #include <stdlib.h>
 #include <string.h>
 
@@ -47,6 +47,13 @@ void board_cleanup(Board *board) {
 	free(board->p);
 }
 
+static int calc_cell_number(Board *board, int x, int y) {
+	if (gamemode == GM_Five)
+		return 5;
+	else
+		return SDL_rand(9) + 1;
+}
+
 void board_reset(Board *board) {
 	if (board->p != NULL)
 		board_cleanup(board);
@@ -57,7 +64,7 @@ void board_reset(Board *board) {
 		board->p[x] = malloc(sizeof(Cell) * board->h);
 
 		for (int y = 0; y < board->h; y++) {
-			board->p[x][y].number = SDL_rand(9) + 1;
+			board->p[x][y].number = calc_cell_number(board, x, y);
 			board->p[x][y].removed = false;
 		}
 	}

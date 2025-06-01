@@ -4,11 +4,14 @@
 #include "font.h"
 #include "gui/button.h"
 #include "gui/checkbox.h"
+#include "media/sound.h"
 #include "scene.h"
+#include "toast.h"
 
 // Settings storage
 
 static Settings settings_data = {
+	false,
 	false,
 	false,
 };
@@ -38,6 +41,12 @@ void settings_event(const SDL_Event *ev) {
 
 	if (button_event(ev, &save_button))
 		switch_scene("mainmenu");
+
+	if (ev->type == SDL_EVENT_KEY_UP && ev->key.scancode == SDL_SCANCODE_5 && !settings()->secret_five) {
+		settings()->secret_five = true;
+		sound_play(SND_WOOZY);
+		show_toast("...huh...?", 3);
+	}
 }
 
 void settings_draw(SDL_Renderer *renderer) {

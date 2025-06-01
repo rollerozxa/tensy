@@ -9,6 +9,7 @@
 #include "media/sound.h"
 #include "savestate.h"
 #include "scenes/game.h"
+#include "scenes/settings.h"
 
 typedef struct {
 	const char *title;
@@ -16,15 +17,21 @@ typedef struct {
 	char board[4][7];
 	bool disabled;
 	void (*click)(void);
+	bool (*enabled)(void);
 } Mode;
 
-static void classic_click(void) {
-	gamemode = GM_Classic;
-	switch_scene("gameconfig");
-}
-static void leisure_click(void) {
-	gamemode = GM_Leisure;
-	switch_scene("gameconfig");
+#define GM_CLICK(name, enum) \
+	static void name##_click(void) { \
+		gamemode = enum; \
+		switch_scene("gameconfig"); \
+	}
+
+GM_CLICK(classic, GM_Classic)
+GM_CLICK(leisure, GM_Leisure)
+GM_CLICK(five, GM_Five)
+
+static bool five_enabled(void) {
+	return settings()->secret_five;
 }
 
 static Mode modes[] = {
@@ -60,6 +67,23 @@ static Mode modes[] = {
 		},
 		false,
 		leisure_click
+	},
+	{
+		"Five",
+		{
+			"What?? This isn't",
+			"even a real game",
+			"mode!?"
+		},
+		{
+			{5,5,5,5,5,5},
+			{5,5,5,5,5,5},
+			{5,5,5,5,5,5},
+			{5,5,5,5,5,5},
+		},
+		false,
+		five_click,
+		five_enabled
 	},
 };
 static size_t mode_count = sizeof(modes) / sizeof(modes[0]);
@@ -132,6 +156,9 @@ void selectmode_draw(SDL_Renderer *renderer) {
 		set_font_color(CLR_WHITE);
 
 		Mode mode = modes[i];
+
+		if (mode.enabled != NULL && !mode.enabled())
+			continue;
 
 		SDL_FRect rect = {
 			10 + i * 240 - xoff, 54, 230, 280

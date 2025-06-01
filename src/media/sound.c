@@ -3,6 +3,7 @@
 #include <data/click.h>
 #include <data/match.h>
 #include <data/select.h>
+#include <data/woozy.h>
 
 #include <SDL3_mixer/SDL_mixer.h>
 
@@ -18,6 +19,7 @@ void sound_init(void) {
 	LOAD_SOUND(SND_CLICK, click_ogg);
 	LOAD_SOUND(SND_MATCH, match_wav);
 	LOAD_SOUND(SND_SELECT, select_wav);
+	LOAD_SOUND(SND_WOOZY, woozy_ogg);
 
 	sound_loaded = true;
 }

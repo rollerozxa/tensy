@@ -8,7 +8,8 @@ extern Scene game_scene;
 
 enum GameMode {
 	GM_Classic,
-	GM_Leisure
+	GM_Leisure,
+	GM_Five,
 };
 
 extern int score;
