@@ -17,8 +17,6 @@ SDL_AppResult SDL_AppInit(void **rustptr, int argc, char **argv) {
 
 	SDL_srand(0);
 
-	SDL_SetHint(SDL_HINT_VITA_TOUCH_MOUSE_DEVICE, "0");
-
 	SDL_SetAppMetadata(APP_NAME, NULL, APP_ID);
 
 	SDL_Init(SDL_INIT_VIDEO);
