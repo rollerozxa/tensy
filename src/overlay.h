@@ -16,6 +16,8 @@ int add_overlay(Overlay overlay);
 
 int switch_overlay(const char *name);
 
+const char *get_current_overlay(void);
+
 void hide_overlay(void);
 bool has_overlay(void);
 

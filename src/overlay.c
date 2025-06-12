@@ -29,6 +29,10 @@ int switch_overlay(const char *name) {
 	return 0;
 }
 
+const char *get_current_overlay(void) {
+	return has_overlay() ? overlays[current_overlay].name : NULL;
+}
+
 void hide_overlay(void) {
 	current_overlay = -1;
 }

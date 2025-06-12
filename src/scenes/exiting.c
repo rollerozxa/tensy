@@ -1,8 +1,13 @@
 #include "exiting.h"
+#include "overlay.h"
 
 static int timeout = 0;
 
 bool exiting = false;
+
+void exiting_init(void) {
+	hide_overlay();
+}
 
 void exiting_update(float dt) {
 	timeout++;
@@ -13,7 +18,7 @@ void exiting_update(float dt) {
 
 Scene exiting_scene = {
 	"exiting",
-	NULL,
+	exiting_init,
 	NULL,
 	exiting_update,
 	NULL,
