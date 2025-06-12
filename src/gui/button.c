@@ -6,6 +6,10 @@
 #include "mouse.h"
 #include "render.h"
 
+static float label_scale(float btn_height) {
+	return btn_height <= 25 ? 1.5 : 2;
+}
+
 bool button_event(const SDL_Event *ev, Button *button) {
 	if (SDL_PointInRectFloat(&POINT(ev->motion.x, ev->motion.y), &button->rect)) {
 		if (ev->type == SDL_EVENT_MOUSE_BUTTON_DOWN) {
@@ -40,8 +44,8 @@ void button(SDL_Renderer *renderer, Button *button) {
 	} else
 		draw_box(renderer, &rect);
 
-	SDL_FRect text_rect = calculate_text_rect(text, 2);
+	SDL_FRect text_rect = calculate_text_rect(text, label_scale(rect.h));
 
 	set_font_color(CLR_WHITE);
-	draw_text_shadow(renderer, text, rect.x+(rect.w-(float)text_rect.w)/2, rect.y+(rect.h-(float)text_rect.h)/2, 2);
+	draw_text_shadow(renderer, text, rect.x+(rect.w-(float)text_rect.w)/2, rect.y+(rect.h-(float)text_rect.h)/2, label_scale(rect.h));
 }
