@@ -1,5 +1,6 @@
 #include "scenes.h"
 #include "overlays/pause.h"
+#include "overlays/shuffle.h"
 #include "overlays/timeout.h"
 #include "scenes/exiting.h"
 #include "scenes/game.h"
@@ -18,5 +19,6 @@ void register_scenes(void) {
 	add_scene(settings_scene);
 
 	add_overlay(pause_overlay);
+	add_overlay(shuffle_overlay);
 	add_overlay(timeout_overlay);
 }

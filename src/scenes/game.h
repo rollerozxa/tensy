@@ -17,3 +17,4 @@ extern Board board;
 extern float time_left, total_time;
 extern enum GameMode gamemode;
 extern bool loaded_existing;
+extern int shuffles;

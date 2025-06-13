@@ -15,18 +15,18 @@
 #include <stdlib.h>
 #include <math.h>
 
+int score = 0;
+Board board = {NULL, 30, 15, 2};
+float time_left, total_time = 0.f;
+enum GameMode gamemode = GM_Leisure;
+bool loaded_existing = false;
+int shuffles = 0;
+
 static bool helddown = false;
 static SDL_Point first_held_pos = {-1,-1};
 static SDL_Point current_held_pos = {-1,-1};
 static int held_sum = -1;
-
-int score = 0;
-
-float time_left, total_time = 0.f;
-bool dead = false;
-bool loaded_existing = false;
-
-Board board = {NULL, 30, 15, 2};
+static bool dead = false;
 
 static TexButton pause_button;
 static TexButton shuffle_button;
@@ -86,8 +86,6 @@ static void do_move(void) {
 	score += sum * (removed_cells-1);
 }
 
-enum GameMode gamemode = GM_Leisure;
-
 void game_init(void) {
 	TEX_BUTTON(pause_button, RECT(NATIVE_WIDTH-24, 0, 24, 24), TEX_PAUSE);
 	TEX_BUTTON(shuffle_button, RECT(NATIVE_WIDTH-50, 0, 24, 24), TEX_SHUFFLE);
@@ -106,6 +104,8 @@ void game_init(void) {
 		total_time = 3*60;
 		time_left = 3*60;
 	}
+
+	shuffles = 3;
 
 	score = 0;
 	dead = false;
@@ -170,14 +170,16 @@ void game_event(const SDL_Event *ev) {
 	if (tex_button_event(ev, &pause_button))
 		switch_overlay("pause");
 
-	if (tex_button_event(ev, &shuffle_button))
-		board_shuffle_animated(&board, 1);
+	if (shuffles > 0) {
+		if (tex_button_event(ev, &shuffle_button))
+			switch_overlay("shuffle");
+	}
 }
 
 void game_update(float dt) {
 	board_update(&board, dt);
 
-	if (gamemode == GM_Classic && !dead && !has_overlay()) {
+	if (gamemode == GM_Classic && !dead && (!has_overlay() || strcmp(get_current_overlay(), "shuffle") == 0)) {
 		if (time_left < 0) {
 			switch_overlay("timeout");
 			dead = true;
@@ -235,6 +237,8 @@ void game_draw(SDL_Renderer *renderer) {
 	draw_text(renderer, msg, 0,0, 2);
 
 	tex_button(renderer, &pause_button);
+	shuffle_button._disabled = shuffles == 0;
+
 	tex_button(renderer, &shuffle_button);
 
 	if (gamemode == GM_Classic) {
