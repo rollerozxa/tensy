@@ -6,6 +6,7 @@ typedef struct {
 	SDL_FRect rect;
 	int texture;
 	bool _held;
+	bool _disabled;
 } TexButton;
 
 #define TEX_BUTTON(obj, rect, tex) \
