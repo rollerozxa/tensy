@@ -48,7 +48,8 @@ SDL_AppResult SDL_AppInit(void **rustptr, int argc, char **argv) {
 SDL_AppResult SDL_AppEvent(void *rustptr, SDL_Event *ev) {
 
 	if (ev->type == SDL_EVENT_QUIT
-	|| (ev->type == SDL_EVENT_KEY_DOWN && ev->key.scancode == SDL_SCANCODE_Q)) {
+	|| (ev->type == SDL_EVENT_KEY_DOWN && ev->key.scancode == SDL_SCANCODE_Q
+		&& (ev->key.mod & SDL_KMOD_CTRL) && (ev->key.mod & SDL_KMOD_SHIFT))) {
 		AppQuit();
 		return SDL_APP_CONTINUE;
 	}
