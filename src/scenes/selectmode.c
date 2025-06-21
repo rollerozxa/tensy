@@ -3,6 +3,7 @@
 #include "consts.h"
 #include "font.h"
 #include "gui/button.h"
+#include "input.h"
 #include "media/textures.h"
 #include "mouse.h"
 #include "render.h"
@@ -128,6 +129,12 @@ void selectmode_event(const SDL_Event *ev) {
 				xvel -= ev->motion.xrel;
 				motion += SDL_fabs(ev->motion.xrel);
 			}
+			break;
+
+		case SDL_EVENT_KEY_UP:
+			if (is_escaping(ev))
+				switch_scene("mainmenu");
+
 			break;
 	}
 

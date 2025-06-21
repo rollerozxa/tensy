@@ -2,6 +2,7 @@
 #include "consts.h"
 #include "font.h"
 #include "gui/button.h"
+#include "input.h"
 #include "overlay.h"
 #include "render.h"
 #include "scene.h"
@@ -15,7 +16,7 @@ void timeout_init(void) {
 }
 
 void timeout_event(const SDL_Event *ev) {
-	if (button_event(ev, &exit_button)) {
+	if (button_event(ev, &exit_button) || is_escaping(ev)) {
 		hide_overlay();
 		switch_scene("selectmode");
 	}

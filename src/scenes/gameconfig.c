@@ -4,6 +4,7 @@
 #include "consts.h"
 #include "font.h"
 #include "gui/button.h"
+#include "input.h"
 #include "scene.h"
 #include "scenes/game.h"
 
@@ -51,6 +52,9 @@ void gameconfig_event(const SDL_Event *ev) {
 	else if (ev->type == SDL_EVENT_KEY_UP && ev->key.scancode == SDL_SCANCODE_LSHIFT)
 		show_hyuge = false;
 
+	if (is_escaping(ev))
+		switch_scene("selectmode");
+
 	for (size_t i = 0; i < num_board_sizes; i++) {
 		BoardSize *board_size = &board_sizes[i];
 		if (button_event(ev, &board_size->button)) {
@@ -61,9 +65,8 @@ void gameconfig_event(const SDL_Event *ev) {
 		}
 	}
 
-	if (button_event(ev, &go_button)) {
+	if (button_event(ev, &go_button))
 		switch_scene("game");
-	}
 }
 
 void gameconfig_draw(SDL_Renderer *renderer) {

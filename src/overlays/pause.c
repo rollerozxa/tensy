@@ -2,6 +2,7 @@
 #include "consts.h"
 #include "font.h"
 #include "gui/button.h"
+#include "input.h"
 #include "overlay.h"
 #include "render.h"
 #include "savestate.h"
@@ -17,7 +18,7 @@ void pause_init(void) {
 }
 
 void pause_event(const SDL_Event *ev) {
-	if (button_event(ev, &resume_button))
+	if (button_event(ev, &resume_button) || is_escaping(ev))
 		hide_overlay();
 
 	if (button_event(ev, &save_button)) {

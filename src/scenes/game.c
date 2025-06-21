@@ -3,6 +3,7 @@
 #include "consts.h"
 #include "font.h"
 #include "gui/tex_button.h"
+#include "input.h"
 #include "media/sound.h"
 #include "media/textures.h"
 #include "overlay.h"
@@ -154,9 +155,6 @@ void game_event(const SDL_Event *ev) {
 		held_sum = -1;
 		helddown = false;
 	} else if (ev->type == SDL_EVENT_KEY_UP) {
-		if (ev->key.key == SDLK_AC_BACK)
-			switch_scene("mainmenu");
-
 		if (ev->key.key == SDLK_F5)
 			savestate_save();
 
@@ -167,7 +165,7 @@ void game_event(const SDL_Event *ev) {
 			board_shuffle_animated(&board, 1);
 	}
 
-	if (tex_button_event(ev, &pause_button))
+	if (tex_button_event(ev, &pause_button) || is_escaping(ev))
 		switch_overlay("pause");
 
 	if (shuffles > 0) {

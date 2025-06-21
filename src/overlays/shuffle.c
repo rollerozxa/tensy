@@ -3,6 +3,7 @@
 #include "consts.h"
 #include "font.h"
 #include "gui/button.h"
+#include "input.h"
 #include "render.h"
 #include "scenes/game.h"
 #include <stdio.h>
@@ -21,7 +22,7 @@ void shuffle_event(const SDL_Event *ev) {
 		hide_overlay();
 	}
 
-	if (button_event(ev, &no_button))
+	if (button_event(ev, &no_button) || is_escaping(ev))
 		hide_overlay();
 }
 

@@ -4,6 +4,7 @@
 #include "font.h"
 #include "gui/button.h"
 #include "gui/checkbox.h"
+#include "input.h"
 #include "media/sound.h"
 #include "scene.h"
 #include "toast.h"
@@ -39,7 +40,7 @@ void settings_event(const SDL_Event *ev) {
 	if (checkbox_event(ev, &coloured_numbers_checkbox))
 		settings()->coloured_numbers = coloured_numbers_checkbox.checked;
 
-	if (button_event(ev, &save_button))
+	if (button_event(ev, &save_button) || is_escaping(ev))
 		switch_scene("mainmenu");
 
 	if (ev->type == SDL_EVENT_KEY_UP && ev->key.scancode == SDL_SCANCODE_5 && !settings()->secret_five) {

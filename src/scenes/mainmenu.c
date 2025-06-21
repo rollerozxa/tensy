@@ -2,6 +2,7 @@
 #include "consts.h"
 #include "font.h"
 #include "gui/button.h"
+#include "input.h"
 #include "media/textures.h"
 #include "scene.h"
 
@@ -25,7 +26,7 @@ void mainmenu_event(const SDL_Event *ev) {
 	if (button_event(ev, &settings_button))
 		switch_scene("settings");
 
-	if (ev->type == SDL_EVENT_KEY_UP && ev->key.key == SDLK_AC_BACK)
+	if (is_escaping(ev))
 		switch_scene("exiting");
 }
 
