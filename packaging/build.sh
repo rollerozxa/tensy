@@ -76,8 +76,6 @@ mkdir -p "$BUILDDIR"
 rm -rf "$BINDIR"
 mkdir -p "$BINDIR"
 
-source "${SRCDIR}/packaging/dl-deps.sh"
-
 pushd "$BUILDDIR"
 
 cmd=(cmake "$SRCDIR" "${CMAKE_FLAGS[@]}")
