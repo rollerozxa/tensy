@@ -50,6 +50,7 @@ bool savestate_save(void) {
 	WRITE_INT(board.h);
 	WRITE_FLOAT(board.scale);
 	WRITE_FLOAT(board.cell_size);
+	WRITE_BOOL(board.physics);
 	for (int x = 0; x < board.w; x++) {
 		for (int y = 0; y < board.h; y++) {
 			// MSB is used to store whether a cell has been removed
@@ -81,6 +82,7 @@ bool savestate_load(void) {
 	READ_INT(board.h);
 	READ_FLOAT(board.scale);
 	READ_FLOAT(board.cell_size);
+	READ_BOOL(board.physics);
 	board_change_scale(&board, board.scale);
 	board_reset(&board);
 	for (int x = 0; x < board.w; x++) {
