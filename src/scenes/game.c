@@ -81,7 +81,7 @@ static void do_move(void) {
 		removed_cells++;
 	}}
 
-	if (settings()->board_physics)
+	if (board.physics)
 		board_physics();
 
 	score += sum * (removed_cells-1);

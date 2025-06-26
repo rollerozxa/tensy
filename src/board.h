@@ -24,6 +24,7 @@ typedef struct {
 	SDL_FRect rect;
 	SDL_FPoint rect_offset;
 	int _allocated_columns;
+	bool physics;
 	BoardAnimation anim;
 } Board;
 

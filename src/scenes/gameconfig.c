@@ -4,9 +4,11 @@
 #include "consts.h"
 #include "font.h"
 #include "gui/button.h"
+#include "gui/checkbox.h"
 #include "input.h"
 #include "scene.h"
 #include "scenes/game.h"
+#include "scenes/settings.h"
 
 typedef struct {
 	int w;
@@ -29,18 +31,21 @@ static bool show_hyuge = false;
 static Board board_preview = {NULL, 30, 15, 2};
 
 static Button go_button;
+static Checkbox physics_checkbox;
 
 void gameconfig_init(void) {
 	for (size_t i = 0; i < num_board_sizes; i++) {
 		int btn_width = 100;
-		SDL_FRect button_rect = {150 + i * (btn_width + 15), 80, btn_width, 40};
+		SDL_FRect button_rect = {150 + i * (btn_width + 15), 75, btn_width, 40};
 
 		BUTTON(board_sizes[i].button, button_rect, board_sizes[i].name);
 	}
 
 	BUTTON(go_button, RECT(0,NATIVE_HEIGHT-40, NATIVE_WIDTH, 40), "Play");
 
-	board_preview.rect_offset = POINT(0, 50);
+	CHECKBOX(physics_checkbox, POINT(20, 140), false, "Board physics");
+
+	board_preview.rect_offset = POINT(150, 50);
 	board_change_size(&board_preview, board_sizes[2].w, board_sizes[2].h, board_sizes[2].scale -1);
 	board_zerofill(&board_preview);
 }
@@ -67,16 +72,19 @@ void gameconfig_event(const SDL_Event *ev) {
 
 	if (button_event(ev, &go_button))
 		switch_scene("game");
+
+	if (checkbox_event(ev, &physics_checkbox))
+		board.physics = physics_checkbox.checked;
 }
 
 void gameconfig_draw(SDL_Renderer *renderer) {
 	set_font_color(CLR_WHITE);
-	draw_text_shadow(renderer, "Configure game", 20, 20, 3);
+	draw_text_shadow(renderer, "Configure game", 10, 10, 3);
 
 	board_draw(&board_preview, renderer, false);
 
 	SDL_FRect label_rect = RECTCPY(board_sizes[0].button.rect);
-	label_rect.x = 20;
+	label_rect.x = 25;
 	draw_text_shadow_centered(renderer, "Board size", &label_rect, 2);
 	for (size_t i = 0; i < num_board_sizes; i++) {
 		if (i == 3 && !show_hyuge)
@@ -84,6 +92,8 @@ void gameconfig_draw(SDL_Renderer *renderer) {
 
 		button(renderer, &board_sizes[i].button);
 	}
+
+	checkbox(renderer, &physics_checkbox);
 
 	button(renderer, &go_button);
 }
