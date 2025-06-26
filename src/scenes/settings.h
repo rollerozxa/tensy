@@ -4,7 +4,6 @@
 #include <SDL3/SDL.h>
 
 typedef struct {
-	bool board_physics;
 	bool coloured_numbers;
 	bool secret_five;
 } Settings;
