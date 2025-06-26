@@ -2,6 +2,7 @@
 #include "colours.h"
 #include "consts.h"
 #include "font.h"
+#include "media/sound.h"
 #include "media/textures.h"
 #include "mouse.h"
 #include "render.h"
@@ -20,6 +21,7 @@ bool checkbox_event(const SDL_Event *ev, Checkbox *checkbox) {
 	if (ev->type == SDL_EVENT_MOUSE_BUTTON_UP
 			&& SDL_PointInRectFloat(&POINT(ev->motion.x, ev->motion.y), &full_rect)) {
 		checkbox->checked = !checkbox->checked;
+		sound_play(SND_CLICK);
 		return true;
 	}
 
