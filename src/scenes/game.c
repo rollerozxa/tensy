@@ -2,6 +2,7 @@
 #include "board.h"
 #include "consts.h"
 #include "font.h"
+#include "gamesettings.h"
 #include "gui/tex_button.h"
 #include "input.h"
 #include "media/sound.h"
@@ -10,7 +11,6 @@
 #include "render.h"
 #include "savestate.h"
 #include "scene.h"
-#include "settings.h"
 
 #include <stdio.h>
 #include <stdlib.h>

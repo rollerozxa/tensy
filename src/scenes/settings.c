@@ -2,25 +2,13 @@
 #include "colours.h"
 #include "consts.h"
 #include "font.h"
+#include "gamesettings.h"
 #include "gui/button.h"
 #include "gui/checkbox.h"
 #include "input.h"
 #include "media/sound.h"
 #include "scene.h"
 #include "toast.h"
-
-// Settings storage
-
-static Settings settings_data = {
-	false,
-	false,
-};
-
-Settings *settings(void) {
-	return &settings_data;
-}
-
-// Settings scene
 
 static Checkbox coloured_numbers_checkbox;
 

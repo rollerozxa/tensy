@@ -2,15 +2,15 @@
 #include "colours.h"
 #include "consts.h"
 #include "font.h"
+#include "gamesettings.h"
 #include "gui/button.h"
 #include "input.h"
+#include "media/sound.h"
 #include "media/textures.h"
 #include "mouse.h"
 #include "render.h"
-#include "media/sound.h"
 #include "savestate.h"
 #include "scenes/game.h"
-#include "scenes/settings.h"
 
 typedef struct {
 	const char *title;
