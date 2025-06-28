@@ -48,6 +48,7 @@ file(GLOB SRCS
 	src/*.c
 	src/gui/*.c
 	src/media/*.c
+	src/modes/*.c
 	src/overlays/*.c
 	src/scenes/*.c
 	lib/*.c

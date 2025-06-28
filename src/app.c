@@ -1,5 +1,6 @@
 #include "app.h"
 #include "debug.h"
+#include "gamemode.h"
 #include "media/sound.h"
 #include "media/textures.h"
 #include "overlay.h"
@@ -16,6 +17,7 @@ void AppInit(SDL_Window *window, SDL_Renderer *renderer) {
 	SDL_DestroySurface(icon);
 
 	register_scenes();
+	init_gamemodes();
 
 	run_scene_init();
 }

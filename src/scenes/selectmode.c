@@ -2,7 +2,7 @@
 #include "colours.h"
 #include "consts.h"
 #include "font.h"
-#include "gamesettings.h"
+#include "gamemode.h"
 #include "gui/button.h"
 #include "input.h"
 #include "media/sound.h"
@@ -11,83 +11,6 @@
 #include "render.h"
 #include "savestate.h"
 #include "scenes/game.h"
-
-typedef struct {
-	const char *title;
-	const char *description[4];
-	char board[4][7];
-	bool disabled;
-	void (*click)(void);
-	bool (*enabled)(void);
-} Mode;
-
-#define GM_CLICK(name, enum) \
-	static void name##_click(void) { \
-		gamemode = enum; \
-		switch_scene("gameconfig"); \
-	}
-
-GM_CLICK(classic, GM_Classic)
-GM_CLICK(leisure, GM_Leisure)
-GM_CLICK(five, GM_Five)
-
-static bool five_enabled(void) {
-	return settings()->secret_five;
-}
-
-static Mode modes[] = {
-	{
-		"Classic",
-		{
-			"Collect as much ",
-			"score as possible",
-			"within the time",
-			"limit."
-		},
-		{
-			{2,2,3,1,0,0},
-			{1,2,2,2,0,0},
-			{1,4,2,4,1,3},
-			{2,3,2,3,4,3},
-		},
-		false,
-		classic_click
-	},
-	{
-		"Leisure",
-		{
-			"Infinite time,",
-			"infinite shuffles,",
-			"infinite calm."
-		},
-		{
-			{2,2,2,2,0,0},
-			{2,2,2,2,0,0},
-			{2,2,1,1,1,1},
-			{2,2,1,1,1,1},
-		},
-		false,
-		leisure_click
-	},
-	{
-		"Five",
-		{
-			"What?? This isn't",
-			"even a real game",
-			"mode!?"
-		},
-		{
-			{5,5,5,5,5,5},
-			{5,5,5,5,5,5},
-			{5,5,5,5,5,5},
-			{5,5,5,5,5,5},
-		},
-		false,
-		five_click,
-		five_enabled
-	},
-};
-static size_t mode_count = sizeof(modes) / sizeof(modes[0]);
 
 static int selected_mode = -1;
 static float xoff, xvel, motion = 0;
@@ -118,7 +41,7 @@ void selectmode_event(const SDL_Event *ev) {
 		case SDL_EVENT_MOUSE_BUTTON_UP:
 			if (xvel < 0.05 && selected_mode != -1) {
 				sound_play(SND_CLICK);
-				modes[selected_mode].click();
+				gamemodes[selected_mode].click();
 			}
 			motion = 0;
 			holdingdown = false;
@@ -159,10 +82,10 @@ void selectmode_draw(SDL_Renderer *renderer) {
 
 	draw_text_shadow(renderer, "Select mode", 10, 10, 3);
 
-	for (size_t i = 0; i < mode_count; i++) {
+	for (size_t i = 0; i < gamemode_count; i++) {
 		set_font_color(CLR_WHITE);
 
-		Mode mode = modes[i];
+		GameMode mode = gamemodes[i];
 
 		if (mode.enabled != NULL && !mode.enabled())
 			continue;
@@ -201,7 +124,7 @@ void selectmode_draw(SDL_Renderer *renderer) {
 			}
 		}
 
-		if (strcmp(mode.title, "Classic") == 0) {
+		if (strcmp(mode.name, "Classic") == 0) {
 			SDL_FRect clock_rect = {
 				rect.x + 140,
 				rect.y + 10,
@@ -210,7 +133,7 @@ void selectmode_draw(SDL_Renderer *renderer) {
 
 			SDL_RenderTexture(renderer, textures_get(TEX_CLOCK), NULL,
 				&clock_rect);
-		} else if (strcmp(mode.title, "Leisure") == 0) {
+		} else if (strcmp(mode.name, "Leisure") == 0) {
 			SDL_FPoint z_rect = {
 				rect.x + 154, rect.y + 10
 			};
@@ -227,8 +150,8 @@ void selectmode_draw(SDL_Renderer *renderer) {
 			draw_char_shadow(renderer, 'z', z_rect.x, z_rect.y, 2.5);
 		}
 
-		float centerx = (rect.w - calculate_text_rect(mode.title, 3).w) / 2;
-		draw_text_shadow(renderer, mode.title, rect.x + centerx, 205, 3);
+		float centerx = (rect.w - calculate_text_rect(mode.name, 3).w) / 2;
+		draw_text_shadow(renderer, mode.name, rect.x + centerx, 205, 3);
 
 		for (int j = 0; j < 4; j++) {
 			if (mode.description[j])
