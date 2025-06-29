@@ -42,19 +42,20 @@ bool savestate_save(void) {
 		return false;
 
 	WRITE_CHAR(filever);
-	WRITE_INT(score);
-	WRITE_INT(gamemode);
-	WRITE_INT(time_left);
-	WRITE_INT(total_time);
-	WRITE_INT(board.w);
-	WRITE_INT(board.h);
-	WRITE_FLOAT(board.scale);
-	WRITE_FLOAT(board.cell_size);
-	WRITE_BOOL(board.physics);
-	for (int x = 0; x < board.w; x++) {
-		for (int y = 0; y < board.h; y++) {
+	WRITE_INT(game.score);
+	WRITE_INT(game.mode);
+	WRITE_INT(game.time_left);
+	WRITE_INT(game.total_time);
+	WRITE_INT(game.board.w);
+	WRITE_INT(game.board.h);
+	WRITE_FLOAT(game.board.scale);
+	WRITE_FLOAT(game.board.cell_size);
+	WRITE_BOOL(game.board.physics);
+	for (int x = 0; x < game.board.w; x++) {
+		for (int y = 0; y < game.board.h; y++) {
 			// MSB is used to store whether a cell has been removed
-			char packed = board.p[x][y].number + (board.p[x][y].removed << 7);
+			char packed = game.board.p[x][y].number
+					+ (game.board.p[x][y].removed << 7);
 			WRITE_CHAR(packed);
 		}
 	}
@@ -74,24 +75,24 @@ bool savestate_load(void) {
 	if (tmp != filever)
 		return false; // uhh
 
-	READ_INT(score);
-	READ_INT(gamemode);
-	READ_INT(time_left);
-	READ_INT(total_time);
-	READ_INT(board.w);
-	READ_INT(board.h);
-	READ_FLOAT(board.scale);
-	READ_FLOAT(board.cell_size);
-	READ_BOOL(board.physics);
-	board_change_scale(&board, board.scale);
-	board_reset(&board);
-	for (int x = 0; x < board.w; x++) {
-		for (int y = 0; y < board.h; y++) {
+	READ_INT(game.score);
+	READ_INT(game.mode);
+	READ_INT(game.time_left);
+	READ_INT(game.total_time);
+	READ_INT(game.board.w);
+	READ_INT(game.board.h);
+	READ_FLOAT(game.board.scale);
+	READ_FLOAT(game.board.cell_size);
+	READ_BOOL(game.board.physics);
+	board_change_scale(&game.board, game.board.scale);
+	board_reset(&game.board);
+	for (int x = 0; x < game.board.w; x++) {
+		for (int y = 0; y < game.board.h; y++) {
 			char packed;
 			READ_CHAR(packed);
 			// Unpack cell removed value from the MSB
-			board.p[x][y].number = packed & 0x7F;
-			board.p[x][y].removed = (packed & 0x80) != 0;
+			game.board.p[x][y].number = packed & 0x7F;
+			game.board.p[x][y].removed = (packed & 0x80) != 0;
 		}
 	}
 	fclose(fp);

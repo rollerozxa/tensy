@@ -7,9 +7,13 @@
 
 extern Scene game_scene;
 
-extern int score;
-extern Board board;
-extern float time_left, total_time;
-extern enum GameMode gamemode;
-extern bool loaded_existing;
-extern int shuffles;
+typedef struct {
+	Board board;
+	int score;
+	float time_left, total_time;
+	enum GameMode mode;
+	bool loaded_existing;
+	int shuffles;
+} Game;
+
+extern Game game;

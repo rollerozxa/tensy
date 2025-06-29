@@ -16,12 +16,19 @@
 #include <stdlib.h>
 #include <math.h>
 
-int score = 0;
-Board board = {NULL, 30, 15, 2};
-float time_left, total_time = 0.f;
-enum GameMode gamemode = GM_Leisure;
-bool loaded_existing = false;
-int shuffles = 0;
+Game game = {
+	.board = {NULL, 30, 15, 2},
+	.score = 0,
+	.time_left = 0.f,
+	.total_time = 0.f,
+	.mode = GM_Leisure,
+	.loaded_existing = false,
+	.shuffles = 0
+};
+
+#define board game.board
+#define time_left game.time_left
+#define total_time game.total_time
 
 static bool helddown = false;
 static SDL_Point first_held_pos = {-1,-1};
@@ -84,7 +91,7 @@ static void do_move(void) {
 	if (board.physics)
 		board_physics();
 
-	score += sum * (removed_cells-1);
+	game.score += sum * (removed_cells-1);
 }
 
 void game_init(void) {
@@ -96,19 +103,19 @@ void game_init(void) {
 	first_held_pos = (SDL_Point){-1,-1};
 	current_held_pos = (SDL_Point){-1,-1};
 
-	if (loaded_existing) {
-		loaded_existing = false;
+	if (game.loaded_existing) {
+		game.loaded_existing = false;
 		return;
 	}
 
-	if (gamemode == GM_Classic) {
+	if (game.mode == GM_Classic) {
 		total_time = 3*60;
 		time_left = 3*60;
 	}
 
-	shuffles = 3;
+	game.shuffles = 3;
 
-	score = 0;
+	game.score = 0;
 	dead = false;
 	board_change_size(&board, board.w, board.h, board.scale);
 	board_reset(&board);
@@ -168,7 +175,7 @@ void game_event(const SDL_Event *ev) {
 	if (tex_button_event(ev, &pause_button) || is_escaping(ev))
 		switch_overlay("pause");
 
-	if (shuffles > 0) {
+	if (game.shuffles > 0) {
 		if (tex_button_event(ev, &shuffle_button))
 			switch_overlay("shuffle");
 	}
@@ -177,7 +184,7 @@ void game_event(const SDL_Event *ev) {
 void game_update(float dt) {
 	board_update(&board, dt);
 
-	if (gamemode == GM_Classic && !dead && (!has_overlay() || strcmp(get_current_overlay(), "shuffle") == 0)) {
+	if (game.mode == GM_Classic && !dead && (!has_overlay() || strcmp(get_current_overlay(), "shuffle") == 0)) {
 		if (time_left < 0) {
 			switch_overlay("timeout");
 			dead = true;
@@ -223,23 +230,23 @@ void game_draw(SDL_Renderer *renderer) {
 
 	set_font_color((SDL_Color){0xFF, 0xFF, 0xFF});
 	char msg[512];
-	if (gamemode == GM_Classic) {
+	if (game.mode == GM_Classic) {
 		int minutes = time_left / 60;
 		int seconds = SDL_max((int)SDL_ceilf(time_left) % 60, 0);
 
-		snprintf(msg, 511, "Score: %d - %d:%02d", score, minutes, seconds);
+		snprintf(msg, 511, "Score: %d - %d:%02d", game.score, minutes, seconds);
 	} else {
-		snprintf(msg, 511, "Score: %d", score);
+		snprintf(msg, 511, "Score: %d", game.score);
 	}
 
 	draw_text(renderer, msg, 0,0, 2);
 
 	tex_button(renderer, &pause_button);
-	shuffle_button._disabled = shuffles == 0;
+	shuffle_button._disabled = game.shuffles == 0;
 
 	tex_button(renderer, &shuffle_button);
 
-	if (gamemode == GM_Classic) {
+	if (game.mode == GM_Classic) {
 		SDL_FRect progbar_rect = {0, NATIVE_HEIGHT - 20, -1, 20};
 		progbar_rect.w = NATIVE_WIDTH * (time_left / total_time);
 		if (progbar_rect.w < 40) {

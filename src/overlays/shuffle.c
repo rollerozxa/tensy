@@ -17,8 +17,8 @@ void shuffle_init(void) {
 
 void shuffle_event(const SDL_Event *ev) {
 	if (button_event(ev, &yes_button)) {
-		board_shuffle_animated(&board, 1);
-		shuffles--;
+		board_shuffle_animated(&game.board, 1);
+		game.shuffles--;
 		hide_overlay();
 	}
 
@@ -38,7 +38,7 @@ void shuffle_draw(SDL_Renderer *renderer) {
 
 	draw_text_shadow(renderer, "Shuffles left:", score_pos.x, score_pos.y, 1.5);
 	char scoretext[128];
-	snprintf(scoretext, 127, "%d", shuffles);
+	snprintf(scoretext, 127, "%d", game.shuffles);
 	score_pos.x += 130;
 	draw_text_shadow(renderer, scoretext, score_pos.x, score_pos.y, 1.5);
 

@@ -19,7 +19,7 @@ void init_gamemodes(void) {
 }
 
 void switch_gamemode(enum GameMode mode) {
-	gamemode = mode;
+	game.mode = mode;
 }
 
 void gamemode_continue(void) {

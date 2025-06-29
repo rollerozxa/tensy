@@ -34,7 +34,7 @@ void timeout_draw(SDL_Renderer *renderer) {
 
 	draw_text_shadow(renderer, "Final score:", score_pos.x, score_pos.y, 1.5);
 	char scoretext[128];
-	snprintf(scoretext, 127, "%d", score);
+	snprintf(scoretext, 127, "%d", game.score);
 	score_pos.y += 25;
 	draw_text_shadow(renderer, scoretext, score_pos.x, score_pos.y, 1.5);
 

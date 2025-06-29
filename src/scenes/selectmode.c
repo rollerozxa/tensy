@@ -63,7 +63,7 @@ void selectmode_event(const SDL_Event *ev) {
 
 	if (savestate_exists() && button_event(ev, &continue_button)) {
 		savestate_load();
-		loaded_existing = true;
+		game.loaded_existing = true;
 		switch_scene("game");
 	}
 }

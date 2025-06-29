@@ -48,7 +48,7 @@ void board_cleanup(Board *board) {
 }
 
 static int calc_cell_number(Board *board, int x, int y) {
-	if (gamemode == GM_Five)
+	if (game.mode == GM_Five)
 		return 5;
 	else
 		return SDL_rand(9) + 1;
