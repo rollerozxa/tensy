@@ -6,7 +6,6 @@
 #include "gui/button.h"
 #include "input.h"
 #include "media/sound.h"
-#include "media/textures.h"
 #include "mouse.h"
 #include "render.h"
 #include "savestate.h"
@@ -41,7 +40,7 @@ void selectmode_event(const SDL_Event *ev) {
 		case SDL_EVENT_MOUSE_BUTTON_UP:
 			if (xvel < 0.05 && selected_mode != -1) {
 				sound_play(SND_CLICK);
-				gamemodes[selected_mode].click();
+				gamemodes[selected_mode].sm_click();
 			}
 			motion = 0;
 			holdingdown = false;
@@ -87,7 +86,7 @@ void selectmode_draw(SDL_Renderer *renderer) {
 
 		GameMode mode = gamemodes[i];
 
-		if (mode.enabled != NULL && !mode.enabled())
+		if (mode.sm_enabled != NULL && !mode.sm_enabled())
 			continue;
 
 		SDL_FRect rect = {
@@ -124,31 +123,8 @@ void selectmode_draw(SDL_Renderer *renderer) {
 			}
 		}
 
-		if (strcmp(mode.name, "Classic") == 0) {
-			SDL_FRect clock_rect = {
-				rect.x + 140,
-				rect.y + 10,
-				64, 64
-			};
-
-			SDL_RenderTexture(renderer, textures_get(TEX_CLOCK), NULL,
-				&clock_rect);
-		} else if (strcmp(mode.name, "Leisure") == 0) {
-			SDL_FPoint z_rect = {
-				rect.x + 154, rect.y + 10
-			};
-			draw_char_shadow(renderer, 'Z', z_rect.x, z_rect.y, 2.5);
-
-			z_rect.x += 19;
-			z_rect.y += 15;
-
-			draw_char_shadow(renderer, 'z', z_rect.x, z_rect.y, 2.5);
-
-			z_rect.x -= 17;
-			z_rect.y += 16;
-
-			draw_char_shadow(renderer, 'z', z_rect.x, z_rect.y, 2.5);
-		}
+		if (mode.sm_draw)
+			mode.sm_draw(renderer, rect);
 
 		float centerx = (rect.w - calculate_text_rect(mode.name, 3).w) / 2;
 		draw_text_shadow(renderer, mode.name, rect.x + centerx, 205, 3);

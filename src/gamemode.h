@@ -20,8 +20,9 @@ typedef struct {
 	const char *description[4];
 	char board[4][7];
 	bool disabled;
-	void (*click)(void);
-	bool (*enabled)(void);
+	void (*sm_click)(void);
+	bool (*sm_enabled)(void);
+	void (*sm_draw)(SDL_Renderer *renderer, SDL_FRect rect);
 } GameMode;
 
 extern GameMode gamemodes[];
