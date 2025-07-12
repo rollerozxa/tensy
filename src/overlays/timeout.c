@@ -1,12 +1,12 @@
 #include "timeout.h"
 #include "consts.h"
 #include "font.h"
+#include "gamestate.h"
 #include "gui/button.h"
 #include "input.h"
 #include "overlay.h"
 #include "render.h"
 #include "scene.h"
-#include "scenes/game.h"
 #include <stdio.h>
 
 static Button exit_button;

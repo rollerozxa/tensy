@@ -2,6 +2,8 @@
 #include "colours.h"
 #include "consts.h"
 #include "font.h"
+#include "gamemode.h"
+#include "gamestate.h"
 #include "scenes/game.h"
 #include <stdlib.h>
 #include <string.h>

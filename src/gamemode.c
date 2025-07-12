@@ -1,8 +1,9 @@
 #include "gamemode.h"
+#include "gamestate.h"
 #include "modes/classic.h"
 #include "modes/five.h"
 #include "modes/leisure.h"
-#include "scenes/game.h"
+#include "scene.h"
 
 GameMode gamemodes[100];
 static int registered_gamemodes = 0;

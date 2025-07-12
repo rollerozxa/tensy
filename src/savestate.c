@@ -1,6 +1,7 @@
 #include "savestate.h"
 #include "board.h"
 #include "consts.h"
+#include "gamestate.h"
 #include "scenes/game.h"
 #include <stdio.h>
 

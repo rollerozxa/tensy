@@ -1,8 +1,8 @@
 #include "game.h"
-#include "board.h"
 #include "consts.h"
 #include "font.h"
 #include "gamesettings.h"
+#include "gamestate.h"
 #include "gui/tex_button.h"
 #include "input.h"
 #include "media/sound.h"
@@ -15,16 +15,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
-
-Game game = {
-	.board = {NULL, 30, 15, 2},
-	.score = 0,
-	.time_left = 0.f,
-	.total_time = 0.f,
-	.mode = GM_Leisure,
-	.loaded_existing = false,
-	.shuffles = 0
-};
 
 #define board game.board
 #define time_left game.time_left

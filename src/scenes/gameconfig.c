@@ -3,12 +3,11 @@
 #include "colours.h"
 #include "consts.h"
 #include "font.h"
+#include "gamestate.h"
 #include "gui/button.h"
 #include "gui/checkbox.h"
 #include "input.h"
 #include "scene.h"
-#include "scenes/game.h"
-#include "scenes/settings.h"
 
 typedef struct {
 	int w;

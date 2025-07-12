@@ -2,10 +2,10 @@
 #include "board.h"
 #include "consts.h"
 #include "font.h"
+#include "gamestate.h"
 #include "gui/button.h"
 #include "input.h"
 #include "render.h"
-#include "scenes/game.h"
 #include <stdio.h>
 
 static Button yes_button, no_button;

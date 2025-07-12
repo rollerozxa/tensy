@@ -3,13 +3,13 @@
 #include "consts.h"
 #include "font.h"
 #include "gamemode.h"
+#include "gamestate.h"
 #include "gui/button.h"
 #include "input.h"
 #include "media/sound.h"
 #include "mouse.h"
 #include "render.h"
 #include "savestate.h"
-#include "scenes/game.h"
 
 static int selected_mode = -1;
 static float xoff, xvel, motion = 0;
