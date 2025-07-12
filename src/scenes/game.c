@@ -221,7 +221,7 @@ void game_draw(SDL_Renderer *renderer) {
 	set_font_color((SDL_Color){0xFF, 0xFF, 0xFF});
 	char msg[512];
 	if (game.mode == GM_Classic) {
-		int minutes = time_left / 60;
+		int minutes = (time_left+1) / 60;
 		int seconds = SDL_max((int)SDL_ceilf(time_left) % 60, 0);
 
 		snprintf(msg, 511, "Score: %d - %d:%02d", game.score, minutes, seconds);
