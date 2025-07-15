@@ -17,6 +17,7 @@ void shuffle_init(void) {
 
 void shuffle_event(const SDL_Event *ev) {
 	if (button_event(ev, &yes_button)) {
+		gamestate_clear();
 		board_shuffle_animated(&game.board, 1);
 		game.shuffles--;
 		hide_overlay();
