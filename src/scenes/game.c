@@ -26,8 +26,7 @@ static SDL_Point current_held_pos = {-1,-1};
 static int held_sum = -1;
 static bool dead = false;
 
-static TexButton pause_button;
-static TexButton shuffle_button;
+static TexButton pause_button, shuffle_button, undo_button;
 
 static int calculate_sum(void) {
 	int sum = 0;
@@ -90,6 +89,7 @@ static bool do_move(void) {
 void game_init(void) {
 	TEX_BUTTON(pause_button, RECT(NATIVE_WIDTH-24, 0, 24, 24), TEX_PAUSE);
 	TEX_BUTTON(shuffle_button, RECT(NATIVE_WIDTH-50, 0, 24, 24), TEX_SHUFFLE);
+	TEX_BUTTON(undo_button, RECT(NATIVE_WIDTH-76, 0, 24, 24), TEX_UNDO);
 
 	helddown = false;
 
@@ -157,6 +157,7 @@ void game_event(const SDL_Event *ev) {
 		held_sum = -1;
 		helddown = false;
 	} else if (ev->type == SDL_EVENT_KEY_UP) {
+
 		if (ev->key.key == SDLK_F5)
 			savestate_save();
 
@@ -165,6 +166,9 @@ void game_event(const SDL_Event *ev) {
 
 		if (ev->key.key == SDLK_F1)
 			board_shuffle_animated(&board, 1);
+
+		if (ev->key.key == SDLK_U)
+			gamestate_undo();
 	}
 
 	if (tex_button_event(ev, &pause_button) || is_escaping(ev))
@@ -173,6 +177,11 @@ void game_event(const SDL_Event *ev) {
 	if (game.shuffles > 0) {
 		if (tex_button_event(ev, &shuffle_button))
 			switch_overlay("shuffle");
+	}
+
+	if (gamestate_has_undo()) {
+		if (tex_button_event(ev, &undo_button))
+			gamestate_undo();
 	}
 }
 
@@ -237,9 +246,12 @@ void game_draw(SDL_Renderer *renderer) {
 	draw_text(renderer, msg, 0,0, 2);
 
 	tex_button(renderer, &pause_button);
-	shuffle_button._disabled = game.shuffles == 0;
 
+	shuffle_button._disabled = game.shuffles == 0;
 	tex_button(renderer, &shuffle_button);
+
+	undo_button._disabled = !gamestate_has_undo();
+	tex_button(renderer, &undo_button);
 
 	if (game.mode == GM_Classic) {
 		SDL_FRect progbar_rect = {0, NATIVE_HEIGHT - 20, -1, 20};

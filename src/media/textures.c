@@ -3,11 +3,12 @@
 #include <data/background_stripes.h>
 #include <data/check.h>
 #include <data/clock.h>
-#include <data/pause.h>
-#include <data/shuffle.h>
 #include <data/icon.h>
 #include <data/intro_raccoon.h>
 #include <data/intro_text.h>
+#include <data/pause.h>
+#include <data/shuffle.h>
+#include <data/undo.h>
 
 #include <SDL_QOI/SDL_QOI.h>
 
@@ -26,10 +27,11 @@ void textures_init(SDL_Renderer *renderer) {
 	LOAD_TEX(TEX_BG_STRIPES, background_stripes_qoi);
 	LOAD_TEX(TEX_CHECK, check_qoi);
 	LOAD_TEX(TEX_CLOCK, clock_qoi);
-	LOAD_TEX(TEX_PAUSE, pause_qoi);
-	LOAD_TEX(TEX_SHUFFLE, shuffle_qoi);
 	LOAD_TEX(TEX_INTRO_RACCOON, intro_raccoon_qoi);
 	LOAD_TEX_LIN(TEX_INTRO_TEXT, intro_text_qoi);
+	LOAD_TEX(TEX_PAUSE, pause_qoi);
+	LOAD_TEX(TEX_SHUFFLE, shuffle_qoi);
+	LOAD_TEX(TEX_UNDO, undo_qoi);
 
 	textures_loaded = true;
 }
