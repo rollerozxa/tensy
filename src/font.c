@@ -71,6 +71,12 @@ void draw_text(SDL_Renderer *renderer, const char *text, float x, float y, float
 		draw_char(renderer, text[i], x + i * GLYPH_WIDTH * scale, y, scale);
 }
 
+void draw_text_centered(SDL_Renderer *renderer, const char *text, SDL_FRect *rect, float scale) {
+	SDL_FRect text_rect = calculate_text_rect(text, scale);
+
+	draw_text(renderer, text, rect->x + (rect->w - text_rect.w) / 2, rect->y + (rect->h - text_rect.h) / 2, scale);
+}
+
 void draw_text_shadow(SDL_Renderer *renderer, const char *text, float x, float y, float scale) {
 	for (size_t i = 0; text[i] != '\0'; i++)
 		draw_char_shadow(renderer, text[i], x + i * GLYPH_WIDTH * scale, y, scale);

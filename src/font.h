@@ -16,6 +16,7 @@ void draw_char_shadow(SDL_Renderer *renderer, unsigned char character, float cx,
 void draw_text(SDL_Renderer *renderer, const char *text, float x, float y, float scale);
 void draw_text_shadow(SDL_Renderer *renderer, const char *text, float x, float y, float scale);
 
+void draw_text_centered(SDL_Renderer *renderer, const char *text, SDL_FRect *rect, float scale);
 void draw_text_shadow_centered(SDL_Renderer *renderer, const char *text, SDL_FRect *rect, float scale);
 
 SDL_FRect calculate_text_rect(const char *text, float scale);
