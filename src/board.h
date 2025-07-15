@@ -43,3 +43,7 @@ SDL_Point board_to_screen_coord(Board *board, int x, int y);
 
 void board_shuffle(Board *board);
 void board_shuffle_animated(Board *board, float duration);
+
+void board_copy(Board *dst, Board *src);
+// Deallocate any heap allocated stuff in board
+void board_free(Board *board);

@@ -173,3 +173,22 @@ void board_shuffle_animated(Board *board, float duration) {
 
 	board->anim = (BoardAnimation){true, false, 0.0f, duration};
 }
+
+void board_copy(Board *dst, Board *src) {
+	memcpy(dst, src, sizeof(Board));
+
+	dst->p = malloc(sizeof(Cell *) * dst->w);
+
+	for (int x = 0; x < dst->w; x++) {
+		dst->p[x] = malloc(sizeof(Cell) * dst->h);
+
+		for (int y = 0; y < dst->h; y++)
+			memcpy(&dst->p[x][y], &src->p[x][y], sizeof(Cell));
+	}
+}
+
+void board_free(Board *board) {
+	if (!board->p) return;
+
+	board_cleanup(board);
+}

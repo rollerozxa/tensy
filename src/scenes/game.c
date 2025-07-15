@@ -62,11 +62,13 @@ static void board_physics(void) {
 	}}
 }
 
-static void do_move(void) {
+static bool do_move(void) {
 	int sum = calculate_sum();
 
 	if (sum != 10)
-		return;
+		return false;
+
+	gamestate_checkpoint();
 
 	sound_play(SND_MATCH);
 
@@ -82,6 +84,7 @@ static void do_move(void) {
 		board_physics();
 
 	game.score += sum * (removed_cells-1);
+	return true;
 }
 
 void game_init(void) {
@@ -92,6 +95,8 @@ void game_init(void) {
 
 	first_held_pos = (SDL_Point){-1,-1};
 	current_held_pos = (SDL_Point){-1,-1};
+
+	gamestate_clear();
 
 	if (game.loaded_existing) {
 		game.loaded_existing = false;
@@ -143,7 +148,7 @@ void game_event(const SDL_Event *ev) {
 
 			held_sum = calculate_sum();
 		}
-	} else if (ev->type == SDL_EVENT_MOUSE_BUTTON_UP) {
+	} else if (ev->type == SDL_EVENT_MOUSE_BUTTON_UP && helddown) {
 		do_move();
 
 		first_held_pos = (SDL_Point){-1,-1};

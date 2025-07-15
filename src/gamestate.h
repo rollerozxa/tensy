@@ -12,4 +12,17 @@ typedef struct {
 	int shuffles;
 } Game;
 
+// Smaller state struct used for undo history
+typedef struct {
+	Board board;
+	int score;
+	int shuffles;
+} Checkpoint;
+
 extern Game game;
+
+void gamestate_checkpoint(void);
+bool gamestate_has_undo(void);
+void gamestate_undo(void);
+void gamestate_clear(void);
+void gamestate_traverse(void);
