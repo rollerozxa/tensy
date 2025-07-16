@@ -2,7 +2,7 @@
 #include "board.h"
 #include "consts.h"
 #include "gamestate.h"
-#include "io.h"
+#include "fileio.h"
 #include <stdio.h>
 
 const static char filever = 1;
