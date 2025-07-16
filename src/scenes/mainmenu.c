@@ -1,4 +1,5 @@
 #include "mainmenu.h"
+#include "app.h"
 #include "consts.h"
 #include "font.h"
 #include "gui/button.h"
@@ -27,7 +28,7 @@ void mainmenu_event(const SDL_Event *ev) {
 		switch_scene("settings");
 
 	if (is_escaping(ev))
-		switch_scene("exiting");
+		AppQuit();
 }
 
 static char title[] = "Tensy";
