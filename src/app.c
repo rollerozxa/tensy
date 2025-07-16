@@ -1,6 +1,7 @@
 #include "app.h"
 #include "debug.h"
 #include "gamemode.h"
+#include "gamesettings.h"
 #include "media/sound.h"
 #include "media/textures.h"
 #include "overlay.h"
@@ -56,5 +57,6 @@ void AppDraw(SDL_Renderer *renderer) {
 }
 
 void AppQuit(void) {
+	settings_save();
 	switch_scene("exiting");
 }

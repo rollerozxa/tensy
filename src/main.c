@@ -1,5 +1,6 @@
 #include "app.h"
 #include "consts.h"
+#include "gamesettings.h"
 
 #include <SDL3/SDL.h>
 #include <stdio.h>
@@ -16,6 +17,8 @@ SDL_AppResult SDL_AppInit(void **rustptr, int argc, char **argv) {
 	chdir(exedir);
 
 	SDL_srand(0);
+
+	settings_load();
 
 	SDL_SetAppMetadata(APP_NAME, NULL, APP_ID);
 

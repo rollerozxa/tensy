@@ -9,3 +9,5 @@ typedef struct {
 
 Settings *settings(void);
 
+bool settings_load(void);
+bool settings_save(void);
