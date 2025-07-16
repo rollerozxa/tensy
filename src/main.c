@@ -12,6 +12,10 @@
 SDL_Window *window;
 SDL_Renderer *renderer;
 
+#if defined(SDL_PLATFORM_ANDROID) || defined(SDL_PLATFORM_VITA)
+	#define ALWAYS_FULLSCREEN true
+#endif
+
 SDL_AppResult SDL_AppInit(void **rustptr, int argc, char **argv) {
 	const char *exedir = SDL_GetBasePath();
 	chdir(exedir);
@@ -35,9 +39,12 @@ SDL_AppResult SDL_AppInit(void **rustptr, int argc, char **argv) {
 		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, APP_NAME, msg, NULL);
 	}
 
-#if defined(__ANDROID__) || defined(__vita__)
-	SDL_SetWindowFullscreen(window, true);
+#ifdef ALWAYS_FULLSCREEN
+	if (true)
+#else
+	if (settings()->fullscreen)
 #endif
+		SDL_SetWindowFullscreen(window, true);
 
 	SDL_SetRenderLogicalPresentation(renderer, NATIVE_WIDTH, NATIVE_HEIGHT, SDL_LOGICAL_PRESENTATION_LETTERBOX);
 
@@ -57,11 +64,12 @@ SDL_AppResult SDL_AppEvent(void *rustptr, SDL_Event *ev) {
 		return SDL_APP_CONTINUE;
 	}
 
-	static bool is_fullscreen = false;
+#ifndef ALWAYS_FULLSCREEN
 	if (ev->type == SDL_EVENT_KEY_DOWN && ev->key.scancode == SDL_SCANCODE_F11 && !ev->key.repeat) {
-		is_fullscreen = !is_fullscreen;
-		SDL_SetWindowFullscreen(window, is_fullscreen);
+		settings()->fullscreen = !settings()->fullscreen;
+		SDL_SetWindowFullscreen(window, settings()->fullscreen);
 	}
+#endif
 
 	SDL_ConvertEventToRenderCoordinates(renderer, ev);
 

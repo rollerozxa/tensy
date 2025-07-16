@@ -43,6 +43,7 @@ bool settings_load(void) {
 	READ_INT(flags);
 	READ_FLAG(coloured_numbers, flags, 0);
 	READ_FLAG(secret_five, flags, 1);
+	READ_FLAG(fullscreen, flags, 2);
 
 	return true;
 }
@@ -57,7 +58,8 @@ bool settings_save(void) {
 
 	int flags =
 		  (settings_data.coloured_numbers << 0)
-		+ (settings_data.secret_five << 1);
+		+ (settings_data.secret_five << 1)
+		+ (settings_data.fullscreen << 2);
 
 	WRITE_INT(flags);
 
