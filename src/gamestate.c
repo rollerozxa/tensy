@@ -10,7 +10,8 @@ Game game = {
 	.total_time = 0.f,
 	.mode = GM_Leisure,
 	.loaded_existing = false,
-	.shuffles = 0
+	.shuffles = 0,
+	.dirty = true
 };
 
 typedef struct ChkNode {
@@ -21,6 +22,8 @@ typedef struct ChkNode {
 static ChkNode *head = NULL;
 
 void gamestate_checkpoint(void) {
+	game.dirty = true;
+
 	ChkNode *node = malloc(sizeof(ChkNode));
 
 	board_copy(&node->checkpoint.board, &game.board);
@@ -39,6 +42,8 @@ void gamestate_undo(void) {
 	if (!head)
 		return;
 
+	game.dirty = true;
+
 	ChkNode *node = head;
 	head = node->prev;
 
@@ -51,6 +56,8 @@ void gamestate_undo(void) {
 }
 
 void gamestate_clear(void) {
+	game.dirty = true;
+
 	while (head) {
 		ChkNode *node = head;
 		head = node->prev;

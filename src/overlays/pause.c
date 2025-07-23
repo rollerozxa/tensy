@@ -1,6 +1,7 @@
 #include "pause.h"
 #include "consts.h"
 #include "font.h"
+#include "gamestate.h"
 #include "gui/button.h"
 #include "input.h"
 #include "overlay.h"
@@ -27,7 +28,12 @@ void pause_event(const SDL_Event *ev) {
 	}
 
 	if (button_event(ev, &exit_button)) {
-		switch_overlay("exitconfirm");
+		if (game.dirty)
+			switch_overlay("exitconfirm");
+		else {
+			hide_overlay();
+			switch_scene("mainmenu");
+		}
 	}
 }
 

@@ -53,6 +53,8 @@ bool savestate_save(void) {
 
 	fclose(fp);
 
+	game.dirty = false;
+
 	return true;
 }
 

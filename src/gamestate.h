@@ -10,6 +10,7 @@ typedef struct {
 	enum GameMode mode;
 	bool loaded_existing;
 	int shuffles;
+	bool dirty;
 } Game;
 
 // Smaller state struct used for undo history
