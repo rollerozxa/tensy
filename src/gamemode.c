@@ -3,6 +3,7 @@
 #include "modes/classic.h"
 #include "modes/five.h"
 #include "modes/leisure.h"
+#include "modes/lucky.h"
 #include "scene.h"
 
 GameMode gamemodes[100];
@@ -16,6 +17,7 @@ static void reg(GameMode mode) {
 void init_gamemodes(void) {
 	reg(classic_gamemode);
 	reg(leisure_gamemode);
+	reg(lucky_gamemode);
 	reg(five_gamemode);
 }
 
