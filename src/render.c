@@ -63,8 +63,8 @@ void draw_translucent_overlay(SDL_Renderer *renderer) {
 SDL_FRect draw_centered_fill_rect(SDL_Renderer *renderer, SDL_FPoint dimensions) {
 	SDL_FRect rect = {
 		0, 0,
-		20 * 10,
-		20 * 12,
+		dimensions.x,
+		dimensions.y,
 	};
 	rect.x = (NATIVE_WIDTH - rect.w) / 2;
 	rect.y = (NATIVE_HEIGHT - rect.h) / 2;

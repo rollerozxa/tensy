@@ -27,8 +27,7 @@ void pause_event(const SDL_Event *ev) {
 	}
 
 	if (button_event(ev, &exit_button)) {
-		hide_overlay();
-		switch_scene("mainmenu");
+		switch_overlay("exitconfirm");
 	}
 }
 
