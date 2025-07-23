@@ -1,5 +1,6 @@
 #pragma once
 
+#include "board.h"
 #include <SDL3/SDL.h>
 
 #define GM_CLICK(name, enum) \
@@ -23,6 +24,7 @@ typedef struct {
 	void (*sm_click)(void);
 	bool (*sm_enabled)(void);
 	void (*sm_draw)(SDL_Renderer *renderer, SDL_FRect rect);
+	int (*calc_cell_number)(Board *board, int x, int y);
 } GameMode;
 
 extern GameMode gamemodes[];

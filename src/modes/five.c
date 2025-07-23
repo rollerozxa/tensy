@@ -1,10 +1,15 @@
 #include "five.h"
+#include "board.h"
 #include "gamesettings.h"
 
 GM_CLICK(five, GM_Five)
 
 static bool five_enabled(void) {
 	return settings()->secret_five;
+}
+
+static int calc_cell_number(Board *board, int x, int y) {
+	return 5;
 }
 
 GameMode five_gamemode = {
@@ -22,5 +27,6 @@ GameMode five_gamemode = {
 	},
 	false,
 	five_click,
-	five_enabled
+	five_enabled,
+	.calc_cell_number=calc_cell_number
 };
