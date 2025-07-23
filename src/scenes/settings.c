@@ -17,6 +17,8 @@ static Button save_button;
 void settings_init(void) {
 	CHECKBOX(coloured_numbers_checkbox, POINT(20,80), false, "Coloured numbers");
 	BUTTON(save_button, RECT(220,280,200,40), "Save & Go back");
+
+	coloured_numbers_checkbox.checked = settings()->coloured_numbers;
 }
 
 void settings_event(const SDL_Event *ev) {

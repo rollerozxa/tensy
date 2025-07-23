@@ -3,6 +3,7 @@
 #include "consts.h"
 #include "font.h"
 #include "gamemode.h"
+#include "gamesettings.h"
 #include "gamestate.h"
 #include "gui/button.h"
 #include "input.h"
@@ -119,9 +120,14 @@ void selectmode_draw(SDL_Renderer *renderer) {
 					x * 30 + rect.x + 28,
 					y * 30 + rect.y + 10};
 
+				if (settings()->coloured_numbers)
+					set_font_color(num_to_colour(mode.board[y][x]));
+
 				draw_char_shadow(renderer, mode.board[y][x] + '0', point.x, point.y, 3);
 			}
 		}
+
+		set_font_color(CLR_WHITE);
 
 		if (mode.sm_draw)
 			mode.sm_draw(renderer, rect);
