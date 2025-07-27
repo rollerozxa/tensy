@@ -13,16 +13,25 @@
 #define BOARD_W 30
 #define BOARD_H 16
 
-static Button play_button, settings_button;
+static Button play_button, about_button, settings_button;
 
 void mainmenu_init(void) {
 	BUTTON(play_button, RECT(245,200,150,40), "Play");
-	BUTTON(settings_button, RECT(245,260,150,40), "Settings");
+	BUTTON(about_button, RECT(160,260,150,40), "About");
+	BUTTON(settings_button, RECT(330,260,150,40), "Settings");
 }
 
 void mainmenu_event(const SDL_Event *ev) {
+	if (ev->type == SDL_EVENT_KEY_UP) {
+		if (ev->key.key == SDLK_RETURN || ev->key.key == SDLK_RETURN2)
+			switch_scene("selectmode");
+	}
+
 	if (button_event(ev, &play_button))
 		switch_scene("selectmode");
+
+	if (button_event(ev, &about_button))
+		switch_scene("about");
 
 	if (button_event(ev, &settings_button))
 		switch_scene("settings");
@@ -53,6 +62,7 @@ void mainmenu_draw(SDL_Renderer *renderer) {
 	}
 
 	button(renderer, &play_button);
+	button(renderer, &about_button);
 	button(renderer, &settings_button);
 
 	set_font_color((SDL_Color){255,255,255});
