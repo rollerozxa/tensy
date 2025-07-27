@@ -28,6 +28,14 @@ void selectmode_init(void) {
 	selected_mode = -1;
 }
 
+static void select_mode_num(int num) {
+	if (num >= gamemode_count || (gamemodes[num].sm_enabled && !gamemodes[num].sm_enabled()))
+		return;
+
+	sound_play(SND_CLICK);
+	gamemodes[num].sm_click();
+}
+
 void selectmode_event(const SDL_Event *ev) {
 	switch (ev->type) {
 		case SDL_EVENT_MOUSE_WHEEL:
@@ -57,6 +65,17 @@ void selectmode_event(const SDL_Event *ev) {
 		case SDL_EVENT_KEY_UP:
 			if (is_escaping(ev))
 				switch_scene("mainmenu");
+
+			if (ev->key.key == SDLK_1) select_mode_num(0);
+			if (ev->key.key == SDLK_2) select_mode_num(1);
+			if (ev->key.key == SDLK_3) select_mode_num(2);
+			if (ev->key.key == SDLK_4) select_mode_num(3);
+			if (ev->key.key == SDLK_5) select_mode_num(4);
+			if (ev->key.key == SDLK_6) select_mode_num(5);
+			if (ev->key.key == SDLK_7) select_mode_num(6);
+			if (ev->key.key == SDLK_8) select_mode_num(7);
+			if (ev->key.key == SDLK_9) select_mode_num(8);
+			if (ev->key.key == SDLK_0) select_mode_num(0);
 
 			break;
 	}
