@@ -36,7 +36,7 @@ void about_draw(SDL_Renderer *renderer) {
 	set_font_color(CLR_WHITE);
 
 	for (size_t i = 0; title[i] != '\0'; i++) {
-		const int y = 10+sin(SDL_GetTicks()/400.0+i)*12;
+		const float y = 10+sin(SDL_GetTicks()/400.0+i)*12;
 
 		draw_char_shadow(renderer, title[i], 10+i*GLYPH_WIDTH*6, y, 6);
 	}
