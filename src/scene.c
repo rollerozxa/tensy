@@ -89,3 +89,7 @@ void perform_scene_transition(SDL_Renderer *renderer) {
 	} else if (trans_step == 50)
 		trans = false;
 }
+
+bool scene_is_transitioning(void) {
+	return trans;
+}

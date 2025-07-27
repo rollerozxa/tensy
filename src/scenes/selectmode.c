@@ -39,7 +39,7 @@ void selectmode_event(const SDL_Event *ev) {
 			break;
 
 		case SDL_EVENT_MOUSE_BUTTON_UP:
-			if (xvel < 0.05 && selected_mode != -1) {
+			if (xvel < 0.05 && selected_mode != -1 && !scene_is_transitioning()) {
 				sound_play(SND_CLICK);
 				gamemodes[selected_mode].sm_click();
 			}

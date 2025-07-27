@@ -25,3 +25,4 @@ void run_scene_update(float dt);
 void run_scene_draw(SDL_Renderer *renderer);
 
 void perform_scene_transition(SDL_Renderer *renderer);
+bool scene_is_transitioning(void);
