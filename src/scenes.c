@@ -3,6 +3,7 @@
 #include "overlays/pause.h"
 #include "overlays/shuffle.h"
 #include "overlays/timeout.h"
+#include "scenes/about.h"
 #include "scenes/exiting.h"
 #include "scenes/game.h"
 #include "scenes/gameconfig.h"
@@ -14,6 +15,7 @@
 void register_scenes(void) {
 	// First scene needs to be first
 	add_scene(intro_scene);
+	add_scene(about_scene);
 	add_scene(mainmenu_scene);
 	add_scene(exiting_scene);
 	add_scene(game_scene);
