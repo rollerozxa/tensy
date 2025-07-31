@@ -11,6 +11,7 @@
 
 enum GameMode {
 	GM_Classic,
+	GM_Gravity,
 	GM_Leisure,
 	GM_Lucky,
 	GM_Five,
