@@ -72,7 +72,7 @@ void gameconfig_event(const SDL_Event *ev) {
 	if (button_event(ev, &go_button))
 		switch_scene("game");
 
-	if (checkbox_event(ev, &physics_checkbox))
+	if (current_gamemode().gravity_mode == GRA_Ask && checkbox_event(ev, &physics_checkbox))
 		game.board.physics = physics_checkbox.checked;
 }
 
@@ -92,7 +92,8 @@ void gameconfig_draw(SDL_Renderer *renderer) {
 		button(renderer, &board_sizes[i].button);
 	}
 
-	checkbox(renderer, &physics_checkbox);
+	if (current_gamemode().gravity_mode == GRA_Ask)
+		checkbox(renderer, &physics_checkbox);
 
 	button(renderer, &go_button);
 }

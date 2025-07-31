@@ -25,6 +25,10 @@ void switch_gamemode(enum GameMode mode) {
 	game.mode = mode;
 }
 
+GameMode current_gamemode(void) {
+	return gamemodes[game.mode];
+}
+
 void gamemode_continue(void) {
 	// for if we need to change where to go after a gamemode is selected
 	switch_scene("gameconfig");

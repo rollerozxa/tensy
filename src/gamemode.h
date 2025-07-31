@@ -17,6 +17,12 @@ enum GameMode {
 	gamemode_count
 };
 
+typedef enum GravityMode {
+	GRA_Never,
+	GRA_Always,
+	GRA_Ask
+} GravityMode;
+
 typedef struct {
 	const char *name;
 	const char *description[4];
@@ -26,6 +32,7 @@ typedef struct {
 	bool (*sm_enabled)(void);
 	void (*sm_draw)(SDL_Renderer *renderer, SDL_FRect rect);
 	int (*calc_cell_number)(Board *board, int x, int y);
+	GravityMode gravity_mode;
 } GameMode;
 
 extern GameMode gamemodes[];
@@ -35,3 +42,5 @@ void init_gamemodes(void);
 void switch_gamemode(enum GameMode mode);
 
 void gamemode_continue(void);
+
+GameMode current_gamemode(void);

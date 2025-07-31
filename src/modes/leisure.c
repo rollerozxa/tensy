@@ -36,5 +36,6 @@ GameMode leisure_gamemode = {
 	false,
 	leisure_click,
 	NULL,
-	sm_draw
+	sm_draw,
+	.gravity_mode=GRA_Ask
 };

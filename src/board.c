@@ -50,8 +50,8 @@ void board_cleanup(Board *board) {
 }
 
 static int calc_cell_number(Board *board, int x, int y) {
-	if (gamemodes[game.mode].calc_cell_number)
-		return gamemodes[game.mode].calc_cell_number(board, x, y);
+	if (current_gamemode().calc_cell_number)
+		return current_gamemode().calc_cell_number(board, x, y);
 	else
 		return SDL_rand(9) + 1;
 }

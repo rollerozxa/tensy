@@ -108,6 +108,9 @@ void game_init(void) {
 		time_left = 3*60;
 	}
 
+	if (current_gamemode().gravity_mode != GRA_Ask)
+		board.physics = current_gamemode().gravity_mode == GRA_Always;
+
 	game.shuffles = 3;
 
 	game.score = 0;
