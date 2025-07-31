@@ -61,7 +61,7 @@ void gameconfig_event(const SDL_Event *ev) {
 
 	for (size_t i = 0; i < num_board_sizes; i++) {
 		BoardSize *board_size = &board_sizes[i];
-		if (button_event(ev, &board_size->button)) {
+		if ((i != 3 || show_hyuge) && button_event(ev, &board_size->button)) {
 			board_change_size(&game.board, board_size->w, board_size->h, board_size->scale);
 			board_change_size(&board_preview, board_size->w, board_size->h, SDL_max(0.5f, board_size->scale - 1));
 			board_zerofill(&game.board);
