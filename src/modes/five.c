@@ -5,7 +5,7 @@
 GM_CLICK(five, GM_Five)
 
 static bool five_enabled(void) {
-	return settings()->secret_five;
+	return settings_getflag(FLAG_SECRET_FIVE);
 }
 
 static int calc_cell_number(Board *board, int x, int y) {

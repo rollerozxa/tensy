@@ -18,18 +18,18 @@ void settings_init(void) {
 	CHECKBOX(coloured_numbers_checkbox, POINT(20,80), false, "Coloured numbers");
 	BUTTON(save_button, RECT(220,280,200,40), "Save & Go back");
 
-	coloured_numbers_checkbox.checked = settings()->coloured_numbers;
+	coloured_numbers_checkbox.checked = settings_getflag(FLAG_COLOURED_NUMBERS);
 }
 
 void settings_event(const SDL_Event *ev) {
 	if (checkbox_event(ev, &coloured_numbers_checkbox))
-		settings()->coloured_numbers = coloured_numbers_checkbox.checked;
+		settings_toggleflag(FLAG_COLOURED_NUMBERS);
 
 	if (button_event(ev, &save_button) || is_escaping(ev))
 		switch_scene("mainmenu");
 
-	if (ev->type == SDL_EVENT_KEY_UP && ev->key.scancode == SDL_SCANCODE_5 && !settings()->secret_five) {
-		settings()->secret_five = true;
+	if (ev->type == SDL_EVENT_KEY_UP && ev->key.scancode == SDL_SCANCODE_5 && !settings_getflag(FLAG_SECRET_FIVE)) {
+		settings_toggleflag(FLAG_SECRET_FIVE);
 		sound_play(SND_WOOZY);
 		show_toast("...huh...?", 3);
 	}

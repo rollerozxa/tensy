@@ -139,7 +139,7 @@ void selectmode_draw(SDL_Renderer *renderer) {
 					x * 30 + rect.x + 28,
 					y * 30 + rect.y + 10};
 
-				if (settings()->coloured_numbers)
+				if (settings_getflag(FLAG_COLOURED_NUMBERS))
 					set_font_color(num_to_colour(mode.board[y][x]));
 
 				draw_char_shadow(renderer, mode.board[y][x] + '0', point.x, point.y, 3);

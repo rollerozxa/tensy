@@ -222,7 +222,7 @@ void game_draw(SDL_Renderer *renderer) {
 		}
 	}
 
-	board_draw(&board, renderer, settings()->coloured_numbers);
+	board_draw(&board, renderer, settings_getflag(FLAG_COLOURED_NUMBERS));
 
 	if (helddown) {
 		set_draw_color(renderer, 0xFFFFFF);

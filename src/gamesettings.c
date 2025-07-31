@@ -5,12 +5,19 @@
 #include <stdio.h>
 
 static Settings settings_data = {
-	false,
-	false,
+	0
 };
 
 Settings *settings(void) {
 	return &settings_data;
+}
+
+bool settings_getflag(SettingFlags flag) {
+	return settings_data.flags & (1ULL << flag);
+}
+
+void settings_toggleflag(SettingFlags flag) {
+	settings_data.flags = settings_data.flags ^ (1ULL << flag);
 }
 
 const static char filever = 1;
@@ -26,9 +33,6 @@ static char *get_filepath(void) {
 	return settings_file;
 }
 
-#define READ_FLAG(key, flags, flag) \
-	settings_data.key = flags & (1ULL << flag);
-
 bool settings_load(void) {
 	FILE *fp = fopen(get_filepath(), "rb");
 	if (!fp)
@@ -39,11 +43,7 @@ bool settings_load(void) {
 	if (tmp != filever)
 		return false; // uhh
 
-	int flags;
-	READ_INT(flags);
-	READ_FLAG(coloured_numbers, flags, 0);
-	READ_FLAG(secret_five, flags, 1);
-	READ_FLAG(fullscreen, flags, 2);
+	READ_INT(settings_data.flags);
 
 	return true;
 }
@@ -55,13 +55,7 @@ bool settings_save(void) {
 		return false;
 
 	WRITE_CHAR(filever);
-
-	int flags =
-		  (settings_data.coloured_numbers << 0)
-		+ (settings_data.secret_five << 1)
-		+ (settings_data.fullscreen << 2);
-
-	WRITE_INT(flags);
+	WRITE_INT(settings_data.flags);
 
 	return true;
 }

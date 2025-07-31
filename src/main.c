@@ -42,7 +42,7 @@ SDL_AppResult SDL_AppInit(void **rustptr, int argc, char **argv) {
 #ifdef ALWAYS_FULLSCREEN
 	if (true)
 #else
-	if (settings()->fullscreen)
+	if (settings_getflag(FLAG_FULLSCREEN))
 #endif
 		SDL_SetWindowFullscreen(window, true);
 
@@ -66,8 +66,8 @@ SDL_AppResult SDL_AppEvent(void *rustptr, SDL_Event *ev) {
 
 #ifndef ALWAYS_FULLSCREEN
 	if (ev->type == SDL_EVENT_KEY_DOWN && ev->key.scancode == SDL_SCANCODE_F11 && !ev->key.repeat) {
-		settings()->fullscreen = !settings()->fullscreen;
-		SDL_SetWindowFullscreen(window, settings()->fullscreen);
+		settings_toggleflag(FLAG_FULLSCREEN);
+		SDL_SetWindowFullscreen(window, settings_getflag(FLAG_FULLSCREEN));
 	}
 #endif
 
