@@ -5,6 +5,7 @@
 #include "media/sound.h"
 #include "mouse.h"
 #include "render.h"
+#include "text.h"
 
 static float label_scale(float btn_height) {
 	return btn_height <= 25 ? 1.5 : 2;
@@ -44,8 +45,8 @@ void button(SDL_Renderer *renderer, Button *button) {
 	} else
 		draw_box(renderer, &rect);
 
-	SDL_FRect text_rect = calculate_text_rect(text, label_scale(rect.h));
+	SDL_FRect text_rect = text_calc_rect(text, label_scale(rect.h));
 
-	set_font_color(CLR_WHITE);
-	draw_text_shadow(renderer, text, rect.x+(rect.w-(float)text_rect.w)/2, rect.y+(rect.h-(float)text_rect.h)/2, label_scale(rect.h));
+	font_set_color(CLR_WHITE);
+	text_draw_shadow_centered(renderer, text, &rect, label_scale(rect.h));
 }

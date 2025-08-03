@@ -8,6 +8,7 @@
 #include "gui/checkbox.h"
 #include "input.h"
 #include "scene.h"
+#include "text.h"
 
 typedef struct {
 	int w;
@@ -77,14 +78,13 @@ void gameconfig_event(const SDL_Event *ev) {
 }
 
 void gameconfig_draw(SDL_Renderer *renderer) {
-	set_font_color(CLR_WHITE);
-	draw_text_shadow(renderer, "Configure game", 10, 10, 3);
+	text_draw_shadow(renderer, "Configure game", 10, 10, 3);
 
 	board_draw(&board_preview, renderer, false);
 
 	SDL_FRect label_rect = RECTCPY(board_sizes[0].button.rect);
 	label_rect.x = 25;
-	draw_text_shadow_centered(renderer, "Board size", &label_rect, 2);
+	text_draw_shadow_centered(renderer, "Board size", &label_rect, 2);
 	for (size_t i = 0; i < num_board_sizes; i++) {
 		if (i == 3 && !show_hyuge)
 			continue;

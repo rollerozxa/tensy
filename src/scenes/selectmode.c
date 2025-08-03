@@ -11,6 +11,7 @@
 #include "mouse.h"
 #include "render.h"
 #include "savestate.h"
+#include "text.h"
 
 static int selected_mode = -1;
 static float xoff, xvel, motion = 0;
@@ -97,12 +98,11 @@ void selectmode_update(float dt) {
 }
 
 void selectmode_draw(SDL_Renderer *renderer) {
-	set_font_color(CLR_WHITE);
 
-	draw_text_shadow(renderer, "Select mode", 10, 10, 3);
+	text_draw_shadow(renderer, "Select mode", 10, 10, 3);
 
 	for (size_t i = 0; i < gamemode_count; i++) {
-		set_font_color(CLR_WHITE);
+		font_set_color(CLR_WHITE);
 
 		GameMode mode = gamemodes[i];
 
@@ -140,32 +140,32 @@ void selectmode_draw(SDL_Renderer *renderer) {
 					y * 30 + rect.y + 10};
 
 				if (settings_getflag(FLAG_COLOURED_NUMBERS))
-					set_font_color(num_to_colour(mode.board[y][x]));
+					font_set_color(num_to_colour(mode.board[y][x]));
 
-				draw_char_shadow(renderer, mode.board[y][x] + '0', point.x, point.y, 3);
+				font_draw_char_shadow(renderer, mode.board[y][x] + '0', point.x, point.y, 3);
 			}
 		}
 
-		set_font_color(CLR_WHITE);
+		font_set_color(CLR_WHITE);
 
 		if (mode.sm_draw)
 			mode.sm_draw(renderer, rect);
 
-		float centerx = (rect.w - calculate_text_rect(mode.name, 3).w) / 2;
-		draw_text_shadow(renderer, mode.name, rect.x + centerx, 205, 3);
+		float centerx = (rect.w - text_calc_rect(mode.name, 3).w) / 2;
+		text_draw_shadow(renderer, mode.name, rect.x + centerx, 205, 3);
 
 		for (int j = 0; j < 4; j++) {
 			if (mode.description[j])
-				draw_text_shadow(renderer, mode.description[j], rect.x + 6, 240 + j * 20, 2);
+				text_draw_shadow(renderer, mode.description[j], rect.x + 6, 240 + j * 20, 2);
 		}
 
 		if (mode.disabled) {
 			set_draw_color_alpha(renderer, 0x000000A0);
 			SDL_RenderFillRect(renderer, &rect);
 			const char *coming_soon = "Coming soon!";
-			set_font_color((SDL_Color){0xFF, 0x00, 0x00, 0xFF});
+			font_set_color((SDL_Color){0xFF, 0x00, 0x00, 0xFF});
 			for (size_t i = 0; coming_soon[i] != '\0'; i++) {
-				draw_char_shadow(renderer, coming_soon[i], rect.x + i * GLYPH_WIDTH * 3 + 5, rect.y + i * 10 + 5, 3);
+				font_draw_char_shadow(renderer, coming_soon[i], rect.x + i * GLYPH_WIDTH * 3 + 5, rect.y + i * 10 + 5, 3);
 			}
 		}
 	}

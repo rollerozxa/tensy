@@ -1,8 +1,10 @@
 #include "debug.h"
+#include "colours.h"
 #include "consts.h"
 #include "font.h"
 #include "mouse.h"
 #include "render.h"
+#include "text.h"
 #include <stdio.h>
 
 static bool debug = false;
@@ -15,6 +17,8 @@ void debug_event(const SDL_Event *ev) {
 void debug_draw(SDL_Renderer *renderer) {
 	if (!debug)
 		return;
+
+	font_set_color(CLR_WHITE);
 
 	set_draw_color_alpha(renderer, 0xFFFFFF30);
 	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
@@ -36,5 +40,5 @@ void debug_draw(SDL_Renderer *renderer) {
 	char text[1024];
 	snprintf(text, 1023, "%s, using %s driver, cursor pos (%f,%f)",
 		SDL_GetPlatform(), SDL_GetRendererName(renderer), mouse.x, mouse.y);
-	draw_text_shadow(renderer, text, 0, 0, 1);
+	text_draw_shadow(renderer, text, 0, 0, 1);
 }

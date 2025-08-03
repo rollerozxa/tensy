@@ -1,13 +1,12 @@
 #include "settings.h"
-#include "colours.h"
 #include "consts.h"
-#include "font.h"
 #include "gamesettings.h"
 #include "gui/button.h"
 #include "gui/checkbox.h"
 #include "input.h"
 #include "media/sound.h"
 #include "scene.h"
+#include "text.h"
 #include "toast.h"
 
 static Checkbox coloured_numbers_checkbox;
@@ -36,8 +35,7 @@ void settings_event(const SDL_Event *ev) {
 }
 
 void settings_draw(SDL_Renderer *renderer) {
-	set_font_color(CLR_WHITE);
-	draw_text_shadow(renderer, "Settings", 20, 20, 3);
+	text_draw_shadow(renderer, "Settings", 20, 20, 3);
 
 	checkbox(renderer, &coloured_numbers_checkbox);
 	button(renderer, &save_button);

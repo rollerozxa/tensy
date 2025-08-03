@@ -1,5 +1,7 @@
 #include "scene.h"
+#include "colours.h"
 #include "consts.h"
+#include "font.h"
 #include "render.h"
 
 static Scene scenes[MAX_SCENES];
@@ -60,6 +62,7 @@ void run_scene_update(float dt) {
 }
 
 void run_scene_draw(SDL_Renderer *renderer) {
+	font_set_color(CLR_WHITE);
 	set_draw_color(renderer, scenes[current_scene].colour);
 	SDL_RenderClear(renderer);
 

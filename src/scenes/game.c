@@ -1,4 +1,5 @@
 #include "game.h"
+#include "colours.h"
 #include "consts.h"
 #include "font.h"
 #include "gamesettings.h"
@@ -11,6 +12,7 @@
 #include "render.h"
 #include "savestate.h"
 #include "scene.h"
+#include "text.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -202,8 +204,6 @@ void game_update(float dt) {
 }
 
 void game_draw(SDL_Renderer *renderer) {
-	set_font_color((SDL_Color){0xFF, 0xFF, 0xFF});
-
 	SDL_Point first_held_point = board_to_screen_coord(&board, first_held_pos.x, first_held_pos.y);
 	SDL_Point current_held_point = board_to_screen_coord(&board, current_held_pos.x, current_held_pos.y);
 
@@ -235,7 +235,7 @@ void game_draw(SDL_Renderer *renderer) {
 	bar_rect.y = NATIVE_HEIGHT - 24;
 	SDL_RenderFillRect(renderer, &bar_rect);
 
-	set_font_color((SDL_Color){0xFF, 0xFF, 0xFF});
+	font_set_color(CLR_WHITE);
 	char msg[512];
 	if (game.mode == GM_Classic) {
 		int minutes = (time_left+1) / 60;
@@ -246,7 +246,7 @@ void game_draw(SDL_Renderer *renderer) {
 		snprintf(msg, 511, "Score: %d", game.score);
 	}
 
-	draw_text(renderer, msg, 0,0, 2);
+	text_draw(renderer, msg, 0,0, 2);
 
 	tex_button(renderer, &pause_button);
 

@@ -3,6 +3,7 @@
 #include "font.h"
 #include "mouse.h"
 #include "render.h"
+#include "text.h"
 
 #include <stdio.h>
 
@@ -66,5 +67,5 @@ void slider(SDL_Renderer *renderer, Slider *slider) {
 
 	char dbg[512];
 	snprintf(dbg, 511, "%d", slider->value);
-	draw_text(renderer, dbg, rect.x + rect.w + 10, rect.y, 2);
+	text_draw(renderer, dbg, rect.x + rect.w + 10, rect.y, 2);
 }

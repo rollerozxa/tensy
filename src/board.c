@@ -3,8 +3,6 @@
 #include "consts.h"
 #include "font.h"
 #include "gamemode.h"
-#include "gamestate.h"
-#include "scenes/game.h"
 #include <stdlib.h>
 #include <string.h>
 
@@ -116,7 +114,7 @@ void board_draw(Board *board, SDL_Renderer *renderer, bool coloured_numbers) {
 			continue;
 
 		if (coloured_numbers)
-			set_font_color(num_to_colour(board->p[x][y].number));
+			font_set_color(num_to_colour(board->p[x][y].number));
 
 		SDL_Point point = board_to_screen_coord(board, x, y);
 		SDL_FPoint pos = {
@@ -129,7 +127,7 @@ void board_draw(Board *board, SDL_Renderer *renderer, bool coloured_numbers) {
 			pos.y = pos.y * (1.0f - t) + center.y * t;
 		}
 
-		draw_char_shadow(renderer, board->p[x][y].number + '0',
+		font_draw_char_shadow(renderer, board->p[x][y].number + '0',
 			pos.x, pos.y, board->scale);
 	}}
 }

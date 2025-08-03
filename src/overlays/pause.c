@@ -1,6 +1,5 @@
 #include "pause.h"
 #include "consts.h"
-#include "font.h"
 #include "gamestate.h"
 #include "gui/button.h"
 #include "input.h"
@@ -8,6 +7,7 @@
 #include "render.h"
 #include "savestate.h"
 #include "scene.h"
+#include "text.h"
 #include "toast.h"
 
 static Button resume_button, save_button, exit_button;
@@ -43,7 +43,7 @@ void pause_draw(SDL_Renderer *renderer) {
 	SDL_FRect pausebg_rect = draw_centered_fill_rect(renderer, POINT(20 * 10, 20 * 12));
 
 	SDL_FRect text_rect = {pausebg_rect.x, pausebg_rect.y, pausebg_rect.w, 20*2};
-	draw_text_shadow_centered(renderer, "Game paused", &text_rect, 2);
+	text_draw_shadow_centered(renderer, "Game paused", &text_rect, 2);
 
 	float btn_x = pausebg_rect.x + CENTER(pausebg_rect.w, resume_button.rect.w);
 

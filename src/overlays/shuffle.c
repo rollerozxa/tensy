@@ -1,11 +1,11 @@
 #include "shuffle.h"
 #include "board.h"
 #include "consts.h"
-#include "font.h"
 #include "gamestate.h"
 #include "gui/button.h"
 #include "input.h"
 #include "render.h"
+#include "text.h"
 #include <stdio.h>
 
 static Button yes_button, no_button;
@@ -33,15 +33,15 @@ void shuffle_draw(SDL_Renderer *renderer) {
 	SDL_RenderFillRect(renderer, &bg_rect);
 
 	SDL_FRect text_rect = {bg_rect.x, bg_rect.y, bg_rect.w, 20*2};
-	draw_text_shadow_centered(renderer, "Shuffle?", &text_rect, 2);
+	text_draw_shadow_centered(renderer, "Shuffle?", &text_rect, 2);
 
 	SDL_FPoint score_pos = { bg_rect.x + 10, bg_rect.y + 20*2 };
 
-	draw_text_shadow(renderer, "Shuffles left:", score_pos.x, score_pos.y, 1.5);
+	text_draw_shadow(renderer, "Shuffles left:", score_pos.x, score_pos.y, 1.5);
 	char scoretext[128];
 	snprintf(scoretext, 127, "%d", game.shuffles);
 	score_pos.x += 130;
-	draw_text_shadow(renderer, scoretext, score_pos.x, score_pos.y, 1.5);
+	text_draw_shadow(renderer, scoretext, score_pos.x, score_pos.y, 1.5);
 
 	float btn_x = bg_rect.x + CENTER(bg_rect.w, yes_button.rect.w);
 

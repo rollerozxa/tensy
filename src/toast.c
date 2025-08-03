@@ -1,6 +1,7 @@
 #include "toast.h"
 #include "consts.h"
 #include "font.h"
+#include "text.h"
 
 Toast toast;
 
@@ -25,7 +26,7 @@ void update_toast(float dt) {
 void draw_toast(SDL_Renderer *renderer) {
 	if (!toast.active) return;
 
-	SDL_FRect text_rect = calculate_text_rect(toast.message, toast.scale);
+	SDL_FRect text_rect = text_calc_rect(toast.message, toast.scale);
 	SDL_FRect box_rect = {0, 0, text_rect.w + 24, text_rect.h + 12};
 
 	box_rect.x = (NATIVE_WIDTH - box_rect.w) / 2;
@@ -35,5 +36,5 @@ void draw_toast(SDL_Renderer *renderer) {
 	SDL_SetRenderDrawColor(renderer, 13, 13, 13, (toast.alpha * 235));
 	SDL_RenderFillRect(renderer, &box_rect);
 
-	draw_text_shadow_centered(renderer, toast.message, &box_rect, toast.scale);
+	text_draw_shadow_centered(renderer, toast.message, &box_rect, toast.scale);
 }

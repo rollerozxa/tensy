@@ -6,6 +6,7 @@
 #include "input.h"
 #include "media/textures.h"
 #include "scene.h"
+#include "text.h"
 
 #include <math.h>
 #include <stdio.h>
@@ -53,22 +54,19 @@ void mainmenu_draw(SDL_Renderer *renderer) {
 		}
 	}
 
-	set_font_color((SDL_Color){0xFF, 0xFF, 0xFF});
-
 	for (size_t i = 0; title[i] != '\0'; i++) {
 		const float y = 20+sin(SDL_GetTicks()/400.0+i)*16;
 
-		draw_char_shadow(renderer, title[i], 190+i*GLYPH_WIDTH*8, y, 8);
+		font_draw_char_shadow(renderer, title[i], 190+i*GLYPH_WIDTH*8, y, 8);
 	}
 
 	button(renderer, &play_button);
 	button(renderer, &about_button);
 	button(renderer, &settings_button);
 
-	set_font_color((SDL_Color){255,255,255});
 	char statusmsg[512];
 	snprintf(statusmsg, 511, "Tensy ver. 1.0-dev (%s)", SDL_GetPlatform());
-	draw_text_shadow(renderer, statusmsg, 0, NATIVE_HEIGHT-12, 1);
+	text_draw_shadow(renderer, statusmsg, 0, NATIVE_HEIGHT-12, 1);
 }
 
 Scene mainmenu_scene = {

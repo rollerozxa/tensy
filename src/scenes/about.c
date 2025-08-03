@@ -1,11 +1,11 @@
 #include "about.h"
-#include "colours.h"
 #include "consts.h"
 #include "font.h"
 #include "gui/button.h"
 #include "input.h"
 #include "media/raccoon.h"
 #include "media/textures.h"
+#include "text.h"
 
 #include <math.h>
 
@@ -33,23 +33,21 @@ void about_draw(SDL_Renderer *renderer) {
 
 	raccoon_draw(renderer, &POINT(460,50));
 
-	set_font_color(CLR_WHITE);
-
 	for (size_t i = 0; title[i] != '\0'; i++) {
 		const float y = 10+sin(SDL_GetTicks()/400.0+i)*12;
 
-		draw_char_shadow(renderer, title[i], 10+i*GLYPH_WIDTH*6, y, 6);
+		font_draw_char_shadow(renderer, title[i], 10+i*GLYPH_WIDTH*6, y, 6);
 	}
 
-	draw_text_shadow(renderer, "Tensy is a puzzle game where you", 20, 100, 2);
-	draw_text_shadow(renderer, "drag to select numbers that sum", 20, 125, 2);
-	draw_text_shadow(renderer, "up to ten.", 20, 150, 2);
+	text_draw_shadow(renderer, "Tensy is a puzzle game where you", 20, 100, 2);
+	text_draw_shadow(renderer, "drag to select numbers that sum", 20, 125, 2);
+	text_draw_shadow(renderer, "up to ten.", 20, 150, 2);
 
-	draw_text_shadow(renderer, "Well, that's the short version", 20, 200, 2);
-	draw_text_shadow(renderer, "of it.", 20, 225, 2);
+	text_draw_shadow(renderer, "Well, that's the short version", 20, 200, 2);
+	text_draw_shadow(renderer, "of it.", 20, 225, 2);
 
-	draw_text_shadow_centered(renderer, "Game by", &RECT(450,225,180,25), 2);
-	draw_text_shadow_centered(renderer, "ROllerozxa", &RECT(450,250,180,25), 2);
+	text_draw_shadow_centered(renderer, "Game by", &RECT(450,225,180,25), 2);
+	text_draw_shadow_centered(renderer, "ROllerozxa", &RECT(450,250,180,25), 2);
 
 	button(renderer, &ok_button);
 }

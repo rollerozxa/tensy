@@ -6,9 +6,10 @@
 #include "media/textures.h"
 #include "mouse.h"
 #include "render.h"
+#include "text.h"
 
 #define CALCULATE_RECTS() \
-	SDL_FRect label_rect = calculate_text_rect(label, 2); \
+	SDL_FRect label_rect = text_calc_rect(label, 2); \
 	SDL_FRect *check_rect = &RECT(pos.x+2, pos.y+2, 20, 20); \
 	SDL_FRect full_rect = {pos.x, pos.y, 24+26+label_rect.w, label_rect.h}
 
@@ -51,8 +52,8 @@ bool checkbox(SDL_Renderer *renderer, Checkbox *checkbox) {
 				&RECT(check_rect->x, check_rect->y, 20, 20));
 	}
 
-	set_font_color(CLR_WHITE);
-	draw_text_shadow(renderer, label, pos.x+26, pos.y, 2);
+	font_set_color(CLR_WHITE);
+	text_draw_shadow(renderer, label, pos.x+26, pos.y, 2);
 
 	return checkbox->checked;
 }
