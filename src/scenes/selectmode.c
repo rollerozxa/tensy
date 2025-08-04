@@ -1,5 +1,5 @@
 #include "selectmode.h"
-#include "colours.h"
+#include "color.h"
 #include "consts.h"
 #include "draw.h"
 #include "font.h"
@@ -139,8 +139,8 @@ void selectmode_draw(SDL_Renderer *renderer) {
 					x * 30 + rect.x + 28,
 					y * 30 + rect.y + 10};
 
-				if (settings_getflag(FLAG_COLOURED_NUMBERS))
-					font_set_color(num_to_colour(mode.board[y][x]));
+				if (settings_getflag(FLAG_COLORED_NUMBERS))
+					font_set_color(color_numbers(mode.board[y][x]));
 
 				font_draw_char_shadow(renderer, mode.board[y][x] + '0', point.x, point.y, 3);
 			}

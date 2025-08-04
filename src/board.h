@@ -37,7 +37,7 @@ void board_reset(Board *board);
 void board_zerofill(Board *board);
 
 void board_update(Board *board, float dt);
-void board_draw(Board *board, SDL_Renderer *renderer, bool coloured_numbers);
+void board_draw(Board *board, SDL_Renderer *renderer, bool colored_numbers);
 
 SDL_Point board_to_screen_coord(Board *board, int x, int y);
 

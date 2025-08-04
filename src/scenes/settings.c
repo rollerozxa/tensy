@@ -9,20 +9,20 @@
 #include "text.h"
 #include "toast.h"
 
-static Checkbox coloured_numbers_checkbox;
+static Checkbox colored_numbers_checkbox;
 
 static Button save_button;
 
 void settings_init(void) {
-	CHECKBOX(coloured_numbers_checkbox, POINT(20,80), false, "Coloured numbers");
+	CHECKBOX(colored_numbers_checkbox, POINT(20,80), false, "Coloured numbers");
 	BUTTON(save_button, RECT(220,280,200,40), "Save & Go back");
 
-	coloured_numbers_checkbox.checked = settings_getflag(FLAG_COLOURED_NUMBERS);
+	colored_numbers_checkbox.checked = settings_getflag(FLAG_COLORED_NUMBERS);
 }
 
 void settings_event(const SDL_Event *ev) {
-	if (checkbox_event(ev, &coloured_numbers_checkbox))
-		settings_toggleflag(FLAG_COLOURED_NUMBERS);
+	if (checkbox_event(ev, &colored_numbers_checkbox))
+		settings_toggleflag(FLAG_COLORED_NUMBERS);
 
 	if (button_event(ev, &save_button) || is_escaping(ev))
 		scene_switch("mainmenu");
@@ -37,7 +37,7 @@ void settings_event(const SDL_Event *ev) {
 void settings_draw(SDL_Renderer *renderer) {
 	text_draw_shadow(renderer, "Settings", 20, 20, 3);
 
-	checkbox(renderer, &coloured_numbers_checkbox);
+	checkbox(renderer, &colored_numbers_checkbox);
 	button(renderer, &save_button);
 }
 

@@ -1,6 +1,6 @@
 #include "gameconfig.h"
 #include "board.h"
-#include "colours.h"
+#include "color.h"
 #include "consts.h"
 #include "font.h"
 #include "gamestate.h"

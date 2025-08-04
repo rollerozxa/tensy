@@ -1,5 +1,5 @@
 #include "board.h"
-#include "colours.h"
+#include "color.h"
 #include "consts.h"
 #include "font.h"
 #include "gamemode.h"
@@ -98,7 +98,7 @@ void board_update(Board *board, float dt) {
 	}
 }
 
-void board_draw(Board *board, SDL_Renderer *renderer, bool coloured_numbers) {
+void board_draw(Board *board, SDL_Renderer *renderer, bool colored_numbers) {
 	SDL_FPoint center = {
 		board->rect.x + board->rect.w / 2.0f,
 		board->rect.y + board->rect.h / 2.0f
@@ -113,8 +113,8 @@ void board_draw(Board *board, SDL_Renderer *renderer, bool coloured_numbers) {
 		if (board->p[x][y].removed)
 			continue;
 
-		if (coloured_numbers)
-			font_set_color(num_to_colour(board->p[x][y].number));
+		if (colored_numbers)
+			font_set_color(color_numbers(board->p[x][y].number));
 
 		SDL_Point point = board_to_screen_coord(board, x, y);
 		SDL_FPoint pos = {

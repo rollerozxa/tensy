@@ -1,5 +1,5 @@
 #include "raccoon.h"
-#include "colours.h"
+#include "color.h"
 #include "consts.h"
 #include "draw.h"
 #include <math.h>

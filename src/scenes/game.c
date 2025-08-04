@@ -1,5 +1,5 @@
 #include "game.h"
-#include "colours.h"
+#include "color.h"
 #include "consts.h"
 #include "draw.h"
 #include "font.h"
@@ -222,7 +222,7 @@ void game_draw(SDL_Renderer *renderer) {
 		}
 	}
 
-	board_draw(&board, renderer, settings_getflag(FLAG_COLOURED_NUMBERS));
+	board_draw(&board, renderer, settings_getflag(FLAG_COLORED_NUMBERS));
 
 	if (helddown) {
 		draw_set_color(renderer, 0xFFFFFF);

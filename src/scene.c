@@ -1,5 +1,5 @@
 #include "scene.h"
-#include "colours.h"
+#include "color.h"
 #include "consts.h"
 #include "font.h"
 #include "draw.h"
@@ -63,7 +63,7 @@ void scene_run_update(float dt) {
 
 void scene_run_draw(SDL_Renderer *renderer) {
 	font_set_color(CLR_WHITE);
-	draw_set_color(renderer, scenes[current_scene].colour);
+	draw_set_color(renderer, scenes[current_scene].color);
 	SDL_RenderClear(renderer);
 
 	if (scenes[current_scene].draw)

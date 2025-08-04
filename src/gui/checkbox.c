@@ -1,5 +1,5 @@
 #include "checkbox.h"
-#include "colours.h"
+#include "color.h"
 #include "consts.h"
 #include "draw.h"
 #include "font.h"

@@ -1,6 +1,16 @@
-#include "colours.h"
+#include "color.h"
 
-SDL_Color num_to_colour(int num) {
+/*
+ * This source file had to be renamed to color.c in order to prevent Tensy
+ * from falling under legislation of the 2023 Online Safety Act.
+ *
+ * (I kid...)
+ */
+
+/**
+ * Get a nice unique colour for each number
+ */
+SDL_Color color_numbers(int num) {
 	switch (num) {
 		case 1: return (SDL_Color){0xFF, 0x98, 0x8F};
 		case 2: return (SDL_Color){0xFF, 0xB1, 0x69};
