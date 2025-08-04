@@ -17,15 +17,15 @@ void AppInit(SDL_Window *window, SDL_Renderer *renderer) {
 	SDL_SetWindowIcon(window, icon);
 	SDL_DestroySurface(icon);
 
-	register_scenes();
+	scenes_register();
 	init_gamemodes();
 
-	run_scene_init();
+	scene_run_init();
 }
 
 void AppEvent(SDL_Event *ev) {
-	run_scene_event(ev);
-	run_overlay_event(ev);
+	scene_run_event(ev);
+	overlay_run_event(ev);
 
 	debug_event(ev);
 }
@@ -39,24 +39,24 @@ void AppUpdate(void) {
 	float dt = (now - last_time) / 1e9f;
 	last_time = now;
 
-	run_scene_update(dt);
-	run_overlay_update();
+	scene_run_update(dt);
+	overlay_run_update();
 
 	update_toast(dt);
 }
 
 void AppDraw(SDL_Renderer *renderer) {
-	run_scene_draw(renderer);
-	run_overlay_draw(renderer);
+	scene_run_draw(renderer);
+	overlay_run_draw(renderer);
 
 	draw_toast(renderer);
 
 	debug_draw(renderer);
 
-	perform_scene_transition(renderer);
+	scene_perform_transition(renderer);
 }
 
 void AppQuit(void) {
 	settings_save();
-	switch_scene("exiting");
+	scene_switch("exiting");
 }

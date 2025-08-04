@@ -10,14 +10,14 @@ void intro_init(void) {
 
 void intro_event(const SDL_Event *ev) {
 	if (ev->type == SDL_EVENT_KEY_DOWN && ev->key.scancode == SDL_SCANCODE_ESCAPE)
-		switch_scene("mainmenu");
+		scene_switch("mainmenu");
 }
 
 void intro_update(float dt) {
 	intro_timer += dt;
 
 	if (intro_timer >= 0.5)
-		switch_scene("mainmenu");
+		scene_switch("mainmenu");
 }
 
 void intro_draw(SDL_Renderer *renderer) {

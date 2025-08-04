@@ -16,11 +16,11 @@ void exitconfirm_init(void) {
 
 void exitconfirm_event(const SDL_Event *ev) {
 	if (button_event(ev, &back_button) || is_escaping(ev))
-		switch_overlay("pause");
+		overlay_switch("pause");
 
 	if (button_event(ev, &exit_button)) {
-		hide_overlay();
-		switch_scene("mainmenu");
+		overlay_hide();
+		scene_switch("mainmenu");
 	}
 }
 

@@ -125,7 +125,7 @@ void game_event(const SDL_Event *ev) {
 	#define CELL_X (ev->motion.x - board.rect.x) / board.cell_size
 	#define CELL_Y (ev->motion.y - board.rect.y) / board.cell_size
 
-	if (has_overlay()) return;
+	if (overlay_exists()) return;
 
 	if (ev->type == SDL_EVENT_MOUSE_BUTTON_DOWN) {
 		int cx = CELL_X;
@@ -177,11 +177,11 @@ void game_event(const SDL_Event *ev) {
 	}
 
 	if (tex_button_event(ev, &pause_button) || is_escaping(ev))
-		switch_overlay("pause");
+		overlay_switch("pause");
 
 	if (game.shuffles > 0) {
 		if (tex_button_event(ev, &shuffle_button))
-			switch_overlay("shuffle");
+			overlay_switch("shuffle");
 	}
 
 	if (gamestate_has_undo()) {
@@ -193,9 +193,9 @@ void game_event(const SDL_Event *ev) {
 void game_update(float dt) {
 	board_update(&board, dt);
 
-	if (game.mode == GM_Classic && !dead && (!has_overlay() || strcmp(get_current_overlay(), "shuffle") == 0)) {
+	if (game.mode == GM_Classic && !dead && (!overlay_exists() || strcmp(overlay_get_current(), "shuffle") == 0)) {
 		if (time_left < 0) {
-			switch_overlay("timeout");
+			overlay_switch("timeout");
 			dead = true;
 		} else {
 			time_left -= dt;

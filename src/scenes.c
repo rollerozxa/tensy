@@ -12,19 +12,19 @@
 #include "scenes/selectmode.h"
 #include "scenes/settings.h"
 
-void register_scenes(void) {
+void scenes_register(void) {
 	// First scene needs to be first
-	add_scene(intro_scene);
-	add_scene(about_scene);
-	add_scene(mainmenu_scene);
-	add_scene(exiting_scene);
-	add_scene(game_scene);
-	add_scene(gameconfig_scene);
-	add_scene(selectmode_scene);
-	add_scene(settings_scene);
+	scene_add(intro_scene);
+	scene_add(about_scene);
+	scene_add(mainmenu_scene);
+	scene_add(exiting_scene);
+	scene_add(game_scene);
+	scene_add(gameconfig_scene);
+	scene_add(selectmode_scene);
+	scene_add(settings_scene);
 
-	add_overlay(exitconfirm_overlay);
-	add_overlay(pause_overlay);
-	add_overlay(shuffle_overlay);
-	add_overlay(timeout_overlay);
+	overlay_add(exitconfirm_overlay);
+	overlay_add(pause_overlay);
+	overlay_add(shuffle_overlay);
+	overlay_add(timeout_overlay);
 }

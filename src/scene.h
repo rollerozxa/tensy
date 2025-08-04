@@ -13,16 +13,16 @@ typedef struct {
 
 #define MAX_SCENES 10
 
-int add_scene(Scene scene);
+int scene_add(Scene scene);
 
-int switch_scene(const char *name);
+int scene_switch(const char *name);
 
-const char *get_current_scene(void);
+const char *scene_get_current(void);
 
-void run_scene_init(void);
-void run_scene_event(const SDL_Event *ev);
-void run_scene_update(float dt);
-void run_scene_draw(SDL_Renderer *renderer);
+void scene_run_init(void);
+void scene_run_event(const SDL_Event *ev);
+void scene_run_update(float dt);
+void scene_run_draw(SDL_Renderer *renderer);
 
-void perform_scene_transition(SDL_Renderer *renderer);
+void scene_perform_transition(SDL_Renderer *renderer);
 bool scene_is_transitioning(void);

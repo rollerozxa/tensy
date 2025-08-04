@@ -25,17 +25,17 @@ void mainmenu_init(void) {
 void mainmenu_event(const SDL_Event *ev) {
 	if (ev->type == SDL_EVENT_KEY_UP) {
 		if (ev->key.key == SDLK_RETURN || ev->key.key == SDLK_RETURN2)
-			switch_scene("selectmode");
+			scene_switch("selectmode");
 	}
 
 	if (button_event(ev, &play_button))
-		switch_scene("selectmode");
+		scene_switch("selectmode");
 
 	if (button_event(ev, &about_button))
-		switch_scene("about");
+		scene_switch("about");
 
 	if (button_event(ev, &settings_button))
-		switch_scene("settings");
+		scene_switch("settings");
 
 	if (is_escaping(ev))
 		AppQuit();

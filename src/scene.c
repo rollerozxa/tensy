@@ -8,7 +8,7 @@ static Scene scenes[MAX_SCENES];
 static int current_scene = 0;
 static int allocated_scenes = 0;
 
-int add_scene(Scene scene) {
+int scene_add(Scene scene) {
 	if (allocated_scenes > MAX_SCENES) {
 		SDL_assert(0);
 		return 0;
@@ -25,7 +25,7 @@ static int trans_step = 0;
 static int trans_to = -1;
 static int trans_alpha = 0;
 
-int switch_scene(const char *name) {
+int scene_switch(const char *name) {
 	if (trans)
 		return 2;
 
@@ -42,26 +42,26 @@ int switch_scene(const char *name) {
 	return 0;
 }
 
-const char *get_current_scene(void) {
+const char *scene_get_current(void) {
 	return scenes[current_scene].name;
 }
 
-void run_scene_init(void) {
+void scene_run_init(void) {
 	if (scenes[current_scene].init)
 		scenes[current_scene].init();
 }
 
-void run_scene_event(const SDL_Event *ev) {
+void scene_run_event(const SDL_Event *ev) {
 	if (scenes[current_scene].event)
 		scenes[current_scene].event(ev);
 }
 
-void run_scene_update(float dt) {
+void scene_run_update(float dt) {
 	if (scenes[current_scene].update)
 		scenes[current_scene].update(dt);
 }
 
-void run_scene_draw(SDL_Renderer *renderer) {
+void scene_run_draw(SDL_Renderer *renderer) {
 	font_set_color(CLR_WHITE);
 	set_draw_color(renderer, scenes[current_scene].colour);
 	SDL_RenderClear(renderer);
@@ -70,7 +70,7 @@ void run_scene_draw(SDL_Renderer *renderer) {
 		scenes[current_scene].draw(renderer);
 }
 
-void perform_scene_transition(SDL_Renderer *renderer) {
+void scene_perform_transition(SDL_Renderer *renderer) {
 	if (!trans) return;
 
 	if (trans_step < 25)
@@ -88,7 +88,7 @@ void perform_scene_transition(SDL_Renderer *renderer) {
 	if (trans_step == 25) {
 		current_scene = trans_to;
 
-		run_scene_init();
+		scene_run_init();
 	} else if (trans_step == 50)
 		trans = false;
 }

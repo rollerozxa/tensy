@@ -1,3 +1,3 @@
 #pragma once
 
-void register_scenes(void);
+void scenes_register(void);

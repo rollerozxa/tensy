@@ -65,7 +65,7 @@ void selectmode_event(const SDL_Event *ev) {
 
 		case SDL_EVENT_KEY_UP:
 			if (is_escaping(ev))
-				switch_scene("mainmenu");
+				scene_switch("mainmenu");
 
 			if (ev->key.key == SDLK_1) select_mode_num(0);
 			if (ev->key.key == SDLK_2) select_mode_num(1);
@@ -84,7 +84,7 @@ void selectmode_event(const SDL_Event *ev) {
 	if (savestate_exists() && button_event(ev, &continue_button)) {
 		savestate_load();
 		game.loaded_existing = true;
-		switch_scene("game");
+		scene_switch("game");
 	}
 }
 

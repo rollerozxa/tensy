@@ -20,7 +20,7 @@ void pause_init(void) {
 
 void pause_event(const SDL_Event *ev) {
 	if (button_event(ev, &resume_button) || is_escaping(ev))
-		hide_overlay();
+		overlay_hide();
 
 	if (button_event(ev, &save_button)) {
 		savestate_save();
@@ -29,10 +29,10 @@ void pause_event(const SDL_Event *ev) {
 
 	if (button_event(ev, &exit_button)) {
 		if (game.dirty)
-			switch_overlay("exitconfirm");
+			overlay_switch("exitconfirm");
 		else {
-			hide_overlay();
-			switch_scene("mainmenu");
+			overlay_hide();
+			scene_switch("mainmenu");
 		}
 	}
 }

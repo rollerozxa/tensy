@@ -6,7 +6,7 @@ static int timeout = 0;
 bool exiting = false;
 
 void exiting_init(void) {
-	hide_overlay();
+	overlay_hide();
 }
 
 void exiting_update(float dt) {

@@ -12,16 +12,16 @@ typedef struct {
 
 #define MAX_OVERLAYS 10
 
-int add_overlay(Overlay overlay);
+int overlay_add(Overlay overlay);
 
-int switch_overlay(const char *name);
+int overlay_switch(const char *name);
 
-const char *get_current_overlay(void);
+const char *overlay_get_current(void);
 
-void hide_overlay(void);
-bool has_overlay(void);
+void overlay_hide(void);
+bool overlay_exists(void);
 
-void run_overlay_init(void);
-void run_overlay_event(const SDL_Event *ev);
-void run_overlay_update(void);
-void run_overlay_draw(SDL_Renderer *renderer);
+void overlay_run_init(void);
+void overlay_run_event(const SDL_Event *ev);
+void overlay_run_update(void);
+void overlay_run_draw(SDL_Renderer *renderer);

@@ -4,7 +4,7 @@ static Overlay overlays[MAX_OVERLAYS];
 static int current_overlay = -1;
 static int allocated_overlays = 0;
 
-int add_overlay(Overlay overlay) {
+int overlay_add(Overlay overlay) {
 	if (allocated_overlays > MAX_OVERLAYS) {
 		SDL_assert(0);
 		return 0;
@@ -16,11 +16,11 @@ int add_overlay(Overlay overlay) {
 	return 1;
 }
 
-int switch_overlay(const char *name) {
+int overlay_switch(const char *name) {
 	for (size_t i = 0; i < MAX_OVERLAYS; i++) {
 		if (strcmp(name, overlays[i].name) == 0) {
 			current_overlay = i;
-			run_overlay_init();
+			overlay_run_init();
 			return 1;
 		}
 	}
@@ -29,34 +29,34 @@ int switch_overlay(const char *name) {
 	return 0;
 }
 
-const char *get_current_overlay(void) {
-	return has_overlay() ? overlays[current_overlay].name : NULL;
+const char *overlay_get_current(void) {
+	return overlay_exists() ? overlays[current_overlay].name : NULL;
 }
 
-void hide_overlay(void) {
+void overlay_hide(void) {
 	current_overlay = -1;
 }
 
-bool has_overlay(void) {
+bool overlay_exists(void) {
 	return current_overlay != -1;
 }
 
-void run_overlay_init(void) {
-	if (has_overlay() && overlays[current_overlay].init)
+void overlay_run_init(void) {
+	if (overlay_exists() && overlays[current_overlay].init)
 		overlays[current_overlay].init();
 }
 
-void run_overlay_event(const SDL_Event *ev) {
-	if (has_overlay() && overlays[current_overlay].event)
+void overlay_run_event(const SDL_Event *ev) {
+	if (overlay_exists() && overlays[current_overlay].event)
 		overlays[current_overlay].event(ev);
 }
 
-void run_overlay_update(void) {
-	if (has_overlay() && overlays[current_overlay].update)
+void overlay_run_update(void) {
+	if (overlay_exists() && overlays[current_overlay].update)
 		overlays[current_overlay].update();
 }
 
-void run_overlay_draw(SDL_Renderer *renderer) {
-	if (has_overlay() && overlays[current_overlay].draw)
+void overlay_run_draw(SDL_Renderer *renderer) {
+	if (overlay_exists() && overlays[current_overlay].draw)
 		overlays[current_overlay].draw(renderer);
 }

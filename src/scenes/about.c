@@ -18,7 +18,7 @@ void about_init(void) {
 void about_event(const SDL_Event *ev) {
 
 	if (button_event(ev, &ok_button) || is_escaping(ev))
-		switch_scene("mainmenu");
+		scene_switch("mainmenu");
 }
 
 static char title[] = "Tensy";

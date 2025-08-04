@@ -20,11 +20,11 @@ void shuffle_event(const SDL_Event *ev) {
 		gamestate_clear();
 		board_shuffle_animated(&game.board, 1);
 		game.shuffles--;
-		hide_overlay();
+		overlay_hide();
 	}
 
 	if (button_event(ev, &no_button) || is_escaping(ev))
-		hide_overlay();
+		overlay_hide();
 }
 
 void shuffle_draw(SDL_Renderer *renderer) {

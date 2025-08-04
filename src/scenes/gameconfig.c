@@ -58,7 +58,7 @@ void gameconfig_event(const SDL_Event *ev) {
 		show_hyuge = false;
 
 	if (is_escaping(ev))
-		switch_scene("selectmode");
+		scene_switch("selectmode");
 
 	for (size_t i = 0; i < num_board_sizes; i++) {
 		BoardSize *board_size = &board_sizes[i];
@@ -71,7 +71,7 @@ void gameconfig_event(const SDL_Event *ev) {
 	}
 
 	if (button_event(ev, &go_button))
-		switch_scene("game");
+		scene_switch("game");
 
 	if (current_gamemode().gravity_mode == GRA_Ask && checkbox_event(ev, &physics_checkbox))
 		game.board.physics = physics_checkbox.checked;

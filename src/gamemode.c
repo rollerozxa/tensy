@@ -33,5 +33,5 @@ GameMode current_gamemode(void) {
 
 void gamemode_continue(void) {
 	// for if we need to change where to go after a gamemode is selected
-	switch_scene("gameconfig");
+	scene_switch("gameconfig");
 }
