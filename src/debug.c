@@ -1,9 +1,9 @@
 #include "debug.h"
 #include "colours.h"
 #include "consts.h"
+#include "draw.h"
 #include "font.h"
 #include "mouse.h"
-#include "render.h"
 #include "text.h"
 #include <stdio.h>
 
@@ -20,7 +20,7 @@ void debug_draw(SDL_Renderer *renderer) {
 
 	font_set_color(CLR_WHITE);
 
-	set_draw_color_alpha(renderer, 0xFFFFFF30);
+	draw_set_color_alpha(renderer, 0xFFFFFF30);
 	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 
 	int cellSize = 20;
@@ -33,7 +33,7 @@ void debug_draw(SDL_Renderer *renderer) {
 
 	SDL_FPoint mouse;
 	mouse_get_state_scaled(renderer, &mouse.x, &mouse.y);
-	set_draw_color(renderer, 0xFFFF00);
+	draw_set_color(renderer, 0xFFFF00);
 	SDL_RenderLine(renderer, mouse.x, 0, mouse.x, NATIVE_HEIGHT);
 	SDL_RenderLine(renderer, 0, mouse.y, NATIVE_WIDTH, mouse.y);
 

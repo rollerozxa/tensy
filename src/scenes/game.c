@@ -1,6 +1,7 @@
 #include "game.h"
 #include "colours.h"
 #include "consts.h"
+#include "draw.h"
 #include "font.h"
 #include "gamesettings.h"
 #include "gamestate.h"
@@ -9,14 +10,13 @@
 #include "media/sound.h"
 #include "media/textures.h"
 #include "overlay.h"
-#include "render.h"
 #include "savestate.h"
 #include "scene.h"
 #include "text.h"
 
+#include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
-#include <math.h>
 
 #define board game.board
 #define time_left game.time_left
@@ -216,7 +216,7 @@ void game_draw(SDL_Renderer *renderer) {
 
 	if (helddown) {
 		if (held_sum == 10) {
-			set_draw_color(renderer, 0x00A000);
+			draw_set_color(renderer, 0x00A000);
 
 			SDL_RenderFillRect(renderer, &sel_rect);
 		}
@@ -225,11 +225,11 @@ void game_draw(SDL_Renderer *renderer) {
 	board_draw(&board, renderer, settings_getflag(FLAG_COLOURED_NUMBERS));
 
 	if (helddown) {
-		set_draw_color(renderer, 0xFFFFFF);
+		draw_set_color(renderer, 0xFFFFFF);
 		SDL_RenderRect(renderer, &sel_rect);
 	}
 
-	set_draw_color(renderer, 0x102A6E);
+	draw_set_color(renderer, 0x102A6E);
 	SDL_FRect bar_rect = {0, 0, NATIVE_WIDTH, 24};
 	SDL_RenderFillRect(renderer, &bar_rect);
 	bar_rect.y = NATIVE_HEIGHT - 24;
@@ -260,9 +260,9 @@ void game_draw(SDL_Renderer *renderer) {
 		SDL_FRect progbar_rect = {0, NATIVE_HEIGHT - 20, -1, 20};
 		progbar_rect.w = NATIVE_WIDTH * (time_left / total_time);
 		if (progbar_rect.w < 40) {
-			set_draw_color(renderer, 0xff0000);
+			draw_set_color(renderer, 0xff0000);
 		} else {
-			set_draw_color(renderer, 0x4871da);
+			draw_set_color(renderer, 0x4871da);
 		}
 
 		SDL_RenderFillRect(renderer, &progbar_rect);

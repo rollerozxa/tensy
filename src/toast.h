@@ -11,7 +11,7 @@ typedef struct {
     bool active;
 } Toast;
 
-void show_toast(const char *message, float duration);
-void update_toast(float dt);
-void draw_toast(SDL_Renderer *renderer);
+void toast_show(const char *message, float duration);
+void toast_update(float dt);
+void toast_draw(SDL_Renderer *renderer);
 

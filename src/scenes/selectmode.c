@@ -1,6 +1,7 @@
 #include "selectmode.h"
 #include "colours.h"
 #include "consts.h"
+#include "draw.h"
 #include "font.h"
 #include "gamemode.h"
 #include "gamesettings.h"
@@ -9,7 +10,6 @@
 #include "input.h"
 #include "media/sound.h"
 #include "mouse.h"
-#include "render.h"
 #include "savestate.h"
 #include "text.h"
 
@@ -127,7 +127,7 @@ void selectmode_draw(SDL_Renderer *renderer) {
 				selected_mode = -1;
 		}
 		SDL_Color color = {31+mod, 63+mod, 143+mod};
-		set_draw_color(renderer, sdl_color_to_bitpack(color));
+		draw_set_color(renderer, color_sdl_to_bitpack(color));
 
 		SDL_RenderFillRect(renderer, &rect);
 
@@ -160,7 +160,7 @@ void selectmode_draw(SDL_Renderer *renderer) {
 		}
 
 		if (mode.disabled) {
-			set_draw_color_alpha(renderer, 0x000000A0);
+			draw_set_color_alpha(renderer, 0x000000A0);
 			SDL_RenderFillRect(renderer, &rect);
 			const char *coming_soon = "Coming soon!";
 			font_set_color((SDL_Color){0xFF, 0x00, 0x00, 0xFF});

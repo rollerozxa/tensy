@@ -4,7 +4,7 @@
 #include "gui/button.h"
 #include "input.h"
 #include "overlay.h"
-#include "render.h"
+#include "draw.h"
 #include "savestate.h"
 #include "scene.h"
 #include "text.h"
@@ -24,7 +24,7 @@ void pause_event(const SDL_Event *ev) {
 
 	if (button_event(ev, &save_button)) {
 		savestate_save();
-		show_toast("Saved!", 2);
+		toast_show("Saved!", 2);
 	}
 
 	if (button_event(ev, &exit_button)) {

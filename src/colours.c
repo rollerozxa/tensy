@@ -15,3 +15,9 @@ SDL_Color num_to_colour(int num) {
 
 	return (SDL_Color){0xFF, 0xFF, 0xFF};
 }
+
+unsigned int color_sdl_to_bitpack(SDL_Color color) {
+	return (color.r << 16)
+		 + (color.g << 8)
+		 + color.b;
+}

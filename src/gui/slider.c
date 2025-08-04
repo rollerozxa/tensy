@@ -1,8 +1,7 @@
 #include "slider.h"
 #include "consts.h"
-#include "font.h"
+#include "draw.h"
 #include "mouse.h"
-#include "render.h"
 #include "text.h"
 
 #include <stdio.h>
@@ -49,7 +48,7 @@ void slider(SDL_Renderer *renderer, Slider *slider) {
 
 	slider->_handle_width = rect.w / (slider->max - slider->min);
 
-	set_draw_color(renderer, 0x2A2A2A);
+	draw_set_color(renderer, 0x2A2A2A);
 	SDL_RenderFillRect(renderer, &rect);
 
 	SDL_FPoint mouse;

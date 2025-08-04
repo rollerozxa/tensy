@@ -4,7 +4,7 @@
 #include "gamestate.h"
 #include "gui/button.h"
 #include "input.h"
-#include "render.h"
+#include "draw.h"
 #include "text.h"
 #include <stdio.h>
 
@@ -29,7 +29,7 @@ void shuffle_event(const SDL_Event *ev) {
 
 void shuffle_draw(SDL_Renderer *renderer) {
 	SDL_FRect bg_rect = {23 * 20, 24, 9 * 20, 20 * 6};
-	set_draw_color(renderer, 0x102a63);
+	draw_set_color(renderer, 0x102a63);
 	SDL_RenderFillRect(renderer, &bg_rect);
 
 	SDL_FRect text_rect = {bg_rect.x, bg_rect.y, bg_rect.w, 20*2};

@@ -30,7 +30,7 @@ void settings_event(const SDL_Event *ev) {
 	if (ev->type == SDL_EVENT_KEY_UP && ev->key.scancode == SDL_SCANCODE_5 && !settings_getflag(FLAG_SECRET_FIVE)) {
 		settings_toggleflag(FLAG_SECRET_FIVE);
 		sound_play(SND_WOOZY);
-		show_toast("...huh...?", 3);
+		toast_show("...huh...?", 3);
 	}
 }
 

@@ -5,11 +5,11 @@
 
 Toast toast;
 
-void show_toast(const char *message, float duration) {
+void toast_show(const char *message, float duration) {
 	toast = (Toast){message, 2, duration, 0.0f, 1.0f, true};
 }
 
-void update_toast(float dt) {
+void toast_update(float dt) {
 	if (!toast.active) return;
 
 	toast.timer += dt;
@@ -23,7 +23,7 @@ void update_toast(float dt) {
 	toast.alpha = remaining < 1.0f ? remaining : 1.0f;
 }
 
-void draw_toast(SDL_Renderer *renderer) {
+void toast_draw(SDL_Renderer *renderer) {
 	if (!toast.active) return;
 
 	SDL_FRect text_rect = text_calc_rect(toast.message, toast.scale);

@@ -1,6 +1,7 @@
 #include "raccoon.h"
+#include "colours.h"
 #include "consts.h"
-#include "render.h"
+#include "draw.h"
 #include <math.h>
 
 #define RACCOON_WIDTH 16
@@ -49,7 +50,7 @@ void raccoon_draw(SDL_Renderer *renderer, SDL_FPoint *point) {
 			if (currentColor == 0)
 				continue;
 
-			set_draw_color(renderer, sdl_color_to_bitpack(idx[currentColor]));
+			draw_set_color(renderer, color_sdl_to_bitpack(idx[currentColor]));
 			SDL_RenderFillRect(renderer, &RECT(
 				point->x + sin((double)(step+y*3)/15)*7+bs*x,
 				point->y + bs*y, bs, bs));
