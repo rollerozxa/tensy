@@ -21,7 +21,7 @@ void intro_update(float dt) {
 		scene_switch("mainmenu");
 }
 
-void intro_draw(SDL_Renderer *renderer) {
+void intro_draw(void) {
 	draw_texture(TEX_INTRO_RACCOON, NULL, NULL);
 	draw_texture(TEX_INTRO_TEXT, NULL, NULL);
 }

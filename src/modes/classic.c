@@ -4,7 +4,7 @@
 
 GM_CLICK(classic, GM_Classic)
 
-static void sm_draw(SDL_Renderer *renderer, SDL_FRect rect) {
+static void sm_draw(SDL_FRect rect) {
 	SDL_FRect clock_rect = {
 		rect.x + 140,
 		rect.y + 10,

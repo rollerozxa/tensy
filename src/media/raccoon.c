@@ -51,7 +51,7 @@ void raccoon_draw(SDL_FPoint *point) {
 				continue;
 
 			draw_set_color(color_sdl_to_bitpack(idx[currentColor]));
-			SDL_RenderFillRect(renderer, &RECT(
+			draw_fill_rect(&RECT(
 				point->x + sin((double)(step+y*3)/15)*7+bs*x,
 				point->y + bs*y, bs, bs));
 		}

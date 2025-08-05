@@ -75,10 +75,10 @@ void gameconfig_event(const SDL_Event *ev) {
 		game.board.physics = physics_checkbox.checked;
 }
 
-void gameconfig_draw(SDL_Renderer *renderer) {
+void gameconfig_draw(void) {
 	text_draw_shadow("Configure game", 10, 10, 3);
 
-	board_draw(&board_preview, renderer, false);
+	board_draw(&board_preview, false);
 
 	SDL_FRect label_rect = RECTCPY(board_sizes[0].button.rect);
 	label_rect.x = 25;

@@ -31,7 +31,7 @@ typedef struct {
 	bool disabled;
 	void (*sm_click)(void);
 	bool (*sm_enabled)(void);
-	void (*sm_draw)(SDL_Renderer *renderer, SDL_FRect rect);
+	void (*sm_draw)(SDL_FRect rect);
 	int (*calc_cell_number)(Board *board, int x, int y);
 	GravityMode gravity_mode;
 } GameMode;

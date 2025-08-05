@@ -97,7 +97,7 @@ void selectmode_update(float dt) {
 	}
 }
 
-void selectmode_draw(SDL_Renderer *renderer) {
+void selectmode_draw(void) {
 
 	text_draw_shadow("Select mode", 10, 10, 3);
 
@@ -129,7 +129,7 @@ void selectmode_draw(SDL_Renderer *renderer) {
 		SDL_Color color = {31+mod, 63+mod, 143+mod};
 		draw_set_color(color_sdl_to_bitpack(color));
 
-		SDL_RenderFillRect(renderer, &rect);
+		draw_fill_rect(&rect);
 
 		for (int x = 0; x < 6; x++) {
 			for (int y = 0; y < 4; y++) {
@@ -149,7 +149,7 @@ void selectmode_draw(SDL_Renderer *renderer) {
 		font_set_color(CLR_WHITE);
 
 		if (mode.sm_draw)
-			mode.sm_draw(renderer, rect);
+			mode.sm_draw(rect);
 
 		float centerx = (rect.w - text_calc_rect(mode.name, 3).w) / 2;
 		text_draw_shadow(mode.name, rect.x + centerx, 205, 3);
@@ -161,7 +161,7 @@ void selectmode_draw(SDL_Renderer *renderer) {
 
 		if (mode.disabled) {
 			draw_set_color_alpha(0x000000A0);
-			SDL_RenderFillRect(renderer, &rect);
+			draw_fill_rect(&rect);
 			const char *coming_soon = "Coming soon!";
 			font_set_color((SDL_Color){0xFF, 0x00, 0x00, 0xFF});
 			for (size_t i = 0; coming_soon[i] != '\0'; i++) {

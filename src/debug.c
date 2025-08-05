@@ -14,7 +14,7 @@ void debug_event(const SDL_Event *ev) {
 		debug = !debug;
 }
 
-void debug_draw(SDL_Renderer *renderer) {
+void debug_draw(void) {
 	if (!debug)
 		return;
 
@@ -26,16 +26,16 @@ void debug_draw(SDL_Renderer *renderer) {
 	int cellSize = 20;
 
 	for (size_t x = 0; x < NATIVE_WIDTH; x += cellSize)
-		SDL_RenderLine(renderer, x, 0, x, NATIVE_HEIGHT);
+		draw_line(x, 0, x, NATIVE_HEIGHT);
 
 	for (size_t y = 0; y < NATIVE_HEIGHT; y += cellSize)
-		SDL_RenderLine(renderer, 0, y, NATIVE_WIDTH, y);
+		draw_line(0, y, NATIVE_WIDTH, y);
 
 	SDL_FPoint mouse;
 	mouse_get_state_scaled(&mouse);
 	draw_set_color(0xFFFF00);
-	SDL_RenderLine(renderer, mouse.x, 0, mouse.x, NATIVE_HEIGHT);
-	SDL_RenderLine(renderer, 0, mouse.y, NATIVE_WIDTH, mouse.y);
+	draw_line(mouse.x, 0, mouse.x, NATIVE_HEIGHT);
+	draw_line(0, mouse.y, NATIVE_WIDTH, mouse.y);
 
 	char text[1024];
 	snprintf(text, 1023, "%s, using %s driver, cursor pos (%f,%f)",

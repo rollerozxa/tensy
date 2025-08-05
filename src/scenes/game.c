@@ -203,7 +203,7 @@ void game_update(float dt) {
 	}
 }
 
-void game_draw(SDL_Renderer *renderer) {
+void game_draw(void) {
 	SDL_Point first_held_point = board_to_screen_coord(&board, first_held_pos.x, first_held_pos.y);
 	SDL_Point current_held_point = board_to_screen_coord(&board, current_held_pos.x, current_held_pos.y);
 
@@ -218,22 +218,22 @@ void game_draw(SDL_Renderer *renderer) {
 		if (held_sum == 10) {
 			draw_set_color(0x00A000);
 
-			SDL_RenderFillRect(renderer, &sel_rect);
+			draw_fill_rect(&sel_rect);
 		}
 	}
 
-	board_draw(&board, renderer, settings_getflag(FLAG_COLORED_NUMBERS));
+	board_draw(&board, settings_getflag(FLAG_COLORED_NUMBERS));
 
 	if (helddown) {
 		draw_set_color(0xFFFFFF);
-		SDL_RenderRect(renderer, &sel_rect);
+		draw_rect(&sel_rect);
 	}
 
 	draw_set_color(0x102A6E);
 	SDL_FRect bar_rect = {0, 0, NATIVE_WIDTH, 24};
-	SDL_RenderFillRect(renderer, &bar_rect);
+	draw_fill_rect(&bar_rect);
 	bar_rect.y = NATIVE_HEIGHT - 24;
-	SDL_RenderFillRect(renderer, &bar_rect);
+	draw_fill_rect(&bar_rect);
 
 	font_set_color(CLR_WHITE);
 	char msg[512];
@@ -265,7 +265,7 @@ void game_draw(SDL_Renderer *renderer) {
 			draw_set_color(0x4871da);
 		}
 
-		SDL_RenderFillRect(renderer, &progbar_rect);
+		draw_fill_rect(&progbar_rect);
 	}
 }
 

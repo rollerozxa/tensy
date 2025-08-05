@@ -56,7 +56,7 @@ void overlay_run_update(void) {
 		overlays[current_overlay].update();
 }
 
-void overlay_run_draw(SDL_Renderer *renderer) {
+void overlay_run_draw(void) {
 	if (overlay_exists() && overlays[current_overlay].draw)
-		overlays[current_overlay].draw(renderer);
+		overlays[current_overlay].draw();
 }

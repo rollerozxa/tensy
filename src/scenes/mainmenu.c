@@ -45,7 +45,7 @@ void mainmenu_event(const SDL_Event *ev) {
 static char title[] = "Tensy";
 static double bgpan = 0;
 
-void mainmenu_draw(SDL_Renderer *renderer) {
+void mainmenu_draw(void) {
 	bgpan = fmod(bgpan + 0.25, 32);
 
 	for (int x = -1; x < 20; x++) {

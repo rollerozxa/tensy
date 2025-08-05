@@ -24,7 +24,7 @@ void about_event(const SDL_Event *ev) {
 
 static char title[] = "Tensy";
 
-void about_draw(SDL_Renderer *renderer) {
+void about_draw(void) {
 	for (int x = 0; x < 20; x++) {
 		for (int y = 0; y < 12; y++) {
 			draw_texture(TEX_BG_STRIPES, NULL, &RECT(x*32, y*32, 32, 32));

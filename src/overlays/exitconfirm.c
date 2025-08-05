@@ -24,7 +24,7 @@ void exitconfirm_event(const SDL_Event *ev) {
 	}
 }
 
-void exitconfirm_draw(SDL_Renderer *renderer) {
+void exitconfirm_draw(void) {
 	draw_translucent_overlay();
 
 	SDL_FRect pausebg_rect = draw_centered_fill_rect(POINT(20 * 15, 20 * 7.5));

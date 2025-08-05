@@ -3,7 +3,7 @@
 
 GM_CLICK(leisure, GM_Leisure)
 
-static void sm_draw(SDL_Renderer *renderer, SDL_FRect rect) {
+static void sm_draw(SDL_FRect rect) {
 	SDL_FPoint z_rect = {
 		rect.x + 154, rect.y + 10
 	};

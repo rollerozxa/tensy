@@ -61,16 +61,16 @@ void scene_run_update(float dt) {
 		scenes[current_scene].update(dt);
 }
 
-void scene_run_draw(SDL_Renderer *renderer) {
+void scene_run_draw(void) {
 	font_set_color(CLR_WHITE);
 	draw_set_color(scenes[current_scene].color);
 	SDL_RenderClear(renderer);
 
 	if (scenes[current_scene].draw)
-		scenes[current_scene].draw(renderer);
+		scenes[current_scene].draw();
 }
 
-void scene_perform_transition(SDL_Renderer *renderer) {
+void scene_perform_transition(void) {
 	if (!trans) return;
 
 	if (trans_step < 25)
@@ -81,7 +81,7 @@ void scene_perform_transition(SDL_Renderer *renderer) {
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, trans_alpha);
 
 	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
-	SDL_RenderFillRect(renderer, &RECT(0,0,SCREEN_WIDTH,SCREEN_HEIGHT));
+	draw_fill_rect(&RECT(0,0,SCREEN_WIDTH,SCREEN_HEIGHT));
 
 	trans_step++;
 

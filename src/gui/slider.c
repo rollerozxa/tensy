@@ -49,7 +49,7 @@ void slider(Slider *slider) {
 	slider->_handle_width = rect.w / (slider->max - slider->min);
 
 	draw_set_color(0x2A2A2A);
-	SDL_RenderFillRect(renderer, &rect);
+	draw_fill_rect(&rect);
 
 	SDL_FPoint mouse;
 	int clicked = mouse_get_state_scaled(&mouse);

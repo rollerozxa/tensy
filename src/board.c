@@ -98,7 +98,7 @@ void board_update(Board *board, float dt) {
 	}
 }
 
-void board_draw(Board *board, SDL_Renderer *renderer, bool colored_numbers) {
+void board_draw(Board *board, bool colored_numbers) {
 	SDL_FPoint center = {
 		board->rect.x + board->rect.w / 2.0f,
 		board->rect.y + board->rect.h / 2.0f

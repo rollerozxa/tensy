@@ -27,10 +27,10 @@ void shuffle_event(const SDL_Event *ev) {
 		overlay_hide();
 }
 
-void shuffle_draw(SDL_Renderer *renderer) {
+void shuffle_draw(void) {
 	SDL_FRect bg_rect = {23 * 20, 24, 9 * 20, 20 * 6};
 	draw_set_color(0x102a63);
-	SDL_RenderFillRect(renderer, &bg_rect);
+	draw_fill_rect(&bg_rect);
 
 	SDL_FRect text_rect = {bg_rect.x, bg_rect.y, bg_rect.w, 20*2};
 	text_draw_shadow_centered("Shuffle?", &text_rect, 2);

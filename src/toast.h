@@ -13,5 +13,5 @@ typedef struct {
 
 void toast_show(const char *message, float duration);
 void toast_update(float dt);
-void toast_draw(SDL_Renderer *renderer);
+void toast_draw(void);
 

@@ -34,7 +34,7 @@ void settings_event(const SDL_Event *ev) {
 	}
 }
 
-void settings_draw(SDL_Renderer *renderer) {
+void settings_draw(void) {
 	text_draw_shadow("Settings", 20, 20, 3);
 
 	checkbox(&colored_numbers_checkbox);

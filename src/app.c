@@ -46,14 +46,14 @@ void AppUpdate(void) {
 }
 
 void AppDraw(SDL_Renderer *renderer) {
-	scene_run_draw(renderer);
-	overlay_run_draw(renderer);
+	scene_run_draw();
+	overlay_run_draw();
 
-	toast_draw(renderer);
+	toast_draw();
 
-	debug_draw(renderer);
+	debug_draw();
 
-	scene_perform_transition(renderer);
+	scene_perform_transition();
 }
 
 void AppQuit(void) {

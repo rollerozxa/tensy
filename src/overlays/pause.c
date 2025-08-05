@@ -37,7 +37,7 @@ void pause_event(const SDL_Event *ev) {
 	}
 }
 
-void pause_draw(SDL_Renderer *renderer) {
+void pause_draw(void) {
 	draw_translucent_overlay();
 
 	SDL_FRect pausebg_rect = draw_centered_fill_rect(POINT(20 * 10, 20 * 12));

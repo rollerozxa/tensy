@@ -22,7 +22,7 @@ void timeout_event(const SDL_Event *ev) {
 	}
 }
 
-void timeout_draw(SDL_Renderer *renderer) {
+void timeout_draw(void) {
 	draw_translucent_overlay();
 
 	SDL_FRect bg_rect = draw_centered_fill_rect(POINT(20 * 10, 20 * 12));

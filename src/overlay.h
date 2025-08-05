@@ -7,7 +7,7 @@ typedef struct {
 	void (*init)(void);
 	void (*event)(const SDL_Event *);
 	void (*update)(void);
-	void (*draw)(SDL_Renderer *);
+	void (*draw)(void);
 } Overlay;
 
 #define MAX_OVERLAYS 10
@@ -24,4 +24,4 @@ bool overlay_exists(void);
 void overlay_run_init(void);
 void overlay_run_event(const SDL_Event *ev);
 void overlay_run_update(void);
-void overlay_run_draw(SDL_Renderer *renderer);
+void overlay_run_draw(void);
