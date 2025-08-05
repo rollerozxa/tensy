@@ -29,31 +29,31 @@ bool checkbox_event(const SDL_Event *ev, Checkbox *checkbox) {
 	return false;
 }
 
-bool checkbox(SDL_Renderer *renderer, Checkbox *checkbox) {
+bool checkbox(Checkbox *checkbox) {
 
 	SDL_FPoint pos = checkbox->pos;
 	const char *label = checkbox->label;
 
 	SDL_FPoint mouse;
-	int clicked = mouse_get_state_scaled(renderer, &mouse.x, &mouse.y);
+	int clicked = mouse_get_state_scaled(&mouse);
 
 	CALCULATE_RECTS();
 
 	if (SDL_PointInRectFloat(&mouse, &full_rect)) {
 		if (clicked & SDL_BUTTON_MASK(SDL_BUTTON_LEFT))
-			draw_box_active(renderer, check_rect);
+			draw_box_active(check_rect);
 		else
-			draw_box_hover(renderer, check_rect);
+			draw_box_hover(check_rect);
 	} else
-		draw_box(renderer, check_rect);
+		draw_box(check_rect);
 
 	if (checkbox->checked) {
-		SDL_RenderTexture(renderer, textures_get(TEX_CHECK), NULL,
-				&RECT(check_rect->x, check_rect->y, 20, 20));
+		draw_texture(TEX_CHECK, NULL,
+			&RECT(check_rect->x, check_rect->y, 20, 20));
 	}
 
 	font_set_color(CLR_WHITE);
-	text_draw_shadow(renderer, label, pos.x+26, pos.y, 2);
+	text_draw_shadow(label, pos.x+26, pos.y, 2);
 
 	return checkbox->checked;
 }

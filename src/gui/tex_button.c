@@ -1,5 +1,6 @@
 #include "tex_button.h"
 #include "consts.h"
+#include "draw.h"
 #include "media/sound.h"
 #include "media/textures.h"
 #include "mouse.h"
@@ -40,13 +41,13 @@ bool tex_button_event(const SDL_Event *ev, TexButton *button) {
 	return false;
 }
 
-void tex_button(SDL_Renderer *renderer, TexButton *button) {
+void tex_button(TexButton *button) {
 
 	SDL_FRect rect = button->rect;
 	SDL_Texture *texture = textures_get(button->texture);
 
 	SDL_FPoint mouse;
-	mouse_get_state_scaled(renderer, &mouse.x, &mouse.y);
+	mouse_get_state_scaled(&mouse);
 
 	unsigned char mod = tex_mod(&mouse, button);
 	SDL_SetTextureColorMod(texture, mod, mod, mod);

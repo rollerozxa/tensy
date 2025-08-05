@@ -37,7 +37,7 @@ const static unsigned char image[RACCOON_WIDTH][RACCOON_HEIGHT] = {
 static int step = 0;
 const static int bs = 10;
 
-void raccoon_draw(SDL_Renderer *renderer, SDL_FPoint *point) {
+void raccoon_draw(SDL_FPoint *point) {
 	SDL_Color idx[5];
 
 	// Prepare SDL_Color array and textures for each color
@@ -50,7 +50,7 @@ void raccoon_draw(SDL_Renderer *renderer, SDL_FPoint *point) {
 			if (currentColor == 0)
 				continue;
 
-			draw_set_color(renderer, color_sdl_to_bitpack(idx[currentColor]));
+			draw_set_color(color_sdl_to_bitpack(idx[currentColor]));
 			SDL_RenderFillRect(renderer, &RECT(
 				point->x + sin((double)(step+y*3)/15)*7+bs*x,
 				point->y + bs*y, bs, bs));

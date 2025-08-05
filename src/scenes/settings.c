@@ -35,10 +35,10 @@ void settings_event(const SDL_Event *ev) {
 }
 
 void settings_draw(SDL_Renderer *renderer) {
-	text_draw_shadow(renderer, "Settings", 20, 20, 3);
+	text_draw_shadow("Settings", 20, 20, 3);
 
-	checkbox(renderer, &colored_numbers_checkbox);
-	button(renderer, &save_button);
+	checkbox(&colored_numbers_checkbox);
+	button(&save_button);
 }
 
 Scene settings_scene = {

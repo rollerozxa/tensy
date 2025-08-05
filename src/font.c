@@ -1,9 +1,10 @@
 #include "font.h"
+#include "draw.h"
 #include "media/font_bitmap.h"
 
 static SDL_Texture *font_tex;
 
-static SDL_Texture *font_load(SDL_Renderer *renderer) {
+static SDL_Texture *font_load(void) {
 	SDL_Surface *surface = SDL_CreateSurface(FONT_WIDTH, FONT_HEIGHT,
 		SDL_GetPixelFormatForMasks(32, 0x00FF0000, 0x0000FF00, 0x000000FF, 0xFF000000));
 
@@ -35,14 +36,14 @@ void font_set_color(SDL_Color clr) {
 	SDL_SetTextureColorMod(font_tex, clr.r, clr.g, clr.b);
 }
 
-void font_draw_char(SDL_Renderer *renderer, unsigned char character, float cx, float cy, float scale) {
+void font_draw_char(unsigned char character, float cx, float cy, float scale) {
 	SDL_Point cell = {
 		(character-32) % (FONT_WIDTH/GLYPH_WIDTH),
 		(character-32) / (FONT_WIDTH/GLYPH_WIDTH)
 	};
 
 	if (font_tex == NULL)
-		font_tex = font_load(renderer);
+		font_tex = font_load();
 
 	SDL_FRect srcrect = {cell.x * GLYPH_WIDTH, cell.y * GLYPH_HEIGHT, GLYPH_WIDTH, GLYPH_HEIGHT};
 	SDL_FRect dstrect = {cx, cy, GLYPH_WIDTH * scale, GLYPH_HEIGHT * scale};
@@ -50,7 +51,7 @@ void font_draw_char(SDL_Renderer *renderer, unsigned char character, float cx, f
 	SDL_RenderTexture(renderer, font_tex, &srcrect, &dstrect);
 }
 
-void font_draw_char_shadow(SDL_Renderer *renderer, unsigned char character, float cx, float cy, float scale) {
+void font_draw_char_shadow(unsigned char character, float cx, float cy, float scale) {
 	SDL_Color temp = font_get_color();
 
 	// TODO: Make this more better (this is just to make toasts fade out)
@@ -59,9 +60,9 @@ void font_draw_char_shadow(SDL_Renderer *renderer, unsigned char character, floa
 	SDL_SetTextureAlphaMod(font_tex, alpha);
 
 	font_set_color((SDL_Color){0, 0, 0});
-	font_draw_char(renderer, character, cx + scale, cy + scale, scale);
+	font_draw_char(character, cx + scale, cy + scale, scale);
 	font_set_color(temp);
-	font_draw_char(renderer, character, cx, cy, scale);
+	font_draw_char(character, cx, cy, scale);
 
 	SDL_SetTextureAlphaMod(font_tex, SDL_ALPHA_OPAQUE);
 }

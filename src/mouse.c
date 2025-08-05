@@ -1,11 +1,10 @@
 #include "mouse.h"
+#include "draw.h"
 
-int mouse_get_state_scaled(SDL_Renderer *renderer, float *x, float *y) {
-	SDL_FPoint mouse;
-	int clicked = SDL_GetMouseState(&mouse.x, &mouse.y);
-	SDL_RenderCoordinatesFromWindow(renderer, mouse.x, mouse.y, &mouse.x, &mouse.y);
-	*x = mouse.x;
-	*y = mouse.y;
+int mouse_get_state_scaled(SDL_FPoint *mouse) {
+	SDL_FPoint temp;
+	int clicked = SDL_GetMouseState(&temp.x, &temp.y);
+	SDL_RenderCoordinatesFromWindow(renderer, temp.x, temp.y, &mouse->x, &mouse->y);
 
 	return clicked;
 }

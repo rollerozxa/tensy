@@ -42,29 +42,29 @@ bool slider_event(const SDL_Event *ev, Slider *slider) {
 	return false;
 }
 
-void slider(SDL_Renderer *renderer, Slider *slider) {
+void slider(Slider *slider) {
 
 	SDL_FRect rect = slider->rect;
 
 	slider->_handle_width = rect.w / (slider->max - slider->min);
 
-	draw_set_color(renderer, 0x2A2A2A);
+	draw_set_color(0x2A2A2A);
 	SDL_RenderFillRect(renderer, &rect);
 
 	SDL_FPoint mouse;
-	int clicked = mouse_get_state_scaled(renderer, &mouse.x, &mouse.y);
+	int clicked = mouse_get_state_scaled(&mouse);
 
 	SDL_FRect handle_rect = {rect.x+slider->_pos, rect.y, slider->_handle_width, rect.h};
 
 	if (SDL_PointInRectFloat(&mouse, &rect)) {
 		if (clicked & SDL_BUTTON_MASK(SDL_BUTTON_LEFT))
-			draw_box_active(renderer, &handle_rect);
+			draw_box_active(&handle_rect);
 		else
-			draw_box_hover(renderer, &handle_rect);
+			draw_box_hover(&handle_rect);
 	} else
-		draw_box(renderer, &handle_rect);
+		draw_box(&handle_rect);
 
 	char dbg[512];
 	snprintf(dbg, 511, "%d", slider->value);
-	text_draw(renderer, dbg, rect.x + rect.w + 10, rect.y, 2);
+	text_draw(dbg, rect.x + rect.w + 10, rect.y, 2);
 }

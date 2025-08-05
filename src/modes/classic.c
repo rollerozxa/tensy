@@ -1,4 +1,5 @@
 #include "classic.h"
+#include "draw.h"
 #include "media/textures.h"
 
 GM_CLICK(classic, GM_Classic)
@@ -10,8 +11,7 @@ static void sm_draw(SDL_Renderer *renderer, SDL_FRect rect) {
 		64, 64
 	};
 
-	SDL_RenderTexture(renderer, textures_get(TEX_CLOCK), NULL,
-		&clock_rect);
+	draw_texture(TEX_CLOCK, NULL, &clock_rect);
 }
 
 GameMode classic_gamemode = {

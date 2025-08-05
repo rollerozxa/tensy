@@ -127,7 +127,7 @@ void board_draw(Board *board, SDL_Renderer *renderer, bool colored_numbers) {
 			pos.y = pos.y * (1.0f - t) + center.y * t;
 		}
 
-		font_draw_char_shadow(renderer, board->p[x][y].number + '0',
+		font_draw_char_shadow(board->p[x][y].number + '0',
 			pos.x, pos.y, board->scale);
 	}}
 }

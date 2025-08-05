@@ -38,29 +38,29 @@ void pause_event(const SDL_Event *ev) {
 }
 
 void pause_draw(SDL_Renderer *renderer) {
-	draw_translucent_overlay(renderer);
+	draw_translucent_overlay();
 
-	SDL_FRect pausebg_rect = draw_centered_fill_rect(renderer, POINT(20 * 10, 20 * 12));
+	SDL_FRect pausebg_rect = draw_centered_fill_rect(POINT(20 * 10, 20 * 12));
 
 	SDL_FRect text_rect = {pausebg_rect.x, pausebg_rect.y, pausebg_rect.w, 20*2};
-	text_draw_shadow_centered(renderer, "Game paused", &text_rect, 2);
+	text_draw_shadow_centered("Game paused", &text_rect, 2);
 
 	float btn_x = pausebg_rect.x + CENTER(pausebg_rect.w, resume_button.rect.w);
 
 	resume_button.rect.x = btn_x;
 	resume_button.rect.y = pausebg_rect.y + 20*3;
 
-	button(renderer, &resume_button);
+	button(&resume_button);
 
 	save_button.rect.x = btn_x;
 	save_button.rect.y = pausebg_rect.y + 20*6;
 
-	button(renderer, &save_button);
+	button(&save_button);
 
 	exit_button.rect.x = btn_x;
 	exit_button.rect.y = pausebg_rect.y + 20*9;
 
-	button(renderer, &exit_button);
+	button(&exit_button);
 }
 
 Overlay pause_overlay = {

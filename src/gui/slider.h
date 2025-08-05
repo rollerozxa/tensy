@@ -18,4 +18,4 @@ typedef struct {
 
 void slider_init(Slider *slider);
 bool slider_event(const SDL_Event *ev, Slider *slider);
-void slider(SDL_Renderer *renderer, Slider *slider);
+void slider(Slider *slider);

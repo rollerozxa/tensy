@@ -1,5 +1,6 @@
 #include "about.h"
 #include "consts.h"
+#include "draw.h"
 #include "font.h"
 #include "gui/button.h"
 #include "input.h"
@@ -26,30 +27,29 @@ static char title[] = "Tensy";
 void about_draw(SDL_Renderer *renderer) {
 	for (int x = 0; x < 20; x++) {
 		for (int y = 0; y < 12; y++) {
-			SDL_RenderTexture(renderer, textures_get(TEX_BG_STRIPES), NULL,
-				&RECT(x*32, y*32, 32, 32));
+			draw_texture(TEX_BG_STRIPES, NULL, &RECT(x*32, y*32, 32, 32));
 		}
 	}
 
-	raccoon_draw(renderer, &POINT(460,50));
+	raccoon_draw(&POINT(460,50));
 
 	for (size_t i = 0; title[i] != '\0'; i++) {
 		const float y = 10+sin(SDL_GetTicks()/400.0+i)*12;
 
-		font_draw_char_shadow(renderer, title[i], 10+i*GLYPH_WIDTH*6, y, 6);
+		font_draw_char_shadow(title[i], 10+i*GLYPH_WIDTH*6, y, 6);
 	}
 
-	text_draw_shadow(renderer, "Tensy is a puzzle game where you", 20, 100, 2);
-	text_draw_shadow(renderer, "drag to select numbers that sum", 20, 125, 2);
-	text_draw_shadow(renderer, "up to ten.", 20, 150, 2);
+	text_draw_shadow("Tensy is a puzzle game where you", 20, 100, 2);
+	text_draw_shadow("drag to select numbers that sum", 20, 125, 2);
+	text_draw_shadow("up to ten.", 20, 150, 2);
 
-	text_draw_shadow(renderer, "Well, that's the short version", 20, 200, 2);
-	text_draw_shadow(renderer, "of it.", 20, 225, 2);
+	text_draw_shadow("Well, that's the short version", 20, 200, 2);
+	text_draw_shadow("of it.", 20, 225, 2);
 
-	text_draw_shadow_centered(renderer, "Game by", &RECT(450,225,180,25), 2);
-	text_draw_shadow_centered(renderer, "ROllerozxa", &RECT(450,250,180,25), 2);
+	text_draw_shadow_centered("Game by", &RECT(450,225,180,25), 2);
+	text_draw_shadow_centered("ROllerozxa", &RECT(450,250,180,25), 2);
 
-	button(renderer, &ok_button);
+	button(&ok_button);
 }
 
 Scene about_scene = {

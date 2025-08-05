@@ -29,24 +29,24 @@ bool button_event(const SDL_Event *ev, Button *button) {
 	return false;
 }
 
-void button(SDL_Renderer *renderer, Button *button) {
+void button(Button *button) {
 
 	SDL_FRect rect = button->rect;
 	const char *text = button->text;
 
 	SDL_FPoint mouse;
-	mouse_get_state_scaled(renderer, &mouse.x, &mouse.y);
+	mouse_get_state_scaled(&mouse);
 
 	if (SDL_PointInRectFloat(&mouse, &rect)) {
 		if (button->_held)
-			draw_box_active(renderer, &rect);
+			draw_box_active(&rect);
 		else
-			draw_box_hover(renderer, &rect);
+			draw_box_hover(&rect);
 	} else
-		draw_box(renderer, &rect);
+		draw_box(&rect);
 
 	SDL_FRect text_rect = text_calc_rect(text, label_scale(rect.h));
 
 	font_set_color(CLR_WHITE);
-	text_draw_shadow_centered(renderer, text, &rect, label_scale(rect.h));
+	text_draw_shadow_centered(text, &rect, label_scale(rect.h));
 }

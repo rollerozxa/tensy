@@ -216,7 +216,7 @@ void game_draw(SDL_Renderer *renderer) {
 
 	if (helddown) {
 		if (held_sum == 10) {
-			draw_set_color(renderer, 0x00A000);
+			draw_set_color(0x00A000);
 
 			SDL_RenderFillRect(renderer, &sel_rect);
 		}
@@ -225,11 +225,11 @@ void game_draw(SDL_Renderer *renderer) {
 	board_draw(&board, renderer, settings_getflag(FLAG_COLORED_NUMBERS));
 
 	if (helddown) {
-		draw_set_color(renderer, 0xFFFFFF);
+		draw_set_color(0xFFFFFF);
 		SDL_RenderRect(renderer, &sel_rect);
 	}
 
-	draw_set_color(renderer, 0x102A6E);
+	draw_set_color(0x102A6E);
 	SDL_FRect bar_rect = {0, 0, NATIVE_WIDTH, 24};
 	SDL_RenderFillRect(renderer, &bar_rect);
 	bar_rect.y = NATIVE_HEIGHT - 24;
@@ -246,23 +246,23 @@ void game_draw(SDL_Renderer *renderer) {
 		snprintf(msg, 511, "Score: %d", game.score);
 	}
 
-	text_draw(renderer, msg, 0,0, 2);
+	text_draw(msg, 0,0, 2);
 
-	tex_button(renderer, &pause_button);
+	tex_button(&pause_button);
 
 	shuffle_button._disabled = game.shuffles == 0;
-	tex_button(renderer, &shuffle_button);
+	tex_button(&shuffle_button);
 
 	undo_button._disabled = !gamestate_has_undo();
-	tex_button(renderer, &undo_button);
+	tex_button(&undo_button);
 
 	if (game.mode == GM_Classic) {
 		SDL_FRect progbar_rect = {0, NATIVE_HEIGHT - 20, -1, 20};
 		progbar_rect.w = NATIVE_WIDTH * (time_left / total_time);
 		if (progbar_rect.w < 40) {
-			draw_set_color(renderer, 0xff0000);
+			draw_set_color(0xff0000);
 		} else {
-			draw_set_color(renderer, 0x4871da);
+			draw_set_color(0x4871da);
 		}
 
 		SDL_RenderFillRect(renderer, &progbar_rect);

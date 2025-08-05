@@ -8,5 +8,5 @@
 SDL_Color font_get_color(void);
 void font_set_color(SDL_Color clr);
 
-void font_draw_char(SDL_Renderer *renderer, unsigned char character, float cx, float cy, float scale);
-void font_draw_char_shadow(SDL_Renderer *renderer, unsigned char character, float cx, float cy, float scale);
+void font_draw_char(unsigned char character, float cx, float cy, float scale);
+void font_draw_char_shadow(unsigned char character, float cx, float cy, float scale);

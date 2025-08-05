@@ -99,7 +99,7 @@ void selectmode_update(float dt) {
 
 void selectmode_draw(SDL_Renderer *renderer) {
 
-	text_draw_shadow(renderer, "Select mode", 10, 10, 3);
+	text_draw_shadow("Select mode", 10, 10, 3);
 
 	for (size_t i = 0; i < gamemode_count; i++) {
 		font_set_color(CLR_WHITE);
@@ -115,7 +115,7 @@ void selectmode_draw(SDL_Renderer *renderer) {
 
 		int mod = 20;
 		SDL_FPoint mouse;
-		int pressed = mouse_get_state_scaled(renderer, &mouse.x, &mouse.y);
+		int pressed = mouse_get_state_scaled(&mouse);
 		if (SDL_PointInRectFloat(&mouse, &rect) && !mode.disabled) {
 			if (motion < 4) {
 				if (pressed) {
@@ -127,7 +127,7 @@ void selectmode_draw(SDL_Renderer *renderer) {
 				selected_mode = -1;
 		}
 		SDL_Color color = {31+mod, 63+mod, 143+mod};
-		draw_set_color(renderer, color_sdl_to_bitpack(color));
+		draw_set_color(color_sdl_to_bitpack(color));
 
 		SDL_RenderFillRect(renderer, &rect);
 
@@ -142,7 +142,7 @@ void selectmode_draw(SDL_Renderer *renderer) {
 				if (settings_getflag(FLAG_COLORED_NUMBERS))
 					font_set_color(color_numbers(mode.board[y][x]));
 
-				font_draw_char_shadow(renderer, mode.board[y][x] + '0', point.x, point.y, 3);
+				font_draw_char_shadow(mode.board[y][x] + '0', point.x, point.y, 3);
 			}
 		}
 
@@ -152,26 +152,26 @@ void selectmode_draw(SDL_Renderer *renderer) {
 			mode.sm_draw(renderer, rect);
 
 		float centerx = (rect.w - text_calc_rect(mode.name, 3).w) / 2;
-		text_draw_shadow(renderer, mode.name, rect.x + centerx, 205, 3);
+		text_draw_shadow(mode.name, rect.x + centerx, 205, 3);
 
 		for (int j = 0; j < 4; j++) {
 			if (mode.description[j])
-				text_draw_shadow(renderer, mode.description[j], rect.x + 6, 240 + j * 20, 2);
+				text_draw_shadow(mode.description[j], rect.x + 6, 240 + j * 20, 2);
 		}
 
 		if (mode.disabled) {
-			draw_set_color_alpha(renderer, 0x000000A0);
+			draw_set_color_alpha(0x000000A0);
 			SDL_RenderFillRect(renderer, &rect);
 			const char *coming_soon = "Coming soon!";
 			font_set_color((SDL_Color){0xFF, 0x00, 0x00, 0xFF});
 			for (size_t i = 0; coming_soon[i] != '\0'; i++) {
-				font_draw_char_shadow(renderer, coming_soon[i], rect.x + i * GLYPH_WIDTH * 3 + 5, rect.y + i * 10 + 5, 3);
+				font_draw_char_shadow(coming_soon[i], rect.x + i * GLYPH_WIDTH * 3 + 5, rect.y + i * 10 + 5, 3);
 			}
 		}
 	}
 
 	if (savestate_exists())
-		button(renderer, &continue_button);
+		button(&continue_button);
 }
 
 Scene selectmode_scene = {

@@ -1,6 +1,7 @@
 #include "mainmenu.h"
 #include "app.h"
 #include "consts.h"
+#include "draw.h"
 #include "font.h"
 #include "gui/button.h"
 #include "input.h"
@@ -49,24 +50,23 @@ void mainmenu_draw(SDL_Renderer *renderer) {
 
 	for (int x = -1; x < 20; x++) {
 		for (int y = -1; y < 12; y++) {
-			SDL_RenderTexture(renderer, textures_get(TEX_BG_STRIPES), NULL,
-				&RECT(x*32+bgpan, y*32+bgpan, 32, 32));
+			draw_texture(TEX_BG_STRIPES, NULL, &RECT(x*32+bgpan, y*32+bgpan, 32, 32));
 		}
 	}
 
 	for (size_t i = 0; title[i] != '\0'; i++) {
 		const float y = 20+sin(SDL_GetTicks()/400.0+i)*16;
 
-		font_draw_char_shadow(renderer, title[i], 190+i*GLYPH_WIDTH*8, y, 8);
+		font_draw_char_shadow(title[i], 190+i*GLYPH_WIDTH*8, y, 8);
 	}
 
-	button(renderer, &play_button);
-	button(renderer, &about_button);
-	button(renderer, &settings_button);
+	button(&play_button);
+	button(&about_button);
+	button(&settings_button);
 
 	char statusmsg[512];
 	snprintf(statusmsg, 511, "Tensy ver. 1.0-dev (%s)", SDL_GetPlatform());
-	text_draw_shadow(renderer, statusmsg, 0, NATIVE_HEIGHT-12, 1);
+	text_draw_shadow(statusmsg, 0, NATIVE_HEIGHT-12, 1);
 }
 
 Scene mainmenu_scene = {

@@ -12,4 +12,4 @@ typedef struct {
 	obj = (Button){rect, text}
 
 bool button_event(const SDL_Event *ev, Button *button);
-void button(SDL_Renderer *renderer, Button *button);
+void button(Button *button);

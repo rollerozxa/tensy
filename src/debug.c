@@ -20,7 +20,7 @@ void debug_draw(SDL_Renderer *renderer) {
 
 	font_set_color(CLR_WHITE);
 
-	draw_set_color_alpha(renderer, 0xFFFFFF30);
+	draw_set_color_alpha(0xFFFFFF30);
 	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
 
 	int cellSize = 20;
@@ -32,13 +32,13 @@ void debug_draw(SDL_Renderer *renderer) {
 		SDL_RenderLine(renderer, 0, y, NATIVE_WIDTH, y);
 
 	SDL_FPoint mouse;
-	mouse_get_state_scaled(renderer, &mouse.x, &mouse.y);
-	draw_set_color(renderer, 0xFFFF00);
+	mouse_get_state_scaled(&mouse);
+	draw_set_color(0xFFFF00);
 	SDL_RenderLine(renderer, mouse.x, 0, mouse.x, NATIVE_HEIGHT);
 	SDL_RenderLine(renderer, 0, mouse.y, NATIVE_WIDTH, mouse.y);
 
 	char text[1024];
 	snprintf(text, 1023, "%s, using %s driver, cursor pos (%f,%f)",
 		SDL_GetPlatform(), SDL_GetRendererName(renderer), mouse.x, mouse.y);
-	text_draw_shadow(renderer, text, 0, 0, 1);
+	text_draw_shadow(text, 0, 0, 1);
 }

@@ -1,8 +1,6 @@
 #include "gameconfig.h"
 #include "board.h"
-#include "color.h"
 #include "consts.h"
-#include "font.h"
 #include "gamestate.h"
 #include "gui/button.h"
 #include "gui/checkbox.h"
@@ -78,24 +76,24 @@ void gameconfig_event(const SDL_Event *ev) {
 }
 
 void gameconfig_draw(SDL_Renderer *renderer) {
-	text_draw_shadow(renderer, "Configure game", 10, 10, 3);
+	text_draw_shadow("Configure game", 10, 10, 3);
 
 	board_draw(&board_preview, renderer, false);
 
 	SDL_FRect label_rect = RECTCPY(board_sizes[0].button.rect);
 	label_rect.x = 25;
-	text_draw_shadow_centered(renderer, "Board size", &label_rect, 2);
+	text_draw_shadow_centered("Board size", &label_rect, 2);
 	for (size_t i = 0; i < num_board_sizes; i++) {
 		if (i == 3 && !show_hyuge)
 			continue;
 
-		button(renderer, &board_sizes[i].button);
+		button(&board_sizes[i].button);
 	}
 
 	if (current_gamemode().gravity_mode == GRA_Ask)
-		checkbox(renderer, &physics_checkbox);
+		checkbox(&physics_checkbox);
 
-	button(renderer, &go_button);
+	button(&go_button);
 }
 
 Scene gameconfig_scene = {

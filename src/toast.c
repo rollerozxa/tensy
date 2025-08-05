@@ -36,5 +36,5 @@ void toast_draw(SDL_Renderer *renderer) {
 	SDL_SetRenderDrawColor(renderer, 13, 13, 13, (toast.alpha * 235));
 	SDL_RenderFillRect(renderer, &box_rect);
 
-	text_draw_shadow_centered(renderer, toast.message, &box_rect, toast.scale);
+	text_draw_shadow_centered(toast.message, &box_rect, toast.scale);
 }

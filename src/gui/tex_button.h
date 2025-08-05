@@ -13,4 +13,4 @@ typedef struct {
 	obj = (TexButton){rect, tex}
 
 bool tex_button_event(const SDL_Event *ev, TexButton *button);
-void tex_button(SDL_Renderer *renderer, TexButton *button);
+void tex_button(TexButton *button);

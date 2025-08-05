@@ -1,4 +1,5 @@
 #include "intro.h"
+#include "draw.h"
 #include "media/textures.h"
 #include <stdio.h>
 
@@ -21,8 +22,8 @@ void intro_update(float dt) {
 }
 
 void intro_draw(SDL_Renderer *renderer) {
-	SDL_RenderTexture(renderer, textures_get(TEX_INTRO_RACCOON), NULL, NULL);
-	SDL_RenderTexture(renderer, textures_get(TEX_INTRO_TEXT), NULL, NULL);
+	draw_texture(TEX_INTRO_RACCOON, NULL, NULL);
+	draw_texture(TEX_INTRO_TEXT, NULL, NULL);
 }
 
 Scene intro_scene = {

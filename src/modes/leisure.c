@@ -7,17 +7,17 @@ static void sm_draw(SDL_Renderer *renderer, SDL_FRect rect) {
 	SDL_FPoint z_rect = {
 		rect.x + 154, rect.y + 10
 	};
-	font_draw_char_shadow(renderer, 'Z', z_rect.x, z_rect.y, 2.5);
+	font_draw_char_shadow('Z', z_rect.x, z_rect.y, 2.5);
 
 	z_rect.x += 19;
 	z_rect.y += 15;
 
-	font_draw_char_shadow(renderer, 'z', z_rect.x, z_rect.y, 2.5);
+	font_draw_char_shadow('z', z_rect.x, z_rect.y, 2.5);
 
 	z_rect.x -= 17;
 	z_rect.y += 16;
 
-	font_draw_char_shadow(renderer, 'z', z_rect.x, z_rect.y, 2.5);
+	font_draw_char_shadow('z', z_rect.x, z_rect.y, 2.5);
 }
 
 GameMode leisure_gamemode = {
