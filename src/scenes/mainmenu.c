@@ -4,6 +4,7 @@
 #include "draw.h"
 #include "font.h"
 #include "gui/button.h"
+#include "gui/tex_button.h"
 #include "input.h"
 #include "media/textures.h"
 #include "scene.h"
@@ -15,12 +16,15 @@
 #define BOARD_W 30
 #define BOARD_H 16
 
-static Button play_button, about_button, settings_button;
+static Button play_button, about_button, statistics_button;
+static TexButton settings_button;
 
 void mainmenu_init(void) {
 	BUTTON(play_button, RECT(245,200,150,40), "Play");
 	BUTTON(about_button, RECT(160,260,150,40), "About");
-	BUTTON(settings_button, RECT(330,260,150,40), "Settings");
+	BUTTON(statistics_button, RECT(330,260,150,40), "Statistics");
+
+	TEX_BUTTON(settings_button, RECT(NATIVE_WIDTH - 48 - 1, 1, 48, 48), TEX_SETTINGS);
 }
 
 void mainmenu_event(const SDL_Event *ev) {
@@ -35,7 +39,10 @@ void mainmenu_event(const SDL_Event *ev) {
 	if (button_event(ev, &about_button))
 		scene_switch("about");
 
-	if (button_event(ev, &settings_button))
+	if (button_event(ev, &statistics_button))
+		scene_switch("statistics");
+
+	if (tex_button_event(ev, &settings_button))
 		scene_switch("settings");
 
 	if (is_escaping(ev))
@@ -62,7 +69,9 @@ void mainmenu_draw(void) {
 
 	button(&play_button);
 	button(&about_button);
-	button(&settings_button);
+	button(&statistics_button);
+
+	tex_button(&settings_button);
 
 	char statusmsg[512];
 	snprintf(statusmsg, 511, "Tensy ver. 1.0-dev (%s)", SDL_GetPlatform());
