@@ -1,4 +1,5 @@
 #include "textures.h"
+#include "draw.h" // _PIXELART polyfill
 
 #include <data/background_stripes.h>
 #include <data/check.h>

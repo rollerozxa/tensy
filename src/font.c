@@ -19,7 +19,7 @@ static SDL_Texture *font_load(void) {
 	}
 
 	SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
-	SDL_SetTextureScaleMode(texture, SDL_SCALEMODE_NEAREST);
+	SDL_SetTextureScaleMode(texture, SDL_SCALEMODE_PIXELART);
 	SDL_DestroySurface(surface);
 
 	return texture;
