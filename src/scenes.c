@@ -11,6 +11,7 @@
 #include "scenes/mainmenu.h"
 #include "scenes/selectmode.h"
 #include "scenes/settings.h"
+#include "scenes/statistics.h"
 
 void scenes_register(void) {
 	// First scene needs to be first
@@ -22,6 +23,7 @@ void scenes_register(void) {
 	scene_add(gameconfig_scene);
 	scene_add(selectmode_scene);
 	scene_add(settings_scene);
+	scene_add(statistics_scene);
 
 	overlay_add(exitconfirm_overlay);
 	overlay_add(pause_overlay);
