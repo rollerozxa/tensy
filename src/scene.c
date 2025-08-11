@@ -24,22 +24,28 @@ static bool trans = false;
 static int trans_step = 0;
 static int trans_to = -1;
 static int trans_alpha = 0;
+static int pending_trans = -1;
 
-int scene_switch(const char *name) {
-	if (trans)
-		return 2;
+void scene_switch_num(int i) {
+	trans = true;
+	trans_step = 0;
+	trans_to = i;
+}
 
+void scene_switch(const char *name) {
 	for (size_t i = 0; i < MAX_SCENES; i++) {
 		if (strcmp(name, scenes[i].name) == 0) {
-			trans = true;
-			trans_step = 0;
-			trans_to = i;
-			return 1;
+			if (!trans)
+				scene_switch_num(i);
+			else
+				pending_trans = i;
+
+			return;
 		}
 	}
 
 	SDL_assert(0);
-	return 0;
+	return;
 }
 
 const char *scene_get_current(void) {
@@ -71,7 +77,17 @@ void scene_run_draw(void) {
 }
 
 void scene_perform_transition(void) {
-	if (!trans) return;
+	if (!trans) {
+		if (pending_trans != -1) {
+			// filter out garbage values caused by spam clicks
+			if (current_scene != pending_trans)
+				scene_switch_num(pending_trans);
+
+			pending_trans = -1;
+		}
+
+		return;
+	}
 
 	if (trans_step < 25)
 		trans_alpha += 10;

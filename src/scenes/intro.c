@@ -17,7 +17,7 @@ void intro_event(const SDL_Event *ev) {
 void intro_update(float dt) {
 	intro_timer += dt;
 
-	if (intro_timer >= 0.5)
+	if (intro_timer >= 0.5 && !scene_is_transitioning())
 		scene_switch("mainmenu");
 }
 
