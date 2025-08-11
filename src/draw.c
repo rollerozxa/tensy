@@ -66,6 +66,20 @@ void draw_box_active(SDL_FRect *rect) {
 	draw_fill_rect(&RECT(rect->x+2, rect->y+2, rect->w-4, rect->h-4));
 }
 
+void draw_box_disabled(SDL_FRect *rect) {
+	draw_box(rect);
+
+	draw_set_color(0x212121);
+	draw_fill_rect(&RECT(rect->x+1, rect->y+1, rect->w-2, rect->h-2));
+}
+
+void draw_border_box(SDL_FRect *rect, unsigned int bgcolor, unsigned int bordercolor, int bordersize) {
+	draw_set_color(bordercolor);
+	draw_fill_rect(rect);
+	draw_set_color(bgcolor);
+	draw_fill_rect(&RECT(rect->x + 1, rect->y + 1, rect->w - 2, rect->h - 2));
+}
+
 void draw_translucent_overlay(void) {
 	draw_set_color_alpha(0x000000d0);
 	draw_fill_rect(&RECT(0,0,NATIVE_WIDTH,NATIVE_HEIGHT));

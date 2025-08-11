@@ -20,6 +20,9 @@ void draw_set_color_alpha(unsigned int color);
 void draw_box(SDL_FRect *rect);
 void draw_box_hover(SDL_FRect *rect);
 void draw_box_active(SDL_FRect *rect);
+void draw_box_disabled(SDL_FRect *rect);
+
+void draw_border_box(SDL_FRect *rect, unsigned int bgcolor, unsigned int bordercolor, int bordersize);
 
 void draw_translucent_overlay(void);
 SDL_FRect draw_centered_fill_rect(SDL_FPoint dimensions);
