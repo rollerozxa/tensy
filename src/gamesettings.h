@@ -7,7 +7,7 @@ typedef struct {
 } Settings;
 
 typedef enum {
-	FLAG_COLORED_NUMBERS,
+	FLAG_MONO_NUMBERS,
 	FLAG_SECRET_FIVE,
 	FLAG_FULLSCREEN
 } SettingFlags;

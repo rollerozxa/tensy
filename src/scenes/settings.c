@@ -9,20 +9,20 @@
 #include "text.h"
 #include "toast.h"
 
-static Checkbox colored_numbers_checkbox;
+static Checkbox mono_numbers_checkbox;
 
 static Button save_button;
 
 void settings_init(void) {
-	CHECKBOX(colored_numbers_checkbox, POINT(20,80), false, "Coloured numbers");
+	CHECKBOX(mono_numbers_checkbox, POINT(20,80), false, "Monochrome numbers");
 	BUTTON(save_button, RECT(220,280,200,40), "Save & Go back");
 
-	colored_numbers_checkbox.checked = settings_getflag(FLAG_COLORED_NUMBERS);
+	mono_numbers_checkbox.checked = settings_getflag(FLAG_MONO_NUMBERS);
 }
 
 void settings_event(const SDL_Event *ev) {
-	if (checkbox_event(ev, &colored_numbers_checkbox))
-		settings_toggleflag(FLAG_COLORED_NUMBERS);
+	if (checkbox_event(ev, &mono_numbers_checkbox))
+		settings_toggleflag(FLAG_MONO_NUMBERS);
 
 	if (button_event(ev, &save_button) || is_escaping(ev))
 		scene_switch("mainmenu");
@@ -37,7 +37,7 @@ void settings_event(const SDL_Event *ev) {
 void settings_draw(void) {
 	text_draw_shadow("Settings", 20, 20, 3);
 
-	checkbox(&colored_numbers_checkbox);
+	checkbox(&mono_numbers_checkbox);
 	button(&save_button);
 }
 

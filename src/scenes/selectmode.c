@@ -139,7 +139,7 @@ void selectmode_draw(void) {
 					x * 30 + rect.x + 28,
 					y * 30 + rect.y + 10};
 
-				if (settings_getflag(FLAG_COLORED_NUMBERS))
+				if (!settings_getflag(FLAG_MONO_NUMBERS))
 					font_set_color(color_numbers(mode.board[y][x]));
 
 				font_draw_char_shadow(mode.board[y][x] + '0', point.x, point.y, 3);

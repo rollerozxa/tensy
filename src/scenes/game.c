@@ -222,7 +222,7 @@ void game_draw(void) {
 		}
 	}
 
-	board_draw(&board, settings_getflag(FLAG_COLORED_NUMBERS));
+	board_draw(&board, !settings_getflag(FLAG_MONO_NUMBERS));
 
 	if (helddown) {
 		draw_set_color(0xFFFFFF);

@@ -1,6 +1,7 @@
 #include "gameconfig.h"
 #include "board.h"
 #include "consts.h"
+#include "gamesettings.h"
 #include "gamestate.h"
 #include "gui/button.h"
 #include "gui/checkbox.h"
@@ -78,7 +79,7 @@ void gameconfig_event(const SDL_Event *ev) {
 void gameconfig_draw(void) {
 	text_draw_shadow("Configure game", 10, 10, 3);
 
-	board_draw(&board_preview, false);
+	board_draw(&board_preview, !settings_getflag(FLAG_MONO_NUMBERS));
 
 	SDL_FRect label_rect = RECTCPY(board_sizes[0].button.rect);
 	label_rect.x = 25;
