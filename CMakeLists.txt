@@ -22,14 +22,14 @@ endif()
 if(USE_VENDORED_LIBS)
 	download_dep_tarball(
 		"SDL"
-		"release-3.2.18"
-		"https://github.com/libsdl-org/SDL/archive/release-3.2.18.tar.gz"
+		"bad7075de875c90e4e593143c7589776d715228e"
+		"https://github.com/libsdl-org/SDL/archive/bad7075de875c90e4e593143c7589776d715228e.tar.gz"
 	)
 
 	download_dep_tarball(
 		"SDL_mixer"
-		"dd801fdd9af752c99c32a2356d2ebdf1ebb7ebaa"
-		"https://github.com/libsdl-org/SDL_mixer/archive/dd801fdd9af752c99c32a2356d2ebdf1ebb7ebaa.tar.gz"
+		"f9566f4dd643cd5dd6e136e4779fe49fa8c4e3d7"
+		"https://github.com/libsdl-org/SDL_mixer/archive/f9566f4dd643cd5dd6e136e4779fe49fa8c4e3d7.tar.gz"
 	)
 
 	include(cmake/SDL.cmake)
