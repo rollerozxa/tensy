@@ -39,6 +39,8 @@ void AppUpdate(void) {
 	float dt = (now - last_time) / 1e9f;
 	last_time = now;
 
+	settings_savetimer(dt);
+
 	scene_run_update(dt);
 	overlay_run_update();
 

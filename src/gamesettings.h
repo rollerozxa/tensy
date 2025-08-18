@@ -17,5 +17,7 @@ Settings *settings(void);
 bool settings_getflag(SettingFlags flag);
 void settings_toggleflag(SettingFlags flag);
 
+void settings_savetimer(float dt);
+
 bool settings_load(void);
 bool settings_save(void);

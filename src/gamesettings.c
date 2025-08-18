@@ -8,8 +8,14 @@ static Settings settings_data = {
 	0
 };
 
+static bool dirty = false;
+
 Settings *settings(void) {
 	return &settings_data;
+}
+
+void settings_markdirty(void) {
+	dirty = true;
 }
 
 bool settings_getflag(SettingFlags flag) {
@@ -17,6 +23,7 @@ bool settings_getflag(SettingFlags flag) {
 }
 
 void settings_toggleflag(SettingFlags flag) {
+	dirty = true;
 	settings_data.flags = settings_data.flags ^ (1ULL << flag);
 }
 
@@ -31,6 +38,17 @@ static char *get_filepath(void) {
 	}
 
 	return settings_file;
+}
+
+static float time_elapsed = 0.f;
+void settings_savetimer(float dt) {
+	time_elapsed += dt;
+
+	if (dirty && time_elapsed > 60.f) {
+		time_elapsed = 0.f;
+		dirty = false;
+		settings_save();
+	}
 }
 
 bool settings_load(void) {
