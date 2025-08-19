@@ -9,7 +9,8 @@ typedef struct {
 typedef enum {
 	FLAG_MONO_NUMBERS,
 	FLAG_SECRET_FIVE,
-	FLAG_FULLSCREEN
+	FLAG_FULLSCREEN,
+	FLAG_SOUND
 } SettingFlags;
 
 Settings *settings(void);

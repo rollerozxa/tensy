@@ -12,10 +12,6 @@
 SDL_Window *window;
 SDL_Renderer *renderer;
 
-#if defined(SDL_PLATFORM_ANDROID) || defined(SDL_PLATFORM_VITA)
-	#define ALWAYS_FULLSCREEN true
-#endif
-
 SDL_AppResult SDL_AppInit(void **rustptr, int argc, char **argv) {
 	const char *exedir = SDL_GetBasePath();
 	chdir(exedir);

@@ -9,20 +9,32 @@
 #include "text.h"
 #include "toast.h"
 
-static Checkbox mono_numbers_checkbox;
+static Checkbox mono_numbers_checkbox, sound_checkbox, fullscreen_checkbox;
 
 static Button save_button;
 
 void settings_init(void) {
-	CHECKBOX(mono_numbers_checkbox, POINT(20,80), false, "Monochrome numbers");
+	CHECKBOX(mono_numbers_checkbox, POINT(20,80), settings_getflag(FLAG_MONO_NUMBERS), "Monochrome numbers");
+	CHECKBOX(sound_checkbox, POINT(20, 80+40*1), settings_getflag(FLAG_SOUND), "Sound effects");
+	CHECKBOX(fullscreen_checkbox, POINT(20, 80+40*2), settings_getflag(FLAG_FULLSCREEN), "Fullscreen");
 	BUTTON(save_button, RECT(220,280,200,40), "Save & Go back");
-
-	mono_numbers_checkbox.checked = settings_getflag(FLAG_MONO_NUMBERS);
 }
+
+extern SDL_Window *window;
 
 void settings_event(const SDL_Event *ev) {
 	if (checkbox_event(ev, &mono_numbers_checkbox))
 		settings_toggleflag(FLAG_MONO_NUMBERS);
+
+	if (checkbox_event(ev, &sound_checkbox))
+		settings_toggleflag(FLAG_SOUND);
+
+#ifndef ALWAYS_FULLSCREEN
+	if (checkbox_event(ev, &fullscreen_checkbox)) {
+		settings_toggleflag(FLAG_FULLSCREEN);
+		SDL_SetWindowFullscreen(window, settings_getflag(FLAG_FULLSCREEN));
+	}
+#endif
 
 	if (button_event(ev, &save_button) || is_escaping(ev))
 		scene_switch("mainmenu");
@@ -34,10 +46,19 @@ void settings_event(const SDL_Event *ev) {
 	}
 }
 
+void settings_update(float dt) {
+	// Update check status if user fullscreens using keybind in settings dialog
+	fullscreen_checkbox.checked = settings_getflag(FLAG_FULLSCREEN);
+}
+
 void settings_draw(void) {
 	text_draw_shadow("Settings", 20, 20, 3);
 
 	checkbox(&mono_numbers_checkbox);
+	checkbox(&sound_checkbox);
+#ifndef ALWAYS_FULLSCREEN
+	checkbox(&fullscreen_checkbox);
+#endif
 	button(&save_button);
 }
 
@@ -45,7 +66,7 @@ Scene settings_scene = {
 	"settings",
 	settings_init,
 	settings_event,
-	NULL,
+	settings_update,
 	settings_draw,
 	0x1F3F8F
 };

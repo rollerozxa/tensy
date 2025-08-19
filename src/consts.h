@@ -23,3 +23,7 @@
 #define POINT(x,y) ((SDL_FPoint){x,y})
 
 #define CENTER(outside, inside) ((outside - inside) / 2)
+
+#if defined(SDL_PLATFORM_ANDROID) || defined(SDL_PLATFORM_VITA)
+	#define ALWAYS_FULLSCREEN true
+#endif

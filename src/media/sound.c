@@ -1,4 +1,5 @@
 #include "sound.h"
+#include "gamesettings.h"
 
 #include <data/click.h>
 #include <data/match.h>
@@ -42,6 +43,9 @@ void sound_init(void) {
 void sound_play(int sound_id) {
 	if (!sound_loaded)
 		sound_init();
+
+	if (!settings_getflag(FLAG_SOUND))
+		return;
 
 	MIX_PlayAudio(mixer, sound_bank[sound_id]);
 }
