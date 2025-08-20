@@ -4,5 +4,6 @@ build_*/
 compile_commands.json
 misc/
 packaging/bin/
+packaging/dist/
 packaging/AppDir/AppRun
 releasing/

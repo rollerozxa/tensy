@@ -11,7 +11,7 @@ typedef struct {
 	int color;
 } Scene;
 
-#define MAX_SCENES 10
+#define MAX_SCENES 256
 
 int scene_add(Scene scene);
 

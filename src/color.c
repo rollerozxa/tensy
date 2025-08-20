@@ -31,3 +31,11 @@ unsigned int color_sdl_to_bitpack(SDL_Color color) {
 		 + (color.g << 8)
 		 + color.b;
 }
+
+SDL_Color color_bitpack_to_sdl(unsigned int color) {
+    return (SDL_Color){
+		(color >> 16) & 0xFF,
+		(color >> 8) & 0xFF,
+		color & 0xFF,
+		255};
+}

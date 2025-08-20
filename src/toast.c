@@ -1,6 +1,8 @@
 #include "toast.h"
+#include "color.h"
 #include "consts.h"
 #include "draw.h"
+#include "font.h"
 #include "text.h"
 
 Toast toast;
@@ -36,5 +38,6 @@ void toast_draw(void) {
 	SDL_SetRenderDrawColor(renderer, 13, 13, 13, (toast.alpha * 235));
 	draw_fill_rect(&box_rect);
 
+	font_set_color(CLR_WHITE);
 	text_draw_shadow_centered(toast.message, &box_rect, toast.scale);
 }

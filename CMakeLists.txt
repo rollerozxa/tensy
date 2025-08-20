@@ -69,6 +69,8 @@ if(WIN32)
 	endif()
 endif()
 
+set(CMAKE_C_FLAGS_DEBUG "-ggdb -DDEBUG=1")
+
 if(ANDROID)
 	add_library(${PROJECT_NAME} SHARED ${SRCS})
 else()
