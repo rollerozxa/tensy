@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+	<id>se.voxelmanip.tensy</id>
+	<metadata_license>CC0-1.0</metadata_license>
+	<project_license>BSD-3-Clause</project_license>
+	<content_rating type="oars-1.0" />
+	<name>Tensy</name>
+	<summary>Match numbers to make them add up to 10</summary>
+	<description>
+		<p>
+			A simple but addictive puzzle game. Your mission is to match numbers such that they add up to 10.
+		</p><p>
+			Simply click and drag with your mouse, or tap and drag on mobile to make a selection and make sure the numbers add up to 10!
+		</p>
+	</description>
+	<launchable type="desktop-id">se.voxelmanip.tensy.desktop</launchable>
+	<screenshots>
+		<screenshot type="default">
+			<image>https://tensy.voxelmanip.se/screenshots/1.png</image>
+		</screenshot>
+	</screenshots>
+	<categories>
+		<category>Game</category>
+		<category>LogicGame</category>
+	</categories>
+	<keywords>
+		<keyword>game</keyword>
+		<keyword>puzzle</keyword>
+		<keyword>math</keyword>
+	</keywords>
+	<url type="homepage">https://principia-web.se</url>
+	<url type="bugtracker">https://github.com/rollerozxa/tensy/issues</url>
+	<url type="donation">https://liberapay.com/ROllerozxa</url>
+	<url type="vcs-browser">https://github.com/rollerozxa/tensy</url>
+	<provides>
+		<binary>tensy</binary>
+	</provides>
+	<update_contact>rollerozxa@voxelmanip.se</update_contact>
+</component>
