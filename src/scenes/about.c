@@ -2,6 +2,7 @@
 #include "consts.h"
 #include "draw.h"
 #include "font.h"
+#include "gamesettings.h"
 #include "gui/button.h"
 #include "input.h"
 #include "media/raccoon.h"
@@ -25,16 +26,13 @@ void about_event(const SDL_Event *ev) {
 static char title[] = "Tensy";
 
 void about_draw(void) {
-	for (int x = 0; x < 20; x++) {
-		for (int y = 0; y < 12; y++) {
-			draw_texture(TEX_BG_STRIPES, NULL, &RECT(x*32, y*32, 32, 32));
-		}
-	}
+	draw_tiled_bg(0);
 
-	raccoon_draw(&POINT(460,50));
+	raccoon_draw(&POINT(460,50), !settings_getflag(FLAG_REDUCED_MOTION));
 
 	for (size_t i = 0; title[i] != '\0'; i++) {
-		const float y = 10+sin(SDL_GetTicks()/400.0+i)*12;
+		const float y = settings_getflag(FLAG_REDUCED_MOTION) ? 10
+			: 10 + sin(SDL_GetTicks() / 400.0 + i) * 12 ;
 
 		font_draw_char_shadow(title[i], 10+i*GLYPH_WIDTH*6, y, 6);
 	}

@@ -3,6 +3,7 @@
 #include "consts.h"
 #include "font.h"
 #include "draw.h"
+#include "gamesettings.h"
 
 static Scene scenes[MAX_SCENES];
 static int current_scene = 0;
@@ -32,9 +33,19 @@ void scene_switch_num(int i) {
 	trans_to = i;
 }
 
+static void scene_transition_to(int scene_id) {
+	current_scene = scene_id;
+	scene_run_init();
+}
+
 void scene_switch(const char *name) {
 	for (size_t i = 0; i < MAX_SCENES; i++) {
 		if (strcmp(name, scenes[i].name) == 0) {
+			if (settings_getflag(FLAG_REDUCED_MOTION)) {
+				scene_transition_to(i);
+				return;
+			}
+
 			if (!trans)
 				scene_switch_num(i);
 			else
@@ -101,11 +112,9 @@ void scene_perform_transition(void) {
 
 	trans_step++;
 
-	if (trans_step == 25) {
-		current_scene = trans_to;
-
-		scene_run_init();
-	} else if (trans_step == 50)
+	if (trans_step == 25)
+		scene_transition_to(trans_to);
+	else if (trans_step == 50)
 		trans = false;
 }
 

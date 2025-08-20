@@ -3,6 +3,7 @@
 #include "consts.h"
 #include "draw.h"
 #include "font.h"
+#include "gamesettings.h"
 #include "gui/button.h"
 #include "gui/tex_button.h"
 #include "input.h"
@@ -53,16 +54,16 @@ static char title[] = "Tensy";
 static double bgpan = 0;
 
 void mainmenu_draw(void) {
-	bgpan = fmod(bgpan + 0.25, 32);
+	if (settings_getflag(FLAG_REDUCED_MOTION))
+		bgpan = 0;
+	else
+		bgpan = fmod(bgpan + 0.25, 32);
 
-	for (int x = -1; x < 20; x++) {
-		for (int y = -1; y < 12; y++) {
-			draw_texture(TEX_BG_STRIPES, NULL, &RECT(x*32+bgpan, y*32+bgpan, 32, 32));
-		}
-	}
+	draw_tiled_bg(bgpan);
 
 	for (size_t i = 0; title[i] != '\0'; i++) {
-		const float y = 20+sin(SDL_GetTicks()/400.0+i)*16;
+		const float y = settings_getflag(FLAG_REDUCED_MOTION) ? 20
+			: 20 + sin(SDL_GetTicks() / 400.0 + i) * 16;
 
 		font_draw_char_shadow(title[i], 190+i*GLYPH_WIDTH*8, y, 8);
 	}

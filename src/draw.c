@@ -99,3 +99,9 @@ SDL_FRect draw_centered_fill_rect(SDL_FPoint dimensions) {
 
 	return rect;
 }
+
+void draw_tiled_bg(double bgpan) {
+	for (int x = -1; x < 20; x++)
+		for (int y = -1; y < 12; y++)
+			draw_texture(TEX_BG_STRIPES, NULL, &RECT(x*32+bgpan, y*32+bgpan, 32, 32));
+}

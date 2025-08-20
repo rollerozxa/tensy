@@ -26,3 +26,5 @@ void draw_border_box(SDL_FRect *rect, unsigned int bgcolor, unsigned int borderc
 
 void draw_translucent_overlay(void);
 SDL_FRect draw_centered_fill_rect(SDL_FPoint dimensions);
+
+void draw_tiled_bg(double bgpan);

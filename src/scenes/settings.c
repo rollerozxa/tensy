@@ -9,14 +9,15 @@
 #include "text.h"
 #include "toast.h"
 
-static Checkbox mono_numbers_checkbox, sound_checkbox, fullscreen_checkbox;
+static Checkbox mono_numbers_checkbox, sound_checkbox, reduced_motion_checkbox, fullscreen_checkbox;
 
 static Button save_button;
 
 void settings_init(void) {
 	CHECKBOX(mono_numbers_checkbox, POINT(20,80), settings_getflag(FLAG_MONO_NUMBERS), "Monochrome numbers");
 	CHECKBOX(sound_checkbox, POINT(20, 80+40*1), settings_getflag(FLAG_SOUND), "Sound effects");
-	CHECKBOX(fullscreen_checkbox, POINT(20, 80+40*2), settings_getflag(FLAG_FULLSCREEN), "Fullscreen");
+	CHECKBOX(reduced_motion_checkbox, POINT(20, 80+40*2), settings_getflag(FLAG_REDUCED_MOTION), "Reduced motion");
+	CHECKBOX(fullscreen_checkbox, POINT(20, 80+40*3), settings_getflag(FLAG_FULLSCREEN), "Fullscreen");
 	BUTTON(save_button, RECT(220,280,200,40), "Save & Go back");
 }
 
@@ -28,6 +29,9 @@ void settings_event(const SDL_Event *ev) {
 
 	if (checkbox_event(ev, &sound_checkbox))
 		settings_toggleflag(FLAG_SOUND);
+
+	if (checkbox_event(ev, &reduced_motion_checkbox))
+		settings_toggleflag(FLAG_REDUCED_MOTION);
 
 #ifndef ALWAYS_FULLSCREEN
 	if (checkbox_event(ev, &fullscreen_checkbox)) {
@@ -56,6 +60,7 @@ void settings_draw(void) {
 
 	checkbox(&mono_numbers_checkbox);
 	checkbox(&sound_checkbox);
+	checkbox(&reduced_motion_checkbox);
 #ifndef ALWAYS_FULLSCREEN
 	checkbox(&fullscreen_checkbox);
 #endif

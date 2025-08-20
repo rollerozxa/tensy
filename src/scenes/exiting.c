@@ -1,7 +1,8 @@
 #include "exiting.h"
+#include "gamesettings.h"
 #include "overlay.h"
 
-static int timeout = 0;
+static float timeout = 0;
 
 bool exiting = false;
 
@@ -10,9 +11,9 @@ void exiting_init(void) {
 }
 
 void exiting_update(float dt) {
-	timeout++;
+	timeout += dt;
 
-	if (timeout > 30)
+	if (timeout > 0.35 || settings_getflag(FLAG_REDUCED_MOTION))
 		exiting = true;
 }
 
