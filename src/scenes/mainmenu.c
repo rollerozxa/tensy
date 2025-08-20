@@ -1,5 +1,6 @@
 #include "mainmenu.h"
 #include "app.h"
+#include "color.h"
 #include "consts.h"
 #include "draw.h"
 #include "font.h"
@@ -77,6 +78,11 @@ void mainmenu_draw(void) {
 	char statusmsg[512];
 	snprintf(statusmsg, 511, "Tensy ver. 1.0-dev (%s)", SDL_GetPlatform());
 	text_draw_shadow(statusmsg, 0, NATIVE_HEIGHT-12, 1);
+
+#ifdef DEBUG
+	font_set_color(CLR_RED);
+	text_draw_shadow_centered("DEBUG", &RECT(0, NATIVE_HEIGHT-12, NATIVE_WIDTH, 12), 1);
+#endif
 }
 
 Scene mainmenu_scene = {
