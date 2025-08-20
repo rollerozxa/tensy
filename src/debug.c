@@ -21,7 +21,7 @@ void debug_draw(void) {
 	font_set_color(CLR_WHITE);
 
 	draw_set_color_alpha(0xFFFFFF30);
-	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+	draw_set_blend(true);
 
 	int cellSize = 20;
 

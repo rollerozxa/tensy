@@ -34,9 +34,10 @@ void toast_draw(void) {
 	box_rect.x = (NATIVE_WIDTH - box_rect.w) / 2;
 	box_rect.y = NATIVE_HEIGHT * 0.75f - box_rect.h / 2;
 
-	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+	draw_set_blend(true);
 	SDL_SetRenderDrawColor(renderer, 13, 13, 13, (toast.alpha * 235));
 	draw_fill_rect(&box_rect);
+	draw_set_blend(false);
 
 	font_set_color(CLR_WHITE);
 	text_draw_shadow_centered(toast.message, &box_rect, toast.scale);

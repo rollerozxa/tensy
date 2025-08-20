@@ -18,6 +18,13 @@ bool draw_texture(int texture_id, const SDL_FRect *srcrect, const SDL_FRect *dst
 	return SDL_RenderTexture(renderer, textures_get(texture_id), srcrect, dstrect);
 }
 
+/**
+ * Convenience function for the most common used form of alpha blending.
+ */
+void draw_set_blend(bool blend) {
+	SDL_SetRenderDrawBlendMode(renderer, blend ? SDL_BLENDMODE_BLEND : SDL_BLENDMODE_NONE);
+}
+
 void draw_set_color(unsigned int color) {
 	SDL_SetRenderDrawColor(renderer,
 		(color >> 16) & 0xFF,
@@ -82,6 +89,7 @@ void draw_border_box(SDL_FRect *rect, unsigned int bgcolor, unsigned int borderc
 
 void draw_translucent_overlay(void) {
 	draw_set_color_alpha(0x000000d0);
+	draw_set_blend(true);
 	draw_fill_rect(&RECT(0,0,NATIVE_WIDTH,NATIVE_HEIGHT));
 }
 

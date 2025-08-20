@@ -14,6 +14,8 @@ bool draw_rect(const SDL_FRect *rect);
 bool draw_fill_rect(const SDL_FRect *rect);
 bool draw_texture(int texture_id, const SDL_FRect *srcrect, const SDL_FRect *dstrect) ;
 
+void draw_set_blend(bool blend);
+
 void draw_set_color(unsigned int color);
 void draw_set_color_alpha(unsigned int color);
 

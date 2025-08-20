@@ -107,7 +107,7 @@ void scene_perform_transition(void) {
 
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, trans_alpha);
 
-	SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+	draw_set_blend(true);
 	draw_fill_rect(&RECT(0,0,SCREEN_WIDTH,SCREEN_HEIGHT));
 
 	trans_step++;

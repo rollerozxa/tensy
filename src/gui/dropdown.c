@@ -108,6 +108,7 @@ void dropdown(Dropdown *dropdown) {
 			itemrect.y += rect.h * (i + 1);
 
 			if (SDL_PointInRectFloat(&mouse, &itemrect)) {
+				draw_set_blend(true);
 				draw_set_color_alpha(0xccccff30);
 				draw_fill_rect(&itemrect);
 				draw_set_color(0xffffff);
