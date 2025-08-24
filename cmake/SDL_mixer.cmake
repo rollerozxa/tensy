@@ -5,6 +5,13 @@ download_dep_tarball(
 	"https://github.com/libsdl-org/SDL_mixer/archive/f9566f4dd643cd5dd6e136e4779fe49fa8c4e3d7.tar.gz"
 )
 
+file(REMOVE_RECURSE "${CMAKE_SOURCE_DIR}/lib/SDL_mixer/external/libxmp")
+file(CREATE_LINK
+    "${CMAKE_SOURCE_DIR}/lib/libxmp"
+    "${CMAKE_SOURCE_DIR}/lib/SDL_mixer/external/libxmp"
+    SYMBOLIC
+)
+
 set(BUILD_SHARED_LIBS OFF CACHE BOOL "" FORCE)
 
 foreach(feature AIFF AU FLAC_DRFLAC FLAC_LIBFLAC GME MIDI_FLUIDSYNTH MIDI_TIMIDITY MP3_DRMP3 MP3_MPG123 OPUS VOC VORBIS_TREMOR VORBIS_VORBISFILE WAVPACK WAVPACK_DSD SAMPLES)
