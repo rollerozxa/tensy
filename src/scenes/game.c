@@ -106,8 +106,7 @@ void game_init(void) {
 	}
 
 	if (game.mode == GM_Classic) {
-		total_time = 3*60;
-		time_left = 3*60;
+		total_time = time_left = board_sizes[board.boardsize].seconds;
 	}
 
 	if (current_gamemode().gravity_mode != GRA_Ask)

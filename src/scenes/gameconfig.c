@@ -9,22 +9,6 @@
 #include "scene.h"
 #include "text.h"
 
-typedef struct {
-	int w;
-	int h;
-	float scale;
-	const char *name;
-	Button button;
-} BoardSize;
-
-static BoardSize board_sizes[] = {
-	{15,8,  3,   "Small"},
-	{20,10, 2.5, "Medium"},
-	{30,15, 2,   "Big"},
-	{60,30, 1, "Hyuge!"}
-};
-static size_t num_board_sizes = sizeof(board_sizes) / sizeof(board_sizes[0]);
-
 static bool show_hyuge = false;
 
 static Board board_preview = {NULL, 30, 15, 2};
@@ -62,6 +46,7 @@ void gameconfig_event(const SDL_Event *ev) {
 	for (size_t i = 0; i < num_board_sizes; i++) {
 		BoardSize *board_size = &board_sizes[i];
 		if ((i != 3 || show_hyuge) && button_event(ev, &board_size->button)) {
+			game.board.boardsize = i;
 			board_change_size(&game.board, board_size->w, board_size->h, board_size->scale);
 			board_change_size(&board_preview, board_size->w, board_size->h, SDL_max(0.5f, board_size->scale - 1));
 			board_zerofill(&game.board);
