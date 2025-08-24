@@ -4,6 +4,7 @@
 #include "overlays/shuffle.h"
 #include "overlays/timeout.h"
 #include "scenes/about.h"
+#include "scenes/credits.h"
 #include "scenes/devintro.h"
 #include "scenes/exiting.h"
 #include "scenes/game.h"
@@ -20,6 +21,7 @@ void scenes_register(void) {
 	scene_add(devintro_scene);
 #endif
 	scene_add(intro_scene);
+	scene_add(credits_scene);
 	scene_add(mainmenu_scene);
 	scene_add(about_scene);
 	scene_add(exiting_scene);

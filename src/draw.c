@@ -41,6 +41,12 @@ void draw_set_color_alpha(unsigned int color) {
 		color & 0xFF);
 }
 
+void draw_set_alpha(unsigned char alpha) {
+	SDL_Color color = {};
+	SDL_GetRenderDrawColor(renderer, &color.r, &color.g, &color.b, &color.a);
+	SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, alpha);
+}
+
 void draw_box(SDL_FRect *rect) {
 	draw_set_color(0x131313);
 	draw_fill_rect(&RECT(rect->x, rect->y, rect->w, rect->h));

@@ -18,6 +18,7 @@ void draw_set_blend(bool blend);
 
 void draw_set_color(unsigned int color);
 void draw_set_color_alpha(unsigned int color);
+void draw_set_alpha(unsigned char alpha);
 
 void draw_box(SDL_FRect *rect);
 void draw_box_hover(SDL_FRect *rect);
