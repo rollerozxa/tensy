@@ -2,6 +2,7 @@
 #include "debug.h"
 #include "gamemode.h"
 #include "gamesettings.h"
+#include "media/music.h"
 #include "media/sound.h"
 #include "media/textures.h"
 #include "overlay.h"
@@ -24,6 +25,7 @@ void AppInit(SDL_Window *window, SDL_Renderer *renderer) {
 	mixer = MIX_CreateMixerDevice(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, (&(SDL_AudioSpec){SDL_AUDIO_S16, 2, 44100}));
 
 	sound_init();
+	music_init();
 	textures_init(renderer);
 
 	SDL_Surface *icon = get_icon_surface();
