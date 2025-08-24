@@ -9,7 +9,20 @@
 #include "scenes.h"
 #include "toast.h"
 
+#include <SDL3_mixer/SDL_mixer.h>
+
+#if SDL_MIXER_VERSION_ATLEAST(3, 1, 0)
+	MIX_Mixer *mixer;
+#else
+	int mixer;
+	#define MIX_Init()
+	#define MIX_CreateMixerDevice(dummy1, audiospec) Mix_OpenAudio(0, audiospec)
+#endif
+
 void AppInit(SDL_Window *window, SDL_Renderer *renderer) {
+	MIX_Init();
+	mixer = MIX_CreateMixerDevice(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, (&(SDL_AudioSpec){SDL_AUDIO_S16, 2, 44100}));
+
 	sound_init();
 	textures_init(renderer);
 
