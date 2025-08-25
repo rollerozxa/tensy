@@ -18,7 +18,7 @@ void music_init(void) {
 void music_play(int music_id, int loops) {
 	MIX_SetTrackAudio(music_track, music_bank[music_id]);
 	SDL_PropertiesID prop = SDL_CreateProperties();
-	SDL_SetNumberProperty(prop, MIX_PROP_PLAY_LOOPS_NUMBER, 0);
+	SDL_SetNumberProperty(prop, MIX_PROP_PLAY_LOOPS_NUMBER, -1);
 	MIX_PlayTrack(music_track, prop);
 }
 
@@ -31,10 +31,8 @@ bool music_is_playing() {
 }
 
 #else
-
 void music_init(void) {}
 void music_play(int music_id, int loops) {}
 void music_fade_out(int ms) {}
 bool music_is_playing() { return false; }
-
 #endif

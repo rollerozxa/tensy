@@ -1,8 +1,8 @@
 
 download_dep_tarball(
 	"SDL"
-	"bad7075de875c90e4e593143c7589776d715228e"
-	"https://github.com/libsdl-org/SDL/archive/bad7075de875c90e4e593143c7589776d715228e.tar.gz"
+	"b13416d74f715e9f1d2396637d6fc3900130032c"
+	"https://github.com/libsdl-org/SDL/archive/b13416d74f715e9f1d2396637d6fc3900130032c.tar.gz"
 )
 
 set(SDL_SHARED OFF CACHE BOOL "" FORCE)

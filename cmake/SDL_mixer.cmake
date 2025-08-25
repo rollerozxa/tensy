@@ -1,8 +1,8 @@
 
 download_dep_tarball(
 	"SDL_mixer"
-	"f9566f4dd643cd5dd6e136e4779fe49fa8c4e3d7"
-	"https://github.com/libsdl-org/SDL_mixer/archive/f9566f4dd643cd5dd6e136e4779fe49fa8c4e3d7.tar.gz"
+	"7bd8237b55e3c4d76f80968e17205f67a76320c1"
+	"https://github.com/libsdl-org/SDL_mixer/archive/7bd8237b55e3c4d76f80968e17205f67a76320c1.tar.gz"
 )
 
 file(REMOVE_RECURSE "${CMAKE_SOURCE_DIR}/lib/SDL_mixer/external/libxmp")
