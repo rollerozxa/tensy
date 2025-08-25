@@ -11,13 +11,16 @@
 
 #include <math.h>
 
-static Button ok_button;
+static Button ok_button, credits_button;
 
 void about_init(void) {
 	BUTTON(ok_button, RECT(245,300,150,40), "Ok");
+	BUTTON(credits_button, RECT(470, 280, 140, 40), "Credits");
 }
 
 void about_event(const SDL_Event *ev) {
+	if (button_event(ev, &credits_button))
+		scene_switch("credits");
 
 	if (button_event(ev, &ok_button) || is_escaping(ev))
 		scene_switch("mainmenu");
@@ -48,6 +51,7 @@ void about_draw(void) {
 	text_draw_shadow_centered("ROllerozxa", &RECT(450,250,180,25), 2);
 
 	button(&ok_button);
+	button(&credits_button);
 }
 
 Scene about_scene = {
