@@ -3,6 +3,10 @@
 #include <SDL3/SDL.h>
 #include <SDL3_mixer/SDL_mixer.h>
 
+enum {
+	MUS_CREDITS,
+};
+
 void music_init(void);
 void music_play(int music_id, int loops);
 void music_fade_out(int ms);

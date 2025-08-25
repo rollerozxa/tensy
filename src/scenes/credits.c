@@ -72,7 +72,7 @@ static float introcard_timeout = 0.0f;
 static float introcard_opacity = 0;
 
 void credits_init(void) {
-	//music_play(MUS_CREDITS, -1);
+	music_play(MUS_CREDITS, -1);
 	scroll_y = NATIVE_HEIGHT;
 	phase = 1;
 	introcard_timeout = 0;

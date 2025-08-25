@@ -1,5 +1,7 @@
 #include "music.h"
 
+#include <data/music_credits_oxm.h>
+
 #include <SDL3_mixer/SDL_mixer.h>
 
 #if SDL_MIXER_VERSION_ATLEAST(3, 1, 0)
@@ -12,6 +14,8 @@ static MIX_Track *music_track;
 	music_bank[id] = MIX_LoadAudio_IO(mixer, SDL_IOFromMem(var, var##_len), false, false)
 
 void music_init(void) {
+	LOAD_MUSIC(MUS_CREDITS, music_credits_oxm);
+
 	music_track = MIX_CreateTrack(mixer);
 }
 
