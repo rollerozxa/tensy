@@ -1,10 +1,10 @@
 #include "sound.h"
 #include "gamesettings.h"
 
-#include <data/click.h>
-#include <data/match.h>
-#include <data/select.h>
-#include <data/woozy.h>
+#include <data/click_ogg.h>
+#include <data/match_wav.h>
+#include <data/select_wav.h>
+#include <data/woozy_ogg.h>
 
 #include <SDL3_mixer/SDL_mixer.h>
 

@@ -1,8 +1,9 @@
 
 function(generate_data_files)
-	file(GLOB DATA_FILES "${CMAKE_SOURCE_DIR}/data/*")
+	file(GLOB_RECURSE DATA_FILES "${CMAKE_SOURCE_DIR}/data/*")
 	foreach(DATA_FILE ${DATA_FILES})
-		get_filename_component(FILENAME_WE ${DATA_FILE} NAME_WE)
+		get_filename_component(FILENAME_WE ${DATA_FILE} NAME)
+		string(REPLACE "." "_" FILENAME_WE "${FILENAME_WE}")
 		set(GEN_HEADER "${CMAKE_BINARY_DIR}/data/${FILENAME_WE}.h")
 
 		add_custom_command(

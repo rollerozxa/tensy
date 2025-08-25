@@ -1,16 +1,16 @@
 #include "textures.h"
 #include "draw.h" // _PIXELART polyfill
 
-#include <data/background_stripes.h>
-#include <data/check.h>
-#include <data/clock.h>
-#include <data/icon.h>
-#include <data/intro_raccoon.h>
-#include <data/intro_text.h>
-#include <data/pause.h>
-#include <data/settings.h>
-#include <data/shuffle.h>
-#include <data/undo.h>
+#include <data/background_stripes_qoi.h>
+#include <data/check_qoi.h>
+#include <data/clock_qoi.h>
+#include <data/icon_qoi.h>
+#include <data/intro_raccoon_qoi.h>
+#include <data/intro_text_qoi.h>
+#include <data/pause_qoi.h>
+#include <data/settings_qoi.h>
+#include <data/shuffle_qoi.h>
+#include <data/undo_qoi.h>
 
 #include <SDL_QOI/SDL_QOI.h>
 
