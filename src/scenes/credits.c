@@ -10,11 +10,9 @@
 #include <math.h>
 
 static const char *credits_text[] = {
-"(Credits draft!! quite unfinished)",
-"",
-"---",
 "Tensy",
-"---",
+"",
+"------------",
 "",
 "",
 "Programming",
@@ -155,7 +153,7 @@ void credits_draw(void) {
 			};
 
 			if (rect.y < NATIVE_HEIGHT) {
-				text_draw_shadow_centered(credits_text[i], &rect, 2);
+				text_draw_shadow_centered(credits_text[i], &rect, i == 0 ? 8 : 2);
 			}
 		}
 	}
