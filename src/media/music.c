@@ -2,6 +2,7 @@
 #include "gamesettings.h"
 
 #include <data/music_credits_oxm.h>
+#include <data/music_mainmenu_xm.h>
 
 #include <SDL3_mixer/SDL_mixer.h>
 
@@ -16,6 +17,7 @@ static MIX_Track *music_track;
 
 void music_init(void) {
 	LOAD_MUSIC(MUS_CREDITS, music_credits_oxm);
+	LOAD_MUSIC(MUS_MAINMENU, music_mainmenu_xm);
 
 	music_track = MIX_CreateTrack(mixer);
 

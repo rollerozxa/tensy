@@ -5,6 +5,7 @@
 
 enum {
 	MUS_CREDITS,
+	MUS_MAINMENU
 };
 
 void music_init(void);

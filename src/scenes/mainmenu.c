@@ -8,6 +8,7 @@
 #include "gui/button.h"
 #include "gui/tex_button.h"
 #include "input.h"
+#include "media/music.h"
 #include "media/textures.h"
 #include "scene.h"
 #include "text.h"
@@ -27,6 +28,8 @@ void mainmenu_init(void) {
 	BUTTON(statistics_button, RECT(330,260,150,40), "Statistics");
 
 	TEX_BUTTON(settings_button, RECT(NATIVE_WIDTH - 48 - 1, 1, 48, 48), TEX_SETTINGS);
+
+	music_play(MUS_MAINMENU, -1);
 }
 
 void mainmenu_event(const SDL_Event *ev) {

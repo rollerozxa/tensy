@@ -1,5 +1,6 @@
 #include "intro.h"
 #include "draw.h"
+#include "media/music.h"
 #include "media/textures.h"
 #include <stdio.h>
 
@@ -7,6 +8,7 @@ static float intro_timer = 0;
 
 void intro_init(void) {
 	intro_timer = 0;
+	music_play(MUS_MAINMENU, -1);
 }
 
 void intro_event(const SDL_Event *ev) {

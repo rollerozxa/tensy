@@ -6,6 +6,7 @@
 #include "gui/button.h"
 #include "gui/checkbox.h"
 #include "input.h"
+#include "media/music.h"
 #include "scene.h"
 #include "text.h"
 
@@ -54,8 +55,10 @@ void gameconfig_event(const SDL_Event *ev) {
 		}
 	}
 
-	if (button_event(ev, &go_button))
+	if (button_event(ev, &go_button)) {
+		music_fade_out(1000);
 		scene_switch("game");
+	}
 
 	if (current_gamemode().gravity_mode == GRA_Ask && checkbox_event(ev, &physics_checkbox))
 		game.board.physics = physics_checkbox.checked;
