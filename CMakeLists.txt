@@ -33,7 +33,7 @@ include_directories(
 	lib/
 	${CMAKE_CURRENT_BINARY_DIR})
 
-file(GLOB SRCS
+file(GLOB SRCS CONFIGURE_DEPENDS
 	src/*.c
 	src/gui/*.c
 	src/media/*.c

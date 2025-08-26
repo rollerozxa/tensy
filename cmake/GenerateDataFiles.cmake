@@ -1,6 +1,6 @@
 
 function(generate_data_files)
-	file(GLOB_RECURSE DATA_FILES "${CMAKE_SOURCE_DIR}/data/*")
+	file(GLOB_RECURSE DATA_FILES CONFIGURE_DEPENDS "${CMAKE_SOURCE_DIR}/data/*")
 	foreach(DATA_FILE ${DATA_FILES})
 		get_filename_component(FILENAME_WE ${DATA_FILE} NAME)
 		string(REPLACE "." "_" FILENAME_WE "${FILENAME_WE}")
