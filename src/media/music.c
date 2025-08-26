@@ -1,4 +1,5 @@
 #include "music.h"
+#include "gamesettings.h"
 
 #include <data/music_credits_oxm.h>
 
@@ -17,6 +18,9 @@ void music_init(void) {
 	LOAD_MUSIC(MUS_CREDITS, music_credits_oxm);
 
 	music_track = MIX_CreateTrack(mixer);
+
+	if (!settings_getflag(FLAG_MUSIC))
+		music_mute(true);
 }
 
 void music_play(int music_id, int loops) {
@@ -34,9 +38,14 @@ bool music_is_playing() {
 	return MIX_TrackPlaying(music_track);
 }
 
+void music_mute(bool muted) {
+	MIX_SetTrackGain(music_track, muted ? 0.0f : 1.0f);
+}
+
 #else
 void music_init(void) {}
 void music_play(int music_id, int loops) {}
 void music_fade_out(int ms) {}
 bool music_is_playing() { return false; }
+void music_mute(bool muted) {}
 #endif

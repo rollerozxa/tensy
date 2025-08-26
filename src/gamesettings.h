@@ -11,7 +11,8 @@ typedef enum {
 	FLAG_SECRET_FIVE,
 	FLAG_FULLSCREEN,
 	FLAG_SOUND,
-	FLAG_REDUCED_MOTION
+	FLAG_REDUCED_MOTION,
+	FLAG_MUSIC
 } SettingFlags;
 
 Settings *settings(void);

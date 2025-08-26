@@ -4,12 +4,13 @@
 #include "gui/button.h"
 #include "gui/checkbox.h"
 #include "input.h"
+#include "media/music.h"
 #include "media/sound.h"
 #include "scene.h"
 #include "text.h"
 #include "toast.h"
 
-static Checkbox mono_numbers_checkbox, sound_checkbox, reduced_motion_checkbox, fullscreen_checkbox;
+static Checkbox mono_numbers_checkbox, sound_checkbox, reduced_motion_checkbox, fullscreen_checkbox, music_checkbox;
 
 static Button save_button;
 
@@ -18,6 +19,9 @@ void settings_init(void) {
 	CHECKBOX(sound_checkbox, POINT(20, 80+40*1), settings_getflag(FLAG_SOUND), "Sound effects");
 	CHECKBOX(reduced_motion_checkbox, POINT(20, 80+40*2), settings_getflag(FLAG_REDUCED_MOTION), "Reduced motion");
 	CHECKBOX(fullscreen_checkbox, POINT(20, 80+40*3), settings_getflag(FLAG_FULLSCREEN), "Fullscreen");
+
+	CHECKBOX(music_checkbox, POINT(340, 80), settings_getflag(FLAG_MUSIC), "Music");
+
 	BUTTON(save_button, RECT(220,280,200,40), "Save & Go back");
 }
 
@@ -39,6 +43,11 @@ void settings_event(const SDL_Event *ev) {
 		SDL_SetWindowFullscreen(window, settings_getflag(FLAG_FULLSCREEN));
 	}
 #endif
+
+	if (checkbox_event(ev, &music_checkbox)) {
+		settings_toggleflag(FLAG_MUSIC);
+		music_mute(!settings_getflag(FLAG_MUSIC));
+	}
 
 	if (button_event(ev, &save_button) || is_escaping(ev))
 		scene_switch("mainmenu");
@@ -64,6 +73,9 @@ void settings_draw(void) {
 #ifndef ALWAYS_FULLSCREEN
 	checkbox(&fullscreen_checkbox);
 #endif
+
+	checkbox(&music_checkbox);
+
 	button(&save_button);
 }
 

@@ -5,7 +5,8 @@
 #include <stdio.h>
 
 static Settings settings_data = {
-	(1ULL << FLAG_SOUND)
+	  (1ULL << FLAG_SOUND)
+	+ (1ULL << FLAG_MUSIC)
 };
 
 static bool dirty = false;
