@@ -11,6 +11,7 @@
 extern MIX_Mixer *mixer;
 static MIX_Audio *music_bank[100];
 static MIX_Track *music_track;
+static int last_played;
 
 #define LOAD_MUSIC(id, var) \
 	music_bank[id] = MIX_LoadAudio_IO(mixer, SDL_IOFromMem(var, var##_len), false, false)
@@ -26,10 +27,15 @@ void music_init(void) {
 }
 
 void music_play(int music_id, int loops) {
+	if (last_played == music_id && music_is_playing()) {
+		return;
+	}
+
 	MIX_SetTrackAudio(music_track, music_bank[music_id]);
 	SDL_PropertiesID prop = SDL_CreateProperties();
 	SDL_SetNumberProperty(prop, MIX_PROP_PLAY_LOOPS_NUMBER, -1);
 	MIX_PlayTrack(music_track, prop);
+	last_played = music_id;
 }
 
 void music_fade_out(int ms) {
