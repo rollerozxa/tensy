@@ -1,4 +1,5 @@
 #include "sound.h"
+#include "assetloader.h"
 #include "gamesettings.h"
 
 #include <data/click_ogg.h>
@@ -8,19 +9,7 @@
 
 #include <SDL3_mixer/SDL_mixer.h>
 
-#include "assetloader.h"
-
-#if SDL_MIXER_VERSION_ATLEAST(3, 1, 0)
-	#define SDL_REMIXER
-
-	extern MIX_Mixer *mixer;
-#else
-	#define MIX_Audio Mix_Chunk
-	extern int mixer;
-
-	#define MIX_LoadAudio_IO(dummy1, src, dummy2, freesrc) Mix_LoadWAV_IO(src, freesrc)
-	#define MIX_PlayAudio(dummy1, sound) Mix_PlayChannel(-1, sound, 0)
-#endif
+extern MIX_Mixer *mixer;
 
 static MIX_Audio *sound_bank[100];
 

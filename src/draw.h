@@ -4,11 +4,6 @@
 
 extern SDL_Renderer *renderer;
 
-#if SDL_MINOR_VERSION < 3
-// fallback for 3.2.x
-#define SDL_SCALEMODE_PIXELART SDL_SCALEMODE_NEAREST
-#endif
-
 bool draw_line(float x1, float y1, float x2, float y2);
 bool draw_rect(const SDL_FRect *rect);
 bool draw_fill_rect(const SDL_FRect *rect);

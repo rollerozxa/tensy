@@ -1,6 +1,5 @@
 #include "textures.h"
 #include "assetloader.h"
-#include "draw.h" // _PIXELART polyfill
 
 #include <data/background_stripes_qoi.h>
 #include <data/check_qoi.h>

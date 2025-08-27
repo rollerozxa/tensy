@@ -3,11 +3,16 @@
 #include "gamesettings.h"
 
 #include <SDL3/SDL.h>
+#include <SDL3_mixer/SDL_mixer.h>
 #include <stdio.h>
 #include <unistd.h>
 
 #define SDL_MAIN_USE_CALLBACKS
 #include <SDL3/SDL_main.h>
+
+#if !SDL_MIXER_VERSION_ATLEAST(3,1,0) || !SDL_VERSION_ATLEAST(3,3,0)
+#error Tensy currently requires being compiled with a recent enough master version of SDL and SDL_mixer. To build with vendored versions of those libraries pass -DUSE_VENDORED_LIBS=ON to CMake when reconfiguring.
+#endif
 
 SDL_Window *window;
 SDL_Renderer *renderer;

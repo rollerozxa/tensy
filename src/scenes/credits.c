@@ -46,7 +46,6 @@ static const char *credits_text[] = {
 "---",
 "SDL & SDL_mixer (zlib)",
 "Sam Lantinga, Ryan Gordon, et al.",
-""
 "",
 "QOI (MIT)",
 "Dominic Szablewski",

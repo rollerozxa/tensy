@@ -13,7 +13,7 @@ if(ANDROID)
 	set(EXTRA_LIBRARIES -lGLESv1_CM -lGLESv2 -lOpenSLES -llog -landroid)
 endif()
 
-option(USE_VENDORED_LIBS "Build with vendored libraries for SDL and such" FALSE)
+option(USE_VENDORED_LIBS "Build with vendored libraries for SDL and SDL_mixer" TRUE)
 
 if(WIN32)
 	option(WINDOWS_XP "Build for Windows XP (requires MSVCRT toolchain)" FALSE)
