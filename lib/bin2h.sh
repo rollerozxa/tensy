@@ -15,6 +15,6 @@ fi
 var_name="$(basename -- "$1" | sed 's/[^a-zA-Z0-9_]/_/g')"
 
 echo "#pragma once"
-echo "unsigned char ${var_name}[] = {"
+echo "static unsigned char ${var_name}[] = {"
 xxd -p "$1" | sed 's/\(..\)/0x\1,/g'
-echo "}; unsigned int ${var_name}_len = sizeof(${var_name});"
+echo "}; static unsigned int ${var_name}_len = sizeof(${var_name});"

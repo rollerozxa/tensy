@@ -1,4 +1,5 @@
 #include "music.h"
+#include "assetloader.h"
 #include "gamesettings.h"
 
 #include <data/music_credits_oxm.h>
@@ -13,12 +14,12 @@ static MIX_Audio *music_bank[100];
 static MIX_Track *music_track;
 static int last_played;
 
-#define LOAD_MUSIC(id, var) \
-	music_bank[id] = MIX_LoadAudio_IO(mixer, SDL_IOFromMem(var, var##_len), false, false)
+#define LOAD_MUSIC(id, data, path) \
+	music_bank[id] = ASSETLOADER_MUSIC(data, path)
 
 void music_init(void) {
-	LOAD_MUSIC(MUS_CREDITS, music_credits_oxm);
-	LOAD_MUSIC(MUS_MAINMENU, music_mainmenu_xm);
+	LOAD_MUSIC(MUS_CREDITS, music_credits_oxm, "music_credits.oxm");
+	LOAD_MUSIC(MUS_MAINMENU, music_mainmenu_xm, "music_mainmenu.xm");
 
 	music_track = MIX_CreateTrack(mixer);
 

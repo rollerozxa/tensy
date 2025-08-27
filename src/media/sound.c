@@ -8,6 +8,8 @@
 
 #include <SDL3_mixer/SDL_mixer.h>
 
+#include "assetloader.h"
+
 #if SDL_MIXER_VERSION_ATLEAST(3, 1, 0)
 	#define SDL_REMIXER
 
@@ -22,14 +24,14 @@
 
 static MIX_Audio *sound_bank[100];
 
-#define LOAD_SOUND(id, var) \
-	sound_bank[id] = MIX_LoadAudio_IO(mixer, SDL_IOFromMem(var, var##_len), true, false)
+#define LOAD_SOUND(id, data, path) \
+	sound_bank[id] = ASSETLOADER_SOUND(data, path)
 
 void sound_init(void) {
-	LOAD_SOUND(SND_CLICK, click_ogg);
-	LOAD_SOUND(SND_MATCH, match_wav);
-	LOAD_SOUND(SND_SELECT, select_wav);
-	LOAD_SOUND(SND_WOOZY, woozy_ogg);
+	LOAD_SOUND(SND_CLICK, click_ogg, "click.ogg");
+	LOAD_SOUND(SND_MATCH, match_wav, "match.wav");
+	LOAD_SOUND(SND_SELECT, select_wav, "select.wav");
+	LOAD_SOUND(SND_WOOZY, woozy_ogg, "woozy.ogg");
 }
 
 void sound_play(int sound_id) {

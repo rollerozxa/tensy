@@ -1,4 +1,5 @@
 #include "textures.h"
+#include "assetloader.h"
 #include "draw.h" // _PIXELART polyfill
 
 #include <data/background_stripes_qoi.h>
@@ -13,28 +14,29 @@
 #include <data/undo_qoi.h>
 
 #include <SDL_QOI/SDL_QOI.h>
+#include <unistd.h>
 
 static SDL_Texture *texture_bank[100];
 static bool textures_loaded = false;
 
-#define LOAD_TEX(id, data) \
-	texture_bank[id] = SDL_CreateTextureFromSurface(renderer, SDL_LoadQOI_IO(SDL_IOFromMem(data, data##_len))); \
+#define LOAD_TEX(id, data, path) \
+	texture_bank[id] = SDL_CreateTextureFromSurface(renderer, ASSETLOADER_QOI(data, path)); \
 	SDL_SetTextureScaleMode(texture_bank[id], SDL_SCALEMODE_PIXELART)
 
-#define LOAD_TEX_LIN(id, data) \
-	texture_bank[id] = SDL_CreateTextureFromSurface(renderer, SDL_LoadQOI_IO(SDL_IOFromMem(data, data##_len))); \
+#define LOAD_TEX_LIN(id, data, path) \
+	texture_bank[id] = SDL_CreateTextureFromSurface(renderer, ASSETLOADER_QOI(data, path)); \
 	SDL_SetTextureScaleMode(texture_bank[id], SDL_SCALEMODE_LINEAR)
 
 void textures_init(SDL_Renderer *renderer) {
-	LOAD_TEX(TEX_BG_STRIPES, background_stripes_qoi);
-	LOAD_TEX(TEX_CHECK, check_qoi);
-	LOAD_TEX(TEX_CLOCK, clock_qoi);
-	LOAD_TEX(TEX_INTRO_RACCOON, intro_raccoon_qoi);
-	LOAD_TEX_LIN(TEX_INTRO_TEXT, intro_text_qoi);
-	LOAD_TEX(TEX_PAUSE, pause_qoi);
-	LOAD_TEX(TEX_SETTINGS, settings_qoi);
-	LOAD_TEX(TEX_SHUFFLE, shuffle_qoi);
-	LOAD_TEX(TEX_UNDO, undo_qoi);
+	LOAD_TEX(TEX_BG_STRIPES, background_stripes_qoi, "background_stripes.qoi");
+	LOAD_TEX(TEX_CHECK, check_qoi, "check.qoi");
+	LOAD_TEX(TEX_CLOCK, clock_qoi, "clock.qoi");
+	LOAD_TEX(TEX_INTRO_RACCOON, intro_raccoon_qoi, "intro_raccoon.qoi");
+	LOAD_TEX_LIN(TEX_INTRO_TEXT, intro_text_qoi, "intro_text.qoi");
+	LOAD_TEX(TEX_PAUSE, pause_qoi, "pause.qoi");
+	LOAD_TEX(TEX_SETTINGS, settings_qoi, "settings.qoi");
+	LOAD_TEX(TEX_SHUFFLE, shuffle_qoi, "shuffle.qoi");
+	LOAD_TEX(TEX_UNDO, undo_qoi, "undo.qoi");
 
 	textures_loaded = true;
 }
