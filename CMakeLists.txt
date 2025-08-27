@@ -1,16 +1,13 @@
 cmake_minimum_required(VERSION 3.14)
 project(tensy C)
 set(CMAKE_C_STANDARD 99)
+set(PROJ ${PROJECT_NAME})
 
 include(cmake/DownloadLib.cmake)
 
 if (NOT CMAKE_BUILD_TYPE)
 	message(STATUS "No build type selected, default to Release")
 	set(CMAKE_BUILD_TYPE "Release")
-endif()
-
-if(ANDROID)
-	set(EXTRA_LIBRARIES -lGLESv1_CM -lGLESv2 -lOpenSLES -llog -landroid)
 endif()
 
 option(USE_VENDORED_LIBS "Build with vendored libraries for SDL and SDL_mixer" TRUE)
@@ -41,41 +38,48 @@ file(GLOB SRCS CONFIGURE_DEPENDS
 	src/overlays/*.c
 	src/scenes/*.c
 	lib/*.c
-	lib/SDL_QOI/*.c
-)
+	lib/SDL_QOI/*.c)
+
+# Add executable and linked libraries
+
+if(ANDROID)
+	add_library(${PROJ} SHARED ${SRCS})
+else()
+	add_executable(${PROJ} ${SRCS})
+endif()
+
+target_link_libraries(${PROJ} m SDL3_mixer::SDL3_mixer SDL3::SDL3)
+if(ANDROID)
+	target_link_libraries(${PROJ} -lGLESv1_CM -lGLESv2 -lOpenSLES -llog -landroid)
+endif()
+
+# Compiler flags
 
 if(NOT VITA)
-	set(CMAKE_EXE_LINKER_FLAGS_RELEASE "-Wl,-s")
+	target_link_options(${PROJ} PRIVATE $<$<CONFIG:Release>:-Wl,-s>)
 endif()
 
 if(WIN32)
 	set(SRCS ${SRCS} packaging/tensy.rc)
-	set(CMAKE_EXE_LINKER_FLAGS_RELEASE "${CMAKE_EXE_LINKER_FLAGS_RELEASE} -mwindows")
+	target_link_options(${PROJ} PRIVATE $<$<CONFIG:Release>:-mwindows>)
 
 	if(WINDOWS_XP)
-		set(CMAKE_EXE_LINKER_FLAGS "-Wl,--major-os-version=5,--major-subsystem-version=5")
-		set(CMAKE_C_FLAGS "-DWINVER=0x501 -D_WIN32_WINNT=0x501")
+		target_link_options(${PROJ} PRIVATE -Wl,--major-os-version=5,--major-subsystem-version=5)
+		add_compile_definitions(WINVER=0x0501 _WIN32_WINNT=0x0501)
 	endif()
 endif()
 
-set(CMAKE_C_FLAGS_DEBUG "-ggdb -DDEBUG=1")
+target_compile_definitions(${PROJ} PRIVATE $<$<CONFIG:Debug>:DEBUG=1>)
 
-if(ANDROID)
-	add_library(${PROJECT_NAME} SHARED ${SRCS})
-else()
-	add_executable(${PROJECT_NAME} ${SRCS})
-endif()
+# Nice set of warning flags to build with
+target_compile_options(${PROJ} PRIVATE -Wall -Wextra -Wno-unused-parameter -Wno-unused-variable -Wno-missing-field-initializers)
 
-target_link_libraries(${PROJECT_NAME}
-	m
-	SDL3_mixer::SDL3_mixer
-	SDL3::SDL3
-	${EXTRA_LIBRARIES})
+# Packaging
 
 if(VITA)
 	include("${VITASDK}/share/vita.cmake" REQUIRED)
-	vita_create_self(${PROJECT_NAME}.self ${PROJECT_NAME})
-	vita_create_vpk(${PROJECT_NAME}.vpk OZXA00010 ${PROJECT_NAME}.self
+	vita_create_self(${PROJ}.self ${PROJ})
+	vita_create_vpk(${PROJ}.vpk OZXA00010 ${PROJ}.self
 		VERSION "00.00"
 		NAME Tensy
 		FILE packaging/vita/icon.png sce_sys/icon0.png
@@ -87,23 +91,24 @@ if(VITA)
 endif()
 
 if(APPLE)
-	set(BUNDLE_PATH "${PROJECT_NAME}.app/Contents")
+	set(BUNDLE_PATH "${PROJ}.app/Contents")
 
 	install(FILES "packaging/tensy.icns" DESTINATION "${BUNDLE_PATH}/Resources")
 	install(FILES "packaging/Info.plist" DESTINATION "${BUNDLE_PATH}")
 	install(FILES "packaging/PkgInfo" DESTINATION "${BUNDLE_PATH}")
-	install(TARGETS ${PROJECT_NAME} DESTINATION "${BUNDLE_PATH}/MacOS")
+	install(TARGETS ${PROJ} DESTINATION "${BUNDLE_PATH}/MacOS")
 elseif(NOT VITA)
 	if(EMSCRIPTEN)
 		install(FILES "packaging/index.html" DESTINATION .)
-		install(FILES ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.wasm DESTINATION .)
+		install(FILES ${CMAKE_BINARY_DIR}/${PROJ}.wasm DESTINATION .)
 	endif()
 
-	install(TARGETS ${PROJECT_NAME} DESTINATION .)
+	install(TARGETS ${PROJ} DESTINATION .)
 endif()
 
 # Generate embedded data files as header files to be included
+
 include(cmake/GenerateDataFiles.cmake)
 generate_data_files()
 add_custom_target(generate_data DEPENDS ${GENERATED_DATA_HEADERS})
-add_dependencies(${PROJECT_NAME} generate_data)
+add_dependencies(${PROJ} generate_data)

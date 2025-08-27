@@ -143,8 +143,7 @@ void credits_draw(void) {
 			draw_fill_rect(&RECT(0, 0,NATIVE_WIDTH, NATIVE_HEIGHT));
 		}
 	} else {
-		int i;
-		for (i = 0; i < NUM_CREDITS_LINES; i++) {
+		for (size_t i = 0; i < NUM_CREDITS_LINES; i++) {
 			SDL_FRect rect = {
 				/*sinf((scroll_y + i * 30) * 0.075f) * wave_amplitude*/ 0,
 				scroll_y + i * 30,
