@@ -5,8 +5,10 @@
 typedef struct {
 	SDL_FRect rect;
 	int texture;
+	float padding;
 	bool _held;
 	bool _disabled;
+	SDL_FRect _calc_rect; // Calculated full rect based on padding
 } TexButton;
 
 #define TEX_BUTTON(obj, rect, tex) \

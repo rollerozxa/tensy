@@ -9,7 +9,7 @@ static unsigned char tex_mod(SDL_FPoint *mouse, TexButton *button) {
 	if (button->_disabled)
 		return 0x70; // Greyed out when disabled
 
-	if (!SDL_PointInRectFloat(mouse, &button->rect))
+	if (!SDL_PointInRectFloat(mouse, &button->_calc_rect))
 		return 0xFF; // Not hovered
 
 	if (!button->_held)
@@ -24,7 +24,7 @@ bool tex_button_event(const SDL_Event *ev, TexButton *button) {
 		return false;
 	}
 
-	if (SDL_PointInRectFloat(&POINT(ev->motion.x, ev->motion.y), &button->rect)) {
+	if (SDL_PointInRectFloat(&POINT(ev->motion.x, ev->motion.y), &button->_calc_rect)) {
 		if (ev->type == SDL_EVENT_MOUSE_BUTTON_DOWN) {
 			button->_held = true;
 		} else if (ev->type == SDL_EVENT_MOUSE_BUTTON_UP && button->_held) {
@@ -44,6 +44,12 @@ bool tex_button_event(const SDL_Event *ev, TexButton *button) {
 void tex_button(TexButton *button) {
 
 	SDL_FRect rect = button->rect;
+
+	button->_calc_rect.x = rect.x - button->padding;
+	button->_calc_rect.y = rect.y - button->padding;
+	button->_calc_rect.w = rect.w + button->padding * 2;
+	button->_calc_rect.h = rect.h + button->padding * 2;
+
 	SDL_Texture *texture = textures_get(button->texture);
 
 	SDL_FPoint mouse;
