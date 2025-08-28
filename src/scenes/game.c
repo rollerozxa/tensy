@@ -89,9 +89,11 @@ static bool do_move(void) {
 }
 
 void game_init(void) {
-	TEX_BUTTON(pause_button, RECT(NATIVE_WIDTH-24, 0, 24, 24), TEX_PAUSE);
-	TEX_BUTTON(shuffle_button, RECT(NATIVE_WIDTH-50, 0, 24, 24), TEX_SHUFFLE);
-	TEX_BUTTON(undo_button, RECT(NATIVE_WIDTH-76, 0, 24, 24), TEX_UNDO);
+	TEX_BUTTON(pause_button, RECT(NATIVE_WIDTH-24-3, 3, 24, 24), TEX_PAUSE);
+	TEX_BUTTON(shuffle_button, RECT(NATIVE_WIDTH-50-8, 3, 24, 24), TEX_SHUFFLE);
+	TEX_BUTTON(undo_button, RECT(NATIVE_WIDTH-76-14, 3, 24, 24), TEX_UNDO);
+
+	pause_button.padding = shuffle_button.padding = undo_button.padding = 3;
 
 	helddown = false;
 
@@ -229,9 +231,9 @@ void game_draw(void) {
 	}
 
 	draw_set_color(0x102A6E);
-	SDL_FRect bar_rect = {0, 0, NATIVE_WIDTH, 24};
+	SDL_FRect bar_rect = {0, 0, NATIVE_WIDTH, 30};
 	draw_fill_rect(&bar_rect);
-	bar_rect.y = NATIVE_HEIGHT - 24;
+	bar_rect.y = NATIVE_HEIGHT - 30;
 	draw_fill_rect(&bar_rect);
 
 	font_set_color(CLR_WHITE);
