@@ -1,8 +1,13 @@
 
+if(VITA)
+	set(DEP_SDL_VER "eb04219efeb328c5e14e18d3e868bcb28a7bd346")
+else()
+	set(DEP_SDL_VER "fa529495293de38f67631076b2cb2634fe97a7f8")
+endif()
 download_dep_tarball(
 	"SDL"
-	"b13416d74f715e9f1d2396637d6fc3900130032c"
-	"https://github.com/libsdl-org/SDL/archive/b13416d74f715e9f1d2396637d6fc3900130032c.tar.gz"
+	"${DEP_SDL_VER}"
+	"https://github.com/libsdl-org/SDL/archive/${DEP_SDL_VER}.tar.gz"
 )
 
 set(SDL_SHARED OFF CACHE BOOL "" FORCE)
