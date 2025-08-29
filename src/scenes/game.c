@@ -242,10 +242,10 @@ void game_draw(void) {
 		int seconds = SDL_max((int)SDL_ceilf(time_left) % 60, 0);
 
 		FMT_STRING(msg, 512, "Score: %d - %d:%02d", game.score, minutes, seconds);
-		text_draw(msg, 0,0, 2);
+		text_draw(msg, 3,3, 2);
 	} else {
 		FMT_STRING(msg, 512, "Score: %d", game.score);
-		text_draw(msg, 0,0, 2);
+		text_draw(msg, 3,3, 2);
 	}
 
 	tex_button(&pause_button);

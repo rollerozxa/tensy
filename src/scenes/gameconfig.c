@@ -1,6 +1,8 @@
 #include "gameconfig.h"
 #include "board.h"
+#include "color.h"
 #include "consts.h"
+#include "font.h"
 #include "gamesettings.h"
 #include "gamestate.h"
 #include "gui/button.h"
@@ -9,6 +11,7 @@
 #include "media/music.h"
 #include "scene.h"
 #include "text.h"
+#include <stdio.h>
 
 static bool show_hyuge = false;
 
@@ -18,6 +21,7 @@ static Button go_button;
 static Checkbox physics_checkbox;
 
 void gameconfig_init(void) {
+
 	for (size_t i = 0; i < num_board_sizes; i++) {
 		int btn_width = 100;
 		SDL_FRect button_rect = {150 + i * (btn_width + 15), 75, btn_width, 40};
@@ -32,6 +36,7 @@ void gameconfig_init(void) {
 	board_preview.rect_offset = POINT(150, 50);
 	board_change_size(&board_preview, board_sizes[2].w, board_sizes[2].h, board_sizes[2].scale -1);
 	board_zerofill(&board_preview);
+	game.board.boardsize = 2;
 }
 
 void gameconfig_event(const SDL_Event *ev) {
@@ -81,6 +86,22 @@ void gameconfig_draw(void) {
 
 	if (current_gamemode().gravity_mode == GRA_Ask)
 		checkbox(&physics_checkbox);
+	else if (current_gamemode().gravity_mode == GRA_Always)
+		text_draw_shadow("Board physics enabled", physics_checkbox.pos.x, physics_checkbox.pos.y, 2);
+
+	if (gamemodes[game.mode].time_limit) {
+		font_set_color(CLR_WHITE);
+
+		int duration = board_sizes[game.board.boardsize].seconds;
+		int minutes = (duration+1) / 60;
+		int seconds = SDL_max((int)SDL_ceilf(duration) % 60, 0);
+
+		FMT_STRING(msg, 512, "Time: %d:%02d", minutes, seconds);
+		text_draw_shadow(msg, 20, 180, 2);
+	} else {
+		text_draw_shadow("No time limit", 20, 180, 2);
+	}
+
 
 	button(&go_button);
 }
