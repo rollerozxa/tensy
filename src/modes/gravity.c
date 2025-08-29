@@ -18,5 +18,6 @@ GameMode gravity_gamemode = {
 	},
 	false,
 	gravity_click,
-	.gravity_mode=GRA_Always
+	.gravity_mode=GRA_Always,
+	.time_limit=true
 };

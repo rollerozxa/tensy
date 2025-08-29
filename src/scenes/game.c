@@ -107,7 +107,7 @@ void game_init(void) {
 		return;
 	}
 
-	if (game.mode == GM_Classic) {
+	if (gamemodes[game.mode].time_limit) {
 		total_time = time_left = board_sizes[board.boardsize].seconds;
 	}
 
@@ -237,7 +237,7 @@ void game_draw(void) {
 	draw_fill_rect(&bar_rect);
 
 	font_set_color(CLR_WHITE);
-	if (game.mode == GM_Classic) {
+	if (gamemodes[game.mode].time_limit) {
 		int minutes = (time_left+1) / 60;
 		int seconds = SDL_max((int)SDL_ceilf(time_left) % 60, 0);
 
@@ -256,7 +256,7 @@ void game_draw(void) {
 	undo_button._disabled = !gamestate_has_undo();
 	tex_button(&undo_button);
 
-	if (game.mode == GM_Classic) {
+	if (gamemodes[game.mode].time_limit) {
 		SDL_FRect progbar_rect = {0, NATIVE_HEIGHT - 20, -1, 20};
 		progbar_rect.w = NATIVE_WIDTH * (time_left / total_time);
 		if (progbar_rect.w < 40) {

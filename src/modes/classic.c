@@ -31,5 +31,6 @@ GameMode classic_gamemode = {
 	false,
 	classic_click,
 	NULL,
-	sm_draw
+	sm_draw,
+	.time_limit=true
 };

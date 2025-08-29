@@ -34,6 +34,7 @@ typedef struct {
 	void (*sm_draw)(SDL_FRect rect);
 	int (*calc_cell_number)(Board *board, int x, int y);
 	GravityMode gravity_mode;
+	bool time_limit;
 } GameMode;
 
 extern GameMode gamemodes[];
