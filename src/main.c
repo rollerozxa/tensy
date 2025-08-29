@@ -35,8 +35,7 @@ SDL_AppResult SDL_AppInit(void **rustptr, int argc, char **argv) {
 		0, &window, &renderer);
 
 	if (!window || !renderer) {
-		char msg[1024];
-		snprintf(msg, 1023, "Failed to start the game. Error: %s", SDL_GetError());
+		FMT_STRING(msg, 1024, "Failed to start the game. Error: %s", SDL_GetError());
 		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, APP_NAME, msg, NULL);
 	}
 

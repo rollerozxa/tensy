@@ -38,8 +38,7 @@ void shuffle_draw(void) {
 	SDL_FPoint score_pos = { bg_rect.x + 10, bg_rect.y + 20*2 };
 
 	text_draw_shadow("Shuffles left:", score_pos.x, score_pos.y, 1.5);
-	char scoretext[128];
-	snprintf(scoretext, 127, "%d", game.shuffles);
+	FMT_STRING(scoretext, 128, "%d", game.shuffles);
 	score_pos.x += 130;
 	text_draw_shadow(scoretext, score_pos.x, score_pos.y, 1.5);
 

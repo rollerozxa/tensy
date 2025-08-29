@@ -24,6 +24,10 @@
 
 #define CENTER(outside, inside) ((outside - inside) / 2)
 
+#define FMT_STRING(buf, size, fmt, ...) \
+	char (buf)[(size)]; \
+    snprintf((buf), (size) - 1, (fmt), ##__VA_ARGS__)
+
 #if defined(SDL_PLATFORM_ANDROID) || defined(SDL_PLATFORM_VITA)
 	#define ALWAYS_FULLSCREEN true
 #endif

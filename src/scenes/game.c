@@ -237,17 +237,16 @@ void game_draw(void) {
 	draw_fill_rect(&bar_rect);
 
 	font_set_color(CLR_WHITE);
-	char msg[512];
 	if (game.mode == GM_Classic) {
 		int minutes = (time_left+1) / 60;
 		int seconds = SDL_max((int)SDL_ceilf(time_left) % 60, 0);
 
-		snprintf(msg, 511, "Score: %d - %d:%02d", game.score, minutes, seconds);
+		FMT_STRING(msg, 512, "Score: %d - %d:%02d", game.score, minutes, seconds);
+		text_draw(msg, 0,0, 2);
 	} else {
-		snprintf(msg, 511, "Score: %d", game.score);
+		FMT_STRING(msg, 512, "Score: %d", game.score);
+		text_draw(msg, 0,0, 2);
 	}
-
-	text_draw(msg, 0,0, 2);
 
 	tex_button(&pause_button);
 

@@ -33,8 +33,7 @@ void timeout_draw(void) {
 	SDL_FPoint score_pos = { bg_rect.x + 20, bg_rect.y + 20*3 };
 
 	text_draw_shadow("Final score:", score_pos.x, score_pos.y, 1.5);
-	char scoretext[128];
-	snprintf(scoretext, 127, "%d", game.score);
+	FMT_STRING(scoretext, 128, "%d", game.score);
 	score_pos.y += 25;
 	text_draw_shadow(scoretext, score_pos.x, score_pos.y, 1.5);
 

@@ -37,8 +37,7 @@ void debug_draw(void) {
 	draw_line(mouse.x, 0, mouse.x, NATIVE_HEIGHT);
 	draw_line(0, mouse.y, NATIVE_WIDTH, mouse.y);
 
-	char text[1024];
-	snprintf(text, 1023, "%s, using %s driver, cursor pos (%f,%f)",
+	FMT_STRING(text, 1024, "%s, using %s driver, cursor pos (%f,%f)",
 		SDL_GetPlatform(), SDL_GetRendererName(renderer), mouse.x, mouse.y);
 	text_draw_shadow(text, 0, 0, 1);
 }

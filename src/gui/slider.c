@@ -64,7 +64,6 @@ void slider(Slider *slider) {
 	} else
 		draw_box(&handle_rect);
 
-	char dbg[512];
-	snprintf(dbg, 511, "%d", slider->value);
+	FMT_STRING(dbg, 512, "%d", slider->value);
 	text_draw(dbg, rect.x + rect.w + 10, rect.y, 2);
 }
