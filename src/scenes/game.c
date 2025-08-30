@@ -107,6 +107,8 @@ void game_init(void) {
 		return;
 	}
 
+	game.identifier = SDL_rand_bits() + ((uint64_t)SDL_rand_bits() << 32);
+
 	if (gamemodes[game.mode].time_limit) {
 		total_time = time_left = board_sizes[board.boardsize].seconds;
 	}
@@ -197,6 +199,11 @@ void game_update(float dt) {
 	if (game.mode == GM_Classic && !dead && (!overlay_exists() || strcmp(overlay_get_current(), "shuffle") == 0)) {
 		if (time_left < 0) {
 			overlay_switch("timeout");
+			uint64_t identifier = savestate_read_identifier();
+			if (identifier == game.identifier) {
+				// destroy savestate
+				savestate_delete();
+			}
 			dead = true;
 		} else {
 			time_left -= dt;

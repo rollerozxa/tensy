@@ -4,8 +4,9 @@
 #include "gamestate.h"
 #include "fileio.h"
 #include <stdio.h>
+#include <unistd.h>
 
-const static char filever = 1;
+const static char filever = 2;
 
 static char statesave_file[512];
 
@@ -19,12 +20,30 @@ static char *get_filepath(void) {
 }
 
 bool savestate_exists(void) {
-    FILE *file = fopen(get_filepath(), "r");
-    if (file) {
-        fclose(file);
-        return true;
-    }
-    return false;
+	FILE *fp = fopen(get_filepath(), "r");
+	if (fp) {
+		char tmp;
+		READ_CHAR(tmp);
+		if (tmp != filever)
+			return false; // wrong version, pretend it doesn't exist
+
+		fclose(fp);
+		return true;
+	}
+
+	return false;
+}
+
+bool savestate_delete(void) {
+	FILE *file = fopen(get_filepath(), "r");
+	if (file) {
+		// Make sure we grabbed a file and not the user's home folder or something equally horrifying
+		fclose(file);
+		unlink(get_filepath());
+		return true;
+	}
+
+	return false;
 }
 
 bool savestate_save(void) {
@@ -33,6 +52,7 @@ bool savestate_save(void) {
 		return false;
 
 	WRITE_CHAR(filever);
+	WRITE_LONG(game.identifier);
 	WRITE_INT(game.score);
 	WRITE_INT(game.mode);
 	WRITE_INT(game.time_left);
@@ -68,6 +88,7 @@ bool savestate_load(void) {
 	if (tmp != filever)
 		return false; // uhh
 
+	READ_LONG(game.identifier);
 	READ_INT(game.score);
 	READ_INT(game.mode);
 	READ_INT(game.time_left);
@@ -91,4 +112,19 @@ bool savestate_load(void) {
 	fclose(fp);
 
 	return true;
+}
+
+uint64_t savestate_read_identifier(void) {
+	FILE *fp = fopen(get_filepath(), "rb");
+	if (!fp)
+		return false;
+
+	char tmp;
+	READ_CHAR(tmp);
+	if (tmp != filever)
+		return false; // uhh
+
+	uint64_t identifier;
+	fread(&identifier, sizeof(uint64_t), 1, fp);
+	return identifier;
 }

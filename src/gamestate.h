@@ -11,6 +11,8 @@ typedef struct {
 	bool loaded_existing;
 	int shuffles;
 	bool dirty;
+	// Random identifier used to check if an active game corresponds to the current saved game
+	uint64_t identifier;
 } Game;
 
 // Smaller state struct used for undo history
