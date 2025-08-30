@@ -28,7 +28,7 @@ if(WIN32 OR LINUX OR APPLE)
 endif()
 
 foreach(feature ${DISABLED_FEATURES})
-    set(SDL_${feature} OFF CACHE BOOL "" FORCE)
+	set(SDL_${feature} OFF CACHE BOOL "" FORCE)
 endforeach()
 
 if(ANDROID OR HAIKU)

@@ -8,9 +8,9 @@ download_dep_tarball(
 
 file(REMOVE_RECURSE "${CMAKE_SOURCE_DIR}/lib/SDL_mixer/external/libxmp")
 file(CREATE_LINK
-    "${CMAKE_SOURCE_DIR}/lib/libxmp"
-    "${CMAKE_SOURCE_DIR}/lib/SDL_mixer/external/libxmp"
-    SYMBOLIC
+	"${CMAKE_SOURCE_DIR}/lib/libxmp"
+	"${CMAKE_SOURCE_DIR}/lib/SDL_mixer/external/libxmp"
+	SYMBOLIC
 )
 
 set(BUILD_SHARED_LIBS OFF CACHE BOOL "" FORCE)

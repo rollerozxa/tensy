@@ -1,8 +1,8 @@
 #!/bin/bash -eu
 
 if [ -z "${GAME_VERSION}" ]; then
-    echo "pls set GAME_VERSION variable" >&2
-    exit 1
+	echo "pls set GAME_VERSION variable" >&2
+	exit 1
 fi
 
 download_artifact() {
@@ -56,7 +56,7 @@ download_artifacts() {
 }
 
 butler_push() {
-	butler push --userversion="${VERSION}" "$2" rollerozxa/tensy:"$1"
+	butler push --userversion="${GAME_VERSION}" "$2" rollerozxa/tensy:"$1"
 }
 
 upload_to_itch() {
