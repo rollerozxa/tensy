@@ -40,6 +40,10 @@ file(GLOB SRCS CONFIGURE_DEPENDS
 	lib/*.c
 	lib/SDL_QOI/*.c)
 
+if(WIN32)
+	set(SRCS ${SRCS} packaging/tensy.rc)
+endif()
+
 # Add executable and linked libraries
 
 if(ANDROID)
@@ -60,7 +64,6 @@ if(NOT VITA)
 endif()
 
 if(WIN32)
-	set(SRCS ${SRCS} packaging/tensy.rc)
 	target_link_options(${PROJ} PRIVATE $<$<CONFIG:Release>:-mwindows>)
 
 	if(WINDOWS_XP)
