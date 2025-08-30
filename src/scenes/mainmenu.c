@@ -12,6 +12,7 @@
 #include "media/textures.h"
 #include "scene.h"
 #include "text.h"
+#include "version_info.h"
 
 #include <math.h>
 #include <stdio.h>
@@ -78,7 +79,7 @@ void mainmenu_draw(void) {
 
 	tex_button(&settings_button);
 
-	FMT_STRING(statusmsg, 512, "Tensy ver. 1.0-dev (%s)", SDL_GetPlatform());
+	FMT_STRING(statusmsg, 512, "Tensy ver. %s%s (%s)", VER_STRING, (VER_DEV ? "-dev" : ""), SDL_GetPlatform());
 	text_draw_shadow(statusmsg, 0, NATIVE_HEIGHT-12, 1);
 
 #ifdef DEBUG
