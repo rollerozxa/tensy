@@ -3,14 +3,35 @@
 #include "media/font_bitmap.h"
 
 static SDL_Texture *font_tex;
+
+// So this code has seen some increase in complexity over the span of the project.
+// Points of note:
+// - Switching to pixelart scalemode (which uses a slightly smarter scaling algorithm than nearest
+//   neighbour) made neighbouring glyph edges bleed into eachother, so glyphs now have padding.
+// - Vita doesn't support pixelart scaling so to make the font not look crusty, we use linear scaling
+//   and then also scale it up by some big amount to not make it blurry.
+
+#ifdef SDL_PLATFORM_VITA
+	#define FONT_SCALE 8
+	#define FONT_SCALEMODE SDL_SCALEMODE_LINEAR
+#else
+	#define FONT_SCALE 1
+	#define FONT_SCALEMODE SDL_SCALEMODE_PIXELART
+#endif
 #define GLYPH_PADDING 1
 
 static SDL_Texture *font_load(void) {
 	int glyphs_x = FONT_WIDTH  / GLYPH_WIDTH;
 	int glyphs_y = FONT_HEIGHT / GLYPH_HEIGHT;
 
-	int padded_width  = FONT_WIDTH  + (glyphs_x * GLYPH_PADDING);
-	int padded_height = FONT_HEIGHT + (glyphs_y * GLYPH_PADDING);
+	int cell_w = GLYPH_WIDTH  * FONT_SCALE; // scaled glyph width in atlas
+	int cell_h = GLYPH_HEIGHT * FONT_SCALE; // scaled glyph height in atlas
+
+	// total atlas size: glyph columns * scaled cell width + padding per cell (unscaled)
+	int padded_width  = glyphs_x * cell_w + glyphs_x * GLYPH_PADDING;
+	int padded_height = glyphs_y * cell_h + glyphs_y * GLYPH_PADDING;
+
+	SDL_Log("Rendering font at %dx%d", padded_width, padded_height);
 
 	SDL_Surface *surface = SDL_CreateSurface(
 		padded_width, padded_height,
@@ -20,25 +41,35 @@ static SDL_Texture *font_load(void) {
 	Uint32 black = SDL_MapSurfaceRGBA(surface, 0, 0, 0, 0);
 
 	int pitch = surface->pitch / 4;
+	Uint32 *pixels = (Uint32 *)surface->pixels;
 
 	for (int gy = 0; gy < glyphs_y; ++gy) {
 	for (int gx = 0; gx < glyphs_x; ++gx) {
 
-		int dst_x0 = gx * (GLYPH_WIDTH + GLYPH_PADDING);
-		int dst_y0 = gy * (GLYPH_HEIGHT + GLYPH_PADDING);
+		// dest origin: glyph index * (scaled_glyph + unscaled padding)
+		int dst_x0 = gx * (cell_w + GLYPH_PADDING);
+		int dst_y0 = gy * (cell_h + GLYPH_PADDING);
 
 		for (int y = 0; y < GLYPH_HEIGHT; ++y) {
 		for (int x = 0; x < GLYPH_WIDTH; ++x) {
-			int src_index = (gy * GLYPH_HEIGHT + y) * FONT_WIDTH + (gx * GLYPH_WIDTH + x);
-			int dst_index = (dst_y0 + y) * pitch + (dst_x0 + x);
-
 			Uint32 color = font_bitmap[gy * GLYPH_HEIGHT + y][gx * GLYPH_WIDTH + x] ? white : black;
-			((Uint32 *)surface->pixels)[dst_index] = color;
+
+			int dst_base_x = dst_x0 + x * FONT_SCALE;
+			int dst_base_y = dst_y0 + y * FONT_SCALE;
+
+#if FONT_SCALE > 1
+			// scale up to a FONT_SCALE x FONT_SCALE block (nearest neighbour)
+			for (int sy = 0; sy < FONT_SCALE; ++sy)
+				for (int sx = 0; sx < FONT_SCALE; ++sx)
+					pixels[((dst_base_y + sy) * pitch + dst_base_x) + sx] = color;
+#else
+			pixels[dst_base_y * pitch + dst_base_x] = color;
+#endif
 		}}
 	}}
 
 	SDL_Texture *texture = SDL_CreateTextureFromSurface(renderer, surface);
-	SDL_SetTextureScaleMode(texture, SDL_SCALEMODE_PIXELART);
+	SDL_SetTextureScaleMode(texture, FONT_SCALEMODE);
 	SDL_DestroySurface(surface);
 
 	return texture;
@@ -64,9 +95,23 @@ void font_draw_char(unsigned char character, float cx, float cy, float scale) {
 	if (font_tex == NULL)
 		font_tex = font_load();
 
-	SDL_FRect srcrect = {cell.x * (GLYPH_WIDTH + GLYPH_PADDING), cell.y * (GLYPH_HEIGHT + GLYPH_PADDING), GLYPH_WIDTH, GLYPH_HEIGHT};
-	SDL_FRect dstrect = {cx, cy, GLYPH_WIDTH * scale, GLYPH_HEIGHT * scale};
+	int src_w = GLYPH_WIDTH * FONT_SCALE;
+	int src_h = GLYPH_HEIGHT * FONT_SCALE;
 
+	int src_pitch_x = src_w + GLYPH_PADDING;
+	int src_pitch_y = src_h + GLYPH_PADDING;
+
+	SDL_FRect srcrect = {
+		cell.x * src_pitch_x,
+		cell.y * src_pitch_y,
+		src_w, src_h
+	};
+
+	SDL_FRect dstrect = {
+		cx, cy,
+		GLYPH_WIDTH * scale,
+		GLYPH_HEIGHT * scale
+	};
 	SDL_RenderTexture(renderer, font_tex, &srcrect, &dstrect);
 }
 
