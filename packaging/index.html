@@ -26,8 +26,6 @@ canvas {
 <body>
 	<canvas id="canvas" oncontextmenu="event.preventDefault()" tabindex=-1></canvas>
 
-	<span id="logmsg"></span>
-
 	<script>
 var Module = {
 	preRun: [],
@@ -44,7 +42,6 @@ var Module = {
 	canvas: (function () { return document.getElementById('canvas'); })(),
 	setStatus: function (text) {
 		console.log(text);
-		document.getElementById('logmsg').innerHTML = text;
 	},
 	totalDependencies: 0,
 	monitorRunDependencies: function (left) {
