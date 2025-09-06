@@ -1,9 +1,6 @@
 
-if(VITA)
-	set(DEP_SDL_VER "eb04219efeb328c5e14e18d3e868bcb28a7bd346")
-else()
-	set(DEP_SDL_VER "25d9096d41931f67add5dceefb587a8d7e51e0a2")
-endif()
+set(DEP_SDL_VER "25d9096d41931f67add5dceefb587a8d7e51e0a2")
+
 download_dep_tarball(
 	"SDL"
 	"${DEP_SDL_VER}"

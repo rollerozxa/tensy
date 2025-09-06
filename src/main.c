@@ -73,7 +73,11 @@ SDL_AppResult SDL_AppInit(void **rustptr, int argc, char **argv) {
 #endif
 		SDL_SetWindowFullscreen(window, true);
 
+#ifdef SDL_PLATFORM_VITA
+	SDL_SetRenderLogicalPresentation(renderer, NATIVE_WIDTH, NATIVE_HEIGHT+4, SDL_LOGICAL_PRESENTATION_STRETCH);
+#else
 	SDL_SetRenderLogicalPresentation(renderer, NATIVE_WIDTH, NATIVE_HEIGHT, SDL_LOGICAL_PRESENTATION_LETTERBOX);
+#endif
 
 	SDL_SetRenderVSync(renderer, 1);
 
@@ -114,6 +118,11 @@ SDL_AppResult SDL_AppIterate(void *rustptr) {
 		return SDL_APP_SUCCESS;
 
 	AppDraw(renderer);
+
+#ifdef SDL_PLATFORM_VITA
+	draw_set_color(0x0);
+	draw_fill_rect(&RECT(0, NATIVE_HEIGHT, NATIVE_WIDTH, 4));
+#endif
 
 	SDL_RenderPresent(renderer);
 
