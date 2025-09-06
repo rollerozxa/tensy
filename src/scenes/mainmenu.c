@@ -51,8 +51,10 @@ void mainmenu_event(const SDL_Event *ev) {
 	if (tex_button_event(ev, &settings_button))
 		scene_switch("settings");
 
+#if !defined(SDL_PLATFORM_VITA) && !defined(SDL_PLATFORM_EMSCRIPTEN)
 	if (is_escaping(ev))
 		AppQuit();
+#endif
 }
 
 static char title[] = "Tensy";
