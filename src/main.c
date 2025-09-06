@@ -1,5 +1,6 @@
 #include "app.h"
 #include "consts.h"
+#include "draw.h"
 #include "gamesettings.h"
 
 #include <SDL3/SDL.h>
@@ -27,7 +28,12 @@ SDL_AppResult SDL_AppInit(void **rustptr, int argc, char **argv) {
 
 	SDL_SetAppMetadata(APP_NAME, NULL, APP_ID);
 
-	SDL_Init(SDL_INIT_VIDEO);
+#ifdef SDL_PLATFORM_VITA
+	#define INIT_FLAGS SDL_INIT_VIDEO | SDL_INIT_GAMEPAD
+#else
+	#define INIT_FLAGS SDL_INIT_VIDEO
+#endif
+	SDL_Init(INIT_FLAGS);
 
 #ifdef SDL_PLATFORM_WINDOWS
 	if (argc > 1 && strncmp(argv[1], "-d3d", 4) == 0)
@@ -74,6 +80,7 @@ SDL_AppResult SDL_AppInit(void **rustptr, int argc, char **argv) {
 		SDL_SetWindowFullscreen(window, true);
 
 #ifdef SDL_PLATFORM_VITA
+	SDL_OpenGamepad(1);
 	SDL_SetRenderLogicalPresentation(renderer, NATIVE_WIDTH, NATIVE_HEIGHT+4, SDL_LOGICAL_PRESENTATION_STRETCH);
 #else
 	SDL_SetRenderLogicalPresentation(renderer, NATIVE_WIDTH, NATIVE_HEIGHT, SDL_LOGICAL_PRESENTATION_LETTERBOX);
