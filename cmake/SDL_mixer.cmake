@@ -1,5 +1,5 @@
 
-set(DEP_SDL_MIXER_VER "7bd8237b55e3c4d76f80968e17205f67a76320c1")
+set(DEP_SDL_MIXER_VER "0b900ed3d85a1dec0af25ccaeb27fa2f7eff74db")
 download_dep_tarball(
 	"SDL_mixer"
 	"${DEP_SDL_MIXER_VER}"
