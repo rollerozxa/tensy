@@ -16,6 +16,7 @@
 static int selected_mode = -1;
 static float xoff, xvel, motion = 0;
 static bool holdingdown = false;
+static bool has_savestate = false;
 
 static Button continue_button;
 
@@ -27,6 +28,7 @@ void selectmode_init(void) {
 	BUTTON(continue_button, RECT(NATIVE_WIDTH-180, 0, 180, 40), "Continue save");
 
 	selected_mode = -1;
+	has_savestate = savestate_exists();
 }
 
 static void select_mode_num(int num) {
@@ -170,7 +172,7 @@ void selectmode_draw(void) {
 		}
 	}
 
-	if (savestate_exists())
+	if (has_savestate)
 		button(&continue_button);
 }
 
