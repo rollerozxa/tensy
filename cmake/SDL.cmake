@@ -1,5 +1,5 @@
 
-set(DEP_SDL_VER "25d9096d41931f67add5dceefb587a8d7e51e0a2")
+set(DEP_SDL_VER "4efdfd92a24ff3bbe6780666189000bf5d84ed30")
 
 download_dep_tarball(
 	"SDL"
