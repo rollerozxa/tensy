@@ -28,7 +28,7 @@ void settings_toggleflag(SettingFlags flag) {
 	settings_data.flags = settings_data.flags ^ (1ULL << flag);
 }
 
-const static char filever = 1;
+static const char filever = 1;
 
 static char settings_file[512];
 

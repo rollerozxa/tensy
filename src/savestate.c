@@ -6,7 +6,7 @@
 #include <stdio.h>
 #include <unistd.h>
 
-const static char filever = 2;
+static const char filever = 2;
 
 static char statesave_file[512];
 

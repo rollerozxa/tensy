@@ -7,7 +7,7 @@
 #define RACCOON_WIDTH 16
 #define RACCOON_HEIGHT 16
 
-const static unsigned char palette[5][3] = {
+static const unsigned char palette[5][3] = {
 	{0x00, 0x00, 0x00},
 	{0x41, 0x33, 0x26},
 	{0x7d, 0x63, 0x4f},
@@ -15,7 +15,7 @@ const static unsigned char palette[5][3] = {
 	{0xe0, 0xd2, 0xc0}
 };
 
-const static unsigned char image[RACCOON_WIDTH][RACCOON_HEIGHT] = {
+static const unsigned char image[RACCOON_WIDTH][RACCOON_HEIGHT] = {
 	{0,0,1,0,0,0,0,0,0,0,0,0,0,1,0,0},
 	{0,1,4,1,0,1,1,1,1,1,0,0,1,4,1,0},
 	{1,4,4,1,0,1,2,2,2,1,1,1,1,4,4,1},
@@ -35,7 +35,7 @@ const static unsigned char image[RACCOON_WIDTH][RACCOON_HEIGHT] = {
 };
 
 static int step = 0;
-const static int bs = 10;
+static const int bs = 10;
 
 void raccoon_draw(SDL_FPoint *point, bool animate) {
 	SDL_Color idx[5];
