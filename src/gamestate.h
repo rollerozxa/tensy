@@ -11,6 +11,7 @@ typedef struct {
 	bool loaded_existing;
 	int shuffles;
 	bool dirty;
+	bool dead;
 	// Random identifier used to check if an active game corresponds to the current saved game
 	uint64_t identifier;
 } Game;
@@ -29,3 +30,5 @@ bool gamestate_has_undo(void);
 void gamestate_undo(void);
 void gamestate_clear(void);
 void gamestate_traverse(void);
+
+void gamestate_gameover(void);

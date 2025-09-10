@@ -1,5 +1,7 @@
 #include "gamestate.h"
 #include "gamemode.h"
+#include "overlay.h"
+#include "savestate.h"
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -11,7 +13,8 @@ Game game = {
 	.mode = GM_Leisure,
 	.loaded_existing = false,
 	.shuffles = 0,
-	.dirty = true
+	.dirty = true,
+	.dead = false
 };
 
 typedef struct ChkNode {
@@ -78,4 +81,14 @@ void gamestate_traverse(void) {
 	}
 
 	printf("NULL\n");
+}
+
+void gamestate_gameover(void) {
+	overlay_switch("timeout");
+	uint64_t identifier = savestate_read_identifier();
+	if (identifier == game.identifier) {
+		// destroy savestate
+		savestate_delete();
+	}
+	game.dead = true;
 }

@@ -26,7 +26,6 @@ static bool helddown = false;
 static SDL_Point first_held_pos = {-1,-1};
 static SDL_Point current_held_pos = {-1,-1};
 static int held_sum = -1;
-static bool dead = false;
 
 static TexButton pause_button, shuffle_button, undo_button;
 
@@ -119,7 +118,7 @@ void game_init(void) {
 	game.shuffles = 3;
 
 	game.score = 0;
-	dead = false;
+	game.dead = false;
 	board_change_size(&board, board.w, board.h, board.scale);
 	board_reset(&board);
 }
@@ -196,18 +195,11 @@ void game_event(const SDL_Event *ev) {
 void game_update(float dt) {
 	board_update(&board, dt);
 
-	if (game.mode == GM_Classic && !dead && (!overlay_exists() || strcmp(overlay_get_current(), "shuffle") == 0)) {
-		if (time_left < 0) {
-			overlay_switch("timeout");
-			uint64_t identifier = savestate_read_identifier();
-			if (identifier == game.identifier) {
-				// destroy savestate
-				savestate_delete();
-			}
-			dead = true;
-		} else {
+	if (game.mode == GM_Classic && !game.dead && (!overlay_exists() || strcmp(overlay_get_current(), "shuffle") == 0)) {
+		if (time_left < 0)
+			gamestate_gameover();
+		else
 			time_left -= dt;
-		}
 	}
 }
 
