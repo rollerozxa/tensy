@@ -11,6 +11,7 @@
 #include "scenes/game.h"
 #include "scenes/gameconfig.h"
 #include "scenes/intro.h"
+#include "scenes/leaderboard.h"
 #include "scenes/mainmenu.h"
 #include "scenes/selectmode.h"
 #include "scenes/settings.h"
@@ -28,6 +29,7 @@ void scenes_register(void) {
 	scene_add(exiting_scene);
 	scene_add(game_scene);
 	scene_add(gameconfig_scene);
+	scene_add(leaderboard_scene);
 	scene_add(selectmode_scene);
 	scene_add(settings_scene);
 	scene_add(statistics_scene);
