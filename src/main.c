@@ -2,6 +2,7 @@
 #include "consts.h"
 #include "draw.h"
 #include "gamesettings.h"
+#include "highscores.h"
 
 #include <SDL3/SDL.h>
 #include <SDL3_mixer/SDL_mixer.h>
@@ -25,6 +26,7 @@ SDL_AppResult SDL_AppInit(void **rustptr, int argc, char **argv) {
 	SDL_srand(0);
 
 	settings_load();
+	highscores_file_load();
 
 	SDL_SetAppMetadata(APP_NAME, NULL, APP_ID);
 
