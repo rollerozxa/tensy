@@ -1,4 +1,5 @@
 #include "scenes.h"
+#include "overlays/endgame.h"
 #include "overlays/exitconfirm.h"
 #include "overlays/pause.h"
 #include "overlays/shuffle.h"
@@ -31,6 +32,7 @@ void scenes_register(void) {
 	scene_add(settings_scene);
 	scene_add(statistics_scene);
 
+	overlay_add(endgame_overlay);
 	overlay_add(exitconfirm_overlay);
 	overlay_add(pause_overlay);
 	overlay_add(shuffle_overlay);

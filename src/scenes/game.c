@@ -27,7 +27,7 @@ static SDL_Point first_held_pos = {-1,-1};
 static SDL_Point current_held_pos = {-1,-1};
 static int held_sum = -1;
 
-static TexButton pause_button, shuffle_button, undo_button;
+static TexButton pause_button, shuffle_button, undo_button, end_button;
 
 static int calculate_sum(void) {
 	int sum = 0;
@@ -91,6 +91,7 @@ void game_init(void) {
 	TEX_BUTTON(pause_button, RECT(NATIVE_WIDTH-24-3, 3, 24, 24), TEX_PAUSE);
 	TEX_BUTTON(shuffle_button, RECT(NATIVE_WIDTH-50-8, 3, 24, 24), TEX_SHUFFLE);
 	TEX_BUTTON(undo_button, RECT(NATIVE_WIDTH-76-14, 3, 24, 24), TEX_UNDO);
+	TEX_BUTTON(end_button, RECT(NATIVE_WIDTH-102-20, 3, 24, 24), TEX_END);
 
 	pause_button.padding = shuffle_button.padding = undo_button.padding = 3;
 
@@ -190,12 +191,15 @@ void game_event(const SDL_Event *ev) {
 		if (tex_button_event(ev, &undo_button))
 			gamestate_undo();
 	}
+
+	if (!current_gamemode().time_limit && tex_button_event(ev, &end_button))
+		overlay_switch("endgame");
 }
 
 void game_update(float dt) {
 	board_update(&board, dt);
 
-	if (game.mode == GM_Classic && !game.dead && (!overlay_exists() || strcmp(overlay_get_current(), "shuffle") == 0)) {
+	if (current_gamemode().time_limit && !game.dead && (!overlay_exists() || strcmp(overlay_get_current(), "shuffle") == 0)) {
 		if (time_left < 0)
 			gamestate_gameover();
 		else
@@ -254,6 +258,9 @@ void game_draw(void) {
 
 	undo_button._disabled = !gamestate_has_undo();
 	tex_button(&undo_button);
+
+	if (!current_gamemode().time_limit)
+		tex_button(&end_button);
 
 	if (gamemodes[game.mode].time_limit) {
 		SDL_FRect progbar_rect = {0, NATIVE_HEIGHT - 20, -1, 20};
