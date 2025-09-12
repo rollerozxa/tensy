@@ -1,6 +1,5 @@
 #include "savestate.h"
 #include "board.h"
-#include "consts.h"
 #include "gamestate.h"
 #include "fileio.h"
 #include <stdio.h>
@@ -10,17 +9,10 @@ static const char filever = 2;
 
 static char statesave_file[512];
 
-static char *get_filepath(void) {
-	if (statesave_file[0] == '\0') {
-		strncpy(statesave_file, SDL_GetPrefPath(APP_ORG, APP_NAME), 511);
-		strncat(statesave_file, "savestate.bin", 511);
-	}
-
-	return statesave_file;
-}
-
 bool savestate_exists(void) {
-	FILE *fp = fopen(get_filepath(), "r");
+	fileio_pref_path(statesave_file, sizeof(statesave_file), "savestate.bin");
+
+	FILE *fp = fopen(statesave_file, "r");
 	if (fp) {
 		char tmp;
 		READ_CHAR(tmp);
@@ -35,11 +27,11 @@ bool savestate_exists(void) {
 }
 
 bool savestate_delete(void) {
-	FILE *file = fopen(get_filepath(), "r");
+	FILE *file = fopen(statesave_file, "r");
 	if (file) {
 		// Make sure we grabbed a file and not the user's home folder or something equally horrifying
 		fclose(file);
-		unlink(get_filepath());
+		unlink(statesave_file);
 		return true;
 	}
 
@@ -47,7 +39,7 @@ bool savestate_delete(void) {
 }
 
 bool savestate_save(void) {
-	FILE *fp = fopen(get_filepath(), "wb");
+	FILE *fp = fopen(statesave_file, "wb");
 	if (!fp)
 		return false;
 
@@ -79,7 +71,7 @@ bool savestate_save(void) {
 }
 
 bool savestate_load(void) {
-	FILE *fp = fopen(get_filepath(), "rb");
+	FILE *fp = fopen(statesave_file, "rb");
 	if (!fp)
 		return false;
 
@@ -115,7 +107,7 @@ bool savestate_load(void) {
 }
 
 uint64_t savestate_read_identifier(void) {
-	FILE *fp = fopen(get_filepath(), "rb");
+	FILE *fp = fopen(statesave_file, "rb");
 	if (!fp)
 		return false;
 

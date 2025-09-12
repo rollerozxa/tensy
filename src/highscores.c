@@ -1,5 +1,4 @@
 #include "highscores.h"
-#include "consts.h"
 #include "fileio.h"
 #include <stdio.h>
 
@@ -37,17 +36,10 @@ static const char filever = 1;
 
 static char hs_filepath[512];
 
-static char *get_filepath(void) {
-	if (hs_filepath[0] == '\0') {
-		strncpy(hs_filepath, SDL_GetPrefPath(APP_ORG, APP_NAME), 511);
-		strncat(hs_filepath, "highscores.bin", 511);
-	}
-
-	return hs_filepath;
-}
-
 bool highscores_file_save(void) {
-	FILE *fp = fopen(get_filepath(), "wb");
+	fileio_pref_path(hs_filepath, sizeof(hs_filepath), "highscores.bin");
+
+	FILE *fp = fopen(hs_filepath, "wb");
 	if (!fp)
 		return false;
 
@@ -68,7 +60,7 @@ bool highscores_file_save(void) {
 }
 
 bool highscores_file_load(void) {
-	FILE *fp = fopen(get_filepath(), "rb");
+	FILE *fp = fopen(hs_filepath, "rb");
 	if (!fp)
 		return false;
 
