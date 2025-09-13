@@ -1,5 +1,7 @@
 #pragma once
 
+#include <stdbool.h>
+
 enum {
 	MUS_CREDITS,
 	MUS_MAINMENU
