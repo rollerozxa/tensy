@@ -1,4 +1,7 @@
 #include "tex_button.h"
+
+#include <stddef.h>
+
 #include "consts.h"
 #include "draw.h"
 #include "media/sound.h"

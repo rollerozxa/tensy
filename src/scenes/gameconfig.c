@@ -1,8 +1,14 @@
 #include "gameconfig.h"
+
+#include <SDL3/SDL.h>
+#include <stdbool.h>
+#include <stdio.h>
+
 #include "board.h"
 #include "color.h"
 #include "consts.h"
 #include "font.h"
+#include "gamemode.h"
 #include "gamesettings.h"
 #include "gamestate.h"
 #include "gui/button.h"
@@ -11,7 +17,6 @@
 #include "media/music.h"
 #include "scene.h"
 #include "text.h"
-#include <stdio.h>
 
 static bool show_hyuge = false;
 

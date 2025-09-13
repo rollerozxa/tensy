@@ -1,8 +1,10 @@
 #pragma once
 
-#include "gui/button.h"
 #include <SDL3/SDL.h>
 #include <stdbool.h>
+#include <stddef.h>
+
+#include "gui/button.h"
 
 typedef struct {
 	char number;

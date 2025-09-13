@@ -1,6 +1,10 @@
 #include "devintro.h"
-#include "consts.h"
+
+#include <SDL3/SDL.h>
+#include <stddef.h>
+
 #include "color.h"
+#include "consts.h"
 #include "font.h"
 #include "text.h"
 

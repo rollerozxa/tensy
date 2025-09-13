@@ -1,4 +1,7 @@
 #include "draw.h"
+
+#include <stddef.h>
+
 #include "consts.h"
 #include "media/textures.h"
 

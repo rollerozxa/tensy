@@ -1,4 +1,7 @@
 #include "text.h"
+
+#include <string.h>
+
 #include "font.h"
 
 void text_draw(const char *text, float x, float y, float scale) {

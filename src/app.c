@@ -1,4 +1,8 @@
 #include "app.h"
+
+#include <SDL3_mixer/SDL_mixer.h>
+#include <stdint.h>
+
 #include "debug.h"
 #include "gamemode.h"
 #include "gamesettings.h"
@@ -9,8 +13,6 @@
 #include "scene.h"
 #include "scenes.h"
 #include "toast.h"
-
-#include <SDL3_mixer/SDL_mixer.h>
 
 MIX_Mixer *mixer;
 

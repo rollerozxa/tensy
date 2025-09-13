@@ -1,4 +1,7 @@
 #include "toast.h"
+
+#include <SDL3/SDL.h>
+
 #include "color.h"
 #include "consts.h"
 #include "draw.h"

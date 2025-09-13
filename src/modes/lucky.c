@@ -1,5 +1,10 @@
 #include "lucky.h"
 
+#include <SDL3/SDL.h>
+#include <stdbool.h>
+
+#include "board.h"
+
 GM_CLICK(lucky, GM_Lucky)
 
 static int calc_cell_number(Board *board, int x, int y) {

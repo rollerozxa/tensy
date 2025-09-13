@@ -1,13 +1,15 @@
 #include "credits.h"
-#include "color.h"
+
+#include <SDL3/SDL.h>
+#include <stdbool.h>
+#include <stddef.h>
+
 #include "consts.h"
 #include "draw.h"
-#include "font.h"
 #include "input.h"
 #include "media/music.h"
 #include "media/textures.h"
 #include "text.h"
-#include <math.h>
 
 static const char *credits_text[] = {
 "Tensy",

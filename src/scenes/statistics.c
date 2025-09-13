@@ -1,4 +1,7 @@
 #include "statistics.h"
+
+#include <SDL3/SDL.h>
+
 #include "consts.h"
 #include "gui/button.h"
 #include "input.h"

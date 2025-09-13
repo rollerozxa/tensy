@@ -1,4 +1,9 @@
 #include "classic.h"
+
+#include <SDL3/SDL.h>
+#include <stdbool.h>
+#include <stddef.h>
+
 #include "draw.h"
 #include "media/textures.h"
 

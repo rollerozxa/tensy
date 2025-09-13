@@ -1,8 +1,19 @@
 #include "game.h"
+
+#include <SDL3/SDL.h>
+#include <math.h>
+#include <stdbool.h>
+#include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+#include "board.h"
 #include "color.h"
 #include "consts.h"
 #include "draw.h"
 #include "font.h"
+#include "gamemode.h"
 #include "gamesettings.h"
 #include "gamestate.h"
 #include "gui/tex_button.h"
@@ -13,10 +24,6 @@
 #include "savestate.h"
 #include "scene.h"
 #include "text.h"
-
-#include <math.h>
-#include <stdio.h>
-#include <stdlib.h>
 
 #define board game.board
 #define time_left game.time_left

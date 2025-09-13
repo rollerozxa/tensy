@@ -1,6 +1,6 @@
 #include "textures.h"
-#include "assetloader.h"
 
+#include <SDL_QOI/SDL_QOI.h>
 #include <data/background_stripes_qoi.h>
 #include <data/check_qoi.h>
 #include <data/clock_qoi.h>
@@ -12,9 +12,9 @@
 #include <data/settings_qoi.h>
 #include <data/shuffle_qoi.h>
 #include <data/undo_qoi.h>
+#include <stdbool.h>
 
-#include <SDL_QOI/SDL_QOI.h>
-#include <unistd.h>
+#include "assetloader.h"
 
 static SDL_Texture *texture_bank[100];
 static bool textures_loaded = false;

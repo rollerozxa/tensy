@@ -1,5 +1,7 @@
 #include "overlay.h"
 
+#include <string.h>
+
 static Overlay overlays[MAX_OVERLAYS];
 static int current_overlay = -1;
 static int allocated_overlays = 0;

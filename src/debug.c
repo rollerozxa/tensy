@@ -1,11 +1,14 @@
 #include "debug.h"
+
+#include <stdbool.h>
+#include <stdio.h>
+
 #include "color.h"
 #include "consts.h"
 #include "draw.h"
 #include "font.h"
 #include "mouse.h"
 #include "text.h"
-#include <stdio.h>
 
 static bool debug = false;
 

@@ -1,8 +1,11 @@
 #include "intro.h"
+
+#include <SDL3/SDL.h>
+#include <stdio.h>
+
 #include "draw.h"
 #include "media/music.h"
 #include "media/textures.h"
-#include <stdio.h>
 
 static float intro_timer = 0;
 

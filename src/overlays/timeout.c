@@ -1,14 +1,17 @@
 #include "timeout.h"
+
+#include <SDL3/SDL.h>
+#include <stdio.h>
+
 #include "consts.h"
+#include "draw.h"
 #include "gamestate.h"
 #include "gui/button.h"
+#include "highscores.h"
 #include "input.h"
 #include "overlay.h"
-#include "draw.h"
 #include "scene.h"
 #include "text.h"
-#include "highscores.h"
-#include <stdio.h>
 
 static Button exit_button;
 

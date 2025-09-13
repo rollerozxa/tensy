@@ -1,8 +1,11 @@
 #include "scene.h"
+
+#include <string.h>
+
 #include "color.h"
 #include "consts.h"
-#include "font.h"
 #include "draw.h"
+#include "font.h"
 #include "gamesettings.h"
 
 static Scene scenes[MAX_SCENES];

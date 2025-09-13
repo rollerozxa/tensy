@@ -1,11 +1,14 @@
 #include "leaderboard.h"
+
+#include <SDL3/SDL.h>
+
 #include "consts.h"
 #include "draw.h"
+#include "gamesettings.h"
 #include "gui/dropdown.h"
 #include "highscores.h"
 #include "input.h"
 #include "scene.h"
-#include "gamesettings.h"
 #include "text.h"
 
 static Dropdown gamemode_dropdown;

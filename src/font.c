@@ -1,4 +1,7 @@
 #include "font.h"
+
+#include <stddef.h>
+
 #include "draw.h"
 #include "media/font_bitmap.h"
 

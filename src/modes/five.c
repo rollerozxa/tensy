@@ -1,4 +1,7 @@
 #include "five.h"
+
+#include <stdbool.h>
+
 #include "board.h"
 #include "gamesettings.h"
 

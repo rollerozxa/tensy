@@ -1,10 +1,9 @@
 #include "slider.h"
+
 #include "consts.h"
 #include "draw.h"
 #include "mouse.h"
 #include "text.h"
-
-#include <stdio.h>
 
 bool calculate_handle_pos(const SDL_Event *ev, Slider *slider) {
 	slider->_pos = ev->motion.x - slider->rect.x - ((float)slider->_handle_width/2);

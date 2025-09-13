@@ -1,7 +1,8 @@
 #include "gamesettings.h"
-#include "fileio.h"
-#include <SDL3/SDL.h>
+
 #include <stdio.h>
+
+#include "fileio.h"
 
 static Settings settings_data = {
 	  (1ULL << FLAG_SOUND)

@@ -1,4 +1,9 @@
 #include "selectmode.h"
+
+#include <SDL3/SDL.h>
+#include <stdbool.h>
+#include <stddef.h>
+
 #include "color.h"
 #include "consts.h"
 #include "draw.h"
