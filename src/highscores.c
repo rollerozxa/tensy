@@ -13,7 +13,7 @@ void highscore_register(Game state) {
 	Highscore entry = {
 		.score=state.score,
 		.gamemode=state.mode,
-		.size=1,
+		.size=state.board.boardsize,
 		.flags=0};
 
 	int pos = 0;

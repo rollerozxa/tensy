@@ -5,6 +5,7 @@
 #include <data/music_credits_oxm.h>
 #include <data/music_mainmenu_xm.h>
 
+#include <SDL3/SDL.h>
 #include <SDL3_mixer/SDL_mixer.h>
 
 extern MIX_Mixer *mixer;

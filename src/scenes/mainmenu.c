@@ -9,9 +9,11 @@
 #include "gui/tex_button.h"
 #include "input.h"
 #include "media/music.h"
+#include "media/sound.h"
 #include "media/textures.h"
 #include "scene.h"
 #include "text.h"
+#include "toast.h"
 #include "version_info.h"
 
 #include <math.h>
@@ -55,6 +57,18 @@ void mainmenu_event(const SDL_Event *ev) {
 	if (is_escaping(ev))
 		AppQuit();
 #endif
+
+	if (ev->type == SDL_EVENT_MOUSE_BUTTON_UP
+		&& SDL_PointInRectFloat(&POINT(ev->motion.x, ev->motion.y), &RECT(115, 345, 70, 15))) {
+
+		sound_play(SND_WOOZY);
+
+#if defined(__clang__)
+		toast_show("Built by Clang " STR(__clang_major__) "." STR(__clang_minor__), 3);
+#elif defined(__GNUC__)
+		toast_show("Built by GCC " STR(__GNUC__) "." STR(__GNUC_MINOR__), 3);
+#endif
+	}
 }
 
 static char title[] = "Tensy";

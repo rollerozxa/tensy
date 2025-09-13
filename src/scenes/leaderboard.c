@@ -5,8 +5,8 @@
 #include "highscores.h"
 #include "input.h"
 #include "scene.h"
+#include "gamesettings.h"
 #include "text.h"
-#include <stdio.h>
 
 static Dropdown gamemode_dropdown;
 static const char *gamemode_dropdown_options[] = {
@@ -18,7 +18,12 @@ static const char *gamemode_dropdown_options[] = {
 };
 
 void leaderboard_init(void) {
-	DROPDOWN(gamemode_dropdown, RECT(340, 15, 180, 30), gamemode_dropdown_options, sizeof(gamemode_dropdown_options) / sizeof(gamemode_dropdown_options[0]), 0);
+	int num_options = sizeof(gamemode_dropdown_options) / sizeof(gamemode_dropdown_options[0]);
+
+	if (!settings_getflag(FLAG_SECRET_FIVE))
+		num_options--;
+
+	DROPDOWN(gamemode_dropdown, RECT(340, 15, 180, 30), gamemode_dropdown_options, num_options, 0);
 }
 
 void leaderboard_event(const SDL_Event *ev) {
@@ -33,18 +38,6 @@ void leaderboard_event(const SDL_Event *ev) {
 
 void leaderboard_update(float dt) {
 
-}
-
-char *cuddles(int value) {
-	static char text[16];
-	snprintf(text, 15, "%d", value);
-	return text;
-}
-
-char *long_cuddles(uint64_t value) {
-	static char text[16];
-	snprintf(text, 15, "%lu", value);
-	return text;
 }
 
 void leaderboard_draw(void) {
@@ -66,14 +59,16 @@ void leaderboard_draw(void) {
 		if ((i+1) > 9)
 			row.x -= 12;
 
-		text_draw_shadow(cuddles(i+1), row.x, row.y, 2);
+		FMT_STRING(hs_rank, 4, "%d", i+1);
+		text_draw_shadow(hs_rank, row.x, row.y, 2);
 
 		if ((i+1) > 9)
 			row.x += 12;
 
 		text_draw_shadow(".", row.x + 12, row.y, 2);
 
-		text_draw_shadow(long_cuddles(highscores()[i].score), row.x + 40, row.y, 2);
+		FMT_STRING(hs_score, 16, "%lu", highscores()[i].score);
+		text_draw_shadow(hs_score, row.x + 40, row.y, 2);
 	}
 
 	dropdown(&gamemode_dropdown);

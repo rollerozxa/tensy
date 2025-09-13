@@ -1,5 +1,7 @@
 #pragma once
 
+#include <stdio.h>
+
 // Native resolution at which the game will be rendered
 #define NATIVE_WIDTH    640
 #define NATIVE_HEIGHT   360
@@ -26,8 +28,11 @@
 
 #define FMT_STRING(buf, size, fmt, ...) \
 	char (buf)[(size)]; \
-	snprintf((buf), (size) - 1, (fmt), ##__VA_ARGS__)
+	snprintf((buf), (size), (fmt), ##__VA_ARGS__)
 
 #if defined(SDL_PLATFORM_ANDROID) || defined(SDL_PLATFORM_VITA)
 	#define ALWAYS_FULLSCREEN true
 #endif
+
+#define STR_HELPER(x) #x
+#define STR(x) STR_HELPER(x)

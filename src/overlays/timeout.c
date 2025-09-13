@@ -7,12 +7,15 @@
 #include "draw.h"
 #include "scene.h"
 #include "text.h"
+#include "highscores.h"
 #include <stdio.h>
 
 static Button exit_button;
 
 void timeout_init(void) {
 	BUTTON(exit_button, RECT(0, 0, 150, 40), "Return");
+
+	highscore_register(game);
 }
 
 void timeout_event(const SDL_Event *ev) {
