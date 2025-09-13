@@ -1,5 +1,3 @@
-#include "mainmenu.h"
-
 #include <SDL3/SDL.h>
 #include <math.h>
 #include <stdio.h>

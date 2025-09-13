@@ -1,5 +1,3 @@
-#include "credits.h"
-
 #include <SDL3/SDL.h>
 #include <stdbool.h>
 #include <stddef.h>
@@ -9,6 +7,7 @@
 #include "input.h"
 #include "media/music.h"
 #include "media/textures.h"
+#include "scene.h"
 #include "text.h"
 
 static const char *credits_text[] = {

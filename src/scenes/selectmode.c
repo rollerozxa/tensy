@@ -1,5 +1,3 @@
-#include "selectmode.h"
-
 #include <SDL3/SDL.h>
 #include <stdbool.h>
 #include <stddef.h>
@@ -16,6 +14,7 @@
 #include "media/sound.h"
 #include "mouse.h"
 #include "savestate.h"
+#include "scene.h"
 #include "text.h"
 
 static int selected_mode = -1;

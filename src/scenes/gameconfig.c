@@ -1,5 +1,3 @@
-#include "gameconfig.h"
-
 #include <SDL3/SDL.h>
 #include <stdbool.h>
 #include <stdio.h>

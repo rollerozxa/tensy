@@ -1,5 +1,3 @@
-#include "settings.h"
-
 #include <SDL3/SDL.h>
 
 #include "consts.h"

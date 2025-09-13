@@ -1,5 +1,3 @@
-#include "shuffle.h"
-
 #include <SDL3/SDL.h>
 #include <stdio.h>
 
@@ -9,6 +7,7 @@
 #include "gamestate.h"
 #include "gui/button.h"
 #include "input.h"
+#include "overlay.h"
 #include "text.h"
 
 static Button yes_button, no_button;

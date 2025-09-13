@@ -1,5 +1,3 @@
-#include "timeout.h"
-
 #include <SDL3/SDL.h>
 #include <stdio.h>
 

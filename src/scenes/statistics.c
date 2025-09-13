@@ -1,5 +1,3 @@
-#include "statistics.h"
-
 #include <SDL3/SDL.h>
 
 #include "consts.h"

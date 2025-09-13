@@ -1,5 +1,3 @@
-#include "leaderboard.h"
-
 #include <SDL3/SDL.h>
 
 #include "consts.h"

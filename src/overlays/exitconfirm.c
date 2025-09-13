@@ -1,5 +1,3 @@
-#include "exitconfirm.h"
-
 #include <SDL3/SDL.h>
 #include <stddef.h>
 

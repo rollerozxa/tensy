@@ -1,23 +1,26 @@
 #include "scenes.h"
 
 #include "overlay.h"
-#include "overlays/endgame.h"
-#include "overlays/exitconfirm.h"
-#include "overlays/pause.h"
-#include "overlays/shuffle.h"
-#include "overlays/timeout.h"
 #include "scene.h"
-#include "scenes/about.h"
-#include "scenes/credits.h"
-#include "scenes/exiting.h"
-#include "scenes/game.h"
-#include "scenes/gameconfig.h"
-#include "scenes/intro.h"
-#include "scenes/leaderboard.h"
-#include "scenes/mainmenu.h"
-#include "scenes/selectmode.h"
-#include "scenes/settings.h"
-#include "scenes/statistics.h"
+
+extern Scene about_scene;
+extern Scene credits_scene;
+extern Scene devintro_scene;
+extern Scene exiting_scene;
+extern Scene game_scene;
+extern Scene gameconfig_scene;
+extern Scene intro_scene;
+extern Scene leaderboard_scene;
+extern Scene mainmenu_scene;
+extern Scene selectmode_scene;
+extern Scene settings_scene;
+extern Scene statistics_scene;
+
+extern Overlay endgame_overlay;
+extern Overlay exitconfirm_overlay;
+extern Overlay pause_overlay;
+extern Overlay shuffle_overlay;
+extern Overlay timeout_overlay;
 
 void scenes_register(void) {
 	// First scene needs to be first

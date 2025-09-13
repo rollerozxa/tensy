@@ -1,11 +1,10 @@
-#include "devintro.h"
-
 #include <SDL3/SDL.h>
 #include <stddef.h>
 
 #include "color.h"
 #include "consts.h"
 #include "font.h"
+#include "scene.h"
 #include "text.h"
 
 void devintro_event(const SDL_Event *ev) {
