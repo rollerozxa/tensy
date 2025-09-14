@@ -1,7 +1,3 @@
-#include <SDL3/SDL.h>
-#include <math.h>
-#include <stddef.h>
-
 #include "consts.h"
 #include "draw.h"
 #include "font.h"
@@ -11,6 +7,9 @@
 #include "media/raccoon.h"
 #include "scene.h"
 #include "text.h"
+#include <SDL3/SDL.h>
+#include <math.h>
+#include <stddef.h>
 
 static Button ok_button, credits_button;
 

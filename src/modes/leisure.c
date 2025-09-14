@@ -1,9 +1,8 @@
+#include "font.h"
+#include "gamemode.h"
 #include <SDL3/SDL.h>
 #include <stdbool.h>
 #include <stddef.h>
-
-#include "font.h"
-#include "gamemode.h"
 
 GM_CLICK(leisure, GM_Leisure)
 

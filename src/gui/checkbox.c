@@ -1,7 +1,4 @@
 #include "checkbox.h"
-
-#include <stddef.h>
-
 #include "color.h"
 #include "consts.h"
 #include "draw.h"
@@ -10,6 +7,7 @@
 #include "media/textures.h"
 #include "mouse.h"
 #include "text.h"
+#include <stddef.h>
 
 #define CALCULATE_RECTS() \
 	SDL_FRect label_rect = text_calc_rect(label, 2); \

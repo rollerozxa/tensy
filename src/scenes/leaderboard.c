@@ -1,5 +1,3 @@
-#include <SDL3/SDL.h>
-
 #include "consts.h"
 #include "draw.h"
 #include "gamesettings.h"
@@ -8,6 +6,7 @@
 #include "input.h"
 #include "scene.h"
 #include "text.h"
+#include <SDL3/SDL.h>
 
 static Dropdown gamemode_dropdown;
 static const char *gamemode_dropdown_options[] = {

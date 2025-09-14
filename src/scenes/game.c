@@ -1,11 +1,3 @@
-#include <SDL3/SDL.h>
-#include <math.h>
-#include <stdbool.h>
-#include <stdint.h>
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-
 #include "board.h"
 #include "color.h"
 #include "consts.h"
@@ -22,6 +14,13 @@
 #include "savestate.h"
 #include "scene.h"
 #include "text.h"
+#include <SDL3/SDL.h>
+#include <math.h>
+#include <stdbool.h>
+#include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
 #define board game.board
 #define time_left game.time_left

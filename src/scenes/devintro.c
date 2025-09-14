@@ -1,11 +1,10 @@
-#include <SDL3/SDL.h>
-#include <stddef.h>
-
 #include "color.h"
 #include "consts.h"
 #include "font.h"
 #include "scene.h"
 #include "text.h"
+#include <SDL3/SDL.h>
+#include <stddef.h>
 
 void devintro_event(const SDL_Event *ev) {
 	if (ev->type == SDL_EVENT_KEY_UP || ev->type == SDL_EVENT_MOUSE_BUTTON_UP)

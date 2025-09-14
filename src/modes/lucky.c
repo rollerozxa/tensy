@@ -1,8 +1,7 @@
-#include <SDL3/SDL.h>
-#include <stdbool.h>
-
 #include "board.h"
 #include "gamemode.h"
+#include <SDL3/SDL.h>
+#include <stdbool.h>
 
 GM_CLICK(lucky, GM_Lucky)
 

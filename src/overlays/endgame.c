@@ -1,6 +1,3 @@
-#include <SDL3/SDL.h>
-#include <stddef.h>
-
 #include "consts.h"
 #include "draw.h"
 #include "gamestate.h"
@@ -8,6 +5,8 @@
 #include "input.h"
 #include "overlay.h"
 #include "text.h"
+#include <SDL3/SDL.h>
+#include <stddef.h>
 
 static Button yes_button, no_button;
 

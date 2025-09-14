@@ -1,14 +1,13 @@
-#include <SDL3/SDL.h>
-#include <SDL3_mixer/SDL_mixer.h>
-#include <stdbool.h>
-#include <stdio.h>
-#include <unistd.h>
-
 #include "app.h"
 #include "consts.h"
 #include "draw.h"
 #include "gamesettings.h"
 #include "highscores.h"
+#include <SDL3/SDL.h>
+#include <SDL3_mixer/SDL_mixer.h>
+#include <stdbool.h>
+#include <stdio.h>
+#include <unistd.h>
 
 #define SDL_MAIN_USE_CALLBACKS
 #include <SDL3/SDL_main.h>

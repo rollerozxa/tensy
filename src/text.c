@@ -1,8 +1,6 @@
 #include "text.h"
-
-#include <string.h>
-
 #include "font.h"
+#include <string.h>
 
 void text_draw(const char *text, float x, float y, float scale) {
 	for (size_t i = 0; text[i] != '\0'; i++)

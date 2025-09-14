@@ -1,9 +1,7 @@
 #include "font.h"
-
-#include <stddef.h>
-
 #include "draw.h"
 #include "media/font_bitmap.h"
+#include <stddef.h>
 
 static SDL_Texture *font_tex;
 

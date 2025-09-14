@@ -1,10 +1,9 @@
-#include <SDL3/SDL.h>
-#include <stdbool.h>
-#include <stddef.h>
-
 #include "draw.h"
 #include "gamemode.h"
 #include "media/textures.h"
+#include <SDL3/SDL.h>
+#include <stdbool.h>
+#include <stddef.h>
 
 GM_CLICK(classic, GM_Classic)
 

@@ -1,7 +1,7 @@
 #include "savestate.h"
 #include "board.h"
-#include "gamestate.h"
 #include "fileio.h"
+#include "gamestate.h"
 #include <stdio.h>
 #include <unistd.h>
 

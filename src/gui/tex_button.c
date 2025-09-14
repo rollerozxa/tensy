@@ -1,12 +1,10 @@
 #include "tex_button.h"
-
-#include <stddef.h>
-
 #include "consts.h"
 #include "draw.h"
 #include "media/sound.h"
 #include "media/textures.h"
 #include "mouse.h"
+#include <stddef.h>
 
 static unsigned char tex_mod(SDL_FPoint *mouse, TexButton *button) {
 	if (button->_disabled)

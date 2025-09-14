@@ -1,6 +1,5 @@
-#include <stdbool.h>
-
 #include "gamemode.h"
+#include <stdbool.h>
 
 GM_CLICK(gravity, GM_Gravity)
 

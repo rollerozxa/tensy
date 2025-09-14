@@ -1,10 +1,9 @@
 #pragma once
 
-#include <stdbool.h>
-#include <stdint.h>
-
 #include "board.h"
 #include "gamemode.h"
+#include <stdbool.h>
+#include <stdint.h>
 
 typedef struct {
 	Board board;

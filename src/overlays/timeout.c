@@ -1,6 +1,3 @@
-#include <SDL3/SDL.h>
-#include <stdio.h>
-
 #include "consts.h"
 #include "draw.h"
 #include "gamestate.h"
@@ -10,6 +7,8 @@
 #include "overlay.h"
 #include "scene.h"
 #include "text.h"
+#include <SDL3/SDL.h>
+#include <stdio.h>
 
 static Button exit_button;
 

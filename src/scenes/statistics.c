@@ -1,10 +1,9 @@
-#include <SDL3/SDL.h>
-
 #include "consts.h"
 #include "gui/button.h"
 #include "input.h"
 #include "scene.h"
 #include "text.h"
+#include <SDL3/SDL.h>
 
 static Button ok_button;
 

@@ -1,12 +1,10 @@
 #include "toast.h"
-
-#include <SDL3/SDL.h>
-
 #include "color.h"
 #include "consts.h"
 #include "draw.h"
 #include "font.h"
 #include "text.h"
+#include <SDL3/SDL.h>
 
 Toast toast;
 

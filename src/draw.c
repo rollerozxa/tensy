@@ -1,9 +1,7 @@
 #include "draw.h"
-
-#include <stddef.h>
-
 #include "consts.h"
 #include "media/textures.h"
+#include <stddef.h>
 
 bool draw_line(float x1, float y1, float x2, float y2) {
 	return SDL_RenderLine(renderer, x1, y1, x2, y2);

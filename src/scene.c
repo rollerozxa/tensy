@@ -1,12 +1,10 @@
 #include "scene.h"
-
-#include <string.h>
-
 #include "color.h"
 #include "consts.h"
 #include "draw.h"
 #include "font.h"
 #include "gamesettings.h"
+#include <string.h>
 
 static Scene scenes[MAX_SCENES];
 static int current_scene = 0;

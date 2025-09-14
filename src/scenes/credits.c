@@ -1,7 +1,3 @@
-#include <SDL3/SDL.h>
-#include <stdbool.h>
-#include <stddef.h>
-
 #include "consts.h"
 #include "draw.h"
 #include "input.h"
@@ -9,6 +5,9 @@
 #include "media/textures.h"
 #include "scene.h"
 #include "text.h"
+#include <SDL3/SDL.h>
+#include <stdbool.h>
+#include <stddef.h>
 
 static const char *credits_text[] = {
 "Tensy",

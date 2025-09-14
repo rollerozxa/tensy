@@ -1,9 +1,8 @@
 #pragma once
 
+#include "board.h"
 #include <SDL3/SDL.h>
 #include <stdbool.h>
-
-#include "board.h"
 
 #define GM_CLICK(name, enum) \
 	static void name##_click(void) { \

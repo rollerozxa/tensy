@@ -1,9 +1,8 @@
-#include <stdbool.h>
-#include <stddef.h>
-
 #include "gamesettings.h"
 #include "overlay.h"
 #include "scene.h"
+#include <stdbool.h>
+#include <stddef.h>
 
 static float timeout = 0;
 

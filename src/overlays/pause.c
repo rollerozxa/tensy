@@ -1,6 +1,3 @@
-#include <SDL3/SDL.h>
-#include <stddef.h>
-
 #include "consts.h"
 #include "draw.h"
 #include "gamestate.h"
@@ -11,6 +8,8 @@
 #include "scene.h"
 #include "text.h"
 #include "toast.h"
+#include <SDL3/SDL.h>
+#include <stddef.h>
 
 static Button resume_button, save_button, exit_button;
 

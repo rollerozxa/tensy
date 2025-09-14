@@ -1,7 +1,3 @@
-#include <SDL3/SDL.h>
-#include <math.h>
-#include <stdio.h>
-
 #include "app.h"
 #include "color.h"
 #include "consts.h"
@@ -18,6 +14,9 @@
 #include "text.h"
 #include "toast.h"
 #include "version_info.h"
+#include <SDL3/SDL.h>
+#include <math.h>
+#include <stdio.h>
 
 #define BOARD_W 30
 #define BOARD_H 16

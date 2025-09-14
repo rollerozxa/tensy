@@ -1,10 +1,9 @@
 #pragma once
 
-#include <SDL3/SDL.h>
-#include <stdbool.h>
-
 #include "gamemode.h"
 #include "gamestate.h"
+#include <SDL3/SDL.h>
+#include <stdbool.h>
 
 #define MAX_HIGHSCORES 1024
 

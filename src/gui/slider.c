@@ -1,5 +1,4 @@
 #include "slider.h"
-
 #include "consts.h"
 #include "draw.h"
 #include "mouse.h"

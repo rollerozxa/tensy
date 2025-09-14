@@ -1,7 +1,3 @@
-#include <SDL3/SDL.h>
-#include <stdbool.h>
-#include <stddef.h>
-
 #include "color.h"
 #include "consts.h"
 #include "draw.h"
@@ -16,6 +12,9 @@
 #include "savestate.h"
 #include "scene.h"
 #include "text.h"
+#include <SDL3/SDL.h>
+#include <stdbool.h>
+#include <stddef.h>
 
 static int selected_mode = -1;
 static float xoff, xvel, motion = 0;

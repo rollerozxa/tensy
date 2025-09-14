@@ -1,8 +1,7 @@
-#include <stdbool.h>
-
 #include "board.h"
 #include "gamemode.h"
 #include "gamesettings.h"
+#include <stdbool.h>
 
 GM_CLICK(five, GM_Five)
 

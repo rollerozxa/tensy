@@ -1,13 +1,11 @@
 #include "sound.h"
 #include "assetloader.h"
 #include "gamesettings.h"
-
+#include <SDL3_mixer/SDL_mixer.h>
 #include <data/click_ogg.h>
 #include <data/match_wav.h>
 #include <data/select_wav.h>
 #include <data/woozy_ogg.h>
-
-#include <SDL3_mixer/SDL_mixer.h>
 
 extern MIX_Mixer *mixer;
 

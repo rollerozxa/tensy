@@ -1,6 +1,3 @@
-#include <SDL3/SDL.h>
-#include <stddef.h>
-
 #include "consts.h"
 #include "draw.h"
 #include "gui/button.h"
@@ -8,6 +5,8 @@
 #include "overlay.h"
 #include "scene.h"
 #include "text.h"
+#include <SDL3/SDL.h>
+#include <stddef.h>
 
 static Button exit_button, back_button;
 

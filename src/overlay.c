@@ -1,5 +1,4 @@
 #include "overlay.h"
-
 #include <string.h>
 
 static Overlay overlays[MAX_OVERLAYS];

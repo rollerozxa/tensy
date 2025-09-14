@@ -1,5 +1,3 @@
-#include <SDL3/SDL.h>
-
 #include "consts.h"
 #include "gamesettings.h"
 #include "gui/button.h"
@@ -10,6 +8,7 @@
 #include "scene.h"
 #include "text.h"
 #include "toast.h"
+#include <SDL3/SDL.h>
 
 static Checkbox mono_numbers_checkbox, sound_checkbox, reduced_motion_checkbox, fullscreen_checkbox, music_checkbox;
 
