@@ -1,11 +1,12 @@
 #include "gamemode.h"
 #include "gamestate.h"
-#include "modes/classic.h"
-#include "modes/five.h"
-#include "modes/gravity.h"
-#include "modes/leisure.h"
-#include "modes/lucky.h"
 #include "scene.h"
+
+extern GameMode classic_gamemode;
+extern GameMode gravity_gamemode;
+extern GameMode leisure_gamemode;
+extern GameMode lucky_gamemode;
+extern GameMode five_gamemode;
 
 GameMode gamemodes[100];
 static int registered_gamemodes = 0;
