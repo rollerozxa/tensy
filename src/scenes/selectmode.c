@@ -28,7 +28,7 @@ float lerp(float a, float b, float t) {
 }
 
 void selectmode_init(void) {
-	BUTTON(continue_button, RECT(NATIVE_WIDTH-180, 0, 180, 40), "Continue save");
+	BUTTON(continue_button, RECT(SCREEN_W-180, 0, 180, 40), "Continue save");
 
 	selected_mode = -1;
 	has_savestate = savestate_exists();

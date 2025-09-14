@@ -50,7 +50,7 @@ SDL_AppResult SDL_AppInit(void **rustptr, int argc, char **argv) {
 
 	SDL_CreateWindowAndRenderer(
 		APP_NAME,
-		SCREEN_WIDTH, SCREEN_HEIGHT,
+		WINDOW_W, WINDOW_H,
 		0, &window, &renderer);
 
 	if (!window || !renderer) {
@@ -83,9 +83,9 @@ SDL_AppResult SDL_AppInit(void **rustptr, int argc, char **argv) {
 
 #ifdef SDL_PLATFORM_VITA
 	SDL_OpenGamepad(1);
-	SDL_SetRenderLogicalPresentation(renderer, NATIVE_WIDTH, NATIVE_HEIGHT+4, SDL_LOGICAL_PRESENTATION_STRETCH);
+	SDL_SetRenderLogicalPresentation(renderer, SCREEN_W, SCREEN_H+4, SDL_LOGICAL_PRESENTATION_STRETCH);
 #else
-	SDL_SetRenderLogicalPresentation(renderer, NATIVE_WIDTH, NATIVE_HEIGHT, SDL_LOGICAL_PRESENTATION_LETTERBOX);
+	SDL_SetRenderLogicalPresentation(renderer, SCREEN_W, SCREEN_H, SDL_LOGICAL_PRESENTATION_LETTERBOX);
 #endif
 
 	SDL_SetRenderVSync(renderer, 1);
@@ -130,7 +130,7 @@ SDL_AppResult SDL_AppIterate(void *rustptr) {
 
 #ifdef SDL_PLATFORM_VITA
 	draw_set_color(0x0);
-	draw_fill_rect(&RECT(0, NATIVE_HEIGHT, NATIVE_WIDTH, 4));
+	draw_fill_rect(&RECT(0, SCREEN_H, SCREEN_W, 4));
 #endif
 
 	SDL_RenderPresent(renderer);

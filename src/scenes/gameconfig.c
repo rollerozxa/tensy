@@ -31,7 +31,7 @@ void gameconfig_init(void) {
 		BUTTON(board_sizes[i].button, button_rect, board_sizes[i].name);
 	}
 
-	BUTTON(go_button, RECT(0,NATIVE_HEIGHT-40, NATIVE_WIDTH, 40), "Play");
+	BUTTON(go_button, RECT(0,SCREEN_H-40, SCREEN_W, 40), "Play");
 
 	CHECKBOX(physics_checkbox, POINT(20, 140), false, "Board physics");
 

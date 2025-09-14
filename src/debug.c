@@ -26,17 +26,17 @@ void debug_draw(void) {
 
 	int cellSize = 20;
 
-	for (size_t x = 0; x < NATIVE_WIDTH; x += cellSize)
-		draw_line(x, 0, x, NATIVE_HEIGHT);
+	for (size_t x = 0; x < SCREEN_W; x += cellSize)
+		draw_line(x, 0, x, SCREEN_H);
 
-	for (size_t y = 0; y < NATIVE_HEIGHT; y += cellSize)
-		draw_line(0, y, NATIVE_WIDTH, y);
+	for (size_t y = 0; y < SCREEN_H; y += cellSize)
+		draw_line(0, y, SCREEN_W, y);
 
 	SDL_FPoint mouse;
 	mouse_get_state_scaled(&mouse);
 	draw_set_color(0xFFFF00);
-	draw_line(mouse.x, 0, mouse.x, NATIVE_HEIGHT);
-	draw_line(0, mouse.y, NATIVE_WIDTH, mouse.y);
+	draw_line(mouse.x, 0, mouse.x, SCREEN_H);
+	draw_line(0, mouse.y, SCREEN_W, mouse.y);
 
 	FMT_STRING(text, 1024, "%s, using %s driver, cursor pos (%f,%f)",
 		SDL_GetPlatform(), SDL_GetRendererName(renderer), mouse.x, mouse.y);

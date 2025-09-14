@@ -13,7 +13,7 @@ void devintro_event(const SDL_Event *ev) {
 
 static void print_center(const char *text, float y, float scale) {
 	SDL_FRect rect = text_calc_rect(text, scale);
-	text_draw_shadow(text, CENTER(NATIVE_WIDTH, rect.w), y, scale);
+	text_draw_shadow(text, CENTER(SCREEN_W, rect.w), y, scale);
 }
 
 void devintro_draw(void) {
@@ -28,7 +28,7 @@ void devintro_draw(void) {
 	print_center("Things are work in progress and may change at", 80+30*3, 2);
 	print_center("any point in time during development.", 80+30*4, 2);
 
-	print_center("Press anything or anywhere to continue...", NATIVE_HEIGHT-50, 2);
+	print_center("Press anything or anywhere to continue...", SCREEN_H-50, 2);
 }
 
 Scene devintro_scene = {

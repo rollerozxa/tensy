@@ -10,8 +10,8 @@ void board_recalculate_rect(Board *board) {
 	board->rect = (SDL_FRect){0,0,0,0};
 	board->rect.w = board->w * board->cell_size;
 	board->rect.h = board->h * board->cell_size;
-	board->rect.x = (NATIVE_WIDTH - board->rect.w) / 2 + board->rect_offset.x;
-	board->rect.y = (NATIVE_HEIGHT - board->rect.h) / 2 + board->rect_offset.y;
+	board->rect.x = (SCREEN_W - board->rect.w) / 2 + board->rect_offset.x;
+	board->rect.y = (SCREEN_H - board->rect.h) / 2 + board->rect_offset.y;
 }
 
 void board_change_size(Board *board, int w, int h, float scale) {

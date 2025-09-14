@@ -32,8 +32,8 @@ void toast_draw(void) {
 	SDL_FRect text_rect = text_calc_rect(toast.message, toast.scale);
 	SDL_FRect box_rect = {0, 0, text_rect.w + 24, text_rect.h + 12};
 
-	box_rect.x = (NATIVE_WIDTH - box_rect.w) / 2;
-	box_rect.y = NATIVE_HEIGHT * 0.75f - box_rect.h / 2;
+	box_rect.x = (SCREEN_W - box_rect.w) / 2;
+	box_rect.y = SCREEN_H * 0.75f - box_rect.h / 2;
 
 	draw_set_blend(true);
 	SDL_SetRenderDrawColor(renderer, 13, 13, 13, (toast.alpha * 235));

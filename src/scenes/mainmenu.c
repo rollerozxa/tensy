@@ -29,7 +29,7 @@ void mainmenu_init(void) {
 	BUTTON(about_button, RECT(160,260,150,40), "About");
 	BUTTON(statistics_button, RECT(330,260,150,40), "Statistics");
 
-	TEX_BUTTON(settings_button, RECT(NATIVE_WIDTH - 48 - 1, 1, 48, 48), TEX_SETTINGS);
+	TEX_BUTTON(settings_button, RECT(SCREEN_W - 48 - 1, 1, 48, 48), TEX_SETTINGS);
 
 	music_play(MUS_MAINMENU, -1);
 }
@@ -95,11 +95,11 @@ void mainmenu_draw(void) {
 	tex_button(&settings_button);
 
 	FMT_STRING(statusmsg, 512, "Tensy ver. %s%s (%s)", VER_STRING, (VER_DEV ? "-dev" : ""), SDL_GetPlatform());
-	text_draw_shadow(statusmsg, 0, NATIVE_HEIGHT-12, 1);
+	text_draw_shadow(statusmsg, 0, SCREEN_H-12, 1);
 
 #ifdef DEBUG
 	font_set_color(CLR_RED);
-	text_draw_shadow_centered("DEBUG", &RECT(0, NATIVE_HEIGHT-12, NATIVE_WIDTH, 12), 1);
+	text_draw_shadow_centered("DEBUG", &RECT(0, SCREEN_H-12, SCREEN_W, 12), 1);
 #endif
 }
 

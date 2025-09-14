@@ -46,7 +46,7 @@ void leaderboard_draw(void) {
 	for (int i = 0; i < MAX_HIGHSCORES; i++) {
 		SDL_FRect rect = {20, 60 + 30 * i, 400, 40};
 
-		if (rect.y > NATIVE_HEIGHT)
+		if (rect.y > SCREEN_H)
 			continue;
 
 		draw_set_color(i % 2 == 0 ? 0x1f3a7e : 0x21449b);

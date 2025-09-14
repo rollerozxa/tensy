@@ -3,12 +3,12 @@
 #include <stdio.h>
 
 // Native resolution at which the game will be rendered
-#define NATIVE_WIDTH    640
-#define NATIVE_HEIGHT   360
+#define SCREEN_W 640
+#define SCREEN_H 360
 
-// Size of the screen (scaled up/down from native res)
-#define SCREEN_WIDTH    NATIVE_WIDTH*2
-#define SCREEN_HEIGHT   NATIVE_HEIGHT*2
+// Size of the window (scaled up/down from native res)
+#define WINDOW_W SCREEN_W*2
+#define WINDOW_H SCREEN_H*2
 
 // Shared constant for app name
 #define APP_NAME "Tensy"

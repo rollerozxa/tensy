@@ -88,7 +88,7 @@ static const char *credits_text[] = {
 };
 #define NUM_CREDITS_LINES (sizeof(credits_text)/sizeof(credits_text[0]))
 
-static float scroll_y = NATIVE_HEIGHT;
+static float scroll_y = SCREEN_H;
 static float scroll_speed = 25.0f;
 static float wave_amplitude = 12.0f;
 static float wave_frequency = 4.0f;
@@ -99,7 +99,7 @@ static float introcard_opacity = 0;
 
 void credits_init(void) {
 	music_play(MUS_CREDITS, -1);
-	scroll_y = NATIVE_HEIGHT;
+	scroll_y = SCREEN_H;
 	phase = 1;
 	introcard_timeout = 0;
 	introcard_opacity = 0;
@@ -133,24 +133,24 @@ void credits_draw(void) {
 	if (phase == 1 || phase == 2) {
 		draw_set_alpha(SDL_ALPHA_OPAQUE);
 		draw_set_color(0x151515);
-		draw_fill_rect(&RECT(0, 0,NATIVE_WIDTH, NATIVE_HEIGHT));
+		draw_fill_rect(&RECT(0, 0,SCREEN_W, SCREEN_H));
 		draw_texture(TEX_INTRO_RACCOON, NULL, NULL);
 		draw_texture(TEX_INTRO_TEXT, NULL, NULL);
 		if (phase == 2) {
 			draw_set_blend(true);
 			draw_set_color(0x102a6e);
 			draw_set_alpha((unsigned char)introcard_opacity);
-			draw_fill_rect(&RECT(0, 0,NATIVE_WIDTH, NATIVE_HEIGHT));
+			draw_fill_rect(&RECT(0, 0,SCREEN_W, SCREEN_H));
 		}
 	} else {
 		for (size_t i = 0; i < NUM_CREDITS_LINES; i++) {
 			SDL_FRect rect = {
 				/*sinf((scroll_y + i * 30) * 0.075f) * wave_amplitude*/ 0,
 				scroll_y + i * 30,
-				NATIVE_WIDTH, 30
+				SCREEN_W, 30
 			};
 
-			if (rect.y < NATIVE_HEIGHT) {
+			if (rect.y < SCREEN_H) {
 				text_draw_shadow_centered(credits_text[i], &rect, i == 0 ? 8 : 2);
 			}
 		}
