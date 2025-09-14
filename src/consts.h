@@ -24,6 +24,8 @@
 #define RECT(x,y,w,h) ((SDL_FRect){x,y,w,h})
 #define POINT(x,y) ((SDL_FPoint){x,y})
 
+#define FULL_RECT() RECT(0, 0, SCREEN_W, SCREEN_H)
+
 #define CENTER(outside, inside) ((outside - inside) / 2)
 
 #define FMT_STRING(buf, size, fmt, ...) \

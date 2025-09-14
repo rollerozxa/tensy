@@ -1,3 +1,4 @@
+#include "consts.h"
 #include "draw.h"
 #include "media/music.h"
 #include "media/textures.h"
@@ -28,8 +29,8 @@ void intro_update(float dt) {
 }
 
 void intro_draw(void) {
-	draw_texture(TEX_INTRO_RACCOON, NULL, NULL);
-	draw_texture(TEX_INTRO_TEXT, NULL, NULL);
+	draw_texture(TEX_INTRO_RACCOON, NULL, &FULL_RECT());
+	draw_texture(TEX_INTRO_TEXT, NULL, &FULL_RECT());
 }
 
 Scene intro_scene = {

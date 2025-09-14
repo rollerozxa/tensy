@@ -133,14 +133,14 @@ void credits_draw(void) {
 	if (phase == 1 || phase == 2) {
 		draw_set_alpha(SDL_ALPHA_OPAQUE);
 		draw_set_color(0x151515);
-		draw_fill_rect(&RECT(0, 0,SCREEN_W, SCREEN_H));
-		draw_texture(TEX_INTRO_RACCOON, NULL, NULL);
-		draw_texture(TEX_INTRO_TEXT, NULL, NULL);
+		draw_fill_rect(&FULL_RECT());
+		draw_texture(TEX_INTRO_RACCOON, NULL, &FULL_RECT());
+		draw_texture(TEX_INTRO_TEXT, NULL, &FULL_RECT());
 		if (phase == 2) {
 			draw_set_blend(true);
 			draw_set_color(0x102a6e);
 			draw_set_alpha((unsigned char)introcard_opacity);
-			draw_fill_rect(&RECT(0, 0,SCREEN_W, SCREEN_H));
+			draw_fill_rect(&FULL_RECT());
 		}
 	} else {
 		for (size_t i = 0; i < NUM_CREDITS_LINES; i++) {

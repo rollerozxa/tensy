@@ -97,7 +97,7 @@ void draw_border_box(SDL_FRect *rect, unsigned int bgcolor, unsigned int borderc
 void draw_translucent_overlay(void) {
 	draw_set_color_alpha(0x000000d0);
 	draw_set_blend(true);
-	draw_fill_rect(&RECT(0,0,SCREEN_W,SCREEN_H));
+	draw_fill_rect(&FULL_RECT());
 }
 
 SDL_FRect draw_centered_fill_rect(SDL_FPoint dimensions) {
