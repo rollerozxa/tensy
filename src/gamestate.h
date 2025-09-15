@@ -7,7 +7,7 @@
 
 typedef struct {
 	Board board;
-	int score;
+	unsigned int score;
 	float time_left, total_time;
 	enum GameMode mode;
 	bool loaded_existing;

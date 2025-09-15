@@ -1,55 +1,71 @@
 #include "highscores.h"
 #include "fileio.h"
+#include "gamemode.h"
 #include <stdio.h>
 
-Highscore hs[MAX_HIGHSCORES];
+Highscore highscores[gamemode_count][4][MAX_HIGHSCORES];
 static int highscore_count = 0;
 
-Highscore *highscores(void) {
-	return hs;
-}
-
-void highscore_register(Game state) {
+void highscore_register(Game state, const char *name) {
 	Highscore entry = {
-		.score=state.score,
-		.gamemode=state.mode,
-		.size=state.board.boardsize,
-		.flags=0};
+		.score=state.score};
+
+	strncpy(entry.name, name, sizeof(entry.name) - 1);
 
 	int pos = 0;
 
-	while (pos < MAX_HIGHSCORES && hs[pos].score >= entry.score)
+	Highscore *leaderboard = highscores[state.mode][state.board.boardsize];
+
+	while (pos < MAX_HIGHSCORES && leaderboard[pos].score >= entry.score)
 		pos++;
 
 	if (pos >= MAX_HIGHSCORES) // we're off the leaderboard
 		return;
 
 	for (int i = MAX_HIGHSCORES - 1; i > pos; i--)
-		hs[i] = hs[i - 1];
+		leaderboard[i] = leaderboard[i - 1];
 
-	hs[pos] = entry;
+	leaderboard[pos] = entry;
 
 	highscores_file_save();
 }
 
-static const char filever = 1;
+static const char filever = 2;
 
 static char hs_filepath[512];
 
-bool highscores_file_save(void) {
-	fileio_pref_path(hs_filepath, sizeof(hs_filepath), "highscores.bin");
+// Populate dummy data for testing
+bool highscores_populate_dummy(void) {
+	for (int i = 0; i < gamemode_count; i++) {
+		for (int j = 0; j < 4; j++) {
+			for (int k = 0; k < MAX_HIGHSCORES; k++) {
+				Game state = {0};
+				state.mode = i;
+				state.board.boardsize = j;
 
+				state.score = SDL_rand(20000);
+				highscore_register(state, "ROllerozxa");
+			}
+		}
+	}
+	return false;
+}
+
+bool highscores_file_save(void) {
 	FILE *fp = fopen(hs_filepath, "wb");
 	if (!fp)
 		return false;
 
 	WRITE_CHAR(filever);
 
-	for (int i = 0; i < MAX_HIGHSCORES; i++) {
-		WRITE_LONG(hs[i].score);
-		WRITE_CHAR(hs[i].gamemode);
-		WRITE_CHAR(hs[i].size);
-		WRITE_CHAR(hs[i].flags);
+	for (int i = 0; i < gamemode_count; i++) {
+		for (int j = 0; j < 4; j++) {
+			for (int k = 0; k < MAX_HIGHSCORES; k++) {
+				Highscore *entry = &highscores[i][j][k];
+				WRITE_INT(entry->score);
+				WRITE_STRING(entry->name, 12);
+			}
+		}
 	}
 
 	fclose(fp);
@@ -60,6 +76,12 @@ bool highscores_file_save(void) {
 }
 
 bool highscores_file_load(void) {
+	fileio_pref_path(hs_filepath, sizeof(hs_filepath), "highscores.bin");
+
+	//highscores_populate_dummy();
+	//highscores_file_save();
+	//return true;
+
 	FILE *fp = fopen(hs_filepath, "rb");
 	if (!fp)
 		return false;
@@ -69,11 +91,14 @@ bool highscores_file_load(void) {
 	if (tmp != filever)
 		return false; // uhh
 
-	for (int i = 0; i < MAX_HIGHSCORES; i++) {
-		READ_LONG(hs[i].score);
-		READ_CHAR(hs[i].gamemode);
-		READ_CHAR(hs[i].size);
-		READ_CHAR(hs[i].flags);
+	for (int i = 0; i < gamemode_count; i++) {
+		for (int j = 0; j < 4; j++) {
+			for (int k = 0; k < MAX_HIGHSCORES; k++) {
+				Highscore *entry = &highscores[i][j][k];
+				READ_INT(entry->score);
+				READ_STRING(entry->name, 12);
+			}
+		}
 	}
 
 	fclose(fp);

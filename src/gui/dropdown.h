@@ -7,7 +7,7 @@ typedef struct {
 	SDL_FRect rect;
 	const char **items;
 	int item_count;
-	int selected_index;
+	int selected;
 	bool _held;
 	bool _open;
 	int _hover_index;

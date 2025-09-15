@@ -8,13 +8,20 @@
 #include "text.h"
 #include <SDL3/SDL.h>
 
-static Dropdown gamemode_dropdown;
+static Dropdown gamemode_dropdown, board_size_dropdown;
+
 static const char *gamemode_dropdown_options[] = {
 	"Classic",
 	"Gravity",
 	"Leisure",
 	"Lucky",
 	"Five"
+};
+static const char *board_size_options[] = {
+	"Small (15x8)",
+	"Medium (20x10)",
+	"Big (30x15)",
+	"Hyuge! (60x30)"
 };
 
 void leaderboard_init(void) {
@@ -23,14 +30,14 @@ void leaderboard_init(void) {
 	if (!settings_getflag(FLAG_SECRET_FIVE))
 		num_options--;
 
-	DROPDOWN(gamemode_dropdown, RECT(340, 15, 180, 30), gamemode_dropdown_options, num_options, 0);
+	DROPDOWN(gamemode_dropdown, RECT(230, 15, 150, 30), gamemode_dropdown_options, num_options, 0);
+	DROPDOWN(board_size_dropdown, RECT(400, 15, 210, 30), board_size_options, 4, 0);
 }
 
 void leaderboard_event(const SDL_Event *ev) {
 
-	if (dropdown_event(ev, &gamemode_dropdown)) {
-
-	}
+	dropdown_event(ev, &gamemode_dropdown);
+	dropdown_event(ev, &board_size_dropdown);
 
 	if (is_escaping(ev))
 		scene_switch("mainmenu");
@@ -43,6 +50,7 @@ void leaderboard_update(float dt) {
 void leaderboard_draw(void) {
 	text_draw_shadow("Leaderboard", 10, 10, 3);
 
+	Highscore *leaderboard = highscores[gamemode_dropdown.selected][board_size_dropdown.selected];
 	for (int i = 0; i < MAX_HIGHSCORES; i++) {
 		SDL_FRect rect = {20, 60 + 30 * i, 400, 40};
 
@@ -67,11 +75,15 @@ void leaderboard_draw(void) {
 
 		text_draw_shadow(".", row.x + 12, row.y, 2);
 
-		FMT_STRING(hs_score, 16, "%lu", highscores()[i].score);
-		text_draw_shadow(hs_score, row.x + 40, row.y, 2);
+		FMT_STRING(hs_name, 20, "%s", leaderboard[i].name);
+		text_draw_shadow(hs_name, row.x + 40, row.y, 2);
+
+		FMT_STRING(hs_score, 16, "%d", leaderboard[i].score);
+		text_draw_shadow(hs_score, row.x + 200, row.y, 2);
 	}
 
 	dropdown(&gamemode_dropdown);
+	dropdown(&board_size_dropdown);
 }
 
 Scene leaderboard_scene = {

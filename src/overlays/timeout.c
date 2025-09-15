@@ -15,7 +15,7 @@ static Button exit_button;
 void timeout_init(void) {
 	BUTTON(exit_button, RECT(0, 0, 150, 40), "Return");
 
-	highscore_register(game);
+	highscore_register(game, "(no name)");
 }
 
 void timeout_event(const SDL_Event *ev) {

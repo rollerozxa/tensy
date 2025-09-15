@@ -44,7 +44,7 @@ bool dropdown_event(const SDL_Event *ev, Dropdown *dd) {
 			if (ev->type == SDL_EVENT_MOUSE_BUTTON_DOWN) {
 				dd->_hover_index = i;
 			} else if (ev->type == SDL_EVENT_MOUSE_BUTTON_UP) {
-				dd->selected_index = i;
+				dd->selected = i;
 				dd->_open = false;
 				sound_play(SND_CLICK);
 				return true;
@@ -94,8 +94,8 @@ void dropdown(Dropdown *dropdown) {
 	float text_height = CENTER(rect.h, text_calc_rect("e", label_scale(rect.h)).h);
 
 	font_set_color(CLR_WHITE);
-	if (dropdown->selected_index >= 0 && dropdown->selected_index < dropdown->item_count)
-		text_draw_shadow(dropdown->items[dropdown->selected_index], rect.x + 5, rect.y + text_height, label_scale(rect.h));
+	if (dropdown->selected >= 0 && dropdown->selected < dropdown->item_count)
+		text_draw_shadow(dropdown->items[dropdown->selected], rect.x + 5, rect.y + text_height, label_scale(rect.h));
 
 	if (dropdown->_open) {
 		SDL_FRect totalrect = RECTCPY(rect);

@@ -5,18 +5,16 @@
 #include <SDL3/SDL.h>
 #include <stdbool.h>
 
-#define MAX_HIGHSCORES 1024
+#define MAX_HIGHSCORES 20
 
 typedef struct {
-	Uint64 score;
-	enum GameMode gamemode;
-	char size;
-	char flags;
+	unsigned int score;
+	char name[12];
 } Highscore;
 
-Highscore *highscores(void);
+extern Highscore highscores[gamemode_count][4][MAX_HIGHSCORES];
 
-void highscore_register(Game state);
+void highscore_register(Game state, const char *name);
 
 bool highscores_file_save(void);
 bool highscores_file_load(void);
