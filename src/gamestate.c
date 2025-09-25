@@ -84,7 +84,7 @@ void gamestate_traverse(void) {
 }
 
 void gamestate_gameover(void) {
-	overlay_switch("timeout");
+	overlay_switch("gameover");
 	uint64_t identifier = savestate_read_identifier();
 	if (identifier == game.identifier) {
 		// destroy savestate

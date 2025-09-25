@@ -17,9 +17,9 @@ extern Scene statistics_scene;
 
 extern Overlay endgame_overlay;
 extern Overlay exitconfirm_overlay;
+extern Overlay gameover_overlay;
 extern Overlay pause_overlay;
 extern Overlay shuffle_overlay;
-extern Overlay timeout_overlay;
 
 void scenes_register(void) {
 	// First scene needs to be first
@@ -40,7 +40,7 @@ void scenes_register(void) {
 
 	overlay_add(endgame_overlay);
 	overlay_add(exitconfirm_overlay);
+	overlay_add(gameover_overlay);
 	overlay_add(pause_overlay);
 	overlay_add(shuffle_overlay);
-	overlay_add(timeout_overlay);
 }

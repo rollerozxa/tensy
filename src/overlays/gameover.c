@@ -1,5 +1,6 @@
 #include "consts.h"
 #include "draw.h"
+#include "gamemode.h"
 #include "gamestate.h"
 #include "gui/button.h"
 #include "highscores.h"
@@ -12,26 +13,29 @@
 
 static Button exit_button;
 
-void timeout_init(void) {
+void gameover_init(void) {
 	BUTTON(exit_button, RECT(0, 0, 150, 40), "Return");
 
 	highscore_register(game, "(no name)");
 }
 
-void timeout_event(const SDL_Event *ev) {
+void gameover_event(const SDL_Event *ev) {
 	if (button_event(ev, &exit_button) || is_escaping(ev)) {
 		overlay_hide();
 		scene_switch("selectmode");
 	}
 }
 
-void timeout_draw(void) {
+void gameover_draw(void) {
 	draw_translucent_overlay();
 
 	SDL_FRect bg_rect = draw_centered_fill_rect(POINT(20 * 10, 20 * 12));
 
 	SDL_FRect text_rect = {bg_rect.x, bg_rect.y, bg_rect.w, 20*2};
-	text_draw_shadow_centered("Out of time!", &text_rect, 2);
+	if (current_gamemode().time_limit)
+		text_draw_shadow_centered("Out of time!", &text_rect, 2);
+	else
+		text_draw_shadow_centered("Game Over!", &text_rect, 2);
 
 	SDL_FPoint score_pos = { bg_rect.x + 20, bg_rect.y + 20*3 };
 
@@ -46,10 +50,10 @@ void timeout_draw(void) {
 	button(&exit_button);
 }
 
-Overlay timeout_overlay = {
-	"timeout",
-	timeout_init,
-	timeout_event,
+Overlay gameover_overlay = {
+	"gameover",
+	gameover_init,
+	gameover_event,
 	NULL,
-	timeout_draw
+	gameover_draw
 };
