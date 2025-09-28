@@ -81,8 +81,10 @@ void scene_run_update(float dt) {
 
 void scene_run_draw(void) {
 	font_set_color(CLR_WHITE);
-	draw_set_color(scenes[current_scene].color);
+	draw_set_color(0x0);
 	SDL_RenderClear(renderer);
+	draw_set_color(scenes[current_scene].color);
+	draw_fill_rect(&FULL_RECT());
 
 	if (scenes[current_scene].draw)
 		scenes[current_scene].draw();
