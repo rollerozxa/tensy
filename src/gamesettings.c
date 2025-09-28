@@ -33,8 +33,10 @@ static char settings_file[512];
 static float time_elapsed = 0.f;
 void settings_savetimer(float dt) {
 	time_elapsed += dt;
+	settings_data.playtime += dt;
 
-	if (dirty && time_elapsed > 60.f) {
+	// Autosave every 15 minutes if nothing changed, or every minute if something important did.
+	if ((dirty && time_elapsed > 60.f) || time_elapsed > 15.f*60.f) {
 		time_elapsed = 0.f;
 		dirty = false;
 		settings_save();
@@ -54,6 +56,7 @@ bool settings_load(void) {
 		return false; // uhh
 
 	READ_INT(settings_data.flags);
+	READ_DOUBLE(settings_data.playtime);
 
 	return true;
 }
@@ -66,6 +69,7 @@ bool settings_save(void) {
 
 	WRITE_CHAR(filever);
 	WRITE_INT(settings_data.flags);
+	WRITE_DOUBLE(settings_data.playtime);
 
 	return true;
 }

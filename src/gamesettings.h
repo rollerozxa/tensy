@@ -1,9 +1,11 @@
 #pragma once
 
 #include <stdbool.h>
+#include <stdint.h>
 
 typedef struct {
 	unsigned int flags;
+	double playtime;
 } Settings;
 
 typedef enum {
