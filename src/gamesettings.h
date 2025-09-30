@@ -6,6 +6,9 @@
 typedef struct {
 	unsigned int flags;
 	double playtime;
+	uint64_t numbers_removed;
+	uint64_t total_accumulated_score;
+	char last_username[12];
 } Settings;
 
 typedef enum {

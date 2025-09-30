@@ -57,6 +57,11 @@ bool settings_load(void) {
 
 	READ_INT(settings_data.flags);
 	READ_DOUBLE(settings_data.playtime);
+	READ_LONG(settings_data.numbers_removed);
+	READ_LONG(settings_data.total_accumulated_score);
+	READ_STRING(settings_data.last_username, 12);
+
+	fclose(fp);
 
 	return true;
 }
@@ -70,6 +75,11 @@ bool settings_save(void) {
 	WRITE_CHAR(filever);
 	WRITE_INT(settings_data.flags);
 	WRITE_DOUBLE(settings_data.playtime);
+	WRITE_LONG(settings_data.numbers_removed);
+	WRITE_LONG(settings_data.total_accumulated_score);
+	WRITE_STRING(settings_data.last_username, 12);
+
+	fclose(fp);
 
 	return true;
 }

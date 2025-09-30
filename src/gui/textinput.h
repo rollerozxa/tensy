@@ -22,5 +22,6 @@ typedef struct {
 } while (0)
 
 void textinput_clear(TextInput *input);
+void textinput_settext(TextInput *input, const char *text);
 bool textinput_event(const SDL_Event *ev, TextInput *input);
 void textinput(TextInput *input);

@@ -1,6 +1,7 @@
 #include "consts.h"
 #include "draw.h"
 #include "gamemode.h"
+#include "gamesettings.h"
 #include "gamestate.h"
 #include "gui/button.h"
 #include "gui/textinput.h"
@@ -18,11 +19,14 @@ static TextInput name_input;
 void gameover_init(void) {
 	BUTTON(exit_button, RECT(0, 0, 150, 40), "Return");
 	TEXTINPUT(name_input, RECT(0, 0, 200, 40), "Player");
+
+	textinput_settext(&name_input, settings()->last_username);
 }
 
 void gameover_event(const SDL_Event *ev) {
 	if (button_event(ev, &exit_button) || is_escaping(ev)) {
 		highscore_register(game, name_input.buffer);
+		strncpy(settings()->last_username, name_input.buffer, 12);
 		overlay_hide();
 		scene_switch("selectmode");
 	}

@@ -12,13 +12,14 @@
 
 extern SDL_Window *window;
 
-static float label_scale(float height) {
-	return height <= 25 ? 1.5f : 2.0f;
-}
-
 void textinput_clear(TextInput *input) {
 	input->buffer[0] = '\0';
 	input->cursor_pos = 0;
+}
+
+void textinput_settext(TextInput *input, const char *text) {
+	snprintf(input->buffer, TEXTINPUT_BUFFER_SIZE, "%s", text);
+	input->cursor_pos = strnlen(input->buffer, TEXTINPUT_BUFFER_SIZE);
 }
 
 bool textinput_event(const SDL_Event *ev, TextInput *input) {
@@ -132,11 +133,10 @@ void textinput(TextInput *input) {
 
 	draw_box_disabled(&rect);
 
-	float text_scale = label_scale(rect.h);
-	float text_height = CENTER(rect.h, text_calc_rect("e", text_scale).h);
+	float text_height = CENTER(rect.h, text_calc_rect("e", 2.0f).h);
 
 	font_set_color(CLR_WHITE);
-	text_draw_shadow(input->buffer, rect.x + 5, rect.y + text_height, text_scale);
+	text_draw_shadow(input->buffer, rect.x + 5, rect.y + text_height, 2.0f);
 
 	if (!input->_focused)
 		return;
@@ -145,7 +145,7 @@ void textinput(TextInput *input) {
 	strncpy(temp_buffer, input->buffer, input->cursor_pos);
 	temp_buffer[input->cursor_pos] = '\0';
 
-	SDL_FRect cursor_rect = text_calc_rect(temp_buffer, text_scale);
+	SDL_FRect cursor_rect = text_calc_rect(temp_buffer, 2.0f);
 	float cursor_x = rect.x + 5 + cursor_rect.w;
 
 	draw_set_color(0xFFFFFF);
