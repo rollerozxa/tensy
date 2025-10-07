@@ -9,6 +9,7 @@
 #include <SDL3/SDL.h>
 
 static Dropdown gamemode_dropdown, board_size_dropdown;
+static Button back_button;
 
 static const char *gamemode_dropdown_options[] = {
 	"Classic",
@@ -32,6 +33,8 @@ void leaderboard_init(void) {
 
 	DROPDOWN(gamemode_dropdown, RECT(230, 15, 150, 30), gamemode_dropdown_options, num_options, 0);
 	DROPDOWN(board_size_dropdown, RECT(400, 15, 210, 30), board_size_options, 4, 0);
+
+	BUTTON(back_button, RECT(450,300,150,40), "Back");
 }
 
 void leaderboard_event(const SDL_Event *ev) {
@@ -39,8 +42,8 @@ void leaderboard_event(const SDL_Event *ev) {
 	dropdown_event(ev, &gamemode_dropdown);
 	dropdown_event(ev, &board_size_dropdown);
 
-	if (is_escaping(ev))
-		scene_switch("mainmenu");
+	if (is_escaping(ev) || button_event(ev, &back_button))
+		scene_switch("statistics");
 }
 
 void leaderboard_update(float dt) {
@@ -84,6 +87,8 @@ void leaderboard_draw(void) {
 
 	dropdown(&gamemode_dropdown);
 	dropdown(&board_size_dropdown);
+
+	button(&back_button);
 }
 
 Scene leaderboard_scene = {
