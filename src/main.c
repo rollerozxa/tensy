@@ -30,6 +30,8 @@ SDL_AppResult SDL_AppInit(void **rustptr, int argc, char **argv) {
 
 	SDL_SetAppMetadata(APP_NAME, NULL, APP_ID);
 
+	SDL_SetHint(SDL_HINT_EMSCRIPTEN_FILL_DOCUMENT, "1");
+
 #ifdef SDL_PLATFORM_VITA
 	#define INIT_FLAGS SDL_INIT_VIDEO | SDL_INIT_GAMEPAD
 #else
@@ -105,10 +107,12 @@ SDL_AppResult SDL_AppEvent(void *rustptr, SDL_Event *ev) {
 	}
 
 #ifndef ALWAYS_FULLSCREEN
+#ifndef SDL_PLATFORM_EMSCRIPTEN
 	if (ev->type == SDL_EVENT_KEY_DOWN && ev->key.scancode == SDL_SCANCODE_F11 && !ev->key.repeat) {
 		settings_toggleflag(FLAG_FULLSCREEN);
 		SDL_SetWindowFullscreen(window, settings_getflag(FLAG_FULLSCREEN));
 	}
+#endif
 #endif
 
 	SDL_ConvertEventToRenderCoordinates(renderer, ev);
