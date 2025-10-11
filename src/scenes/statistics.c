@@ -1,9 +1,14 @@
 #include "consts.h"
+#include "draw.h"
+#include "gamesettings.h"
 #include "gui/button.h"
 #include "input.h"
 #include "scene.h"
 #include "text.h"
+#include "time.h"
 #include <SDL3/SDL.h>
+#include <stdio.h>
+#include <string.h>
 
 static Button leaderboard_button, ok_button;
 
@@ -29,7 +34,17 @@ void statistics_update(float dt) {
 void statistics_draw(void) {
 	text_draw_shadow("Statistics", 10, 10, 3);
 
-	text_draw_shadow("(coming soon...)", 30, 60, 2);
+	draw_set_color(0x1f3a7e);
+	for (int i = 0; i < 3; i++)
+		draw_fill_rect(&RECT(20, 60 + i * 50, SCREEN_W - 40, 40));
+
+	{
+		char formatted[64], label[96];
+		time_format(settings()->playtime, formatted, sizeof(formatted));
+		snprintf(label, sizeof(label), "Total playtime: %s", formatted);
+
+		text_draw_shadow(label, 30, 68, 2);
+	}
 
 	button(&leaderboard_button);
 
