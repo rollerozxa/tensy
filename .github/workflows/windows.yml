@@ -4,13 +4,21 @@ on:
   - push
   - pull_request
 
+env:
+  # Check https://github.com/mstorsjo/llvm-mingw/releases for the latest version
+  LLVM_MINGW_VERSION: 20251007
+
 jobs:
   windows:
-    name: "${{ matrix.bits }}-bit"
+    name: "${{ matrix.display }}"
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        bits: [32, 64, arm64]
+        include:
+          - { display: "32-bit", bits: 32, toolchain: msvcrt }
+          - { display: "64-bit", bits: 64, toolchain: ucrt }
+          - { display: "32-bit (ARM)", bits: arm32, toolchain: msvcrt }
+          - { display: "64-bit (ARM)", bits: arm64, toolchain: ucrt }
     steps:
       - uses: actions/checkout@v4
 
@@ -21,7 +29,7 @@ jobs:
 
       - name: Download toolchain
         run: |
-          curl -L "https://github.com/mstorsjo/llvm-mingw/releases/download/20250709/llvm-mingw-20250709-ucrt-ubuntu-22.04-x86_64.tar.xz" | sudo tar xJvf - -C "/usr" --strip-components=1
+          curl -L "https://github.com/mstorsjo/llvm-mingw/releases/download/${{ env.LLVM_MINGW_VERSION }}/llvm-mingw-${{ env.LLVM_MINGW_VERSION }}-${{ matrix.toolchain }}-ubuntu-22.04-x86_64.tar.xz" | sudo tar xJvf - -C "/usr" --strip-components=1
 
       - name: Build Tensy
         run: |
@@ -31,5 +39,5 @@ jobs:
         uses: ./.github/actions/upload-output
         with:
           file: packaging/bin/win${{ matrix.bits }}/tensy.exe
-          name: tensy-win${{ matrix.bits }}.exe
+          name: tensy-win-${{ matrix.bits }}.exe
           repo_token: ${{ secrets.GITHUB_TOKEN }}

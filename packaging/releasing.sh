@@ -52,6 +52,7 @@ download_artifacts() {
 
 	download_artifact windows tensy-win32.exe
 	download_artifact windows tensy-win64.exe
+	download_artifact windows tensy-winarm32.exe
 	download_artifact windows tensy-winarm64.exe
 }
 
@@ -77,6 +78,7 @@ upload_to_itch() {
 
 	butler_push windows-32 tensy-win32.exe
 	butler_push windows-64 tensy-win64.exe
+	butler_push windows-arm32 tensy-winarm32.exe
 	butler_push windows-arm64 tensy-winarm64.exe
 
 }
