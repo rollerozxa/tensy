@@ -5,7 +5,7 @@ plugins {
 android {
 	namespace "se.voxelmanip.tensy"
 	compileSdk 35
-	ndkVersion "27.2.12479018"
+	ndkVersion "29.0.14206865"
 
 	defaultConfig {
 		minSdk 21
