@@ -39,5 +39,5 @@ jobs:
         uses: ./.github/actions/upload-output
         with:
           file: packaging/bin/win${{ matrix.bits }}/tensy.exe
-          name: tensy-win-${{ matrix.bits }}.exe
+          name: tensy-win${{ matrix.bits }}.exe
           repo_token: ${{ secrets.GITHUB_TOKEN }}
