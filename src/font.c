@@ -1,6 +1,7 @@
 #include "font.h"
 #include "draw.h"
 #include "media/font_bitmap.h"
+#include "media/textures.h"
 #include <stddef.h>
 
 static SDL_Texture *font_tex;
@@ -17,7 +18,7 @@ static SDL_Texture *font_tex;
 	#define FONT_SCALEMODE SDL_SCALEMODE_LINEAR
 #else
 	#define FONT_SCALE 1
-	#define FONT_SCALEMODE SDL_SCALEMODE_PIXELART
+	#define FONT_SCALEMODE textures_get_scalemode()
 #endif
 #define GLYPH_PADDING 1
 

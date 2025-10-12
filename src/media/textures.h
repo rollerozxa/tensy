@@ -15,6 +15,9 @@ enum {
 	TEX_UNDO
 };
 
+void textures_force_nearest(bool force);
+SDL_ScaleMode textures_get_scalemode(void);
+
 void textures_init(SDL_Renderer *renderer);
 
 SDL_Texture *textures_get(int texture_id);

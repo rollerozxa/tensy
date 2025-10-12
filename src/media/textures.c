@@ -21,9 +21,19 @@
 static SDL_Texture *texture_bank[100];
 static bool textures_loaded = false;
 
+static bool force_nearest = false;
+
+void textures_force_nearest(bool force) {
+	force_nearest = force;
+}
+
+SDL_ScaleMode textures_get_scalemode(void) {
+	return force_nearest ? SDL_SCALEMODE_PIXELART : SDL_SCALEMODE_NEAREST;
+}
+
 #define LOAD_TEX(id, data, path) \
 	texture_bank[id] = SDL_CreateTextureFromSurface(renderer, ASSETLOADER_QOI(data, path)); \
-	SDL_SetTextureScaleMode(texture_bank[id], SDL_SCALEMODE_PIXELART)
+	SDL_SetTextureScaleMode(texture_bank[id], textures_get_scalemode())
 
 #define LOAD_TEX_LIN(id, data, path) \
 	texture_bank[id] = SDL_CreateTextureFromSurface(renderer, ASSETLOADER_QOI(data, path)); \

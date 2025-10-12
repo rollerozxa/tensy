@@ -3,6 +3,7 @@
 #include "draw.h"
 #include "gamesettings.h"
 #include "highscores.h"
+#include "media/textures.h"
 #include <SDL3/SDL.h>
 #include <SDL3_mixer/SDL_mixer.h>
 #include <stdbool.h>
@@ -49,6 +50,9 @@ SDL_AppResult SDL_AppInit(void **rustptr, int argc, char **argv) {
 
 	retry_render_creation:
 #endif
+
+	if (argc > 1 && strncmp(argv[1], "-unblur", 7) == 0)
+		textures_force_nearest(true);
 
 	SDL_CreateWindowAndRenderer(
 		APP_NAME,
