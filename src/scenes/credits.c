@@ -65,7 +65,7 @@ static const char *credits_text[] = {
 "For a full catalogue of licensing for",
 "libraries and assets used in the game,",
 "see",
-"tensy.voxelmanip.se/attribution (TODO)",
+"tensy.voxelmanip.se/attribution",
 "---",
 "",
 "",
