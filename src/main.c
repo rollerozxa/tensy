@@ -18,12 +18,36 @@
 #error Tensy currently requires being compiled with a recent enough master version of SDL and SDL_mixer. To build with vendored versions of those libraries pass -DUSE_VENDORED_LIBS=ON to CMake when reconfiguring.
 #endif
 
+#include "media/assetloader.h"
+
 SDL_Window *window;
 SDL_Renderer *renderer;
 
+#if !EMBEDDED_DATA
+bool can_access_data(void) {
+	char path[512] = {0};
+	snprintf(path, sizeof(path), PREFIX "textures/check.qoi");
+	return access(path, F_OK) == 0;
+}
+#endif
+
 SDL_AppResult SDL_AppInit(void **rustptr, int argc, char **argv) {
+#if !EMBEDDED_DATA
 	const char *exedir = SDL_GetBasePath();
 	chdir(exedir);
+
+	// Sanity checks when using loose data files, try to find the data folder
+	if (!can_access_data()) {
+		chdir("..");
+		if (!can_access_data()) {
+			chdir("data");
+			if (!can_access_data()) {
+				SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, APP_NAME, "Failed to find game data. Exiting.", NULL);
+				return SDL_APP_FAILURE;
+			}
+		}
+	}
+#endif
 
 	SDL_srand(0);
 

@@ -12,6 +12,9 @@ endif()
 
 option(USE_VENDORED_LIBS "Build with vendored libraries for SDL and SDL_mixer" TRUE)
 
+option(FORCE_LOOSE_ASSET_LOADING "Force loose asset loading (no embedded assets)" FALSE)
+mark_as_advanced(FORCE_LOOSE_ASSET_LOADING)
+
 if(WIN32)
 	option(WINDOWS_XP "Build for Windows XP (requires MSVCRT toolchain)" FALSE)
 endif()
@@ -74,7 +77,7 @@ endif()
 
 target_compile_definitions(${PROJ} PRIVATE $<$<CONFIG:Debug>:DEBUG=1>)
 
-if(ANDROID OR VITA or APPLE)
+if(ANDROID OR VITA OR APPLE OR FORCE_LOOSE_ASSET_LOADING)
 	add_compile_definitions(ASSETLOADER_LOOSE=1)
 endif()
 
