@@ -106,6 +106,11 @@ SDL_AppResult SDL_AppInit(void **rustptr, int argc, char **argv) {
 		return SDL_APP_FAILURE;
 	}
 
+#ifdef SDL_PLATFORM_MACOS
+	if (strcmp(SDL_GetRendererName(renderer), "opengl") == 0)
+		textures_force_nearest(true);
+#endif
+
 #ifdef ALWAYS_FULLSCREEN
 	if (true)
 #else
