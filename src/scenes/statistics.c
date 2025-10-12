@@ -5,10 +5,9 @@
 #include "input.h"
 #include "scene.h"
 #include "text.h"
-#include "time.h"
+#include "timeformat.h"
 #include <SDL3/SDL.h>
 #include <stdio.h>
-#include <string.h>
 
 static Button leaderboard_button, ok_button;
 
@@ -40,7 +39,7 @@ void statistics_draw(void) {
 
 	{
 		char formatted[64], label[96];
-		time_format(settings()->playtime, formatted, sizeof(formatted));
+		timeformat_duration(settings()->playtime, formatted, sizeof(formatted));
 		snprintf(label, sizeof(label), "Total playtime: %s", formatted);
 
 		text_draw_shadow(label, 30, 68, 2);

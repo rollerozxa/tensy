@@ -1,12 +1,12 @@
-#include "time.h"
+#include "timeformat.h"
 #include <stdio.h>
 #include <string.h>
 
 /**
- * Format an amount of seconds into a human-readable string.
+ * Format a duration of seconds into a human-readable string.
  * (days, hours, minutes and seconds - the two largest non-zero units are shown)
  */
-void time_format(double seconds_d, char *out, size_t outlen) {
+void timeformat_duration(double seconds_d, char *out, size_t outlen) {
 	unsigned long seconds = (unsigned long)seconds_d;
 
 	struct { const char *suf; unsigned int sec; } units[] = {
