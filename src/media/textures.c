@@ -28,7 +28,7 @@ void textures_force_nearest(bool force) {
 }
 
 SDL_ScaleMode textures_get_scalemode(void) {
-	return force_nearest ? SDL_SCALEMODE_PIXELART : SDL_SCALEMODE_NEAREST;
+	return force_nearest ? SDL_SCALEMODE_NEAREST : SDL_SCALEMODE_PIXELART;
 }
 
 #define LOAD_TEX(id, data, path) \
