@@ -74,7 +74,7 @@ endif()
 
 target_compile_definitions(${PROJ} PRIVATE $<$<CONFIG:Debug>:DEBUG=1>)
 
-if(ANDROID OR VITA)
+if(ANDROID OR VITA or APPLE)
 	add_compile_definitions(ASSETLOADER_LOOSE=1)
 endif()
 
@@ -101,6 +101,7 @@ endif()
 if(APPLE)
 	set(BUNDLE_PATH "${PROJ}.app/Contents")
 
+	install(DIRECTORY "data/" DESTINATION "${BUNDLE_PATH}/Resources")
 	install(FILES "packaging/tensy.icns" DESTINATION "${BUNDLE_PATH}/Resources")
 	install(FILES "packaging/Info.plist" DESTINATION "${BUNDLE_PATH}")
 	install(FILES "packaging/PkgInfo" DESTINATION "${BUNDLE_PATH}")
