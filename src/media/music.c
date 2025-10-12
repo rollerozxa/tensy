@@ -1,10 +1,14 @@
 #include "music.h"
-#include "assetloader.h"
 #include "gamesettings.h"
 #include <SDL3/SDL.h>
 #include <SDL3_mixer/SDL_mixer.h>
+
+#include "assetloader.h"
+
+#if EMBEDDED_DATA
 #include <data/music_credits_oxm.h>
 #include <data/music_mainmenu_xm.h>
+#endif
 
 extern MIX_Mixer *mixer;
 static MIX_Audio *music_bank[100];

@@ -1,8 +1,14 @@
 
-#ifdef SDL_PLATFORM_ANDROID
-	#define ASSETLOADER_MUSIC(data, path) MIX_LoadAudio(mixer, "music/" path, false)
-	#define ASSETLOADER_SOUND(data, path) MIX_LoadAudio(mixer, "sounds/" path, true)
-	#define ASSETLOADER_QOI(data, path) SDL_LoadQOI("textures/" path)
+#ifdef ASSETLOADER_LOOSE
+	#ifdef SDL_PLATFORM_VITA
+		#define PREFIX "app0:data/"
+	#else
+		#define PREFIX ""
+	#endif
+
+	#define ASSETLOADER_MUSIC(data, path) MIX_LoadAudio(mixer, PREFIX "music/" path, false)
+	#define ASSETLOADER_SOUND(data, path) MIX_LoadAudio(mixer, PREFIX "sounds/" path, true)
+	#define ASSETLOADER_QOI(data, path) SDL_LoadQOI(PREFIX "textures/" path)
 
 	#define EMBEDDED_DATA false
 #else

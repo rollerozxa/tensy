@@ -74,6 +74,10 @@ endif()
 
 target_compile_definitions(${PROJ} PRIVATE $<$<CONFIG:Debug>:DEBUG=1>)
 
+if(ANDROID OR VITA)
+	add_compile_definitions(ASSETLOADER_LOOSE=1)
+endif()
+
 # Nice set of warning flags to build with
 target_compile_options(${PROJ} PRIVATE -Wall -Wextra -Wno-unused-parameter -Wno-unused-variable -Wno-missing-field-initializers)
 
@@ -85,6 +89,7 @@ if(VITA)
 	vita_create_vpk(${PROJ}.vpk OZXA00010 ${PROJ}.self
 		VERSION "00.00"
 		NAME Tensy
+		FILE data/ data/
 		FILE packaging/vita/icon.png sce_sys/icon0.png
 		FILE packaging/vita/bg.png sce_sys/livearea/contents/bg.png
 		FILE packaging/vita/startup.png sce_sys/livearea/contents/startup.png

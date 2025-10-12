@@ -1,6 +1,10 @@
 #include "textures.h"
-#include "assetloader.h"
 #include <SDL_QOI/SDL_QOI.h>
+#include <stdbool.h>
+
+#include "assetloader.h"
+
+#if EMBEDDED_DATA
 #include <data/background_stripes_qoi.h>
 #include <data/check_qoi.h>
 #include <data/clock_qoi.h>
@@ -12,7 +16,7 @@
 #include <data/settings_qoi.h>
 #include <data/shuffle_qoi.h>
 #include <data/undo_qoi.h>
-#include <stdbool.h>
+#endif
 
 static SDL_Texture *texture_bank[100];
 static bool textures_loaded = false;
@@ -41,7 +45,7 @@ void textures_init(SDL_Renderer *renderer) {
 }
 
 SDL_Surface *get_icon_surface(void) {
-	return SDL_LoadQOI_IO(SDL_IOFromMem(icon_qoi, icon_qoi_len));
+	return ASSETLOADER_QOI(icon_qoi, "icon.qoi");
 }
 
 SDL_Texture *textures_get(int texture_id) {
