@@ -6,6 +6,8 @@
 #define CLR_RED   (SDL_Color){0xFF, 0x00, 0x00}
 #define CLR_BLACK (SDL_Color){0x00, 0x00, 0x00}
 
+void color_load_custom_numbers();
+
 SDL_Color color_numbers(int num);
 
 unsigned int color_sdl_to_bitpack(SDL_Color color);

@@ -1,4 +1,5 @@
 #include "app.h"
+#include "color.h"
 #include "consts.h"
 #include "draw.h"
 #include "gamesettings.h"
@@ -26,6 +27,7 @@ SDL_AppResult SDL_AppInit(void **rustptr, int argc, char **argv) {
 
 	SDL_srand(0);
 
+	color_load_custom_numbers();
 	settings_load();
 	highscores_file_load();
 
