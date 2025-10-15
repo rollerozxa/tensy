@@ -45,6 +45,20 @@ void statistics_draw(void) {
 		text_draw_shadow(label, 30, 68, 2);
 	}
 
+	{
+		char label[96];
+		snprintf(label, sizeof(label), "Total numbers removed: %lu", settings()->numbers_removed);
+
+		text_draw_shadow(label, 30, 118, 2);
+	}
+
+	{
+		char label[96];
+		snprintf(label, sizeof(label), "Total score accumulated: %lu", settings()->total_accumulated_score);
+
+		text_draw_shadow(label, 30, 168, 2);
+	}
+
 	button(&leaderboard_button);
 
 	button(&ok_button);

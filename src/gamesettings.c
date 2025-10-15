@@ -4,7 +4,10 @@
 
 static Settings settings_data = {
 	  (1ULL << FLAG_SOUND)
-	+ (1ULL << FLAG_MUSIC)
+	+ (1ULL << FLAG_MUSIC),
+	0.0f,
+	0, 0,
+	""
 };
 
 static bool dirty = false;

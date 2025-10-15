@@ -82,12 +82,16 @@ static bool do_move(void) {
 	for (size_t y = fminf(first_held_pos.y, current_held_pos.y); y <= fmaxf(current_held_pos.y, first_held_pos.y); y++) {
 		board.p[x][y].removed = true;
 		removed_cells++;
+		settings()->numbers_removed++;
 	}}
 
 	if (board.physics)
 		board_physics();
 
-	game.score += sum * (removed_cells-1);
+	int score_addition = sum * (removed_cells-1);
+	game.score += score_addition;
+	settings()->total_accumulated_score += score_addition;
+
 	return true;
 }
 
