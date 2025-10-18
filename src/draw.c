@@ -91,7 +91,15 @@ void draw_border_box(SDL_FRect *rect, unsigned int bgcolor, unsigned int borderc
 	draw_set_color(bordercolor);
 	draw_fill_rect(rect);
 	draw_set_color(bgcolor);
-	draw_fill_rect(&RECT(rect->x + 1, rect->y + 1, rect->w - 2, rect->h - 2));
+
+	SDL_FRect box_rect = {
+		rect->x + bordersize,
+		rect->y + bordersize,
+		rect->w - 2 * bordersize,
+		rect->h - 2 * bordersize
+	};
+
+	draw_fill_rect(&box_rect);
 }
 
 void draw_translucent_overlay(void) {
