@@ -9,6 +9,7 @@ typedef struct {
 	uint64_t numbers_removed;
 	uint64_t total_accumulated_score;
 	char last_username[12];
+	uint32_t numbers[9];
 } Settings;
 
 typedef enum {

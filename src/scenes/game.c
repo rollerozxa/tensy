@@ -83,6 +83,7 @@ static bool do_move(void) {
 		board.p[x][y].removed = true;
 		removed_cells++;
 		settings()->numbers_removed++;
+		settings()->numbers[board.p[x][y].number - 1]++;
 	}}
 
 	if (board.physics)

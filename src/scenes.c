@@ -13,6 +13,7 @@ extern Scene leaderboard_scene;
 extern Scene mainmenu_scene;
 extern Scene selectmode_scene;
 extern Scene settings_scene;
+extern Scene statistics_numbers_scene;
 extern Scene statistics_scene;
 
 extern Overlay endgame_overlay;
@@ -36,6 +37,7 @@ void scenes_register(void) {
 	scene_add(leaderboard_scene);
 	scene_add(selectmode_scene);
 	scene_add(settings_scene);
+	scene_add(statistics_numbers_scene);
 	scene_add(statistics_scene);
 
 	overlay_add(endgame_overlay);

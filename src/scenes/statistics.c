@@ -9,10 +9,12 @@
 #include <SDL3/SDL.h>
 #include <stdio.h>
 
-static Button leaderboard_button, ok_button;
+static Button leaderboard_button, numbers_button, ok_button;
 
 void statistics_init(void) {
 	BUTTON(leaderboard_button, RECT(235,250,170,40), "Leaderboard");
+
+	BUTTON(numbers_button, RECT(20,300,200,40), "Number Statistics");
 
 	BUTTON(ok_button, RECT(245,300,150,40), "Back");
 }
@@ -21,6 +23,9 @@ void statistics_event(const SDL_Event *ev) {
 
 	if (button_event(ev, &leaderboard_button))
 		scene_switch("leaderboard");
+
+	if (button_event(ev, &numbers_button))
+		scene_switch("statistics_numbers");
 
 	if (button_event(ev, &ok_button) || is_escaping(ev))
 		scene_switch("mainmenu");
@@ -60,6 +65,8 @@ void statistics_draw(void) {
 	}
 
 	button(&leaderboard_button);
+
+	button(&numbers_button);
 
 	button(&ok_button);
 
