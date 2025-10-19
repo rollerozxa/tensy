@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.14)
 project(tensy C)
-set(CMAKE_C_STANDARD 99)
+set(CMAKE_C_STANDARD 23)
 set(PROJ ${PROJECT_NAME})
 
 include(cmake/DownloadLib.cmake)
@@ -120,7 +120,7 @@ endif()
 
 # Generate embedded data files as header files to be included
 
-include(cmake/GenerateDataFiles.cmake)
-generate_data_files()
-add_custom_target(generate_data DEPENDS ${GENERATED_DATA_HEADERS})
-add_dependencies(${PROJ} generate_data)
+#include(cmake/GenerateDataFiles.cmake)
+#generate_data_files()
+#add_custom_target(generate_data DEPENDS ${GENERATED_DATA_HEADERS})
+#add_dependencies(${PROJ} generate_data)

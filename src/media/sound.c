@@ -5,10 +5,26 @@
 #include "assetloader.h"
 
 #if EMBEDDED_DATA
-#include <data/click_ogg.h>
-#include <data/match_wav.h>
-#include <data/select_wav.h>
-#include <data/woozy_ogg.h>
+static unsigned char click_ogg[] = {
+	#embed "data/click.ogg"
+};
+static unsigned int click_ogg_len = sizeof(click_ogg);
+
+static unsigned char match_wav[] = {
+	#embed "data/match.wav"
+};
+static unsigned int match_wav_len = sizeof(match_wav);
+
+static unsigned char select_wav[] = {
+	#embed "data/select.wav"
+};
+static unsigned int select_wav_len = sizeof(select_wav);
+
+static unsigned char woozy_ogg[] = {
+	#embed "data/woozy.ogg"
+};
+static unsigned int woozy_ogg_len = sizeof(woozy_ogg);
+
 #endif
 
 extern MIX_Mixer *mixer;

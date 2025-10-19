@@ -5,17 +5,61 @@
 #include "assetloader.h"
 
 #if EMBEDDED_DATA
-#include <data/background_stripes_qoi.h>
-#include <data/check_qoi.h>
-#include <data/clock_qoi.h>
-#include <data/end_qoi.h>
-#include <data/icon_qoi.h>
-#include <data/intro_raccoon_qoi.h>
-#include <data/intro_text_qoi.h>
-#include <data/pause_qoi.h>
-#include <data/settings_qoi.h>
-#include <data/shuffle_qoi.h>
-#include <data/undo_qoi.h>
+static unsigned char background_stripes_qoi = {
+	#embed "data/background_stripes.qoi"
+};
+static unsigned int background_stripes_qoi_len = sizeof(background_stripes_qoi);
+
+static unsigned char check_qoi = {
+	#embed "data/check.qoi"
+};
+static unsigned int check_qoi_len = sizeof(check_qoi);
+
+static unsigned char clock_qoi = {
+	#embed "data/clock.qoi"
+};
+static unsigned int clock_qoi_len = sizeof(clock_qoi);
+
+static unsigned char end_qoi = {
+	#embed "data/end.qoi"
+};
+static unsigned int end_qoi_len = sizeof(end_qoi);
+
+static unsigned char icon_qoi = {
+	#embed "data/icon.qoi"
+};
+static unsigned int icon_qoi_len = sizeof(icon_qoi);
+
+static unsigned char intro_raccoon_qoi = {
+	#embed "data/intro_raccoon.qoi"
+};
+static unsigned int intro_raccoon_qoi_len = sizeof(intro_raccoon_qoi);
+
+static unsigned char intro_text_qoi = {
+	#embed "data/intro_text.qoi"
+};
+static unsigned int intro_text_qoi_len = sizeof(intro_text_qoi);
+
+static unsigned char pause_qoi = {
+	#embed "data/pause.qoi"
+};
+static unsigned int pause_qoi_len = sizeof(pause_qoi);
+
+static unsigned char settings_qoi = {
+	#embed "data/settings.qoi"
+};
+static unsigned int settings_qoi_len = sizeof(settings_qoi);
+
+static unsigned char shuffle_qoi = {
+	#embed "data/shuffle.qoi"
+};
+static unsigned int shuffle_qoi_len = sizeof(shuffle_qoi);
+
+static unsigned char undo_qoi = {
+	#embed "data/undo.qoi"
+};
+static unsigned int undo_qoi_len = sizeof(undo_qoi);
+
 #endif
 
 static SDL_Texture *texture_bank[100];
