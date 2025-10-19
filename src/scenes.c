@@ -2,6 +2,12 @@
 #include "overlay.h"
 #include "scene.h"
 
+#if defined(DEBUG) || !VER_DEV
+	#define START_SCENE "intro"
+#else
+	#define START_SCENE "devintro"
+#endif
+
 extern Scene about_scene;
 extern Scene credits_scene;
 extern Scene devintro_scene;
@@ -23,22 +29,21 @@ extern Overlay pause_overlay;
 extern Overlay shuffle_overlay;
 
 void scenes_register(void) {
-	// First scene needs to be first
-#ifndef DEBUG
-	scene_add(devintro_scene);
-#endif
-	scene_add(intro_scene);
-	scene_add(credits_scene);
-	scene_add(mainmenu_scene);
 	scene_add(about_scene);
+	scene_add(credits_scene);
+	scene_add(devintro_scene);
 	scene_add(exiting_scene);
 	scene_add(game_scene);
 	scene_add(gameconfig_scene);
+	scene_add(intro_scene);
 	scene_add(leaderboard_scene);
+	scene_add(mainmenu_scene);
 	scene_add(selectmode_scene);
 	scene_add(settings_scene);
 	scene_add(statistics_numbers_scene);
 	scene_add(statistics_scene);
+
+	scene_switch_instant(START_SCENE);
 
 	overlay_add(endgame_overlay);
 	overlay_add(exitconfirm_overlay);

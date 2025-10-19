@@ -60,6 +60,19 @@ void scene_switch(const char *name) {
 	return;
 }
 
+void scene_switch_instant(const char *name) {
+	for (size_t i = 0; i < MAX_SCENES; i++) {
+		if (strcmp(name, scenes[i].name) == 0) {
+			current_scene = i;
+			scene_run_init();
+			return;
+		}
+	}
+
+	SDL_assert(0);
+	return;
+}
+
 const char *scene_get_current(void) {
 	return scenes[current_scene].name;
 }

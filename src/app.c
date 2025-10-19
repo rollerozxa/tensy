@@ -28,8 +28,6 @@ void AppInit(SDL_Window *window, SDL_Renderer *renderer) {
 
 	scenes_register();
 	init_gamemodes();
-
-	scene_run_init();
 }
 
 void AppEvent(SDL_Event *ev) {

@@ -17,6 +17,7 @@ typedef struct {
 int scene_add(Scene scene);
 
 void scene_switch(const char *name);
+void scene_switch_instant(const char *name);
 
 const char *scene_get_current(void);
 
