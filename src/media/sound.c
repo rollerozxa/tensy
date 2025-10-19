@@ -5,25 +5,26 @@
 #include "assetloader.h"
 
 #if EMBEDDED_DATA
-static unsigned char click_ogg[] = {
-	#embed "data/click.ogg"
-};
-static unsigned int click_ogg_len = sizeof(click_ogg);
 
-static unsigned char match_wav[] = {
-	#embed "data/match.wav"
+unsigned char click_ogg[] = {
+	#embed "../../data/sounds/click.ogg"
 };
-static unsigned int match_wav_len = sizeof(match_wav);
+unsigned int click_ogg_len = sizeof(click_ogg);
 
-static unsigned char select_wav[] = {
-	#embed "data/select.wav"
+unsigned char match_wav[] = {
+	#embed "../../data/sounds/match.wav"
 };
-static unsigned int select_wav_len = sizeof(select_wav);
+unsigned int match_wav_len = sizeof(match_wav);
 
-static unsigned char woozy_ogg[] = {
-	#embed "data/woozy.ogg"
+unsigned char select_wav[] = {
+	#embed "../../data/sounds/select.wav"
 };
-static unsigned int woozy_ogg_len = sizeof(woozy_ogg);
+unsigned int select_wav_len = sizeof(select_wav);
+
+unsigned char woozy_ogg[] = {
+	#embed "../../data/sounds/woozy.ogg"
+};
+unsigned int woozy_ogg_len = sizeof(woozy_ogg);
 
 #endif
 

@@ -6,15 +6,16 @@
 #include "assetloader.h"
 
 #if EMBEDDED_DATA
-static unsigned char music_credits_oxm[] = {
-	#embed "data/music_credits.oxm"
-};
-static unsigned int music_credits_oxm_len = sizeof(music_credits_oxm);
 
-static unsigned char music_mainmenu_xm[] = {
-	#embed "data/music_mainmenu.xm"
+unsigned char music_credits_oxm[] = {
+	#embed "../../data/music/music_credits.oxm"
 };
-static unsigned int music_mainmenu_xm_len = sizeof(music_mainmenu_xm);
+unsigned int music_credits_oxm_len = sizeof(music_credits_oxm);
+
+unsigned char music_mainmenu_xm[] = {
+	#embed "../../data/music/music_mainmenu.xm"
+};
+unsigned int music_mainmenu_xm_len = sizeof(music_mainmenu_xm);
 
 #endif
 

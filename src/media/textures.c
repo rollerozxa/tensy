@@ -5,60 +5,61 @@
 #include "assetloader.h"
 
 #if EMBEDDED_DATA
-static unsigned char background_stripes_qoi = {
-	#embed "data/background_stripes.qoi"
-};
-static unsigned int background_stripes_qoi_len = sizeof(background_stripes_qoi);
 
-static unsigned char check_qoi = {
-	#embed "data/check.qoi"
+unsigned char background_stripes_qoi[] = {
+	#embed "../../data/textures/background_stripes.qoi"
 };
-static unsigned int check_qoi_len = sizeof(check_qoi);
+unsigned int background_stripes_qoi_len = sizeof(background_stripes_qoi);
 
-static unsigned char clock_qoi = {
-	#embed "data/clock.qoi"
+unsigned char check_qoi[] = {
+	#embed "../../data/textures/check.qoi"
 };
-static unsigned int clock_qoi_len = sizeof(clock_qoi);
+unsigned int check_qoi_len = sizeof(check_qoi);
 
-static unsigned char end_qoi = {
-	#embed "data/end.qoi"
+unsigned char clock_qoi[] = {
+	#embed "../../data/textures/clock.qoi"
 };
-static unsigned int end_qoi_len = sizeof(end_qoi);
+unsigned int clock_qoi_len = sizeof(clock_qoi);
 
-static unsigned char icon_qoi = {
-	#embed "data/icon.qoi"
+unsigned char end_qoi[] = {
+	#embed "../../data/textures/end.qoi"
 };
-static unsigned int icon_qoi_len = sizeof(icon_qoi);
+unsigned int end_qoi_len = sizeof(end_qoi);
 
-static unsigned char intro_raccoon_qoi = {
-	#embed "data/intro_raccoon.qoi"
+unsigned char icon_qoi[] = {
+	#embed "../../data/textures/icon.qoi"
 };
-static unsigned int intro_raccoon_qoi_len = sizeof(intro_raccoon_qoi);
+unsigned int icon_qoi_len = sizeof(icon_qoi);
 
-static unsigned char intro_text_qoi = {
-	#embed "data/intro_text.qoi"
+unsigned char intro_raccoon_qoi[] = {
+	#embed "../../data/textures/intro_raccoon.qoi"
 };
-static unsigned int intro_text_qoi_len = sizeof(intro_text_qoi);
+unsigned int intro_raccoon_qoi_len = sizeof(intro_raccoon_qoi);
 
-static unsigned char pause_qoi = {
-	#embed "data/pause.qoi"
+unsigned char intro_text_qoi[] = {
+	#embed "../../data/textures/intro_text.qoi"
 };
-static unsigned int pause_qoi_len = sizeof(pause_qoi);
+unsigned int intro_text_qoi_len = sizeof(intro_text_qoi);
 
-static unsigned char settings_qoi = {
-	#embed "data/settings.qoi"
+unsigned char pause_qoi[] = {
+	#embed "../../data/textures/pause.qoi"
 };
-static unsigned int settings_qoi_len = sizeof(settings_qoi);
+unsigned int pause_qoi_len = sizeof(pause_qoi);
 
-static unsigned char shuffle_qoi = {
-	#embed "data/shuffle.qoi"
+unsigned char settings_qoi[] = {
+	#embed "../../data/textures/settings.qoi"
 };
-static unsigned int shuffle_qoi_len = sizeof(shuffle_qoi);
+unsigned int settings_qoi_len = sizeof(settings_qoi);
 
-static unsigned char undo_qoi = {
-	#embed "data/undo.qoi"
+unsigned char shuffle_qoi[] = {
+	#embed "../../data/textures/shuffle.qoi"
 };
-static unsigned int undo_qoi_len = sizeof(undo_qoi);
+unsigned int shuffle_qoi_len = sizeof(shuffle_qoi);
+
+unsigned char undo_qoi[] = {
+	#embed "../../data/textures/undo.qoi"
+};
+unsigned int undo_qoi_len = sizeof(undo_qoi);
 
 #endif
 
