@@ -37,7 +37,9 @@ void button(Button *button) {
 	SDL_FPoint mouse;
 	mouse_get_state_scaled(&mouse);
 
-	if (SDL_PointInRectFloat(&mouse, &rect)) {
+	if (button->_disabled)
+		draw_box_disabled(&rect);
+	else if (SDL_PointInRectFloat(&mouse, &rect)) {
 		if (button->_held)
 			draw_box_active(&rect);
 		else

@@ -2,9 +2,12 @@
 #include "fileio.h"
 #include <stdio.h>
 
+#define DEFAULT_FLAGS \
+	  (1ULL << FLAG_SOUND) \
+	+ (1ULL << FLAG_MUSIC)
+
 static Settings settings_data = {
-	  (1ULL << FLAG_SOUND)
-	+ (1ULL << FLAG_MUSIC),
+	DEFAULT_FLAGS,
 	0.0f,
 	0, 0,
 	""
@@ -91,4 +94,11 @@ bool settings_save(void) {
 	fclose(fp);
 
 	return true;
+}
+
+void settings_clear(void) {
+	settings_data = (Settings){0};
+	settings_data.flags = DEFAULT_FLAGS;
+
+	settings_save();
 }

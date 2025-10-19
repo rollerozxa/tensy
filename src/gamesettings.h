@@ -30,3 +30,5 @@ void settings_savetimer(float dt);
 
 bool settings_load(void);
 bool settings_save(void);
+
+void settings_clear(void);

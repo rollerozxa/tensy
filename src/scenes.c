@@ -9,6 +9,7 @@
 #endif
 
 extern Scene about_scene;
+extern Scene clear_data_scene;
 extern Scene credits_scene;
 extern Scene devintro_scene;
 extern Scene exiting_scene;
@@ -30,6 +31,7 @@ extern Overlay shuffle_overlay;
 
 void scenes_register(void) {
 	scene_add(about_scene);
+	scene_add(clear_data_scene);
 	scene_add(credits_scene);
 	scene_add(devintro_scene);
 	scene_add(exiting_scene);

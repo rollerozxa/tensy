@@ -51,6 +51,15 @@ bool highscores_populate_dummy(void) {
 	return false;
 }
 
+void highscores_clear(void) {
+	for (int i = 0; i < gamemode_count; i++)
+		for (int j = 0; j < 4; j++)
+			for (int k = 0; k < MAX_HIGHSCORES; k++)
+				highscores[i][j][k] = (Highscore){0};
+
+	highscores_file_save();
+}
+
 bool highscores_file_save(void) {
 	FILE *fp = fopen(hs_filepath, "wb");
 	if (!fp)

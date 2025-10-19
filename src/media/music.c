@@ -28,6 +28,11 @@ void music_init(void) {
 		music_mute(true);
 }
 
+void music_reset(void) {
+	last_played = -1;
+	music_mute(false);
+}
+
 void music_play(int music_id, int loops) {
 	if (last_played == music_id && music_is_playing()) {
 		return;

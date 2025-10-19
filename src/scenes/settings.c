@@ -57,6 +57,12 @@ void settings_event(const SDL_Event *ev) {
 		sound_play(SND_WOOZY);
 		toast_show("...huh...?", 3);
 	}
+
+	// Ctrl+Shift+Delete to clear data
+	if (ev->type == SDL_EVENT_KEY_UP && ev->key.key == SDLK_DELETE
+			&& ev->key.mod & SDL_KMOD_CTRL && ev->key.mod & SDL_KMOD_SHIFT) {
+		scene_switch("clear_data");
+	}
 }
 
 void settings_update(float dt) {

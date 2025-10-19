@@ -7,6 +7,7 @@ typedef struct {
 	SDL_FRect rect;
 	const char *text;
 	bool _held;
+	bool _disabled;
 } Button;
 
 #define BUTTON(obj, rect, text) \
