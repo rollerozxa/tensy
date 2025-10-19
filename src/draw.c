@@ -108,7 +108,7 @@ void draw_translucent_overlay(void) {
 	draw_fill_rect(&FULL_RECT());
 }
 
-SDL_FRect draw_centered_fill_rect(SDL_FPoint dimensions) {
+SDL_FRect draw_centered_fill_rect(SDL_FPoint dimensions, unsigned int bgcolor) {
 	SDL_FRect rect = {
 		0, 0,
 		dimensions.x,
@@ -117,7 +117,7 @@ SDL_FRect draw_centered_fill_rect(SDL_FPoint dimensions) {
 	rect.x = (SCREEN_W - rect.w) / 2;
 	rect.y = (SCREEN_H - rect.h) / 2;
 
-	draw_set_color(0x102a63);
+	draw_set_color(bgcolor);
 	draw_fill_rect(&rect);
 
 	return rect;

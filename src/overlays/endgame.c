@@ -28,7 +28,7 @@ void endgame_event(const SDL_Event *ev) {
 void endgame_draw(void) {
 	draw_translucent_overlay();
 
-	SDL_FRect pausebg_rect = draw_centered_fill_rect(POINT(20 * 15, 20 * 7.5));
+	SDL_FRect pausebg_rect = draw_centered_fill_rect(POINT(20 * 15, 20 * 7.5), 0x102a63);
 
 	SDL_FRect text_rect = {pausebg_rect.x, pausebg_rect.y, pausebg_rect.w, 20*2};
 	text_draw_shadow_centered("End game?", &text_rect, 2);

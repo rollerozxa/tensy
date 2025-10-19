@@ -37,7 +37,7 @@ void gameover_event(const SDL_Event *ev) {
 void gameover_draw(void) {
 	draw_translucent_overlay();
 
-	SDL_FRect bg_rect = draw_centered_fill_rect(POINT(20 * 10, 20 * 12));
+	SDL_FRect bg_rect = draw_centered_fill_rect(POINT(20 * 10, 20 * 12), 0x102a63);
 
 	SDL_FRect text_rect = {bg_rect.x, bg_rect.y, bg_rect.w, 20*2};
 	if (current_gamemode().time_limit)

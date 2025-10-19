@@ -38,7 +38,7 @@ void statistics_numbers_draw(void) {
 	draw_tiled_bg(bgpan);
 
 	SDL_FPoint dims = { SCREEN_W * 0.8f, SCREEN_H * 0.75f };
-	SDL_FRect panel = draw_centered_fill_rect(dims);
+	SDL_FRect panel = draw_centered_fill_rect(dims, 0x102a63);
 
 	const int margin = 30;
 	SDL_FRect chart = {
