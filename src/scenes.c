@@ -1,6 +1,7 @@
 #include "scenes.h"
 #include "overlay.h"
 #include "scene.h"
+#include "version_info.h"
 
 #if defined(DEBUG) || !VER_DEV
 	#define START_SCENE "intro"
