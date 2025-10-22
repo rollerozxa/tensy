@@ -20,6 +20,8 @@ void clear_data_init(void) {
 	confirm_button._disabled = true;
 	BUTTON(cancel_button, RECT(0, 0, 120, 35), "Cancel");
 	CHECKBOX(confirm_checkbox, POINT(225, 200), false, "Yes, I'm sure");
+
+	music_play(MUS_MYSTERY, -1);
 }
 
 void clear_data_event(const SDL_Event *ev) {
@@ -34,8 +36,10 @@ void clear_data_event(const SDL_Event *ev) {
 	if (checkbox_event(ev, &confirm_checkbox))
 		confirm_button._disabled = !confirm_checkbox.checked;
 
-	if (button_event(ev, &cancel_button) || is_escaping(ev))
+	if (button_event(ev, &cancel_button) || is_escaping(ev)) {
+		music_play(MUS_MAINMENU, -1);
 		scene_switch("settings");
+	}
 }
 
 void clear_data_update(float dt) {

@@ -8,6 +8,7 @@
 #if EMBEDDED_DATA
 #include <data/music_credits_oxm.h>
 #include <data/music_mainmenu_xm.h>
+#include <data/music_mystery_ogg.h>
 #endif
 
 extern MIX_Mixer *mixer;
@@ -21,6 +22,7 @@ static int last_played;
 void music_init(void) {
 	LOAD_MUSIC(MUS_CREDITS, music_credits_oxm, "music_credits.oxm");
 	LOAD_MUSIC(MUS_MAINMENU, music_mainmenu_xm, "music_mainmenu.xm");
+	LOAD_MUSIC(MUS_MYSTERY, music_mystery_ogg, "music_mystery.ogg");
 
 	music_track = MIX_CreateTrack(mixer);
 
