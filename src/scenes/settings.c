@@ -12,7 +12,7 @@
 
 static Checkbox mono_numbers_checkbox, sound_checkbox, reduced_motion_checkbox, fullscreen_checkbox, music_checkbox;
 
-static Button save_button;
+static Button save_button, delete_data_button;
 
 void settings_init(void) {
 	CHECKBOX(mono_numbers_checkbox, POINT(20,80), settings_getflag(FLAG_MONO_NUMBERS), "Monochrome numbers");
@@ -20,9 +20,10 @@ void settings_init(void) {
 	CHECKBOX(reduced_motion_checkbox, POINT(20, 80+40*2), settings_getflag(FLAG_REDUCED_MOTION), "Reduced motion");
 	CHECKBOX(fullscreen_checkbox, POINT(20, 80+40*3), settings_getflag(FLAG_FULLSCREEN), "Fullscreen");
 
-	CHECKBOX(music_checkbox, POINT(340, 80), settings_getflag(FLAG_MUSIC), "Music");
+	CHECKBOX(music_checkbox, POINT(320, 80), settings_getflag(FLAG_MUSIC), "Music");
 
 	BUTTON(save_button, RECT(220,280,200,40), "Save & Go back");
+	BUTTON(delete_data_button, RECT(420,20,200,40), "Clear save data");
 }
 
 extern SDL_Window *window;
@@ -59,8 +60,10 @@ void settings_event(const SDL_Event *ev) {
 	}
 
 	// Ctrl+Shift+Delete to clear data
-	if (ev->type == SDL_EVENT_KEY_UP && ev->key.key == SDLK_DELETE
-			&& ev->key.mod & SDL_KMOD_CTRL && ev->key.mod & SDL_KMOD_SHIFT) {
+	bool special_combo = ev->type == SDL_EVENT_KEY_UP && ev->key.key == SDLK_DELETE
+			&& ev->key.mod & SDL_KMOD_CTRL && ev->key.mod & SDL_KMOD_SHIFT && ev->key.mod & SDL_KMOD_ALT;
+
+	if (button_event(ev, &delete_data_button) || special_combo) {
 		scene_switch("clear_data");
 	}
 }
@@ -83,6 +86,7 @@ void settings_draw(void) {
 	checkbox(&music_checkbox);
 
 	button(&save_button);
+	button(&delete_data_button);
 }
 
 Scene settings_scene = {
