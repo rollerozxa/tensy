@@ -22,13 +22,14 @@
 #define BOARD_H 16
 
 static Button play_button, about_button, statistics_button;
-static TexButton settings_button;
+static TexButton itchio_button, settings_button;
 
 void mainmenu_init(void) {
 	BUTTON(play_button, RECT(245,200,150,40), "Play");
 	BUTTON(about_button, RECT(160,260,150,40), "About");
 	BUTTON(statistics_button, RECT(330,260,150,40), "Statistics");
 
+	TEX_BUTTON(itchio_button, RECT(SCREEN_W - (48*2) - 2, 2, 48, 48), TEX_ITCHIO);
 	TEX_BUTTON(settings_button, RECT(SCREEN_W - 48 - 1, 1, 48, 48), TEX_SETTINGS);
 
 	music_play(MUS_MAINMENU, -1);
@@ -48,6 +49,11 @@ void mainmenu_event(const SDL_Event *ev) {
 
 	if (button_event(ev, &statistics_button))
 		scene_switch("statistics");
+
+	if (tex_button_event(ev, &itchio_button)) {
+		toast_show("Opening rollerozxa.itch.io/tensy...", 15);
+		SDL_OpenURL("https://rollerozxa.itch.io/tensy");
+	}
 
 	if (tex_button_event(ev, &settings_button))
 		scene_switch("settings");
@@ -92,6 +98,7 @@ void mainmenu_draw(void) {
 	button(&about_button);
 	button(&statistics_button);
 
+	tex_button(&itchio_button);
 	tex_button(&settings_button);
 
 	FMT_STRING(statusmsg, 512, "Tensy ver. %s%s (%s)", VER_STRING, (VER_DEV ? "-dev" : ""), SDL_GetPlatform());

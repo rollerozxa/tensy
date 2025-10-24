@@ -12,6 +12,7 @@
 #include <data/icon_qoi.h>
 #include <data/intro_raccoon_qoi.h>
 #include <data/intro_text_qoi.h>
+#include <data/itchio_qoi.h>
 #include <data/pause_qoi.h>
 #include <data/settings_qoi.h>
 #include <data/shuffle_qoi.h>
@@ -46,6 +47,7 @@ void textures_init(SDL_Renderer *renderer) {
 	LOAD_TEX(TEX_END, end_qoi, "end.qoi");
 	LOAD_TEX(TEX_INTRO_RACCOON, intro_raccoon_qoi, "intro_raccoon.qoi");
 	LOAD_TEX_LIN(TEX_INTRO_TEXT, intro_text_qoi, "intro_text.qoi");
+	LOAD_TEX(TEX_ITCHIO, itchio_qoi, "itchio.qoi");
 	LOAD_TEX(TEX_PAUSE, pause_qoi, "pause.qoi");
 	LOAD_TEX(TEX_SETTINGS, settings_qoi, "settings.qoi");
 	LOAD_TEX(TEX_SHUFFLE, shuffle_qoi, "shuffle.qoi");
