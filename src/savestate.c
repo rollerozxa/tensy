@@ -63,6 +63,9 @@ bool savestate_save(void) {
 		}
 	}
 
+	for (int i = 0; i < 9; i++)
+		WRITE_SHORT(game.number_stats[i]);
+
 	fclose(fp);
 
 	game.dirty = false;
@@ -101,6 +104,9 @@ bool savestate_load(void) {
 			game.board.p[x][y].removed = (packed & 0x80) != 0;
 		}
 	}
+	for (int i = 0; i < 9; i++)
+		READ_SHORT(game.number_stats[i]);
+
 	fclose(fp);
 
 	return true;

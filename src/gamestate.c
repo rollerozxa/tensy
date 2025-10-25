@@ -14,7 +14,8 @@ Game game = {
 	.loaded_existing = false,
 	.shuffles = 0,
 	.dirty = true,
-	.dead = false
+	.dead = false,
+	.number_stats = {0},
 };
 
 typedef struct ChkNode {
@@ -32,6 +33,8 @@ void gamestate_checkpoint(void) {
 	board_copy(&node->checkpoint.board, &game.board);
 	node->checkpoint.score = game.score;
 	node->checkpoint.shuffles = game.shuffles;
+	for (int i = 0; i < 9; i++)
+		node->checkpoint.number_stats[i] = game.number_stats[i];
 
 	node->prev = head;
 	head = node;
@@ -53,6 +56,8 @@ void gamestate_undo(void) {
 	board_copy(&game.board, &node->checkpoint.board);
 	game.score = node->checkpoint.score;
 	game.shuffles = node->checkpoint.shuffles;
+	for (int i = 0; i < 9; i++)
+		game.number_stats[i] = node->checkpoint.number_stats[i];
 
 	board_free(&node->checkpoint.board);
 	free(node);

@@ -14,6 +14,7 @@ typedef struct {
 	int shuffles;
 	bool dirty;
 	bool dead;
+	uint32_t number_stats[9];
 	// Random identifier used to check if an active game corresponds to the current saved game
 	uint64_t identifier;
 } Game;
@@ -23,6 +24,7 @@ typedef struct {
 	Board board;
 	int score;
 	int shuffles;
+	uint16_t number_stats[9];
 } Checkpoint;
 
 extern Game game;
