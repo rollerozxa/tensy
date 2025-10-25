@@ -11,10 +11,11 @@
 #include <SDL3/SDL.h>
 #include <stddef.h>
 
-static Button resume_button, save_button, exit_button;
+static Button resume_button, statistics_button, save_button, exit_button;
 
 void pause_init(void) {
 	BUTTON(resume_button, RECT(0, 0, 150, 40), "Resume");
+	BUTTON(statistics_button, RECT(0, 0, 150, 40), "Statistics");
 	BUTTON(save_button, RECT(0, 0, 150, 40), "Save");
 	BUTTON(exit_button, RECT(0, 0, 150, 40), "Exit");
 }
@@ -22,6 +23,9 @@ void pause_init(void) {
 void pause_event(const SDL_Event *ev) {
 	if (button_event(ev, &resume_button) || is_escaping(ev))
 		overlay_hide();
+
+	if (button_event(ev, &statistics_button))
+		overlay_switch("game_statistics_numbers");
 
 	if (button_event(ev, &save_button)) {
 		savestate_save();
@@ -41,27 +45,16 @@ void pause_event(const SDL_Event *ev) {
 void pause_draw(void) {
 	draw_translucent_overlay();
 
-	SDL_FRect pausebg_rect = draw_centered_fill_rect(POINT(20 * 10, 20 * 12), 0x102a63);
+	SDL_FRect pausebg_rect = draw_centered_fill_rect(POINT(20 * 10, 20 * 14), 0x102a63);
 
 	SDL_FRect text_rect = {pausebg_rect.x, pausebg_rect.y, pausebg_rect.w, 20*2};
 	text_draw_shadow_centered("Game paused", &text_rect, 2);
 
 	float btn_x = pausebg_rect.x + CENTER(pausebg_rect.w, resume_button.rect.w);
 
-	resume_button.rect.x = btn_x;
-	resume_button.rect.y = pausebg_rect.y + 20*3;
+	Button *buttons[] = {&resume_button, &statistics_button, &save_button, &exit_button};
 
-	button(&resume_button);
-
-	save_button.rect.x = btn_x;
-	save_button.rect.y = pausebg_rect.y + 20*6;
-
-	button(&save_button);
-
-	exit_button.rect.x = btn_x;
-	exit_button.rect.y = pausebg_rect.y + 20*9;
-
-	button(&exit_button);
+	button_bar(*buttons, btn_x, pausebg_rect.y + 20*2.5, 20);
 }
 
 Overlay pause_overlay = {

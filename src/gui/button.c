@@ -52,3 +52,13 @@ void button(Button *button) {
 	font_set_color(CLR_WHITE);
 	text_draw_shadow_centered(text, &rect, label_scale(rect.h));
 }
+
+void button_bar(Button *buttons, float x, float y, float yp) {
+	for (size_t i = 0; buttons[i].rect.w != 0; i++) {
+		Button *btn = &buttons[i];
+
+		btn->rect.x = x;
+		btn->rect.y = y + i * (btn->rect.h + yp);
+		button(&buttons[i]);
+	}
+}
