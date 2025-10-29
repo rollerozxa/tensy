@@ -118,6 +118,10 @@ void font_draw_char(unsigned char character, float cx, float cy, float scale) {
 }
 
 void font_draw_char_shadow(unsigned char character, float cx, float cy, float scale) {
+
+	if (font_tex == NULL)
+		font_tex = font_load();
+
 	SDL_Color temp = font_get_color();
 
 	// TODO: Make this more better (this is just to make toasts fade out)
