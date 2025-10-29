@@ -59,6 +59,6 @@ void button_bar(Button *buttons, float x, float y, float yp) {
 
 		btn->rect.x = x;
 		btn->rect.y = y + i * (btn->rect.h + yp);
-		button(&buttons[i]);
+		button(btn);
 	}
 }
