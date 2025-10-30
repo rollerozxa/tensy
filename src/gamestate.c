@@ -6,7 +6,7 @@
 #include <stdlib.h>
 
 Game game = {
-	.board = {NULL, 30, 15, 2},
+	.board = {NULL, 30, 15, 2, .boardsize = 2},
 	.score = 0,
 	.time_left = 0.f,
 	.total_time = 0.f,

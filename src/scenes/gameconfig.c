@@ -36,9 +36,9 @@ void gameconfig_init(void) {
 	CHECKBOX(physics_checkbox, POINT(20, 140), false, "Board physics");
 
 	board_preview.rect_offset = POINT(150, 50);
-	board_change_size(&board_preview, board_sizes[2].w, board_sizes[2].h, board_sizes[2].scale -1);
+	int cur_bs = game.board.boardsize;
+	board_change_size(&board_preview, board_sizes[cur_bs].w, board_sizes[cur_bs].h, board_sizes[cur_bs].scale -1);
 	board_zerofill(&board_preview);
-	game.board.boardsize = 2;
 }
 
 void gameconfig_event(const SDL_Event *ev) {
