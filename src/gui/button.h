@@ -16,4 +16,4 @@ typedef struct {
 bool button_event(const SDL_Event *ev, Button *button);
 void button(Button *button);
 
-void button_bar(Button *buttons, float x, float y, float yp);
+void button_bar(Button **buttons, float x, float y, float yp);

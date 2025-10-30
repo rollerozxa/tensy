@@ -52,9 +52,9 @@ void pause_draw(void) {
 
 	float btn_x = pausebg_rect.x + CENTER(pausebg_rect.w, resume_button.rect.w);
 
-	Button *buttons[] = {&resume_button, &statistics_button, &save_button, &exit_button};
+	Button *buttons[] = {&resume_button, &statistics_button, &save_button, &exit_button, NULL};
 
-	button_bar(*buttons, btn_x, pausebg_rect.y + 20*2.5, 20);
+	button_bar(buttons, btn_x, pausebg_rect.y + 20*2.5, 20);
 }
 
 Overlay pause_overlay = {
