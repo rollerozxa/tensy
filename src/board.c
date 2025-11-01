@@ -109,6 +109,7 @@ void board_physics(Board *board) {
 }
 
 void board_update(Board *board, float dt) {
+	uint64_t played = 0;
 	for (int x = 0; x < board->w; x++) {
 	for (int y = 0; y < board->h; y++) {
 		if (!board->p[x][y].falling)
@@ -118,6 +119,11 @@ void board_update(Board *board, float dt) {
 		board->p[x][y].falling_y += board->p[x][y].falling_vel * dt;
 
 		if (board->p[x][y].falling_y >= y) {
+			if (!(played & ((uint64_t)1 << (x % 64)))) {
+				sound_play(SND_FALL);
+				played |= ((uint64_t)1 << (x % 64));
+			}
+
 			board->p[x][y].falling = false;
 		}
 	}}

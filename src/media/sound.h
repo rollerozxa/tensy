@@ -2,6 +2,7 @@
 
 enum {
 	SND_CLICK,
+	SND_FALL,
 	SND_MATCH,
 	SND_SELECT,
 	SND_SHUFFLE,

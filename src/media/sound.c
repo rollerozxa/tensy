@@ -6,6 +6,7 @@
 
 #if EMBEDDED_DATA
 #include <data/click_ogg.h>
+#include <data/fall_wav.h>
 #include <data/match_wav.h>
 #include <data/select_wav.h>
 #include <data/shuffle_ogg.h>
@@ -21,6 +22,7 @@ static MIX_Audio *sound_bank[100];
 
 void sound_init(void) {
 	LOAD_SOUND(SND_CLICK, click_ogg, "click.ogg");
+	LOAD_SOUND(SND_FALL, fall_wav, "fall.wav");
 	LOAD_SOUND(SND_MATCH, match_wav, "match.wav");
 	LOAD_SOUND(SND_SELECT, select_wav, "select.wav");
 	LOAD_SOUND(SND_SHUFFLE, shuffle_ogg, "shuffle.ogg");
