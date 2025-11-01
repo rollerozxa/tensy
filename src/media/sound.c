@@ -8,6 +8,7 @@
 #include <data/click_ogg.h>
 #include <data/match_wav.h>
 #include <data/select_wav.h>
+#include <data/shuffle_ogg.h>
 #include <data/woozy_ogg.h>
 #endif
 
@@ -22,6 +23,7 @@ void sound_init(void) {
 	LOAD_SOUND(SND_CLICK, click_ogg, "click.ogg");
 	LOAD_SOUND(SND_MATCH, match_wav, "match.wav");
 	LOAD_SOUND(SND_SELECT, select_wav, "select.wav");
+	LOAD_SOUND(SND_SHUFFLE, shuffle_ogg, "shuffle.ogg");
 	LOAD_SOUND(SND_WOOZY, woozy_ogg, "woozy.ogg");
 }
 

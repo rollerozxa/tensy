@@ -3,6 +3,7 @@
 #include "consts.h"
 #include "font.h"
 #include "gamemode.h"
+#include "media/sound.h"
 #include <stdlib.h>
 #include <string.h>
 
@@ -130,6 +131,7 @@ void board_update(Board *board, float dt) {
 		board->anim.timer = 0.0f;
 
 		if (!board->anim.returning) {
+			sound_play(SND_SHUFFLE);
 			board_shuffle(board);
 			board->anim.returning = true;
 		} else {

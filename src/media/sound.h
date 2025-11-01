@@ -4,6 +4,7 @@ enum {
 	SND_CLICK,
 	SND_MATCH,
 	SND_SELECT,
+	SND_SHUFFLE,
 	SND_WOOZY
 };
 
