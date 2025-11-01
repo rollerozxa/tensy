@@ -45,27 +45,6 @@ static int calculate_sum(void) {
 	return sum;
 }
 
-static void board_physics(void) {
-	for (int x = 0; x < board.w; x++) {
-	for (int y = board.h - 1; y >= 0; y--) {
-		if (!board.p[x][y].removed)
-			continue;
-
-		int src_y = y - 1;
-		while (src_y >= 0 && board.p[x][src_y].removed)
-			src_y--;
-
-		if (src_y >= 0) {
-			board.p[x][y].number = board.p[x][src_y].number;
-			board.p[x][y].removed = false;
-			board.p[x][src_y].removed = true;
-		} else {
-			board.p[x][y].number = 0;
-			board.p[x][y].removed = true;
-		}
-	}}
-}
-
 static bool do_move(void) {
 	int sum = calculate_sum();
 
@@ -88,7 +67,7 @@ static bool do_move(void) {
 	}}
 
 	if (board.physics)
-		board_physics();
+		board_physics(&board);
 
 	int score_addition = sum * (removed_cells-1);
 	game.score += score_addition;
@@ -218,14 +197,14 @@ void game_update(float dt) {
 }
 
 void game_draw(void) {
-	SDL_Point first_held_point = board_to_screen_coord(&board, first_held_pos.x, first_held_pos.y);
-	SDL_Point current_held_point = board_to_screen_coord(&board, current_held_pos.x, current_held_pos.y);
+	SDL_FPoint first_held_point = board_to_screen_coord(&board, first_held_pos.x, first_held_pos.y);
+	SDL_FPoint current_held_point = board_to_screen_coord(&board, current_held_pos.x, current_held_pos.y);
 
 	SDL_FRect sel_rect = {
 		fminf(first_held_point.x, current_held_point.x),
 		fminf(first_held_point.y, current_held_point.y),
-		abs(current_held_point.x - first_held_point.x) + board.cell_size,
-		abs(current_held_point.y - first_held_point.y) + board.cell_size
+		fabsf(current_held_point.x - first_held_point.x) + board.cell_size,
+		fabsf(current_held_point.y - first_held_point.y) + board.cell_size
 	};
 
 	if (helddown) {

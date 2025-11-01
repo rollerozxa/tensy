@@ -80,7 +80,47 @@ void board_zerofill(Board *board) {
 	}
 }
 
+void board_physics(Board *board) {
+	for (int x = 0; x < board->w; x++) {
+	for (int y = board->h - 1; y >= 0; y--) {
+		board->p[x][y].falling = false;
+
+		if (!board->p[x][y].removed)
+			continue;
+
+		int src_y = y - 1;
+		while (src_y >= 0 && board->p[x][src_y].removed)
+			src_y--;
+
+		if (src_y >= 0) {
+			board->p[x][y].falling = true;
+			board->p[x][y].falling_y = src_y;
+			board->p[x][y].falling_vel = 0;
+			board->p[x][y].number = board->p[x][src_y].number;
+			board->p[x][y].removed = false;
+
+			board->p[x][src_y].removed = true;
+		} else {
+			board->p[x][y].number = 0;
+			board->p[x][y].removed = true;
+		}
+	}}
+}
+
 void board_update(Board *board, float dt) {
+	for (int x = 0; x < board->w; x++) {
+	for (int y = 0; y < board->h; y++) {
+		if (!board->p[x][y].falling)
+			continue;
+
+		board->p[x][y].falling_vel += dt * 40;
+		board->p[x][y].falling_y += board->p[x][y].falling_vel * dt;
+
+		if (board->p[x][y].falling_y >= y) {
+			board->p[x][y].falling = false;
+		}
+	}}
+
 	if (!board->anim.animating)
 		return;
 
@@ -98,6 +138,13 @@ void board_update(Board *board, float dt) {
 	}
 }
 
+void board_draw_number(int number, SDL_FPoint pos, float cell_size, bool colored) {
+	if (colored)
+		font_set_color(color_numbers(number));
+
+	font_draw_char_shadow(number + '0', pos.x + 3, pos.y - 1, cell_size / 10);
+}
+
 void board_draw(Board *board, bool colored_numbers) {
 	SDL_FPoint center = {
 		board->rect.x + board->rect.w / 2.0f,
@@ -113,27 +160,20 @@ void board_draw(Board *board, bool colored_numbers) {
 		if (board->p[x][y].removed)
 			continue;
 
-		if (colored_numbers)
-			font_set_color(color_numbers(board->p[x][y].number));
-
-		SDL_Point point = board_to_screen_coord(board, x, y);
-		SDL_FPoint pos = {
-			point.x + 3,
-			point.y - 1
-		};
+		bool is_falling = board->p[x][y].falling;
+		SDL_FPoint pos = board_to_screen_coord(board, x, is_falling ? board->p[x][y].falling_y : y);
 
 		if (board->anim.animating) {
 			pos.x = pos.x * (1.0f - t) + center.x * t;
 			pos.y = pos.y * (1.0f - t) + center.y * t;
 		}
 
-		font_draw_char_shadow(board->p[x][y].number + '0',
-			pos.x, pos.y, board->scale);
+		board_draw_number(board->p[x][y].number, pos, board->cell_size, colored_numbers);
 	}}
 }
 
-SDL_Point board_to_screen_coord(Board *board, int x, int y) {
-	SDL_Point point = {
+SDL_FPoint board_to_screen_coord(Board *board, float x, float y) {
+	SDL_FPoint point = {
 		board->rect.x,
 		board->rect.y
 	};

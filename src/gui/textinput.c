@@ -1,5 +1,4 @@
 #include "textinput.h"
-#include "SDL3/SDL_keyboard.h"
 #include "color.h"
 #include "consts.h"
 #include "draw.h"
@@ -8,6 +7,7 @@
 #include "mouse.h"
 #include "text.h"
 
+#include <SDL3/SDL.h>
 #include <string.h>
 
 extern SDL_Window *window;

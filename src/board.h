@@ -8,6 +8,9 @@
 typedef struct {
 	char number;
 	bool removed;
+	float falling_y;
+	float falling_vel;
+	bool falling;
 } Cell;
 
 typedef struct {
@@ -56,10 +59,13 @@ void board_change_scale(Board *board, float scale);
 void board_reset(Board *board);
 void board_zerofill(Board *board);
 
+void board_physics(Board *board);
+
 void board_update(Board *board, float dt);
+void board_draw_number(int number, SDL_FPoint pos, float cell_size, bool colored);
 void board_draw(Board *board, bool colored_numbers);
 
-SDL_Point board_to_screen_coord(Board *board, int x, int y);
+SDL_FPoint board_to_screen_coord(Board *board, float x, float y);
 
 void board_shuffle(Board *board);
 void board_shuffle_animated(Board *board, float duration);
