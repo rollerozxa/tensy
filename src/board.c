@@ -134,6 +134,8 @@ void board_update(Board *board, float dt) {
 			board->anim.returning = true;
 		} else {
 			board->anim.animating = false;
+			if (board->physics)
+				board_physics(board);
 		}
 	}
 }
