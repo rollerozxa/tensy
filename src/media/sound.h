@@ -1,6 +1,7 @@
 #pragma once
 
 enum {
+	SND_BEAT,
 	SND_CLICK,
 	SND_FALL,
 	SND_MATCH,

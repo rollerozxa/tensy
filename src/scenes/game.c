@@ -33,6 +33,8 @@ static int held_sum = -1;
 
 static TexButton pause_button, shuffle_button, undo_button, end_button;
 
+static float heartbeat_timer = 0.0f;
+
 static int calculate_sum(void) {
 	int sum = 0;
 
@@ -100,6 +102,7 @@ void game_init(void) {
 
 	if (gamemodes[game.mode].time_limit) {
 		total_time = time_left = board_sizes[board.boardsize].seconds;
+		heartbeat_timer = 0.0f;
 	}
 
 	if (current_gamemode().gravity_mode != GRA_Ask)
@@ -191,8 +194,17 @@ void game_update(float dt) {
 	if (current_gamemode().time_limit && !game.dead && (!overlay_exists() || strcmp(overlay_get_current(), "shuffle") == 0)) {
 		if (time_left < 0)
 			gamestate_gameover();
-		else
+		else {
 			time_left -= dt;
+
+			if (time_left < 10.f) {
+				heartbeat_timer += dt;
+				if (heartbeat_timer >= 1.0f) {
+					sound_play(SND_BEAT);
+					heartbeat_timer = 0.0f;
+				}
+			}
+		}
 	}
 }
 

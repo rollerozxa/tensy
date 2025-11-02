@@ -5,6 +5,7 @@
 #include "assetloader.h"
 
 #if EMBEDDED_DATA
+#include <data/beat_ogg.h>
 #include <data/click_ogg.h>
 #include <data/fall_wav.h>
 #include <data/match_wav.h>
@@ -21,6 +22,7 @@ static MIX_Audio *sound_bank[100];
 	sound_bank[id] = ASSETLOADER_SOUND(data, path)
 
 void sound_init(void) {
+	LOAD_SOUND(SND_BEAT, beat_ogg, "beat.ogg");
 	LOAD_SOUND(SND_CLICK, click_ogg, "click.ogg");
 	LOAD_SOUND(SND_FALL, fall_wav, "fall.wav");
 	LOAD_SOUND(SND_MATCH, match_wav, "match.wav");
