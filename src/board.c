@@ -67,6 +67,9 @@ void board_reset(Board *board) {
 		for (int y = 0; y < board->h; y++) {
 			board->p[x][y].number = calc_cell_number(board, x, y);
 			board->p[x][y].removed = false;
+			board->p[x][y].falling = false;
+			board->p[x][y].falling_y = 0.0f;
+			board->p[x][y].falling_vel = 0.0f;
 		}
 	}
 	board->_allocated_columns = board->w;
