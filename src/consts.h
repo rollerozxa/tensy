@@ -1,5 +1,6 @@
 #pragma once
 
+#include <SDL3/SDL.h>
 #include <stdio.h>
 
 // Native resolution at which the game will be rendered
@@ -36,5 +37,4 @@
 	#define ALWAYS_FULLSCREEN true
 #endif
 
-#define STR_HELPER(x) #x
-#define STR(x) STR_HELPER(x)
+#define STR(x) SDL_STRINGIFY_ARG(x)

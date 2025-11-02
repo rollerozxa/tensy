@@ -24,6 +24,16 @@
 static Button play_button, about_button, statistics_button;
 static TexButton itchio_button, settings_button;
 
+#if defined(__clang__)
+	#define COMPILER_VERSION "Clang " STR(__clang_major__) "." STR(__clang_minor__)
+#elif defined(__GNUC__)
+	#define COMPILER_VERSION "GCC " STR(__GNUC__) "." STR(__GNUC_MINOR__)
+#elif defined(_MSC_VER)
+	#define COMPILER_VERSION "MSVC " STR(_MSC_VER / 100) "." STR(_MSC_VER % 100)
+#else
+	#define COMPILER_VERSION "unknown compiler"
+#endif
+
 void mainmenu_init(void) {
 	BUTTON(play_button, RECT(245,200,150,40), "Play");
 	BUTTON(about_button, RECT(160,260,150,40), "About");
@@ -67,12 +77,7 @@ void mainmenu_event(const SDL_Event *ev) {
 		&& SDL_PointInRectFloat(&POINT(ev->motion.x, ev->motion.y), &RECT(115, 345, 70, 15))) {
 
 		sound_play(SND_WOOZY);
-
-#if defined(__clang__)
-		toast_show("Built by Clang " STR(__clang_major__) "." STR(__clang_minor__), 3);
-#elif defined(__GNUC__)
-		toast_show("Built by GCC " STR(__GNUC__) "." STR(__GNUC_MINOR__), 3);
-#endif
+		toast_show("Built by " COMPILER_VERSION, 5);
 	}
 }
 
