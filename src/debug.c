@@ -13,6 +13,30 @@ static bool debug = false;
 void debug_event(const SDL_Event *ev) {
 	if (ev->type == SDL_EVENT_KEY_DOWN && ev->key.scancode == SDL_SCANCODE_F3)
 		debug = !debug;
+
+	if (!debug)
+		return;
+
+	switch (ev->type) {
+		case SDL_EVENT_KEY_DOWN:
+			SDL_Log("SDL_KEYDOWN event: Scancode %d, Keycode %d\n", ev->key.scancode, ev->key.key);
+			break;
+		case SDL_EVENT_KEY_UP:
+			SDL_Log("SDL_KEYUP event: Scancode %d, Keycode %d\n", ev->key.scancode, ev->key.key);
+			break;
+		case SDL_EVENT_MOUSE_BUTTON_DOWN:
+			SDL_Log("SDL_MOUSEBUTTONDOWN event: Button %d at (%f, %f)\n", ev->button.button, ev->button.x, ev->button.y);
+			break;
+		case SDL_EVENT_MOUSE_BUTTON_UP:
+			SDL_Log("SDL_MOUSEBUTTONUP event: Button %d at (%f, %f)\n", ev->button.button, ev->button.x, ev->button.y);
+			break;
+		case SDL_EVENT_MOUSE_MOTION:
+			//SDL_Log("SDL_MOUSEMOTION event: Moved to (%f, %f)\n", ev->motion.x, ev->motion.y);
+			break;
+		default:
+			SDL_Log("Other event: %d\n", ev->type);
+			break;
+	}
 }
 
 void debug_draw(void) {
