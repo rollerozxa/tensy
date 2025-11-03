@@ -7,6 +7,8 @@
 #include <stdlib.h>
 #include <string.h>
 
+//#define BOARD_NUMBER_DECAY
+
 void board_recalculate_rect(Board *board) {
 	board->rect = (SDL_FRect){0,0,0,0};
 	board->rect.w = board->w * board->cell_size;
@@ -69,7 +71,11 @@ void board_reset(Board *board) {
 
 		for (int y = 0; y < board->h; y++) {
 			board->p[x][y].number = calc_cell_number(board, x, y);
+#ifdef BOARD_NUMBER_DECAY
+			board->p[x][y].removed = SDL_rand(2) == 1;
+#else
 			board->p[x][y].removed = false;
+#endif
 			board->p[x][y].falling = false;
 			board->p[x][y].falling_y = 0.0f;
 			board->p[x][y].falling_vel = 0.0f;
