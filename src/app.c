@@ -2,6 +2,7 @@
 #include "debug.h"
 #include "gamemode.h"
 #include "gamesettings.h"
+#include "gui/tooltip.h"
 #include "media/music.h"
 #include "media/sound.h"
 #include "media/textures.h"
@@ -59,6 +60,7 @@ void AppDraw(SDL_Renderer *renderer) {
 	overlay_run_draw();
 
 	toast_draw();
+	tooltip_draw();
 
 	debug_draw();
 

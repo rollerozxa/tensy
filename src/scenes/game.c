@@ -80,11 +80,15 @@ static bool do_move(void) {
 
 void game_init(void) {
 	TEX_BUTTON(pause_button, RECT(SCREEN_W-24-3, 3, 24, 24), TEX_PAUSE);
+	pause_button.tooltip = "Pause";
 	TEX_BUTTON(shuffle_button, RECT(SCREEN_W-50-8, 3, 24, 24), TEX_SHUFFLE);
+	shuffle_button.tooltip = "Shuffle";
 	TEX_BUTTON(undo_button, RECT(SCREEN_W-76-14, 3, 24, 24), TEX_UNDO);
+	undo_button.tooltip = "Undo";
 	TEX_BUTTON(end_button, RECT(SCREEN_W-102-20, 3, 24, 24), TEX_END);
+	end_button.tooltip = "End";
 
-	pause_button.padding = shuffle_button.padding = undo_button.padding = 3;
+	pause_button.padding = shuffle_button.padding = undo_button.padding = end_button.padding = 3;
 
 	helddown = false;
 

@@ -1,6 +1,7 @@
 #include "tex_button.h"
 #include "consts.h"
 #include "draw.h"
+#include "gui/tooltip.h"
 #include "media/sound.h"
 #include "media/textures.h"
 #include "mouse.h"
@@ -60,4 +61,12 @@ void tex_button(TexButton *button) {
 	SDL_SetTextureColorMod(texture, mod, mod, mod);
 
 	SDL_RenderTexture(renderer, texture, NULL, &rect);
+
+	if (button->tooltip && !button->_disabled) {
+		if (SDL_PointInRectFloat(&mouse, &button->_calc_rect))
+			tooltip_show(button->tooltip);
+		// Only hide if the current tooltip is this button's tooltip
+		else if (strncmp(tooltip_get_text(), button->tooltip, 256) == 0)
+			tooltip_hide();
+	}
 }
