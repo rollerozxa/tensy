@@ -1,14 +1,28 @@
 #include "color.h"
 #include "consts.h"
+#include "draw.h"
 #include "font.h"
 #include "scene.h"
 #include "text.h"
 #include <SDL3/SDL.h>
 #include <stddef.h>
 
+// Show a black screen until something is pressed, to ease screen recordings
+//#define REC_CALIBRATOR
+
+#ifdef REC_CALIBRATOR
+static bool hidden = true;
+#endif
+
 void devintro_event(const SDL_Event *ev) {
-	if (ev->type == SDL_EVENT_KEY_UP || ev->type == SDL_EVENT_MOUSE_BUTTON_UP)
-		scene_switch("intro");
+	if (ev->type == SDL_EVENT_KEY_UP || ev->type == SDL_EVENT_MOUSE_BUTTON_UP) {
+#ifdef REC_CALIBRATOR
+		if (hidden)
+			hidden = false;
+		else
+#endif
+			scene_switch("intro");
+	}
 }
 
 static void print_center(const char *text, float y, float scale) {
@@ -17,6 +31,14 @@ static void print_center(const char *text, float y, float scale) {
 }
 
 void devintro_draw(void) {
+#ifdef REC_CALIBRATOR
+	if (hidden) {
+		draw_set_color(0x0);
+		draw_fill_rect(&FULL_RECT());
+		return;
+	}
+#endif
+
 	font_set_color(color_bitpack_to_sdl(0xFF0000));
 	print_center("NOTE:", 25, 3);
 
