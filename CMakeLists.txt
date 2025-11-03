@@ -40,7 +40,7 @@ file(GLOB SRCS CONFIGURE_DEPENDS
 	src/modes/*.c
 	src/overlays/*.c
 	src/scenes/*.c
-	lib/*.c
+	lib/perlin/*.c
 	lib/SDL_QOI/*.c)
 
 if(WIN32)

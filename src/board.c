@@ -59,6 +59,9 @@ void board_reset(Board *board) {
 	if (board->p != NULL)
 		board_cleanup(board);
 
+	if (current_gamemode().on_start)
+		current_gamemode().on_start();
+
 	board->p = malloc(sizeof(Cell *) * board->w);
 
 	for (int x = 0; x < board->w; x++) {
