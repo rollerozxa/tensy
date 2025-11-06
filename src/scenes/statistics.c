@@ -12,9 +12,9 @@
 static Button leaderboard_button, numbers_button, ok_button;
 
 void statistics_init(void) {
-	BUTTON(leaderboard_button, RECT(235,250,170,40), "Leaderboard");
+	BUTTON(leaderboard_button, RECT(SCREEN_W-40-180,220,180,40), "Leaderboard");
 
-	BUTTON(numbers_button, RECT(20,300,200,40), "Number Statistics");
+	BUTTON(numbers_button, RECT(SCREEN_W-40-180-20-240,220,240,40), "Number Statistics");
 
 	BUTTON(ok_button, RECT(245,300,150,40), "Back");
 }
