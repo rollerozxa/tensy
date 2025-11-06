@@ -10,6 +10,9 @@
 		gamemode_continue(); \
 	}
 
+#define GM_KEY(c1, c2, c3, c4) \
+	((uint32_t)(c1) | ((uint32_t)(c2) << 8) | ((uint32_t)(c3) << 16) | ((uint32_t)(c4) << 24))
+
 enum GameMode {
 	GM_Classic,
 	GM_Gravity,
@@ -19,6 +22,14 @@ enum GameMode {
 	gamemode_count
 };
 
+static const char *gamemode_names[] = {
+	"Classic",
+	"Gravity",
+	"Leisure",
+	"Lucky",
+	"Five"
+};
+
 typedef enum GravityMode {
 	GRA_Never,
 	GRA_Always,
@@ -26,6 +37,7 @@ typedef enum GravityMode {
 } GravityMode;
 
 typedef struct {
+	int key;
 	const char *name;
 	const char *description[4];
 	char board[4][7];
@@ -48,3 +60,5 @@ void switch_gamemode(enum GameMode mode);
 void gamemode_continue(void);
 
 GameMode current_gamemode(void);
+
+int gamemode_get_index_by_key(int key);

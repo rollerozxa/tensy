@@ -20,6 +20,7 @@ static void noise_on_start(void) {
 }
 
 GameMode noise_gamemode = {
+	GM_KEY('N', 'O', 'I', 'S'),
 	"Noise",
 	{
 		"Come on, feel the noise.",

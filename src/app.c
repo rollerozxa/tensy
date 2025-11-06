@@ -3,6 +3,7 @@
 #include "gamemode.h"
 #include "gamesettings.h"
 #include "gui/tooltip.h"
+#include "highscores.h"
 #include "media/music.h"
 #include "media/sound.h"
 #include "media/textures.h"
@@ -29,6 +30,8 @@ void AppInit(SDL_Window *window, SDL_Renderer *renderer) {
 
 	scenes_register();
 	init_gamemodes();
+
+	highscores_file_load();
 }
 
 void AppEvent(SDL_Event *ev) {

@@ -30,7 +30,7 @@ void highscore_register(Game state, const char *name) {
 	highscores_file_save();
 }
 
-static const char filever = 2;
+static const char filever = 3;
 
 static char hs_filepath[512];
 
@@ -66,8 +66,12 @@ bool highscores_file_save(void) {
 		return false;
 
 	WRITE_CHAR(filever);
+	char gmc = gamemode_count;
+	WRITE_CHAR(gmc);
 
 	for (int i = 0; i < gamemode_count; i++) {
+		WRITE_INT(gamemodes[i].key);
+
 		for (int j = 0; j < 4; j++) {
 			for (int k = 0; k < MAX_HIGHSCORES; k++) {
 				Highscore *entry = &highscores[i][j][k];
@@ -95,15 +99,30 @@ bool highscores_file_load(void) {
 	if (!fp)
 		return false;
 
-	char tmp;
-	READ_CHAR(tmp);
-	if (tmp != filever)
-		return false; // uhh
+	char ver;
+	READ_CHAR(ver);
 
-	for (int i = 0; i < gamemode_count; i++) {
+	if (ver < 3)
+		return false; // Version <3 is obsolete
+
+	char gmc;
+	READ_CHAR(gmc);
+
+	for (int i = 0; i < gmc; i++) {
+		int gm_key;
+		READ_INT(gm_key);
+
+		int gamemode_index = gamemode_get_index_by_key(gm_key);
+
 		for (int j = 0; j < 4; j++) {
 			for (int k = 0; k < MAX_HIGHSCORES; k++) {
-				Highscore *entry = &highscores[i][j][k];
+				if (gamemode_index == -1) {
+					SDL_Log("What! Unknown gamemode key in highscores file: %d", gm_key);
+					fseek(fp, sizeof(int) + 12, SEEK_CUR);
+					continue;
+				}
+
+				Highscore *entry = &highscores[gamemode_index][j][k];
 				READ_INT(entry->score);
 				READ_STRING(entry->name, 12);
 			}

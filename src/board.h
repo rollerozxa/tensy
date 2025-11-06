@@ -51,6 +51,13 @@ static BoardSize board_sizes[] = {
 };
 static size_t num_board_sizes = sizeof(board_sizes) / sizeof(board_sizes[0]);
 
+static const char *board_size_options[] = {
+	"Small (15x8)",
+	"Medium (20x10)",
+	"Big (30x15)",
+	"Hyuge! (60x30)"
+};
+
 void board_change_size(Board *board, int w, int h, float scale);
 void board_change_width(Board *board, int w);
 void board_change_height(Board *board, int h);

@@ -24,6 +24,7 @@ static void sm_draw(SDL_FRect rect) {
 }
 
 GameMode leisure_gamemode = {
+	GM_KEY('L', 'E', 'I', 'S'),
 	"Leisure",
 	{
 		"Infinite time,",

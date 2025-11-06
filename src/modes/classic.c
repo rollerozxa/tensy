@@ -18,6 +18,7 @@ static void sm_draw(SDL_FRect rect) {
 }
 
 GameMode classic_gamemode = {
+	GM_KEY('C', 'L', 'S', 'C'),
 	"Classic",
 	{
 		"Collect as much ",

@@ -1,6 +1,7 @@
 #include "gamemode.h"
 #include "gamestate.h"
 #include "scene.h"
+#include <stdint.h>
 
 extern GameMode classic_gamemode;
 extern GameMode gravity_gamemode;
@@ -37,4 +38,12 @@ GameMode current_gamemode(void) {
 void gamemode_continue(void) {
 	// for if we need to change where to go after a gamemode is selected
 	scene_switch("gameconfig");
+}
+
+int gamemode_get_index_by_key(int key) {
+	for (int i = 0; i < gamemode_count; i++)
+		if (gamemodes[i].key == key)
+			return i;
+
+	return -1; // Not found
 }

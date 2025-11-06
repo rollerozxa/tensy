@@ -11,27 +11,13 @@
 static Dropdown gamemode_dropdown, board_size_dropdown;
 static Button back_button;
 
-static const char *gamemode_dropdown_options[] = {
-	"Classic",
-	"Gravity",
-	"Leisure",
-	"Lucky",
-	"Five"
-};
-static const char *board_size_options[] = {
-	"Small (15x8)",
-	"Medium (20x10)",
-	"Big (30x15)",
-	"Hyuge! (60x30)"
-};
-
 void leaderboard_init(void) {
-	int num_options = sizeof(gamemode_dropdown_options) / sizeof(gamemode_dropdown_options[0]);
+	int num_options = sizeof(gamemode_names) / sizeof(gamemode_names[0]);
 
 	if (!settings_getflag(FLAG_SECRET_FIVE))
 		num_options--;
 
-	DROPDOWN(gamemode_dropdown, RECT(230, 15, 150, 30), gamemode_dropdown_options, num_options, 0);
+	DROPDOWN(gamemode_dropdown, RECT(230, 15, 150, 30), gamemode_names, num_options, 0);
 	DROPDOWN(board_size_dropdown, RECT(400, 15, 210, 30), board_size_options, 4, 0);
 
 	BUTTON(back_button, RECT(450,300,150,40), "Back");

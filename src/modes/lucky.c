@@ -17,6 +17,7 @@ static int calc_cell_number(Board *board, int x, int y) {
 }
 
 GameMode lucky_gamemode = {
+	GM_KEY('L', 'U', 'C', 'K'),
 	"Lucky",
 	{
 		"I'm feeling lucky!",

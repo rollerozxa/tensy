@@ -14,6 +14,7 @@ static int calc_cell_number(Board *board, int x, int y) {
 }
 
 GameMode five_gamemode = {
+	GM_KEY('F', 'I', 'V', 'E'),
 	"Five",
 	{
 		"What?? This isn't",

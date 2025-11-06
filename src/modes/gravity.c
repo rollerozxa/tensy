@@ -4,6 +4,7 @@
 GM_CLICK(gravity, GM_Gravity)
 
 GameMode gravity_gamemode = {
+	GM_KEY('G', 'R', 'A', 'V'),
 	"Gravity",
 	{
 		"Numbers will fall",
