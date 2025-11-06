@@ -31,7 +31,7 @@ bool can_access_data(void) {
 #endif
 
 SDL_AppResult SDL_AppInit(void **rustptr, int argc, char **argv) {
-#if !EMBEDDED_DATA
+#if !EMBEDDED_DATA && !defined(SDL_PLATFORM_ANDROID)
 	const char *exedir = SDL_GetBasePath();
 	chdir(exedir);
 
