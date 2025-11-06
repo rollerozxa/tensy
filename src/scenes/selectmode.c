@@ -55,7 +55,7 @@ void selectmode_event(const SDL_Event *ev) {
 		case SDL_EVENT_MOUSE_BUTTON_UP:
 			if (xvel < 0.05 && selected_mode != -1 && !scene_is_transitioning()) {
 				sound_play(SND_CLICK);
-				gamemodes[selected_mode].sm_click();
+				gamemodes[gamemode_selectmode[selected_mode]].sm_click();
 			}
 			motion = 0;
 			holdingdown = false;
@@ -109,7 +109,7 @@ void selectmode_draw(void) {
 	for (size_t i = 0; i < gamemode_count; i++) {
 		font_set_color(CLR_WHITE);
 
-		GameMode mode = gamemodes[i];
+		GameMode mode = gamemodes[gamemode_selectmode[i]];
 
 		if (mode.sm_enabled != NULL && !mode.sm_enabled())
 			continue;

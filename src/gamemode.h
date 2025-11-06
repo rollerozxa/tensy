@@ -22,6 +22,14 @@ enum GameMode {
 	gamemode_count
 };
 
+static const int gamemode_selectmode[] = {
+	GM_Classic,
+	GM_Gravity,
+	GM_Leisure,
+	GM_Lucky,
+	GM_Five
+};
+
 static const char *gamemode_names[] = {
 	"Classic",
 	"Gravity",
