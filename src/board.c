@@ -93,7 +93,7 @@ void board_zerofill(Board *board) {
 	}
 }
 
-void board_physics(Board *board) {
+void board_physics(Board *board, bool infinite_mode) {
 	for (int x = 0; x < board->w; x++) {
 	for (int y = board->h - 1; y >= 0; y--) {
 		board->p[x][y].falling = false;
@@ -117,6 +117,23 @@ void board_physics(Board *board) {
 			board->p[x][y].number = 0;
 			board->p[x][y].removed = true;
 		}
+	}}
+
+	if (!infinite_mode)
+		return;
+
+	// Then, spawn new numbers from the top for any remaining empty cells,
+	// in infinite mode
+	for (int x = 0; x < board->w; x++) {
+	for (int y = 0; y < board->h; y++) {
+		if (!board->p[x][y].removed)
+			continue;
+
+		board->p[x][y].falling = true;
+		board->p[x][y].falling_y = -1; // Start above the board
+		board->p[x][y].falling_vel = 0;
+		board->p[x][y].number = calc_cell_number(board, x, y);
+		board->p[x][y].removed = false;
 	}}
 }
 
@@ -155,7 +172,7 @@ void board_update(Board *board, float dt) {
 		} else {
 			board->anim.animating = false;
 			if (board->physics)
-				board_physics(board);
+				board_physics(board, false);
 		}
 	}
 }

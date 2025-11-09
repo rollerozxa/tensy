@@ -16,6 +16,7 @@
 enum GameMode {
 	GM_Classic,
 	GM_Gravity,
+	GM_Infinite,
 	GM_Leisure,
 	GM_Lucky,
 	GM_Five,
@@ -25,6 +26,7 @@ enum GameMode {
 static const int gamemode_selectmode[] = {
 	GM_Classic,
 	GM_Gravity,
+	GM_Infinite,
 	GM_Leisure,
 	GM_Lucky,
 	GM_Five
@@ -33,6 +35,7 @@ static const int gamemode_selectmode[] = {
 static const char *gamemode_names[] = {
 	"Classic",
 	"Gravity",
+	"Infinite",
 	"Leisure",
 	"Lucky",
 	"Five"

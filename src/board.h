@@ -66,7 +66,7 @@ void board_change_scale(Board *board, float scale);
 void board_reset(Board *board);
 void board_zerofill(Board *board);
 
-void board_physics(Board *board);
+void board_physics(Board *board, bool infinite_mode);
 
 void board_update(Board *board, float dt);
 void board_draw_number(int number, SDL_FPoint pos, float cell_size, bool colored);

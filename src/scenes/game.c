@@ -69,7 +69,7 @@ static bool do_move(void) {
 	}}
 
 	if (board.physics)
-		board_physics(&board);
+		board_physics(&board, game.mode == GM_Infinite);
 
 	int score_addition = sum * (removed_cells-1);
 	game.score += score_addition;
