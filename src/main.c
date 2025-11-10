@@ -4,6 +4,7 @@
 #include "draw.h"
 #include "gamesettings.h"
 #include "media/textures.h"
+#include "renderer.h"
 #include <SDL3/SDL.h>
 #include <SDL3_mixer/SDL_mixer.h>
 #include <stdbool.h>
@@ -118,10 +119,9 @@ SDL_AppResult SDL_AppInit(void **rustptr, int argc, char **argv) {
 
 #ifdef SDL_PLATFORM_VITA
 	SDL_OpenGamepad(1);
-	SDL_SetRenderLogicalPresentation(renderer, SCREEN_W, SCREEN_H+4, SDL_LOGICAL_PRESENTATION_STRETCH);
-#else
-	SDL_SetRenderLogicalPresentation(renderer, SCREEN_W, SCREEN_H, SDL_LOGICAL_PRESENTATION_LETTERBOX);
 #endif
+
+	renderer_set_logical_presentation();
 
 	SDL_SetRenderVSync(renderer, 1);
 
@@ -136,6 +136,11 @@ SDL_AppResult SDL_AppEvent(void *rustptr, SDL_Event *ev) {
 	|| (ev->type == SDL_EVENT_KEY_DOWN && ev->key.scancode == SDL_SCANCODE_Q
 		&& (ev->key.mod & SDL_KMOD_CTRL) && (ev->key.mod & SDL_KMOD_SHIFT))) {
 		AppQuit();
+		return SDL_APP_CONTINUE;
+	}
+
+	if (ev->type == SDL_EVENT_WINDOW_RESIZED) {
+		renderer_set_logical_presentation();
 		return SDL_APP_CONTINUE;
 	}
 

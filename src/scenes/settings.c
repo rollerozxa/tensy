@@ -5,12 +5,13 @@
 #include "input.h"
 #include "media/music.h"
 #include "media/sound.h"
+#include "renderer.h"
 #include "scene.h"
 #include "text.h"
 #include "toast.h"
 #include <SDL3/SDL.h>
 
-static Checkbox mono_numbers_checkbox, sound_checkbox, reduced_motion_checkbox, fullscreen_checkbox, music_checkbox;
+static Checkbox mono_numbers_checkbox, sound_checkbox, reduced_motion_checkbox, fullscreen_checkbox, music_checkbox, pixel_perfect_checkbox;
 
 static Button save_button, delete_data_button;
 
@@ -21,6 +22,7 @@ void settings_init(void) {
 	CHECKBOX(fullscreen_checkbox, POINT(20, 80+40*3), settings_getflag(FLAG_FULLSCREEN), "Fullscreen");
 
 	CHECKBOX(music_checkbox, POINT(320, 80), settings_getflag(FLAG_MUSIC), "Music");
+	CHECKBOX(pixel_perfect_checkbox, POINT(320, 80+40*1), settings_getflag(FLAG_PIXEL_PERFECT), "Pixel perfect scaling");
 
 	BUTTON(save_button, RECT(220,280,200,40), "Save & Go back");
 	BUTTON(delete_data_button, RECT(420,20,200,40), "Clear save data");
@@ -48,6 +50,11 @@ void settings_event(const SDL_Event *ev) {
 	if (checkbox_event(ev, &music_checkbox)) {
 		settings_toggleflag(FLAG_MUSIC);
 		music_mute(!settings_getflag(FLAG_MUSIC));
+	}
+
+	if (checkbox_event(ev, &pixel_perfect_checkbox)) {
+		settings_toggleflag(FLAG_PIXEL_PERFECT);
+		renderer_set_logical_presentation();
 	}
 
 	if (button_event(ev, &save_button) || is_escaping(ev))
@@ -84,6 +91,7 @@ void settings_draw(void) {
 #endif
 
 	checkbox(&music_checkbox);
+	checkbox(&pixel_perfect_checkbox);
 
 	button(&save_button);
 	button(&delete_data_button);
