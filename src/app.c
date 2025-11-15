@@ -17,16 +17,16 @@
 MIX_Mixer *mixer;
 
 void AppInit(SDL_Window *window, SDL_Renderer *renderer) {
+	SDL_Surface *icon = get_icon_surface();
+	SDL_SetWindowIcon(window, icon);
+	SDL_DestroySurface(icon);
+
 	MIX_Init();
 	mixer = MIX_CreateMixerDevice(SDL_AUDIO_DEVICE_DEFAULT_PLAYBACK, (&(SDL_AudioSpec){SDL_AUDIO_S16, 2, 44100}));
 
 	sound_init();
 	music_init();
 	textures_init(renderer);
-
-	SDL_Surface *icon = get_icon_surface();
-	SDL_SetWindowIcon(window, icon);
-	SDL_DestroySurface(icon);
 
 	scenes_register();
 	init_gamemodes();
