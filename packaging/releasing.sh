@@ -58,6 +58,7 @@ download_artifacts() {
 
 butler_push() {
 	butler push --userversion="${GAME_VERSION}" "$2" rollerozxa/tensy:"$1"
+	sleep 2
 }
 
 upload_to_itch() {
@@ -87,4 +88,4 @@ mkdir -p dist
 cd dist
 
 download_artifacts
-#upload_to_itch
+upload_to_itch
