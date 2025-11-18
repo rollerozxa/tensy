@@ -91,7 +91,9 @@ void settings_draw(void) {
 #endif
 
 	checkbox(&music_checkbox);
+#ifdef SUPPORTS_PIXEL_PERFECT
 	checkbox(&pixel_perfect_checkbox);
+#endif
 
 	button(&save_button);
 	button(&delete_data_button);

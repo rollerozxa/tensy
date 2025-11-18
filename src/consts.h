@@ -33,8 +33,33 @@
 	char (buf)[(size)]; \
 	snprintf((buf), (size), (fmt), ##__VA_ARGS__)
 
+#define STR(x) SDL_STRINGIFY_ARG(x)
+
+// Defines for platform-specific behaviour
+
+/*
+ * The platforms we support currently:
+ * - SDL_PLATFORM_WINDOWS
+ * - SDL_PLATFORM_MACOS
+ * - SDL_PLATFORM_LINUX
+ * - SDL_PLATFORM_ANDROID
+ * - SDL_PLATFORM_EMSCRIPTEN
+ * - SDL_PLATFORM_HAIKU
+ * - SDL_PLATFORM_VITA
+ */
+
 #if defined(SDL_PLATFORM_ANDROID) || defined(SDL_PLATFORM_VITA)
 	#define ALWAYS_FULLSCREEN true
 #endif
 
-#define STR(x) SDL_STRINGIFY_ARG(x)
+#if !defined(SDL_PLATFORM_EMSCRIPTEN) && !defined(SDL_PLATFORM_ANDROID) && !defined(SDL_PLATFORM_VITA)
+	#define WINDOW_RESIZABLE true
+#endif
+
+#if !defined(SDL_PLATFORM_VITA) && !defined(SDL_PLATFORM_EMSCRIPTEN)
+	#define ENABLE_EXITING true
+#endif
+
+#if !defined(SDL_PLATFORM_ANDROID) && !defined(SDL_PLATFORM_VITA)
+	#define SUPPORTS_PIXEL_PERFECT true
+#endif

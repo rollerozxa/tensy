@@ -79,10 +79,15 @@ SDL_AppResult SDL_AppInit(void **rustptr, int argc, char **argv) {
 	if (argc > 1 && strncmp(argv[1], "-unblur", 7) == 0)
 		textures_force_nearest(true);
 
+	SDL_WindowFlags windowflags = 0;
+#ifdef WINDOW_RESIZABLE
+	windowflags |= SDL_WINDOW_RESIZABLE;
+#endif
+
 	SDL_CreateWindowAndRenderer(
 		APP_NAME,
 		WINDOW_W, WINDOW_H,
-		0, &window, &renderer);
+		windowflags, &window, &renderer);
 
 	if (!window || !renderer) {
 		const char *error = SDL_GetError();
@@ -144,13 +149,11 @@ SDL_AppResult SDL_AppEvent(void *rustptr, SDL_Event *ev) {
 		return SDL_APP_CONTINUE;
 	}
 
-#ifndef ALWAYS_FULLSCREEN
-#ifndef SDL_PLATFORM_EMSCRIPTEN
+#if !defined(ALWAYS_FULLSCREEN) && !defined(SDL_PLATFORM_EMSCRIPTEN)
 	if (ev->type == SDL_EVENT_KEY_DOWN && ev->key.scancode == SDL_SCANCODE_F11 && !ev->key.repeat) {
 		settings_toggleflag(FLAG_FULLSCREEN);
 		SDL_SetWindowFullscreen(window, settings_getflag(FLAG_FULLSCREEN));
 	}
-#endif
 #endif
 
 	SDL_ConvertEventToRenderCoordinates(renderer, ev);

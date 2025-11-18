@@ -34,7 +34,7 @@ static SDL_Color parse_hex_color(const char *hex) {
 		255};
 }
 
-void color_load_custom_numbers() {
+void color_load_custom_numbers(void) {
 	char path[512] = {0};
 	fileio_pref_path(path, sizeof(path), "number_colors.txt");
 
