@@ -13,6 +13,10 @@ bool window_is_scaled_down(void) {
 	return res.x < WINDOW_W || res.y < WINDOW_H;
 }
 
+#ifndef SUPPORTS_PIXEL_PERFECT
+#define SUPPORTS_PIXEL_PERFECT 0
+#endif
+
 void renderer_set_logical_presentation(void) {
 #ifdef SDL_PLATFORM_VITA
 
