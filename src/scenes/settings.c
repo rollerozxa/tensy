@@ -73,6 +73,11 @@ void settings_event(const SDL_Event *ev) {
 	if (button_event(ev, &delete_data_button) || special_combo) {
 		scene_switch("clear_data");
 	}
+
+	if (ev->type == SDL_EVENT_KEY_UP && ev->key.key == SDLK_U && (ev->key.mod & SDL_KMOD_CTRL)) {
+		SDL_OpenURL(SDL_GetPrefPath(APP_ORG, APP_NAME));
+		toast_show("Opening save data folder...", 3);
+	}
 }
 
 void settings_update(float dt) {
