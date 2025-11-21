@@ -95,7 +95,7 @@ void selectmode_event(const SDL_Event *ev) {
 
 void selectmode_update(float dt) {
 	xoff += lerp(xvel, 0, 0.75);
-	xvel -= lerp(xvel, 0, 0.75);
+	xvel -= lerp(xvel, 0, 0.8);
 
 	if (xoff < 0) {
 		xoff = lerp(xoff, 0, 0.5);

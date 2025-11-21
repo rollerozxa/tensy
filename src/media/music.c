@@ -44,6 +44,7 @@ void music_play(int music_id, int loops) {
 	SDL_PropertiesID prop = SDL_CreateProperties();
 	SDL_SetNumberProperty(prop, MIX_PROP_PLAY_LOOPS_NUMBER, -1);
 	MIX_PlayTrack(music_track, prop);
+	SDL_DestroyProperties(prop);
 	last_played = music_id;
 }
 
