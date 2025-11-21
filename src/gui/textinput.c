@@ -12,6 +12,14 @@
 
 extern SDL_Window *window;
 
+static void textinput_start(void) {
+	SDL_PropertiesID props = SDL_CreateProperties();
+	SDL_SetNumberProperty(props, SDL_PROP_TEXTINPUT_CAPITALIZATION_NUMBER, SDL_CAPITALIZE_NONE);
+	SDL_SetBooleanProperty(props, SDL_PROP_TEXTINPUT_AUTOCORRECT_BOOLEAN, false);
+	SDL_StartTextInputWithProperties(window, props);
+	SDL_DestroyProperties(props);
+}
+
 void textinput_clear(TextInput *input) {
 	input->buffer[0] = '\0';
 	input->cursor_pos = 0;
@@ -28,7 +36,7 @@ bool textinput_event(const SDL_Event *ev, TextInput *input) {
 		if (SDL_PointInRectFloat(&POINT(ev->motion.x, ev->motion.y), &input->rect)) {
 			if (!input->_focused) {
 				input->_focused = true;
-				SDL_StartTextInput(window);
+				textinput_start();
 				sound_play(SND_CLICK);
 			}
 			input->_held = true;

@@ -108,6 +108,8 @@ void draw_translucent_overlay(void) {
 	draw_fill_rect(&FULL_RECT());
 }
 
+extern SDL_Window *window;
+
 SDL_FRect draw_centered_fill_rect(SDL_FPoint dimensions, unsigned int bgcolor) {
 	SDL_FRect rect = {
 		0, 0,
@@ -116,6 +118,9 @@ SDL_FRect draw_centered_fill_rect(SDL_FPoint dimensions, unsigned int bgcolor) {
 	};
 	rect.x = (SCREEN_W - rect.w) / 2;
 	rect.y = (SCREEN_H - rect.h) / 2;
+
+	if (SDL_ScreenKeyboardShown(window))
+		rect.y -= 150;
 
 	draw_set_color(bgcolor);
 	draw_fill_rect(&rect);
