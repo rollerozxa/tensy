@@ -60,7 +60,7 @@ bool textinput_event(const SDL_Event *ev, TextInput *input) {
 		int text_len = strlen(ev->text.text);
 
 		// Make sure there's enough space in the buffer
-		if (len + text_len < TEXTINPUT_BUFFER_SIZE - 1) {
+		if (len + text_len <= SDL_min(TEXTINPUT_BUFFER_SIZE - 1, input->max_length)) {
 			// Make room for insertion
 			memmove(input->buffer + input->cursor_pos + text_len,
 					input->buffer + input->cursor_pos,

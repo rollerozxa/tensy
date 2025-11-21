@@ -19,6 +19,7 @@ static TextInput name_input;
 void gameover_init(void) {
 	BUTTON(exit_button, RECT(0, 0, 150, 40), "Return");
 	TEXTINPUT(name_input, RECT(0, 0, 200, 40), "Player");
+	name_input.max_length = 12;
 
 	textinput_settext(&name_input, settings()->last_username);
 }

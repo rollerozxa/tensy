@@ -9,6 +9,7 @@ typedef struct {
     SDL_FRect rect;
     char buffer[TEXTINPUT_BUFFER_SIZE];
     int cursor_pos;
+    int max_length;
     bool _focused;
     bool _held;
 } TextInput;
