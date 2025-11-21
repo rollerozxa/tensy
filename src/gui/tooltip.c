@@ -4,6 +4,7 @@
 #include "draw.h"
 #include "font.h"
 #include "mouse.h"
+#include "overlay.h"
 #include "text.h"
 #include <stddef.h>
 #include <SDL3/SDL.h>
@@ -26,7 +27,7 @@ void tooltip_hide(void) {
 }
 
 void tooltip_draw(void) {
-	if (!tooltip_active)
+	if (!tooltip_active || overlay_exists())
 		return;
 
 	SDL_FPoint mouse;
