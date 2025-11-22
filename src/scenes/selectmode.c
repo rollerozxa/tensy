@@ -126,8 +126,11 @@ void selectmode_draw(void) {
 				if (pressed) {
 					selected_mode = i;
 					mod = -10;
-				} else
+				}
+#if !defined(SDL_PLATFORM_ANDROID) && !defined(SDL_PLATFORM_VITA)
+				else
 					mod = 30;
+#endif
 			} else
 				selected_mode = -1;
 		}

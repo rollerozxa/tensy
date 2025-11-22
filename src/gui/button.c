@@ -43,7 +43,11 @@ void button(Button *button) {
 		if (button->_held)
 			draw_box_active(&rect);
 		else
+#if !defined(SDL_PLATFORM_ANDROID) && !defined(SDL_PLATFORM_VITA)
 			draw_box_hover(&rect);
+#else
+			draw_box(&rect);
+#endif
 	} else
 		draw_box(&rect);
 
