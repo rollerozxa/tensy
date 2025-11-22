@@ -65,19 +65,6 @@ SDL_AppResult SDL_AppInit(void **rustptr, int argc, char **argv) {
 #endif
 	SDL_Init(INIT_FLAGS);
 
-	SDL_WindowFlags windowflags = 0;
-#ifdef WINDOW_RESIZABLE
-	windowflags |= SDL_WINDOW_RESIZABLE;
-#endif
-
-	window = SDL_CreateWindow(APP_NAME, WINDOW_W, WINDOW_H, windowflags);
-
-	if (!window) {
-		FMT_STRING(msg, 1024, "Failed to start the game. Error: %s", SDL_GetError());
-		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, APP_NAME, msg, NULL);
-		return SDL_APP_FAILURE;
-	}
-
 #ifdef SDL_PLATFORM_WINDOWS
 	if (argc > 1 && strncmp(argv[1], "-d3d", 4) == 0)
 		SDL_SetHint(SDL_HINT_RENDER_DRIVER, "direct3d11,direct3d");
@@ -92,9 +79,17 @@ SDL_AppResult SDL_AppInit(void **rustptr, int argc, char **argv) {
 	if (argc > 1 && strncmp(argv[1], "-unblur", 7) == 0)
 		textures_force_nearest(true);
 
-	renderer = SDL_CreateRenderer(window, NULL);
+	SDL_WindowFlags windowflags = 0;
+#ifdef WINDOW_RESIZABLE
+	windowflags |= SDL_WINDOW_RESIZABLE;
+#endif
 
-	if (!renderer) {
+	SDL_CreateWindowAndRenderer(
+		APP_NAME,
+		WINDOW_W, WINDOW_H,
+		windowflags, &window, &renderer);
+
+	if (!window || !renderer) {
 		const char *error = SDL_GetError();
 
 #ifdef SDL_PLATFORM_WINDOWS
