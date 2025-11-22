@@ -78,14 +78,34 @@ static bool do_move(void) {
 	return true;
 }
 
+#define BUTTON_SIZE 24
+#if defined(SDL_PLATFORM_ANDROID) || defined(SDL_PLATFORM_VITA)
+	#define BUTTON_SPACING 12
+#else
+	#define BUTTON_SPACING 8
+#endif
+
 void game_init(void) {
-	TEX_BUTTON(pause_button, RECT(SCREEN_W-24-3, 3, 24, 24), TEX_PAUSE);
+	SDL_FRect button_rect = {
+		SCREEN_W - 3 - BUTTON_SIZE,
+		3,
+		BUTTON_SIZE,
+		BUTTON_SIZE
+	};
+
+	TEX_BUTTON(pause_button, button_rect, TEX_PAUSE);
 	pause_button.tooltip = "Pause";
-	TEX_BUTTON(shuffle_button, RECT(SCREEN_W-50-8, 3, 24, 24), TEX_SHUFFLE);
+
+	button_rect.x -= (BUTTON_SIZE + BUTTON_SPACING);
+	TEX_BUTTON(shuffle_button, button_rect, TEX_SHUFFLE);
 	shuffle_button.tooltip = "Shuffle";
-	TEX_BUTTON(undo_button, RECT(SCREEN_W-76-14, 3, 24, 24), TEX_UNDO);
+
+	button_rect.x -= (BUTTON_SIZE + BUTTON_SPACING);
+	TEX_BUTTON(undo_button, button_rect, TEX_UNDO);
 	undo_button.tooltip = "Undo";
-	TEX_BUTTON(end_button, RECT(SCREEN_W-102-20, 3, 24, 24), TEX_END);
+
+	button_rect.x -= (BUTTON_SIZE + BUTTON_SPACING);
+	TEX_BUTTON(end_button, button_rect, TEX_END);
 	end_button.tooltip = "End";
 
 	pause_button.padding = shuffle_button.padding = undo_button.padding = end_button.padding = 3;

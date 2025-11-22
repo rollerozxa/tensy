@@ -37,7 +37,11 @@ void tooltip_draw(void) {
 
 	// Clamp position to screen bounds
 	tooltip_bg.x = SDL_clamp(mouse.x + 10, 0, SCREEN_W - tooltip_bg.w);
+#if defined(SDL_PLATFORM_ANDROID) || defined(SDL_PLATFORM_VITA)
+	tooltip_bg.y = SDL_clamp(mouse.y + 25, 0, SCREEN_H - tooltip_bg.h);
+#else
 	tooltip_bg.y = SDL_clamp(mouse.y + 10, 0, SCREEN_H - tooltip_bg.h);
+#endif
 
 	draw_set_blend(true);
 	SDL_SetRenderDrawColor(renderer, 13, 13, 13, 235);
