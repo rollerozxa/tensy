@@ -26,7 +26,7 @@ void textinput_clear(TextInput *input) {
 }
 
 void textinput_settext(TextInput *input, const char *text) {
-	snprintf(input->buffer, TEXTINPUT_BUFFER_SIZE, "%s", text);
+	strncpy(input->buffer, text, 12); // XXX
 	input->cursor_pos = strnlen(input->buffer, TEXTINPUT_BUFFER_SIZE);
 }
 
