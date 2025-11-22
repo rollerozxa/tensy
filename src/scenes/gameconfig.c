@@ -34,6 +34,8 @@ void gameconfig_init(void) {
 	BUTTON(go_button, RECT(0,SCREEN_H-40, SCREEN_W, 40), "Play");
 
 	CHECKBOX(physics_checkbox, POINT(20, 140), false, "Board physics");
+	if (current_gamemode().gravity_mode == GRA_Ask)
+		game.board.physics = false;
 
 	board_preview.rect_offset = POINT(150, 50);
 	int cur_bs = game.board.boardsize;
