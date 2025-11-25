@@ -15,10 +15,6 @@ option(USE_VENDORED_LIBS "Build with vendored libraries for SDL and SDL_mixer" T
 option(FORCE_LOOSE_ASSET_LOADING "Force loose asset loading (no embedded assets)" FALSE)
 mark_as_advanced(FORCE_LOOSE_ASSET_LOADING)
 
-if(WIN32)
-	option(WINDOWS_XP "Build for Windows XP (requires MSVCRT toolchain)" FALSE)
-endif()
-
 if(USE_VENDORED_LIBS)
 	include(cmake/SDL.cmake)
 	include(cmake/libxmp.cmake)
@@ -69,7 +65,7 @@ endif()
 if(WIN32)
 	target_link_options(${PROJ} PRIVATE $<$<CONFIG:Release>:-mwindows>)
 
-	if(WINDOWS_XP)
+	if(CMAKE_SYSTEM_PROCESSOR STREQUAL "i686")
 		target_link_options(${PROJ} PRIVATE -Wl,--major-os-version=5,--major-subsystem-version=5)
 		add_compile_definitions(WINVER=0x0501 _WIN32_WINNT=0x0501)
 	endif()
