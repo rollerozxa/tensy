@@ -1,4 +1,5 @@
-#include "timeformat.h"
+#include "datetime.h"
+#include <SDL3/SDL.h>
 #include <stdio.h>
 #include <string.h>
 
@@ -6,7 +7,7 @@
  * Format a duration of seconds into a human-readable string.
  * (days, hours, minutes and seconds - the two largest non-zero units are shown)
  */
-void timeformat_duration(double seconds_d, char *out, size_t outlen) {
+void datetime_formatduration(double seconds_d, char *out, size_t outlen) {
 	unsigned long seconds = (unsigned long)seconds_d;
 
 	struct { const char *suf; unsigned int sec; } units[] = {
@@ -36,4 +37,12 @@ void timeformat_duration(double seconds_d, char *out, size_t outlen) {
 		if (parts == 2)
 			break;
 	}
+}
+
+SDL_DateTime datetime_now(void) {
+	SDL_DateTime dt;
+	SDL_Time time;
+	SDL_GetCurrentTime(&time);
+	SDL_TimeToDateTime(time, &dt, true);
+	return dt;
 }

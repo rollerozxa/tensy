@@ -1,11 +1,11 @@
 #include "consts.h"
+#include "datetime.h"
 #include "draw.h"
 #include "gamesettings.h"
 #include "gui/button.h"
 #include "input.h"
 #include "scene.h"
 #include "text.h"
-#include "timeformat.h"
 #include <SDL3/SDL.h>
 #include <stdio.h>
 
@@ -44,7 +44,7 @@ void statistics_draw(void) {
 
 	{
 		char formatted[64], label[96];
-		timeformat_duration(settings()->playtime, formatted, sizeof(formatted));
+		datetime_formatduration(settings()->playtime, formatted, sizeof(formatted));
 		snprintf(label, sizeof(label), "Total playtime: %s", formatted);
 
 		text_draw_shadow(label, 30, 68, 2);
