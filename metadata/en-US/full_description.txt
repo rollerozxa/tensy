@@ -1,0 +1,14 @@
+A simple but addictive puzzle game. Your mission is to match numbers such that they add up to 10. Simply tap and drag to make a selection and make sure the numbers add up to 10!
+
+The scoring system works by multiplying the amount of cells you have selected. More selected cells mean more score!
+
+Play different game modes each with its unique twist:
+
+- Classic: Collect as much score as possible within the time limit
+- Gravity: Numbers will fall down, as if they are affected by gravity.
+- Infinite: Numbers fall from above to replace removed ones. Forever.
+- Leisure: Infinite time, infinite shuffles, infinite calm.
+- Lucky: I'm feeling lucky!
+- And a secret game mode...
+
+Choose between different board sizes and track high scores in the local leaderboard. Get your friends to try it!
