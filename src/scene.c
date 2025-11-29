@@ -4,6 +4,7 @@
 #include "draw.h"
 #include "font.h"
 #include "gamesettings.h"
+#include "gui/tooltip.h"
 #include <string.h>
 
 static Scene scenes[MAX_SCENES];
@@ -36,6 +37,7 @@ void scene_switch_num(int i) {
 
 static void scene_transition_to(int scene_id) {
 	current_scene = scene_id;
+	tooltip_hide();
 	scene_run_init();
 }
 
