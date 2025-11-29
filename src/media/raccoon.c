@@ -37,6 +37,11 @@ static const unsigned char image[RACCOON_WIDTH][RACCOON_HEIGHT] = {
 static int step = 0;
 static const int bs = 10;
 
+void raccoon_update(double dt) {
+	// todo: use dt
+	step++;
+}
+
 void raccoon_draw(SDL_FPoint *point, bool animate) {
 	SDL_Color idx[5];
 
@@ -59,6 +64,4 @@ void raccoon_draw(SDL_FPoint *point, bool animate) {
 				point->y + bs*y, bs, bs));
 		}
 	}
-
-	step++;
 }

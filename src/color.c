@@ -90,3 +90,29 @@ SDL_Color color_bitpack_to_sdl(unsigned int color) {
 		color & 0xFF,
 		255};
 }
+
+SDL_Color HSVtoRGB(double h, double s, double v) {
+	float r, g, b;
+
+	int i = (int)(h * 6);
+	float f = h * 6 - i;
+	float p = v * (1 - s);
+	float q = v * (1 - f * s);
+	float t = v * (1 - (1 - f) * s);
+
+	switch (i % 6) {
+		case 0: r = v, g = t, b = p; break;
+		case 1: r = q, g = v, b = p; break;
+		case 2: r = p, g = v, b = t; break;
+		case 3: r = p, g = q, b = v; break;
+		case 4: r = t, g = p, b = v; break;
+		case 5: r = v, g = p, b = q; break;
+	}
+
+	return (SDL_Color){
+		(unsigned char)(r * 255),
+		(unsigned char)(g * 255),
+		(unsigned char)(b * 255),
+		255
+	};
+}

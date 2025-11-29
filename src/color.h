@@ -12,3 +12,5 @@ SDL_Color color_numbers(int num);
 
 unsigned int color_sdl_to_bitpack(SDL_Color color);
 SDL_Color color_bitpack_to_sdl(unsigned int color);
+
+SDL_Color HSVtoRGB(double h, double s, double v);

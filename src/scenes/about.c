@@ -4,6 +4,7 @@
 #include "gamesettings.h"
 #include "gui/button.h"
 #include "input.h"
+#include "media/lsdozxa.h"
 #include "media/raccoon.h"
 #include "scene.h"
 #include "text.h"
@@ -12,6 +13,10 @@
 #include <stddef.h>
 
 static Button ok_button, credits_button;
+
+// 0 - raccoon
+// 1 - lsdozxa
+static int draw_mode = 0;
 
 void about_init(void) {
 	BUTTON(ok_button, RECT(245,300,150,40), "Ok");
@@ -24,6 +29,14 @@ void about_event(const SDL_Event *ev) {
 
 	if (button_event(ev, &ok_button) || is_escaping(ev))
 		scene_switch("mainmenu");
+
+	if (ev->type == SDL_EVENT_MOUSE_BUTTON_DOWN && SDL_PointInRectFloat(&POINT(ev->motion.x, ev->motion.y), &RECT(450, 50, 350, 320)))
+		draw_mode = (draw_mode + 1) % 2;
+}
+
+void about_update(float dt) {
+	raccoon_update(dt);
+	lsdozxa_update(dt);
 }
 
 static char title[] = "Tensy";
@@ -31,7 +44,12 @@ static char title[] = "Tensy";
 void about_draw(void) {
 	draw_tiled_bg(0);
 
-	raccoon_draw(&POINT(460,50), !settings_getflag(FLAG_REDUCED_MOTION));
+	bool should_animate = !settings_getflag(FLAG_REDUCED_MOTION);
+
+	if (draw_mode == 0)
+		raccoon_draw(&POINT(460,50), should_animate);
+	else
+		lsdozxa_draw(&POINT(465,60), should_animate);
 
 	for (size_t i = 0; title[i] != '\0'; i++) {
 		const float y = settings_getflag(FLAG_REDUCED_MOTION) ? 10
@@ -58,7 +76,7 @@ Scene about_scene = {
 	"about",
 	about_init,
 	about_event,
-	NULL,
+	about_update,
 	about_draw,
 	0x1F3F8F
 };
