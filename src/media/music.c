@@ -15,6 +15,7 @@ extern MIX_Mixer *mixer;
 static MIX_Audio *music_bank[100];
 static MIX_Track *music_track;
 static int last_played;
+static bool music_muted = false;
 
 #define LOAD_MUSIC(id, data, path) \
 	music_bank[id] = ASSETLOADER_MUSIC(data, path)
@@ -35,17 +36,24 @@ void music_reset(void) {
 	music_mute(false);
 }
 
-void music_play(int music_id, int loops) {
-	if (last_played == music_id && music_is_playing()) {
-		return;
-	}
-
-	MIX_SetTrackAudio(music_track, music_bank[music_id]);
+static void music_playtrack(void) {
 	SDL_PropertiesID prop = SDL_CreateProperties();
 	SDL_SetNumberProperty(prop, MIX_PROP_PLAY_LOOPS_NUMBER, -1);
 	MIX_PlayTrack(music_track, prop);
 	SDL_DestroyProperties(prop);
+}
+
+void music_play(int music_id, int loops) {
+	if (last_played == music_id && music_is_playing())
+		return;
+
 	last_played = music_id;
+	MIX_SetTrackAudio(music_track, music_bank[music_id]);
+
+	if (music_muted)
+		return;
+
+	music_playtrack();
 }
 
 void music_fade_out(int ms) {
@@ -57,5 +65,13 @@ bool music_is_playing(void) {
 }
 
 void music_mute(bool muted) {
-	MIX_SetTrackGain(music_track, muted ? 0.0f : 1.0f);
+	if (music_muted == muted)
+		return;
+
+	music_muted = muted;
+
+	if (muted)
+		music_fade_out(0);
+	else
+		music_playtrack();
 }
