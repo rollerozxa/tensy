@@ -36,7 +36,7 @@ void shuffle_update(void) {
 }
 
 void shuffle_draw(void) {
-	SDL_FRect bg_rect = {23 * 20, 24, 9 * 20, 20 * 6};
+	SDL_FRect bg_rect = {23 * 20, 30, 9 * 20, 20 * 6};
 	draw_set_color(0x102a63);
 	draw_fill_rect(&bg_rect);
 
