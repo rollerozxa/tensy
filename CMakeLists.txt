@@ -73,8 +73,10 @@ endif()
 
 target_compile_definitions(${PROJ} PRIVATE $<$<CONFIG:Debug>:DEBUG=1>)
 
+set(GENERATE_DATA_FILES TRUE)
 if(ANDROID OR VITA OR APPLE OR FORCE_LOOSE_ASSET_LOADING)
 	add_compile_definitions(ASSETLOADER_LOOSE=1)
+	set(GENERATE_DATA_FILES FALSE)
 endif()
 
 # Nice set of warning flags to build with
@@ -116,7 +118,9 @@ endif()
 
 # Generate embedded data files as header files to be included
 
-include(cmake/GenerateDataFiles.cmake)
-generate_data_files()
-add_custom_target(generate_data DEPENDS ${GENERATED_DATA_HEADERS})
-add_dependencies(${PROJ} generate_data)
+if(GENERATE_DATA_FILES)
+	include(cmake/GenerateDataFiles.cmake)
+	generate_data_files()
+	add_custom_target(generate_data DEPENDS ${GENERATED_DATA_HEADERS})
+	add_dependencies(${PROJ} generate_data)
+endif()
