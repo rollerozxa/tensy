@@ -6,6 +6,9 @@
 	<content_rating type="oars-1.0" />
 	<name>Tensy</name>
 	<summary>Match numbers to make them add up to 10</summary>
+	<developer id="se.voxelmanip">
+		<name>ROllerozxa</name>
+	</developer>
 	<description>
 		<p>
 			A simple but addictive puzzle game. Your mission is to match numbers such that they add up to 10.
@@ -44,5 +47,9 @@
 	<provides>
 		<binary>tensy</binary>
 	</provides>
+	<launchable type="desktop-id">se.voxelmanip.tensy.desktop</launchable>
 	<update_contact>rollerozxa@voxelmanip.se</update_contact>
+	<releases>
+		<release date="2025-11-22" version="1.0" />
+	</releases>
 </component>
