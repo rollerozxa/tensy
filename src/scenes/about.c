@@ -6,6 +6,7 @@
 #include "input.h"
 #include "media/lsdozxa.h"
 #include "media/raccoon.h"
+#include "media/sound.h"
 #include "scene.h"
 #include "text.h"
 #include <SDL3/SDL.h>
@@ -30,8 +31,11 @@ void about_event(const SDL_Event *ev) {
 	if (button_event(ev, &ok_button) || is_escaping(ev))
 		scene_switch("mainmenu");
 
-	if (ev->type == SDL_EVENT_MOUSE_BUTTON_DOWN && SDL_PointInRectFloat(&POINT(ev->motion.x, ev->motion.y), &RECT(450, 50, 350, 320)))
+	bool mouse_in_image = SDL_PointInRectFloat(&POINT(ev->motion.x, ev->motion.y), &RECT(450, 50, 175, 160));
+	if (ev->type == SDL_EVENT_MOUSE_BUTTON_DOWN && mouse_in_image) {
+		sound_play(SND_WOOZY);
 		draw_mode = (draw_mode + 1) % 2;
+	}
 }
 
 void about_update(float dt) {
