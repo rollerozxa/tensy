@@ -20,12 +20,19 @@ void shuffle_event(const SDL_Event *ev) {
 	if (button_event(ev, &yes_button)) {
 		gamestate_clear();
 		board_shuffle_animated(&game.board, 1);
-		game.shuffles--;
+
+		if (!current_gamemode().unlimited_shuffles)
+			game.shuffles--;
+
 		overlay_hide();
 	}
 
 	if (button_event(ev, &no_button) || is_escaping(ev))
 		overlay_hide();
+}
+
+void shuffle_update(void) {
+	yes_button._disabled = game.board.anim.animating;
 }
 
 void shuffle_draw(void) {
@@ -64,6 +71,6 @@ Overlay shuffle_overlay = {
 	"shuffle",
 	shuffle_init,
 	shuffle_event,
-	NULL,
+	shuffle_update,
 	shuffle_draw
 };

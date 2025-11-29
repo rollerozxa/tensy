@@ -12,6 +12,11 @@ static float label_scale(float btn_height) {
 }
 
 bool button_event(const SDL_Event *ev, Button *button) {
+	if (button->_disabled) {
+		button->_held = false;
+		return false;
+	}
+
 	if (SDL_PointInRectFloat(&POINT(ev->motion.x, ev->motion.y), &button->rect)) {
 		if (ev->type == SDL_EVENT_MOUSE_BUTTON_DOWN) {
 			button->_held = true;
