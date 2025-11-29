@@ -132,7 +132,7 @@ void game_init(void) {
 	if (current_gamemode().gravity_mode != GRA_Ask)
 		board.physics = current_gamemode().gravity_mode == GRA_Always;
 
-	game.shuffles = 3;
+	game.shuffles = current_gamemode().unlimited_shuffles ? -1 : 3;
 
 	game.score = 0;
 	game.dead = false;
@@ -198,7 +198,7 @@ void game_event(const SDL_Event *ev) {
 	if (tex_button_event(ev, &pause_button) || is_escaping(ev))
 		overlay_switch("pause");
 
-	if (game.shuffles > 0) {
+	if (game.shuffles != 0) {
 		if (tex_button_event(ev, &shuffle_button))
 			overlay_switch("shuffle");
 	}

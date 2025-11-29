@@ -60,6 +60,7 @@ typedef struct {
 	void (*on_start)(void);
 	GravityMode gravity_mode;
 	bool time_limit;
+	bool unlimited_shuffles;
 } GameMode;
 
 extern GameMode gamemodes[];

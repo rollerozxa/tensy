@@ -41,5 +41,6 @@ GameMode leisure_gamemode = {
 	leisure_click,
 	NULL,
 	sm_draw,
-	.gravity_mode=GRA_Ask
+	.gravity_mode=GRA_Ask,
+	.unlimited_shuffles=true
 };
