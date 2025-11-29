@@ -7,6 +7,7 @@
 #include "gamestate.h"
 #include "gui/button.h"
 #include "input.h"
+#include "media/music.h"
 #include "media/sound.h"
 #include "mouse.h"
 #include "savestate.h"
@@ -89,6 +90,7 @@ void selectmode_event(const SDL_Event *ev) {
 	if (savestate_exists() && button_event(ev, &continue_button)) {
 		savestate_load();
 		game.loaded_existing = true;
+		music_fade_out(1000);
 		scene_switch("game");
 	}
 }
