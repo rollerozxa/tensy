@@ -40,6 +40,7 @@ void mainmenu_init(void) {
 	BUTTON(statistics_button, RECT(330,260,150,40), "Statistics");
 
 	TEX_BUTTON(itchio_button, RECT(SCREEN_W - (48*2) - 2 - 6, 2, 48, 48), TEX_ITCHIO);
+	itchio_button.tooltip = "Tensy on itch.io";
 	TEX_BUTTON(settings_button, RECT(SCREEN_W - 48 - 1, 1, 48, 48), TEX_SETTINGS);
 
 	music_play(MUS_MAINMENU, -1);
