@@ -18,13 +18,8 @@ bool window_is_scaled_down(void) {
 #endif
 
 void renderer_set_logical_presentation(void) {
-#ifdef SDL_PLATFORM_VITA
-
-	SDL_SetRenderLogicalPresentation(renderer, SCREEN_W, SCREEN_H+4, SDL_LOGICAL_PRESENTATION_STRETCH);
-#else
 	bool integer_scale = SUPPORTS_PIXEL_PERFECT && settings_getflag(FLAG_PIXEL_PERFECT) && !window_is_scaled_down();
 
 	int presentation_mode = integer_scale ? SDL_LOGICAL_PRESENTATION_INTEGER_SCALE : SDL_LOGICAL_PRESENTATION_LETTERBOX;
 	SDL_SetRenderLogicalPresentation(renderer, SCREEN_W, SCREEN_H, presentation_mode);
-#endif
 }

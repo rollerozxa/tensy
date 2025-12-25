@@ -56,8 +56,6 @@ SDL_AppResult SDL_AppInit(void **rustptr, int argc, char **argv) {
 
 	SDL_SetAppMetadata(APP_NAME, NULL, APP_ID);
 
-	SDL_SetHint(SDL_HINT_EMSCRIPTEN_FILL_DOCUMENT, "1");
-
 #ifdef SDL_PLATFORM_VITA
 	#define INIT_FLAGS SDL_INIT_VIDEO | SDL_INIT_GAMEPAD
 #else
@@ -114,6 +112,8 @@ SDL_AppResult SDL_AppInit(void **rustptr, int argc, char **argv) {
 		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, APP_NAME, msg, NULL);
 		return SDL_APP_FAILURE;
 	}
+
+	SDL_SetWindowFillDocument(window, true);
 
 #ifdef SDL_PLATFORM_MACOS
 	if (strcmp(SDL_GetRendererName(renderer), "opengl") == 0)
@@ -177,11 +177,6 @@ SDL_AppResult SDL_AppIterate(void *rustptr) {
 		return SDL_APP_SUCCESS;
 
 	AppDraw(renderer);
-
-#ifdef SDL_PLATFORM_VITA
-	draw_set_color(0x0);
-	draw_fill_rect(&RECT(0, SCREEN_H, SCREEN_W, 4));
-#endif
 
 	SDL_RenderPresent(renderer);
 
