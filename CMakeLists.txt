@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.14)
 project(tensy C)
-set(CMAKE_C_STANDARD 99)
+set(CMAKE_C_STANDARD 11)
 set(PROJ ${PROJECT_NAME})
 
 include(cmake/DownloadLib.cmake)
