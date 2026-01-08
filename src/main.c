@@ -56,12 +56,7 @@ SDL_AppResult SDL_AppInit(void **rustptr, int argc, char **argv) {
 
 	SDL_SetAppMetadata(APP_NAME, NULL, APP_ID);
 
-#ifdef SDL_PLATFORM_VITA
-	#define INIT_FLAGS SDL_INIT_VIDEO | SDL_INIT_GAMEPAD
-#else
-	#define INIT_FLAGS SDL_INIT_VIDEO
-#endif
-	SDL_Init(INIT_FLAGS);
+	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_GAMEPAD);
 
 #ifdef SDL_PLATFORM_WINDOWS
 	if (argc > 1 && strncmp(argv[1], "-d3d", 4) == 0)
@@ -127,9 +122,7 @@ SDL_AppResult SDL_AppInit(void **rustptr, int argc, char **argv) {
 #endif
 		SDL_SetWindowFullscreen(window, true);
 
-#ifdef SDL_PLATFORM_VITA
-	SDL_OpenGamepad(1);
-#endif
+
 
 	renderer_set_logical_presentation();
 
@@ -179,6 +172,8 @@ SDL_AppResult SDL_AppIterate(void *rustptr) {
 	AppDraw(renderer);
 
 	SDL_RenderPresent(renderer);
+
+	
 
 	return SDL_APP_CONTINUE;
 }

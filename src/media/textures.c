@@ -8,6 +8,7 @@
 #include <data/background_stripes_qoi.h>
 #include <data/check_qoi.h>
 #include <data/clock_qoi.h>
+#include <data/cursor_qoi.h>
 #include <data/end_qoi.h>
 #include <data/icon_qoi.h>
 #include <data/infinite_qoi.h>
@@ -45,6 +46,7 @@ void textures_init(SDL_Renderer *renderer) {
 	LOAD_TEX(TEX_BG_STRIPES, background_stripes_qoi, "background_stripes.qoi");
 	LOAD_TEX(TEX_CHECK, check_qoi, "check.qoi");
 	LOAD_TEX(TEX_CLOCK, clock_qoi, "clock.qoi");
+	LOAD_TEX(TEX_CURSOR, cursor_qoi, "cursor.qoi");
 	LOAD_TEX(TEX_END, end_qoi, "end.qoi");
 	LOAD_TEX(TEX_INFINITE, infinite_qoi, "infinite.qoi");
 	LOAD_TEX(TEX_INTRO_RACCOON, intro_raccoon_qoi, "intro_raccoon.qoi");

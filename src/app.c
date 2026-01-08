@@ -1,5 +1,6 @@
 #include "app.h"
 #include "debug.h"
+#include "gamepad.h"
 #include "gamemode.h"
 #include "gamesettings.h"
 #include "gui/tooltip.h"
@@ -11,6 +12,7 @@
 #include "scene.h"
 #include "scenes.h"
 #include "toast.h"
+#include "virtual_cursor.h"
 #include <SDL3_mixer/SDL_mixer.h>
 #include <stdint.h>
 
@@ -28,6 +30,8 @@ void AppInit(SDL_Window *window, SDL_Renderer *renderer) {
 	music_init();
 	textures_init(renderer);
 
+	gamepad_init();
+
 	scenes_register();
 	init_gamemodes();
 
@@ -35,6 +39,7 @@ void AppInit(SDL_Window *window, SDL_Renderer *renderer) {
 }
 
 void AppEvent(SDL_Event *ev) {
+	virtual_cursor_event(ev);
 	scene_run_event(ev);
 	overlay_run_event(ev);
 
@@ -56,6 +61,7 @@ void AppUpdate(void) {
 	overlay_run_update();
 
 	toast_update(dt);
+	virtual_cursor_update();
 }
 
 void AppDraw(SDL_Renderer *renderer) {
@@ -68,6 +74,7 @@ void AppDraw(SDL_Renderer *renderer) {
 	debug_draw();
 
 	scene_perform_transition();
+	virtual_cursor_draw();
 }
 
 void AppQuit(void) {
