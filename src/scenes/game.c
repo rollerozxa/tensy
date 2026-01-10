@@ -14,6 +14,7 @@
 #include "savestate.h"
 #include "scene.h"
 #include "text.h"
+#include "virtual_cursor.h"
 #include <SDL3/SDL.h>
 #include <math.h>
 #include <stdbool.h>
@@ -30,6 +31,10 @@ static bool helddown = false;
 static SDL_Point first_held_pos = {-1,-1};
 static SDL_Point current_held_pos = {-1,-1};
 static int held_sum = -1;
+
+static SDL_Point gp_selector_pos = {0,0};
+static bool gp_selecting = false;
+static bool gp_selection_enabled = false;
 
 static TexButton pause_button, shuffle_button, undo_button, end_button;
 
@@ -138,61 +143,140 @@ void game_init(void) {
 	game.dead = false;
 	board_change_size(&board, board.w, board.h, board.scale);
 	board_reset(&board);
+
+	gp_selector_pos = (SDL_Point){(int)(board.w / 2), (int)(board.h / 2)};
+}
+
+static void begin_move(void) {
+	do_move();
+
+	first_held_pos = (SDL_Point){-1,-1};
+	current_held_pos = (SDL_Point){-1,-1};
+
+	held_sum = -1;
 }
 
 void game_event(const SDL_Event *ev) {
 	#define CELL_X (ev->motion.x - board.rect.x) / board.cell_size
 	#define CELL_Y (ev->motion.y - board.rect.y) / board.cell_size
 
+	int cx = CELL_X;
+	int cy = CELL_Y;
+
 	if (overlay_exists()) return;
 
-	if (ev->type == SDL_EVENT_MOUSE_BUTTON_DOWN) {
-		int cx = CELL_X;
-		int cy = CELL_Y;
+	switch (ev->type) {
+		case SDL_EVENT_MOUSE_BUTTON_DOWN:
+			if (gp_selecting)
+				break;
 
-		if (SDL_PointInRectFloat(&POINT(ev->motion.x, ev->motion.y), &board.rect)) {
-			first_held_pos = (struct SDL_Point){cx, cy};
-			current_held_pos = first_held_pos;
-			helddown = true;
-			sound_play(SND_SELECT);
-		}
-	} else if (ev->type == SDL_EVENT_MOUSE_MOTION) {
-		if (helddown) {
-			SDL_Point old_held_pos = {current_held_pos.x, current_held_pos.y};
-
-			current_held_pos.x = CELL_X;
-			current_held_pos.y = CELL_Y;
-
-			current_held_pos.x = SDL_clamp(current_held_pos.x, 0, board.w-1);
-			current_held_pos.y = SDL_clamp(current_held_pos.y, 0, board.h-1);
-
-			if (current_held_pos.x != old_held_pos.x || current_held_pos.y != old_held_pos.y) {
+			if (SDL_PointInRectFloat(&POINT(ev->motion.x, ev->motion.y), &board.rect)) {
+				first_held_pos = (struct SDL_Point){cx, cy};
+				current_held_pos = first_held_pos;
+				helddown = true;
 				sound_play(SND_SELECT);
 			}
+			break;
 
-			held_sum = calculate_sum();
-		}
-	} else if (ev->type == SDL_EVENT_MOUSE_BUTTON_UP && helddown) {
-		do_move();
+		case SDL_EVENT_MOUSE_MOTION:
+			if (gp_selecting)
+				break;
 
-		first_held_pos = (SDL_Point){-1,-1};
-		current_held_pos = (SDL_Point){-1,-1};
+			if (helddown) {
+				SDL_Point old_held_pos = {current_held_pos.x, current_held_pos.y};
 
-		held_sum = -1;
-		helddown = false;
-	} else if (ev->type == SDL_EVENT_KEY_UP) {
+				current_held_pos.x = CELL_X;
+				current_held_pos.y = CELL_Y;
 
-		if (ev->key.key == SDLK_F5)
-			savestate_save();
+				current_held_pos.x = SDL_clamp(current_held_pos.x, 0, board.w-1);
+				current_held_pos.y = SDL_clamp(current_held_pos.y, 0, board.h-1);
 
-		if (ev->key.key == SDLK_F6)
-			savestate_load();
+				if (current_held_pos.x != old_held_pos.x || current_held_pos.y != old_held_pos.y) {
+					sound_play(SND_SELECT);
+				}
 
-		if (ev->key.key == SDLK_F1)
-			board_shuffle_animated(&board, 1);
+				held_sum = calculate_sum();
+			}
+			break;
 
-		if (ev->key.key == SDLK_U)
-			gamestate_undo();
+		case SDL_EVENT_MOUSE_BUTTON_UP:
+			if (gp_selecting)
+				break;
+
+			if (helddown) {
+				begin_move();
+				helddown = false;
+			}
+			break;
+
+		case SDL_EVENT_KEY_UP:
+			if (ev->key.key == SDLK_F5)
+				savestate_save();
+
+			if (ev->key.key == SDLK_F6)
+				savestate_load();
+
+			if (ev->key.key == SDLK_F1)
+				board_shuffle_animated(&board, 1);
+
+			if (ev->key.key == SDLK_U)
+				gamestate_undo();
+
+			break;
+
+		case SDL_EVENT_GAMEPAD_BUTTON_DOWN: {
+			int b = ev->gbutton.button;
+
+			if (b == SDL_GAMEPAD_BUTTON_START) {
+				overlay_switch("pause");
+				break;
+			}
+
+			// D-Pad moves the selector
+			if (b == SDL_GAMEPAD_BUTTON_DPAD_LEFT || b == SDL_GAMEPAD_BUTTON_DPAD_RIGHT ||
+				b == SDL_GAMEPAD_BUTTON_DPAD_UP || b == SDL_GAMEPAD_BUTTON_DPAD_DOWN) {
+
+				virtual_cursor_disable();
+				gp_selection_enabled = true;
+
+				int dx = 0, dy = 0;
+				if (b == SDL_GAMEPAD_BUTTON_DPAD_LEFT) dx = -1;
+				if (b == SDL_GAMEPAD_BUTTON_DPAD_RIGHT) dx = 1;
+				if (b == SDL_GAMEPAD_BUTTON_DPAD_UP) dy = -1;
+				if (b == SDL_GAMEPAD_BUTTON_DPAD_DOWN) dy = 1;
+
+				gp_selector_pos.x = SDL_clamp(gp_selector_pos.x + dx, 0, board.w-1);
+				gp_selector_pos.y = SDL_clamp(gp_selector_pos.y + dy, 0, board.h-1);
+
+				if (gp_selecting) {
+					// while selecting, move the other corner
+					current_held_pos = gp_selector_pos;
+					held_sum = calculate_sum();
+					sound_play(SND_SELECT);
+				} else {
+					sound_play(SND_SELECT);
+				}
+				break;
+			}
+
+			// SOUTH starts selection when pressed
+			if (gp_selection_enabled && b == SDL_GAMEPAD_BUTTON_SOUTH) {
+				virtual_cursor_disable();
+
+				first_held_pos = gp_selector_pos;
+				current_held_pos = first_held_pos;
+				gp_selecting = true;
+				held_sum = calculate_sum();
+				sound_play(SND_SELECT);
+			}
+		} break;
+
+		case SDL_EVENT_GAMEPAD_BUTTON_UP: {
+			if (gp_selecting && ev->gbutton.button == SDL_GAMEPAD_BUTTON_SOUTH) {
+				begin_move();
+				gp_selecting = false;
+			}
+		} break;
 	}
 
 	if (tex_button_event(ev, &pause_button) || is_escaping(ev))
@@ -214,6 +298,10 @@ void game_event(const SDL_Event *ev) {
 
 void game_update(float dt) {
 	board_update(&board, dt);
+
+	if (virtual_cursor_is_active()) {
+		gp_selection_enabled = false;
+	}
 
 	if (current_gamemode().time_limit && !game.dead && (!overlay_exists() || strcmp(overlay_get_current(), "shuffle") == 0)) {
 		if (time_left < 0)
@@ -243,19 +331,32 @@ void game_draw(void) {
 		fabsf(current_held_point.y - first_held_point.y) + board.cell_size
 	};
 
-	if (helddown) {
-		if (held_sum == 10) {
-			draw_set_color(0x00A000);
-
-			draw_fill_rect(&sel_rect);
-		}
+	if ((gp_selecting || helddown) && held_sum == 10) {
+		draw_set_color(0x00A000);
+		draw_fill_rect(&sel_rect);
 	}
 
 	board_draw(&board, !settings_getflag(FLAG_MONO_NUMBERS));
 
-	if (helddown) {
+	if (helddown || gp_selecting) {
 		draw_set_color(0xFFFFFF);
 		draw_rect(&sel_rect);
+	} else if (gp_selection_enabled) {
+		// Draw a dotted one-cell selector at gp_selector_pos
+		// TODO: make this better
+		SDL_FPoint selp = board_to_screen_coord(&board, gp_selector_pos.x, gp_selector_pos.y);
+		SDL_FRect cell_rect = {selp.x, selp.y, board.cell_size, board.cell_size};
+		draw_set_color(0xFFFFFF);
+		float dot = SDL_min(4.0f, board.cell_size * 0.15f);
+
+		SDL_FRect d = {cell_rect.x + 2, cell_rect.y + 2, dot, dot};
+		draw_fill_rect(&d);
+		d.x = cell_rect.x + cell_rect.w - 2 - dot;
+		draw_fill_rect(&d);
+		d.y = cell_rect.y + cell_rect.h - 2 - dot;
+		draw_fill_rect(&d);
+		d.x = cell_rect.x + 2;
+		draw_fill_rect(&d);
 	}
 
 	draw_set_color(0x102A6E);

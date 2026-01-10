@@ -42,6 +42,7 @@ static void simulate_mouse_motion(float xrel, float yrel) {
 	ev.motion.y = vc.y;
 	ev.motion.xrel = vc.x - old_x;
 	ev.motion.yrel = vc.y - old_y;
+	ev.motion.reserved = 1;
 	SDL_PushEvent(&ev);
 }
 
@@ -55,6 +56,10 @@ SDL_FPoint virtual_cursor_get_pos(void) {
 
 int virtual_cursor_clicked(void) {
 	return v_clicked;
+}
+
+void virtual_cursor_disable(void) {
+	virtual_active = false;
 }
 
 void virtual_cursor_event(const SDL_Event *ev) {
@@ -104,6 +109,9 @@ void virtual_cursor_update(void) {
 		if (dx != 0.0f || dy != 0.0f)
 			virtual_active = true;
 		else
+			return;
+	} else {
+		if (dx == 0.0f && dy == 0.0f)
 			return;
 	}
 
