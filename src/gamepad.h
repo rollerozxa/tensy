@@ -2,8 +2,8 @@
 
 #include <SDL3/SDL.h>
 
-void gamepad_find(void);
-static inline void gamepad_init(void) { gamepad_find(); }
+SDL_Gamepad *gamepad_find(void);
+void gamepad_init(void);
 void gamepad_handle_hotswap(const SDL_Event *ev);
 
 SDL_Gamepad *gamepad_get(void);

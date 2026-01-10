@@ -39,6 +39,7 @@ void AppInit(SDL_Window *window, SDL_Renderer *renderer) {
 }
 
 void AppEvent(SDL_Event *ev) {
+	gamepad_handle_hotswap(ev);
 	virtual_cursor_event(ev);
 	scene_run_event(ev);
 	overlay_run_event(ev);
