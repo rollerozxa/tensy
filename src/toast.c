@@ -5,11 +5,13 @@
 #include "font.h"
 #include "text.h"
 #include <SDL3/SDL.h>
+#include <stdlib.h>
 
 Toast toast;
 
 void toast_show(const char *message, float duration) {
-	toast = (Toast){message, 2, duration, 0.0f, 1.0f, true};
+	char *msg = strdup(message);
+	toast = (Toast){msg, 2, duration, 0.0f, 1.0f, true};
 }
 
 void toast_update(float dt) {
@@ -18,6 +20,7 @@ void toast_update(float dt) {
 	toast.timer += dt;
 	if (toast.timer >= toast.duration) {
 		toast.active = false;
+		free((void *)toast.message);
 		return;
 	}
 
