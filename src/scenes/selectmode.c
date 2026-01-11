@@ -44,6 +44,9 @@ static void select_mode_num(int num) {
 }
 
 void selectmode_event(const SDL_Event *ev) {
+	if (is_escaping(ev))
+		scene_switch("mainmenu");
+
 	switch (ev->type) {
 		case SDL_EVENT_MOUSE_WHEEL:
 			xvel -= ev->wheel.y * 45;
@@ -70,9 +73,6 @@ void selectmode_event(const SDL_Event *ev) {
 			break;
 
 		case SDL_EVENT_KEY_UP:
-			if (is_escaping(ev))
-				scene_switch("mainmenu");
-
 			if (ev->key.key == SDLK_1) select_mode_num(0);
 			if (ev->key.key == SDLK_2) select_mode_num(1);
 			if (ev->key.key == SDLK_3) select_mode_num(2);
@@ -83,7 +83,6 @@ void selectmode_event(const SDL_Event *ev) {
 			if (ev->key.key == SDLK_8) select_mode_num(7);
 			if (ev->key.key == SDLK_9) select_mode_num(8);
 			if (ev->key.key == SDLK_0) select_mode_num(0);
-
 			break;
 	}
 
