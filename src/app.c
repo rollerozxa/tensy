@@ -11,6 +11,7 @@
 #include "overlay.h"
 #include "scene.h"
 #include "scenes.h"
+#include "screenshot.h"
 #include "toast.h"
 #include "virtual_cursor.h"
 #include <SDL3_mixer/SDL_mixer.h>
@@ -44,6 +45,9 @@ void AppEvent(SDL_Event *ev) {
 	scene_run_event(ev);
 	overlay_run_event(ev);
 
+	if (ev->type == SDL_EVENT_KEY_UP && ev->key.key == SDLK_F12)
+		screenshot_queue();
+
 	debug_event(ev);
 }
 
@@ -76,6 +80,8 @@ void AppDraw(SDL_Renderer *renderer) {
 
 	scene_perform_transition();
 	virtual_cursor_draw();
+
+	screenshot_poll();
 }
 
 void AppQuit(void) {
