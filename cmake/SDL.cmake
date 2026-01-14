@@ -34,6 +34,6 @@ if(HAIKU)
 	add_definitions(-fPIC)
 endif()
 
-add_definitions(-DSDL_LEAN_AND_MEAN=1)
+add_definitions(-DSDL_LEAN_AND_MEAN=1 -DSDL_HAVE_STB=1)
 
 add_subdirectory(lib/SDL EXCLUDE_FROM_ALL)

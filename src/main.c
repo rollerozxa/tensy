@@ -26,7 +26,7 @@ SDL_Renderer *renderer;
 #if !EMBEDDED_DATA
 bool can_access_data(void) {
 	char path[512] = {0};
-	snprintf(path, sizeof(path), PREFIX "textures/check.qoi");
+	snprintf(path, sizeof(path), PREFIX "textures/check.png");
 	return access(path, F_OK) == 0;
 }
 #endif
@@ -172,8 +172,6 @@ SDL_AppResult SDL_AppIterate(void *rustptr) {
 	AppDraw(renderer);
 
 	SDL_RenderPresent(renderer);
-
-	
 
 	return SDL_APP_CONTINUE;
 }

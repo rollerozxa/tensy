@@ -5,20 +5,20 @@
 #include "assetloader.h"
 
 #if EMBEDDED_DATA
-#include <data/background_stripes_qoi.h>
-#include <data/check_qoi.h>
-#include <data/clock_qoi.h>
-#include <data/cursor_qoi.h>
-#include <data/end_qoi.h>
-#include <data/icon_qoi.h>
-#include <data/infinite_qoi.h>
-#include <data/intro_raccoon_qoi.h>
-#include <data/intro_text_qoi.h>
-#include <data/itchio_qoi.h>
-#include <data/pause_qoi.h>
-#include <data/settings_qoi.h>
-#include <data/shuffle_qoi.h>
-#include <data/undo_qoi.h>
+#include <data/background_stripes_png.h>
+#include <data/check_png.h>
+#include <data/clock_png.h>
+#include <data/cursor_png.h>
+#include <data/end_png.h>
+#include <data/icon_png.h>
+#include <data/infinite_png.h>
+#include <data/intro_raccoon_png.h>
+#include <data/intro_text_png.h>
+#include <data/itchio_png.h>
+#include <data/pause_png.h>
+#include <data/settings_png.h>
+#include <data/shuffle_png.h>
+#include <data/undo_png.h>
 #endif
 
 static SDL_Texture *texture_bank[100];
@@ -35,33 +35,33 @@ SDL_ScaleMode textures_get_scalemode(void) {
 }
 
 #define LOAD_TEX(id, data, path) \
-	texture_bank[id] = SDL_CreateTextureFromSurface(renderer, ASSETLOADER_QOI(data, path)); \
+	texture_bank[id] = SDL_CreateTextureFromSurface(renderer, ASSETLOADER_PNG(data, path)); \
 	SDL_SetTextureScaleMode(texture_bank[id], textures_get_scalemode())
 
 #define LOAD_TEX_LIN(id, data, path) \
-	texture_bank[id] = SDL_CreateTextureFromSurface(renderer, ASSETLOADER_QOI(data, path)); \
+	texture_bank[id] = SDL_CreateTextureFromSurface(renderer, ASSETLOADER_PNG(data, path)); \
 	SDL_SetTextureScaleMode(texture_bank[id], SDL_SCALEMODE_LINEAR)
 
 void textures_init(SDL_Renderer *renderer) {
-	LOAD_TEX(TEX_BG_STRIPES, background_stripes_qoi, "background_stripes.qoi");
-	LOAD_TEX(TEX_CHECK, check_qoi, "check.qoi");
-	LOAD_TEX(TEX_CLOCK, clock_qoi, "clock.qoi");
-	LOAD_TEX(TEX_CURSOR, cursor_qoi, "cursor.qoi");
-	LOAD_TEX(TEX_END, end_qoi, "end.qoi");
-	LOAD_TEX(TEX_INFINITE, infinite_qoi, "infinite.qoi");
-	LOAD_TEX(TEX_INTRO_RACCOON, intro_raccoon_qoi, "intro_raccoon.qoi");
-	LOAD_TEX_LIN(TEX_INTRO_TEXT, intro_text_qoi, "intro_text.qoi");
-	LOAD_TEX(TEX_ITCHIO, itchio_qoi, "itchio.qoi");
-	LOAD_TEX(TEX_PAUSE, pause_qoi, "pause.qoi");
-	LOAD_TEX(TEX_SETTINGS, settings_qoi, "settings.qoi");
-	LOAD_TEX(TEX_SHUFFLE, shuffle_qoi, "shuffle.qoi");
-	LOAD_TEX(TEX_UNDO, undo_qoi, "undo.qoi");
+	LOAD_TEX(TEX_BG_STRIPES, background_stripes_png, "background_stripes.png");
+	LOAD_TEX(TEX_CHECK, check_png, "check.png");
+	LOAD_TEX(TEX_CLOCK, clock_png, "clock.png");
+	LOAD_TEX(TEX_CURSOR, cursor_png, "cursor.png");
+	LOAD_TEX(TEX_END, end_png, "end.png");
+	LOAD_TEX(TEX_INFINITE, infinite_png, "infinite.png");
+	LOAD_TEX(TEX_INTRO_RACCOON, intro_raccoon_png, "intro_raccoon.png");
+	LOAD_TEX_LIN(TEX_INTRO_TEXT, intro_text_png, "intro_text.png");
+	LOAD_TEX(TEX_ITCHIO, itchio_png, "itchio.png");
+	LOAD_TEX(TEX_PAUSE, pause_png, "pause.png");
+	LOAD_TEX(TEX_SETTINGS, settings_png, "settings.png");
+	LOAD_TEX(TEX_SHUFFLE, shuffle_png, "shuffle.png");
+	LOAD_TEX(TEX_UNDO, undo_png, "undo.png");
 
 	textures_loaded = true;
 }
 
 SDL_Surface *get_icon_surface(void) {
-	return ASSETLOADER_QOI(icon_qoi, "icon.qoi");
+	return ASSETLOADER_PNG(icon_png, "icon.png");
 }
 
 SDL_Texture *textures_get(int texture_id) {
