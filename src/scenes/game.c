@@ -36,6 +36,15 @@ static SDL_Point gp_selector_pos = {0,0};
 static bool gp_selecting = false;
 static bool gp_selection_enabled = false;
 
+#define GP_REPEAT_INITIAL 0.40f
+#define GP_REPEAT_INTERVAL 0.08f
+
+static struct {
+	bool pressed[4];
+	float repeat_timer;
+	bool repeat_started;
+} gp_dpad = {0};
+
 static TexButton pause_button, shuffle_button, undo_button, end_button;
 
 static float heartbeat_timer = 0.0f;
@@ -82,6 +91,67 @@ static bool do_move(void) {
 
 	return true;
 }
+
+// Gamepad D-pad selection
+
+static void gp_dpad_move_selection(int dx, int dy) {
+	gp_selector_pos.x = SDL_clamp(gp_selector_pos.x + dx, 0, board.w-1);
+	gp_selector_pos.y = SDL_clamp(gp_selector_pos.y + dy, 0, board.h-1);
+
+	if (gp_selecting) {
+		current_held_pos = gp_selector_pos;
+		held_sum = calculate_sum();
+		sound_play(SND_SELECT);
+	} else {
+		sound_play(SND_SELECT);
+	}
+}
+
+static void gp_dpad_move_selection_real(bool *pressed) {
+	int dx = (pressed[1] ? 1 : 0) - (pressed[0] ? 1 : 0);
+	int dy = (pressed[3] ? 1 : 0) - (pressed[2] ? 1 : 0);
+	gp_dpad_move_selection(dx, dy);
+}
+
+static bool gp_dpad_any_down(bool *pressed) {
+	return pressed[0] || pressed[1] || pressed[2] || pressed[3];
+}
+
+static void gp_dpad_check_buttons(int b, bool pressed) {
+	if (b == SDL_GAMEPAD_BUTTON_DPAD_LEFT)
+		gp_dpad.pressed[0] = pressed;
+	if (b == SDL_GAMEPAD_BUTTON_DPAD_RIGHT)
+		gp_dpad.pressed[1] = pressed;
+	if (b == SDL_GAMEPAD_BUTTON_DPAD_UP)
+		gp_dpad.pressed[2] = pressed;
+	if (b == SDL_GAMEPAD_BUTTON_DPAD_DOWN)
+		gp_dpad.pressed[3] = pressed;
+}
+
+void handle_gp_dpad_update(float dt) {
+	if (!gp_selection_enabled)
+		return;
+
+	if (!gp_dpad_any_down(gp_dpad.pressed))
+		return;
+
+	gp_dpad.repeat_timer -= dt;
+
+	if (!gp_dpad.repeat_started) {
+		if (gp_dpad.repeat_timer <= 0.0f) {
+			gp_dpad_move_selection_real(gp_dpad.pressed);
+			gp_dpad.repeat_started = true;
+			gp_dpad.repeat_timer = GP_REPEAT_INTERVAL;
+		}
+	} else {
+		while (gp_dpad.repeat_timer <= 0.0f) {
+			gp_dpad_move_selection_real(gp_dpad.pressed);
+			gp_dpad.repeat_timer += GP_REPEAT_INTERVAL;
+		}
+	}
+}
+
+// ---
 
 #define BUTTON_SIZE 24
 #if defined(SDL_PLATFORM_ANDROID) || defined(SDL_PLATFORM_VITA)
@@ -239,23 +309,12 @@ void game_event(const SDL_Event *ev) {
 				virtual_cursor_disable();
 				gp_selection_enabled = true;
 
-				int dx = 0, dy = 0;
-				if (b == SDL_GAMEPAD_BUTTON_DPAD_LEFT) dx = -1;
-				if (b == SDL_GAMEPAD_BUTTON_DPAD_RIGHT) dx = 1;
-				if (b == SDL_GAMEPAD_BUTTON_DPAD_UP) dy = -1;
-				if (b == SDL_GAMEPAD_BUTTON_DPAD_DOWN) dy = 1;
+				gp_dpad_check_buttons(b, true);
+				gp_dpad_move_selection_real(gp_dpad.pressed);
 
-				gp_selector_pos.x = SDL_clamp(gp_selector_pos.x + dx, 0, board.w-1);
-				gp_selector_pos.y = SDL_clamp(gp_selector_pos.y + dy, 0, board.h-1);
-
-				if (gp_selecting) {
-					// while selecting, move the other corner
-					current_held_pos = gp_selector_pos;
-					held_sum = calculate_sum();
-					sound_play(SND_SELECT);
-				} else {
-					sound_play(SND_SELECT);
-				}
+				// mark this D-Pad direction as pressed for repeat handling
+				gp_dpad.repeat_started = false;
+				gp_dpad.repeat_timer = GP_REPEAT_INITIAL;
 				break;
 			}
 
@@ -272,10 +331,20 @@ void game_event(const SDL_Event *ev) {
 		} break;
 
 		case SDL_EVENT_GAMEPAD_BUTTON_UP: {
-			if (gp_selecting && ev->gbutton.button == SDL_GAMEPAD_BUTTON_SOUTH) {
+			int b = ev->gbutton.button;
+			if (gp_selecting && b == SDL_GAMEPAD_BUTTON_SOUTH) {
 				begin_move();
 				gp_selecting = false;
 			}
+
+			gp_dpad_check_buttons(b, false);
+
+			bool any = gp_dpad_any_down(gp_dpad.pressed);
+			if (any)
+				gp_dpad_move_selection_real(gp_dpad.pressed);
+
+			gp_dpad.repeat_started = false;
+			gp_dpad.repeat_timer = any ? GP_REPEAT_INITIAL : 0.0f;
 		} break;
 	}
 
@@ -302,6 +371,8 @@ void game_update(float dt) {
 	if (virtual_cursor_is_active()) {
 		gp_selection_enabled = false;
 	}
+
+	handle_gp_dpad_update(dt);
 
 	if (current_gamemode().time_limit && !game.dead && (!overlay_exists() || strcmp(overlay_get_current(), "shuffle") == 0)) {
 		if (time_left < 0)
