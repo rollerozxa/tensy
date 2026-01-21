@@ -122,8 +122,6 @@ SDL_AppResult SDL_AppInit(void **rustptr, int argc, char **argv) {
 #endif
 		SDL_SetWindowFullscreen(window, true);
 
-
-
 	renderer_set_logical_presentation();
 
 	SDL_SetRenderVSync(renderer, 1);
