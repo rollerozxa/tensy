@@ -306,7 +306,9 @@ void game_event(const SDL_Event *ev) {
 			if (b == SDL_GAMEPAD_BUTTON_DPAD_LEFT || b == SDL_GAMEPAD_BUTTON_DPAD_RIGHT ||
 				b == SDL_GAMEPAD_BUTTON_DPAD_UP || b == SDL_GAMEPAD_BUTTON_DPAD_DOWN) {
 
-				virtual_cursor_disable();
+				if (virtual_cursor_get_state() != VC_FORCE_OFF)
+					virtual_cursor_set_state(VC_FORCE_OFF);
+
 				gp_selection_enabled = true;
 
 				gp_dpad_check_buttons(b, true);
@@ -320,7 +322,8 @@ void game_event(const SDL_Event *ev) {
 
 			// SOUTH starts selection when pressed
 			if (gp_selection_enabled && b == SDL_GAMEPAD_BUTTON_SOUTH) {
-				virtual_cursor_disable();
+				if (virtual_cursor_get_state() != VC_FORCE_OFF)
+					virtual_cursor_set_state(VC_FORCE_OFF);
 
 				first_held_pos = gp_selector_pos;
 				current_held_pos = first_held_pos;
@@ -368,7 +371,7 @@ void game_event(const SDL_Event *ev) {
 void game_update(float dt) {
 	board_update(&board, dt);
 
-	if (virtual_cursor_is_active()) {
+	if (virtual_cursor_get_state() == VC_ACTIVE) {
 		gp_selection_enabled = false;
 	}
 

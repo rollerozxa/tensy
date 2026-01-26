@@ -1,14 +1,18 @@
 #include "virtual_cursor.h"
+#include "SDL3/SDL_gamepad.h"
 #include "consts.h"
 #include "draw.h"
 #include "gamepad.h"
 #include "media/textures.h"
+#include "toast.h"
 #include <math.h>
 
 // Virtual cursor position
 static SDL_FPoint vc = {0, 0};
 static int v_clicked = 0;
 static bool virtual_active = false;
+
+static VirtualCursorState virtual_state = VC_INACTIVE;
 
 // Default deadzone for joystick input
 static const float JOYSTICK_DEADZONE = 0.05f;
@@ -46,8 +50,12 @@ static void simulate_mouse_motion(float xrel, float yrel) {
 	SDL_PushEvent(&ev);
 }
 
-bool virtual_cursor_is_active(void) {
-	return virtual_active;
+VirtualCursorState virtual_cursor_get_state(void) {
+	return virtual_state;
+}
+
+void virtual_cursor_set_state(VirtualCursorState state) {
+	virtual_state = state;
 }
 
 SDL_FPoint virtual_cursor_get_pos(void) {
@@ -58,14 +66,22 @@ int virtual_cursor_clicked(void) {
 	return v_clicked;
 }
 
-void virtual_cursor_disable(void) {
-	virtual_active = false;
-}
-
 void virtual_cursor_event(const SDL_Event *ev) {
 	if (!ev) return;
 
-	if (!gamepad_is_connected())
+	// Allow forcibly disabling virtual cursor by pressing the right joystick button
+	if (ev->type == SDL_EVENT_GAMEPAD_BUTTON_DOWN && ev->gbutton.button == SDL_GAMEPAD_BUTTON_RIGHT_STICK) {
+		if (virtual_state == VC_FORCE_OFF) {
+			virtual_state = VC_INACTIVE;
+			toast_show("Virtual cursor enabled", 2.0f);
+		} else {
+			virtual_state = VC_FORCE_OFF;
+			v_clicked = 0;
+			toast_show("Virtual cursor disabled", 2.0f);
+		}
+	}
+
+	if (!gamepad_is_connected() || virtual_state == VC_FORCE_OFF)
 		return;
 
 	switch (ev->type) {
@@ -87,7 +103,7 @@ void virtual_cursor_event(const SDL_Event *ev) {
 }
 
 void virtual_cursor_update(void) {
-	if (!gamepad_is_connected())
+	if (!gamepad_is_connected() || virtual_state == VC_FORCE_OFF)
 		return;
 
 	SDL_FPoint joystick = gamepad_get_left_stick();
@@ -105,9 +121,9 @@ void virtual_cursor_update(void) {
 	else
 		dy = (dy > 0.0f) ? ((dy - dz) / (1.0f - dz)) : ((dy + dz) / (1.0f - dz));
 
-	if (!virtual_active) {
+	if (virtual_state == VC_INACTIVE) {
 		if (dx != 0.0f || dy != 0.0f)
-			virtual_active = true;
+			virtual_state = VC_ACTIVE;
 		else
 			return;
 	} else {
@@ -121,7 +137,7 @@ void virtual_cursor_update(void) {
 }
 
 void virtual_cursor_draw(void) {
-	if (!virtual_active)
+	if (virtual_state != VC_ACTIVE)
 		return;
 
 	SDL_FRect dstrect = {vc.x, vc.y, 16, 16};

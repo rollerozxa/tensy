@@ -7,7 +7,7 @@ extern SDL_Window *window;
 
 int mouse_get_state_scaled(SDL_FPoint *mouse) {
 	int clicked = 0;
-	if (virtual_cursor_is_active()) {
+	if (virtual_cursor_get_state() == VC_ACTIVE) {
 		SDL_FPoint vc = virtual_cursor_get_pos();
 		mouse->x = vc.x;
 		mouse->y = vc.y;
@@ -22,7 +22,7 @@ int mouse_get_state_scaled(SDL_FPoint *mouse) {
 }
 
 SDL_FPoint mouse_get_point(void) {
-	if (virtual_cursor_is_active())
+	if (virtual_cursor_get_state() == VC_ACTIVE)
 		return virtual_cursor_get_pos();
 
 	SDL_FPoint mouse;
