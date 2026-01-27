@@ -34,6 +34,17 @@ static SDL_Color parse_hex_color(const char *hex) {
 		255};
 }
 
+unsigned int parse_hex_color_bitpack(const char *hex) {
+	SDL_Color c = parse_hex_color(hex);
+	return color_sdl_to_bitpack(c);
+}
+
+void color_to_hex6(unsigned int color, char *out) {
+	SDL_Color c = color_bitpack_to_sdl(color);
+	snprintf(out, 7, "%02X%02X%02X", c.r, c.g, c.b);
+	out[6] = '\0';
+}
+
 void color_load_custom_numbers(void) {
 	char path[512] = {0};
 	fileio_pref_path(path, sizeof(path), "number_colors.txt");
