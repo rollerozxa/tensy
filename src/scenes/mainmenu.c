@@ -30,6 +30,8 @@ static TexButton itchio_button, settings_button;
 	#define COMPILER_VERSION "GCC " STR(__GNUC__) "." STR(__GNUC_MINOR__)
 #elif defined(_MSC_VER)
 	#define COMPILER_VERSION "MSVC " STR(_MSC_VER / 100) "." STR(_MSC_VER % 100)
+#elif defined(__slimcc__)
+	#define COMPILER_VERSION "slimcc"
 #else
 	#define COMPILER_VERSION "unknown compiler"
 #endif
