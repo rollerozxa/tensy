@@ -9,11 +9,13 @@
 unsigned int parse_hex_color_bitpack(const char *hex);
 void color_to_hex6(unsigned int color, char *out);
 
-void color_load_custom_numbers(void);
-
-SDL_Color color_numbers(int num);
-
 unsigned int color_sdl_to_bitpack(SDL_Color color);
 SDL_Color color_bitpack_to_sdl(unsigned int color);
 
 SDL_Color HSVtoRGB(double h, double s, double v);
+
+void color_load_custom_numbers(void);
+void color_save_custom_numbers(void);
+void color_numbers_reset(void);
+SDL_Color color_numbers(int num);
+void color_set_number_color(int num, unsigned int color);

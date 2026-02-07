@@ -14,7 +14,7 @@
 
 static Checkbox mono_numbers_checkbox, sound_checkbox, reduced_motion_checkbox, fullscreen_checkbox, music_checkbox, pixel_perfect_checkbox;
 
-static Button save_button, delete_data_button;
+static Button save_button, delete_data_button, customize_colors_button;
 
 static void trigger_secret_five(void) {
 	if (settings_getflag(FLAG_SECRET_FIVE))
@@ -34,8 +34,9 @@ void settings_init(void) {
 	CHECKBOX(music_checkbox, POINT(320, 80), settings_getflag(FLAG_MUSIC), "Music");
 	CHECKBOX(pixel_perfect_checkbox, POINT(320, 80+40*1), settings_getflag(FLAG_PIXEL_PERFECT), "Pixel perfect scaling");
 
-	BUTTON(save_button, RECT(220,280,200,40), "Save & Go back");
+	BUTTON(save_button, RECT(220,300,200,40), "Save & Go back");
 	BUTTON(delete_data_button, RECT(420,20,200,40), "Clear save data");
+	BUTTON(customize_colors_button, RECT(180, 20, 220, 40), "Customize colors");
 }
 
 extern SDL_Window *window;
@@ -69,6 +70,9 @@ void settings_event(const SDL_Event *ev) {
 
 	if (button_event(ev, &save_button) || is_escaping(ev))
 		scene_switch("mainmenu");
+
+	if (button_event(ev, &customize_colors_button))
+		scene_switch("customize_colors");
 
 	if (ev->type == SDL_EVENT_KEY_UP && ev->key.scancode == SDL_SCANCODE_5)
 		trigger_secret_five();
@@ -113,6 +117,7 @@ void settings_draw(void) {
 
 	button(&save_button);
 	button(&delete_data_button);
+	button(&customize_colors_button);
 }
 
 Scene settings_scene = {
