@@ -58,7 +58,7 @@ endif()
 
 # Compiler flags
 
-if(NOT VITA)
+if(NOT VITA AND NOT NINTENDO_3DS)
 	target_link_options(${PROJ} PRIVATE $<$<CONFIG:Release>:-Wl,-s>)
 endif()
 
@@ -97,9 +97,9 @@ if(VITA)
 		FILE packaging/vita/template.xml sce_sys/livearea/contents/template.xml
 	)
 	install(FILES "${CMAKE_BINARY_DIR}/tensy.vpk" DESTINATION .)
-endif()
-
-if(APPLE)
+elseif(NINTENDO_3DS)
+	ctr_create_3dsx(${PROJ})
+elseif(APPLE)
 	set(BUNDLE_PATH "${PROJ}.app/Contents")
 
 	install(DIRECTORY "data/" DESTINATION "${BUNDLE_PATH}/Resources")
@@ -107,7 +107,7 @@ if(APPLE)
 	install(FILES "packaging/Info.plist" DESTINATION "${BUNDLE_PATH}")
 	install(FILES "packaging/PkgInfo" DESTINATION "${BUNDLE_PATH}")
 	install(TARGETS ${PROJ} DESTINATION "${BUNDLE_PATH}/MacOS")
-elseif(NOT VITA)
+else()
 	if(EMSCRIPTEN)
 		install(FILES "packaging/index.html" DESTINATION .)
 		install(FILES ${CMAKE_BINARY_DIR}/${PROJ}.wasm DESTINATION .)

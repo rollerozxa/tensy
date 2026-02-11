@@ -31,6 +31,8 @@ if(HAIKU)
 	add_definitions(-fPIC)
 endif()
 
-add_definitions(-DSDL_LEAN_AND_MEAN=1 -DSDL_HAVE_STB=1)
+if(NOT NINTENDO_3DS)
+	add_definitions(-DSDL_LEAN_AND_MEAN=1 -DSDL_HAVE_STB=1)
+endif()
 
 add_subdirectory(lib/SDL EXCLUDE_FROM_ALL)
