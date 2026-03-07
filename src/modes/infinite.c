@@ -17,22 +17,22 @@ static void sm_draw(SDL_FRect rect) {
 }
 
 GameMode infinite_gamemode = {
-    GM_KEY('I', 'N', 'F', 'I'),
-    "Infinite",
-    {
-        "Numbers fall from",
-        "above to replace",
-        "removed ones.",
-        "Forever."
-    },
-    {
+	GM_KEY('I', 'N', 'F', 'I'),
+	"Infinite",
+	{
+		"Numbers fall from",
+		"above to replace",
+		"removed ones.",
+		"Forever."
+	},
+	{
 		{1,8,5,1,0,0},
 		{2,6,2,2,0,0},
 		{8,4,3,4,9,8},
 		{5,1,9,3,4,5},
-    },
-    .sm_click = infinite_click,
-    .sm_draw = sm_draw,
-    .gravity_mode = GRA_Always,
-    .time_limit = false
+	},
+	.sm_click = infinite_click,
+	.sm_draw = sm_draw,
+	.gravity_mode = GRA_Always,
+	.time_limit = false
 };
