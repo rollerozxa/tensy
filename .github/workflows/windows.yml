@@ -6,7 +6,7 @@ on:
 
 env:
   # Check https://github.com/mstorsjo/llvm-mingw/releases for the latest version
-  LLVM_MINGW_VERSION: 20251007
+  LLVM_MINGW_VERSION: 20260224
 
 jobs:
   windows:
@@ -20,7 +20,7 @@ jobs:
           - { display: "32-bit (ARM)", bits: arm32, toolchain: msvcrt }
           - { display: "64-bit (ARM)", bits: arm64, toolchain: ucrt }
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Install build dependencies
         run: |

@@ -18,7 +18,7 @@ jobs:
     container:
       image: debian:bullseye
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
 
       - name: Install build dependencies
         run: |
