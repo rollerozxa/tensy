@@ -62,8 +62,8 @@ void tex_button(TexButton *button) {
 
 	SDL_RenderTexture(renderer, texture, NULL, &rect);
 
-	if (button->tooltip && !button->_disabled) {
-		if (SDL_PointInRectFloat(&mouse, &button->_calc_rect))
+	if (button->tooltip) {
+		if (SDL_PointInRectFloat(&mouse, &button->_calc_rect) && !button->_disabled)
 			tooltip_show(button->tooltip);
 		// Only hide if the current tooltip is this button's tooltip
 		else if (strncmp(tooltip_get_text(), button->tooltip, 256) == 0)
