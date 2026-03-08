@@ -48,6 +48,13 @@ SDL_Gamepad *gamepad_get() {
 	return _gamepad;
 }
 
+bool gamepad_get_button(SDL_GamepadButton button) {
+	if (!_gamepad)
+		return false;
+
+	return SDL_GetGamepadButton(_gamepad, button);
+}
+
 SDL_FPoint gamepad_get_left_stick(void) {
 	SDL_FPoint pos = {0.0f, 0.0f};
 	if (!_gamepad)

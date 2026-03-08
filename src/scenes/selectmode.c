@@ -3,6 +3,7 @@
 #include "draw.h"
 #include "font.h"
 #include "gamemode.h"
+#include "gamepad.h"
 #include "gamesettings.h"
 #include "gamestate.h"
 #include "gui/button.h"
@@ -95,6 +96,11 @@ void selectmode_event(const SDL_Event *ev) {
 }
 
 void selectmode_update(float dt) {
+	if (gamepad_get_button(SDL_GAMEPAD_BUTTON_DPAD_LEFT))
+		xvel = -30;
+	else if (gamepad_get_button(SDL_GAMEPAD_BUTTON_DPAD_RIGHT))
+		xvel = 30;
+
 	xoff += lerp(xvel, 0, 0.75);
 	xvel -= lerp(xvel, 0, 0.8);
 
