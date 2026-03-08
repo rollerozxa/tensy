@@ -20,6 +20,7 @@ extern Scene gameconfig_scene;
 extern Scene intro_scene;
 extern Scene leaderboard_scene;
 extern Scene mainmenu_scene;
+extern Scene puzzle_select_scene;
 extern Scene selectmode_scene;
 extern Scene settings_scene;
 extern Scene statistics_numbers_scene;
@@ -44,6 +45,7 @@ void scenes_register(void) {
 	scene_add(intro_scene);
 	scene_add(leaderboard_scene);
 	scene_add(mainmenu_scene);
+	scene_add(puzzle_select_scene);
 	scene_add(selectmode_scene);
 	scene_add(settings_scene);
 	scene_add(statistics_numbers_scene);

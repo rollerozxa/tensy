@@ -192,6 +192,11 @@ void game_init(void) {
 
 	gamestate_clear();
 
+	if (game.mode == GM_Puzzle) {
+		board_reset(&board);
+		return;
+	}
+
 	if (game.loaded_existing) {
 		game.loaded_existing = false;
 		return;
@@ -459,7 +464,7 @@ void game_draw(void) {
 	undo_button._disabled = !gamestate_has_undo();
 	tex_button(&undo_button);
 
-	if (!current_gamemode().time_limit)
+	if (!current_gamemode().time_limit && game.mode != GM_Puzzle)
 		tex_button(&end_button);
 
 	if (gamemodes[game.mode].time_limit) {

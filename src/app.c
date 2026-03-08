@@ -9,6 +9,7 @@
 #include "media/sound.h"
 #include "media/textures.h"
 #include "overlay.h"
+#include "puzzles.h"
 #include "scene.h"
 #include "scenes.h"
 #include "screenshot.h"
@@ -33,10 +34,14 @@ void AppInit(SDL_Window *window, SDL_Renderer *renderer) {
 
 	gamepad_init();
 
-	scenes_register();
 	init_gamemodes();
+	scenes_register();
 
 	highscores_file_load();
+
+#ifdef DEBUG
+	puzzles_load();
+#endif
 }
 
 void AppEvent(SDL_Event *ev) {

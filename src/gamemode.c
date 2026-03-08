@@ -10,6 +10,7 @@ extern GameMode infinite_gamemode;
 extern GameMode leisure_gamemode;
 extern GameMode lucky_gamemode;
 extern GameMode noise_gamemode;
+extern GameMode puzzle_gamemode;
 
 GameMode gamemodes[100];
 static int registered_gamemodes = 0;
@@ -27,6 +28,7 @@ void init_gamemodes(void) {
 	reg(leisure_gamemode);
 	reg(lucky_gamemode);
 	reg(five_gamemode);
+	reg(puzzle_gamemode);
 }
 
 void switch_gamemode(enum GameMode mode) {

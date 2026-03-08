@@ -1,4 +1,6 @@
 #include "board.h"
+#include "gamestate.h"
+#include "puzzles.h"
 #include "color.h"
 #include "consts.h"
 #include "font.h"
@@ -8,6 +10,10 @@
 #include <string.h>
 
 //#define BOARD_NUMBER_DECAY
+
+#ifndef BOARD_NUMBER_DECAY
+#define BOARD_NUMBER_DECAY 0
+#endif
 
 void board_recalculate_rect(Board *board) {
 	board->rect = (SDL_FRect){0,0,0,0};
@@ -64,18 +70,41 @@ void board_reset(Board *board) {
 	if (current_gamemode().on_start)
 		current_gamemode().on_start();
 
+	Puzzle *puz = NULL;
+	if (game.mode == GM_Puzzle) {
+		puz = &puzzles()[game.puzzle_id];
+
+		board->w = puz->width;
+		board->h = puz->height;
+		board->scale = puz->boardsize;
+		board->cell_size = puz->boardsize * 10;
+
+		board_recalculate_rect(board);
+	}
+
 	board->p = malloc(sizeof(Cell *) * board->w);
 
 	for (int x = 0; x < board->w; x++) {
 		board->p[x] = malloc(sizeof(Cell) * board->h);
 
 		for (int y = 0; y < board->h; y++) {
-			board->p[x][y].number = calc_cell_number(board, x, y);
-#ifdef BOARD_NUMBER_DECAY
-			board->p[x][y].removed = SDL_rand(2) == 1;
-#else
-			board->p[x][y].removed = false;
-#endif
+			if (game.mode == GM_Puzzle) {
+				char ch = '.';
+				if (y < puz->height && x < puz->width)
+					ch = puz->board[y][x];
+
+				if (ch >= '1' && ch <= '9') {
+					board->p[x][y].number = ch - '0';
+					board->p[x][y].removed = false;
+				} else {
+					board->p[x][y].number = 0;
+					board->p[x][y].removed = true;
+				}
+			} else {
+				board->p[x][y].number = calc_cell_number(board, x, y);
+				board->p[x][y].removed = BOARD_NUMBER_DECAY ? SDL_rand(2) == 1 : false;
+			}
+
 			board->p[x][y].falling = false;
 			board->p[x][y].falling_y = 0.0f;
 			board->p[x][y].falling_vel = 0.0f;

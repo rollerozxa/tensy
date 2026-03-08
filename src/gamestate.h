@@ -17,6 +17,7 @@ typedef struct {
 	uint32_t number_stats[9];
 	// Random identifier used to check if an active game corresponds to the current saved game
 	uint64_t identifier;
+	int puzzle_id;
 } Game;
 
 // Smaller state struct used for undo history

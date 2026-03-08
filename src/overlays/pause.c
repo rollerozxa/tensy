@@ -42,6 +42,10 @@ void pause_event(const SDL_Event *ev) {
 	}
 }
 
+void pause_update(void) {
+	save_button._disabled = game.mode == GM_Puzzle;
+}
+
 void pause_draw(void) {
 	draw_translucent_overlay();
 
@@ -61,6 +65,6 @@ Overlay pause_overlay = {
 	"pause",
 	pause_init,
 	pause_event,
-	NULL,
+	pause_update,
 	pause_draw
 };

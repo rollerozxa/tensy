@@ -113,7 +113,7 @@ void selectmode_draw(void) {
 
 	text_draw_shadow("Select mode", 10, 10, 3);
 
-	for (size_t i = 0; i < gamemode_count; i++) {
+	for (size_t i = 0; i < gamemode_selectmode_count; i++) {
 		font_set_color(CLR_WHITE);
 
 		GameMode mode = gamemodes[gamemode_selectmode[i]];
