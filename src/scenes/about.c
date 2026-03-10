@@ -1,3 +1,4 @@
+#include "color.h"
 #include "consts.h"
 #include "draw.h"
 #include "font.h"
@@ -82,5 +83,5 @@ Scene about_scene = {
 	about_event,
 	about_update,
 	about_draw,
-	0x1F3F8F
+	CLR_BACKGROUND_1
 };

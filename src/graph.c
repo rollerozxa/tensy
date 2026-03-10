@@ -7,7 +7,7 @@
 
 void graph_draw(uint32_t *values) {
 	SDL_FPoint dims = { SCREEN_W * 0.8f, SCREEN_H * 0.75f };
-	SDL_FRect panel = draw_centered_fill_rect(dims, 0x102a63);
+	SDL_FRect panel = draw_centered_fill_rect(dims, CLR_BACKGROUND_2);
 
 	const int margin = 30;
 	SDL_FRect chart = {

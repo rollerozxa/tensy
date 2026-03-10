@@ -1,3 +1,4 @@
+#include "color.h"
 #include "consts.h"
 #include "draw.h"
 #include "gamesettings.h"
@@ -83,5 +84,5 @@ Scene leaderboard_scene = {
 	leaderboard_event,
 	leaderboard_update,
 	leaderboard_draw,
-	0x1F3F8F
+	CLR_BACKGROUND_1
 };

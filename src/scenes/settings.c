@@ -1,3 +1,4 @@
+#include "color.h"
 #include "consts.h"
 #include "datetime.h"
 #include "gamesettings.h"
@@ -126,5 +127,5 @@ Scene settings_scene = {
 	settings_event,
 	settings_update,
 	settings_draw,
-	0x1F3F8F
+	CLR_BACKGROUND_1
 };

@@ -1,3 +1,4 @@
+#include "color.h"
 #include "consts.h"
 #include "draw.h"
 #include "gamesettings.h"
@@ -46,5 +47,5 @@ Scene statistics_numbers_scene = {
 	statistics_numbers_event,
 	statistics_numbers_update,
 	statistics_numbers_draw,
-	0x1F3F8F
+	CLR_BACKGROUND_1
 };

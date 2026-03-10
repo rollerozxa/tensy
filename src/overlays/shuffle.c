@@ -1,4 +1,5 @@
 #include "board.h"
+#include "color.h"
 #include "consts.h"
 #include "draw.h"
 #include "gamestate.h"
@@ -36,8 +37,8 @@ void shuffle_update(void) {
 }
 
 void shuffle_draw(void) {
-	SDL_FRect bg_rect = {23 * 20, 30, 9 * 20, 20 * 6};
-	draw_set_color(0x102a63);
+	SDL_FRect bg_rect = {23 * 20, 40, 9 * 20, 20 * 5.5};
+	draw_set_color(CLR_BACKGROUND_2);
 	draw_fill_rect(&bg_rect);
 
 	SDL_FRect text_rect = {bg_rect.x, bg_rect.y, bg_rect.w, 20*2};
@@ -57,12 +58,12 @@ void shuffle_draw(void) {
 	float btn_x = bg_rect.x + CENTER(bg_rect.w, yes_button.rect.w);
 
 	yes_button.rect.x = bg_rect.x + 10;
-	yes_button.rect.y = bg_rect.y + 20 * 4;
+	yes_button.rect.y = bg_rect.y + 20 * 3.5;
 
 	button(&yes_button);
 
 	no_button.rect.x = bg_rect.x + 100;
-	no_button.rect.y = bg_rect.y + 20 * 4;
+	no_button.rect.y = bg_rect.y + 20 * 3.5;
 
 	button(&no_button);
 }

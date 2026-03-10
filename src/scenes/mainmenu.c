@@ -124,5 +124,5 @@ Scene mainmenu_scene = {
 	mainmenu_event,
 	NULL,
 	mainmenu_draw,
-	0x1F3F8F
+	CLR_BACKGROUND_1
 };

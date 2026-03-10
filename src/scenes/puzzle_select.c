@@ -1,3 +1,4 @@
+#include "color.h"
 #include "consts.h"
 #include "gamemode.h"
 #include "gamestate.h"
@@ -74,5 +75,5 @@ Scene puzzle_select_scene = {
 	puzzle_select_event,
 	NULL,
 	puzzle_select_draw,
-	0x1F3F8F
+	CLR_BACKGROUND_1
 };

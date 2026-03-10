@@ -119,5 +119,5 @@ Scene gameconfig_scene = {
 	gameconfig_event,
 	NULL,
 	gameconfig_draw,
-	0x1F3F8F
+	CLR_BACKGROUND_1
 };

@@ -121,5 +121,5 @@ Scene customize_colors_scene = {
 	customize_colors_event,
 	customize_colors_update,
 	customize_colors_draw,
-	0x1F3F8F
+	CLR_BACKGROUND_1
 };

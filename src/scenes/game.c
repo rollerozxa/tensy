@@ -438,7 +438,7 @@ void game_draw(void) {
 		draw_fill_rect(&d);
 	}
 
-	draw_set_color(0x102A6E);
+	draw_set_color(CLR_BACKGROUND_2);
 	SDL_FRect bar_rect = {0, 0, SCREEN_W, 30};
 	draw_fill_rect(&bar_rect);
 	bar_rect.y = SCREEN_H - 30;
@@ -486,5 +486,5 @@ Scene game_scene = {
 	game_event,
 	game_update,
 	game_draw,
-	0x1F3F8F
+	CLR_BACKGROUND_1
 };

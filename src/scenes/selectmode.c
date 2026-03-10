@@ -195,5 +195,5 @@ Scene selectmode_scene = {
 	selectmode_event,
 	selectmode_update,
 	selectmode_draw,
-	0x1F3F8F
+	CLR_BACKGROUND_1
 };

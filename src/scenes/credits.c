@@ -1,3 +1,4 @@
+#include "color.h"
 #include "consts.h"
 #include "draw.h"
 #include "input.h"
@@ -138,7 +139,7 @@ void credits_draw(void) {
 		draw_texture(TEX_INTRO_TEXT, NULL, &FULL_RECT());
 		if (phase == 2) {
 			draw_set_blend(true);
-			draw_set_color(0x102a6e);
+			draw_set_color(CLR_BACKGROUND_2);
 			draw_set_alpha((unsigned char)introcard_opacity);
 			draw_fill_rect(&FULL_RECT());
 		}
@@ -163,5 +164,5 @@ Scene credits_scene = {
 	credits_event,
 	credits_update,
 	credits_draw,
-	0x102a6e
+	CLR_BACKGROUND_2
 };

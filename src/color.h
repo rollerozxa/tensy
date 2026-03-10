@@ -6,6 +6,11 @@
 #define CLR_RED   (SDL_Color){0xFF, 0x00, 0x00}
 #define CLR_BLACK (SDL_Color){0x00, 0x00, 0x00}
 
+// Colour
+
+#define CLR_BACKGROUND_1 0x1F3F8F
+#define CLR_BACKGROUND_2 0x102A6E
+
 unsigned int parse_hex_color_bitpack(const char *hex);
 void color_to_hex6(unsigned int color, char *out);
 

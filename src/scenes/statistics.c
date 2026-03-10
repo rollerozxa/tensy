@@ -1,3 +1,4 @@
+#include "color.h"
 #include "consts.h"
 #include "datetime.h"
 #include "draw.h"
@@ -38,7 +39,7 @@ void statistics_update(float dt) {
 void statistics_draw(void) {
 	text_draw_shadow("Statistics", 10, 10, 3);
 
-	draw_set_color(0x1f3a7e);
+	draw_set_color(CLR_BACKGROUND_2);
 	for (int i = 0; i < 3; i++)
 		draw_fill_rect(&RECT(20, 60 + i * 50, SCREEN_W - 40, 40));
 
@@ -78,5 +79,5 @@ Scene statistics_scene = {
 	statistics_event,
 	statistics_update,
 	statistics_draw,
-	0x1F3F8F
+	CLR_BACKGROUND_1
 };
