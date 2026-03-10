@@ -19,8 +19,6 @@ static Button puzzle_buttons[PUZZLE_LEVELS];
 static char puzzle_labels[PUZZLE_LEVELS][8];
 
 void puzzle_select_init(void) {
-	gamemodes[GM_Puzzle].sm_click();
-
 	const float btn_w = 96.0f / 2;
 	const float btn_h = 96.0f / 2;
 	const float start_x = 20.0f;

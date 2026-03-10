@@ -30,6 +30,7 @@ static const int gamemode_selectmode[] = {
 	GM_Infinite,
 	GM_Leisure,
 	GM_Lucky,
+	GM_Puzzle,
 	GM_Five,
 };
 static const int gamemode_selectmode_count = SDL_arraysize(gamemode_selectmode);

@@ -1,4 +1,5 @@
 #include "puzzles.h"
+#include "media/assetloader.h"
 #include <SDL3/SDL.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -39,9 +40,24 @@ static char *next_line(char **p) {
 	return start;
 }
 
+#if EMBEDDED_DATA
+#include <data/lvl_0_puz.h>
+#include <data/lvl_1_puz.h>
+
+static unsigned char *puzzle_files[] = {
+	lvl_0_puz,
+	lvl_1_puz
+};
+static unsigned int puzzle_file_sizes[] = {
+	sizeof(lvl_0_puz),
+	sizeof(lvl_1_puz)
+};
+#endif
+
 int puzzle_get_count(void) {
 	static int levels = 0;
 
+#ifdef ASSETLOADER_LOOSE
 	if (levels == 0) {
 		SDL_IOStream *dot_count = SDL_IOFromFile("puzzles/.count", "rb");
 		char tmp[8] = {0};
@@ -49,14 +65,23 @@ int puzzle_get_count(void) {
 		SDL_CloseIO(dot_count);
 		levels = SDL_atoi(tmp);
 	}
+#else
+	levels = SDL_arraysize(puzzle_files);
+#endif
 
 	return levels;
 }
 
 char *puzzle_get_file(int index) {
+
+#ifdef ASSETLOADER_LOOSE
 	char path[256];
-	snprintf(path, sizeof(path), "puzzles/%d.puz", index);
+	snprintf(path, sizeof(path), "puzzles/lvl_%d.puz", index);
 	SDL_IOStream *io = SDL_IOFromFile(path, "rb");
+#else
+	SDL_IOStream *io = SDL_IOFromMem(puzzle_files[index], puzzle_file_sizes[index]);
+#endif
+
 	char *buf = read_all_from_io(io, NULL);
 	SDL_CloseIO(io);
 	return buf;

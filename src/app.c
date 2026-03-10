@@ -39,9 +39,7 @@ void AppInit(SDL_Window *window, SDL_Renderer *renderer) {
 
 	highscores_file_load();
 
-#ifdef DEBUG
 	puzzles_load();
-#endif
 }
 
 void AppEvent(SDL_Event *ev) {
