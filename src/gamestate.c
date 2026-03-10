@@ -97,3 +97,13 @@ void gamestate_gameover(void) {
 	}
 	game.dead = true;
 }
+
+void gamestate_success(void) {
+	overlay_switch("success");
+	uint64_t identifier = savestate_read_identifier();
+	if (identifier == game.identifier) {
+		// destroy savestate
+		savestate_delete();
+	}
+	game.dead = true;
+}

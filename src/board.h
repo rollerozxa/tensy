@@ -68,6 +68,8 @@ void board_zerofill(Board *board);
 
 void board_physics(Board *board, bool infinite_mode);
 
+bool board_is_empty(Board *board);
+
 void board_update(Board *board, float dt);
 void board_draw_number(int number, SDL_FPoint pos, float cell_size, bool colored);
 void board_draw(Board *board, bool colored_numbers);

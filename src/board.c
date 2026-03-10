@@ -166,6 +166,16 @@ void board_physics(Board *board, bool infinite_mode) {
 	}}
 }
 
+bool board_is_empty(Board *board) {
+	for (int x = 0; x < board->w; x++) {
+	for (int y = 0; y < board->h; y++) {
+		if (!board->p[x][y].removed)
+			return false;
+	}}
+
+	return true;
+}
+
 void board_update(Board *board, float dt) {
 	uint64_t played = 0;
 	for (int x = 0; x < board->w; x++) {

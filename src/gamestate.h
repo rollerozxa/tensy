@@ -37,3 +37,4 @@ void gamestate_clear(void);
 void gamestate_traverse(void);
 
 void gamestate_gameover(void);
+void gamestate_success(void);

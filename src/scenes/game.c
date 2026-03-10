@@ -193,6 +193,7 @@ void game_init(void) {
 	gamestate_clear();
 
 	if (game.mode == GM_Puzzle) {
+		game.identifier = 0;
 		board_reset(&board);
 		return;
 	}
@@ -381,6 +382,9 @@ void game_update(float dt) {
 	}
 
 	handle_gp_dpad_update(dt);
+
+	if (!game.dead && board_is_empty(&board))
+		gamestate_success();
 
 	if (current_gamemode().time_limit && !game.dead && (!overlay_exists() || strcmp(overlay_get_current(), "shuffle") == 0)) {
 		if (time_left < 0)
