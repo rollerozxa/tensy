@@ -43,14 +43,17 @@ static char *next_line(char **p) {
 #if EMBEDDED_DATA
 #include <data/lvl_0_puz.h>
 #include <data/lvl_1_puz.h>
+#include <data/lvl_2_puz.h>
 
 static unsigned char *puzzle_files[] = {
 	lvl_0_puz,
-	lvl_1_puz
+	lvl_1_puz,
+	lvl_2_puz,
 };
 static unsigned int puzzle_file_sizes[] = {
 	sizeof(lvl_0_puz),
-	sizeof(lvl_1_puz)
+	sizeof(lvl_1_puz),
+	sizeof(lvl_2_puz),
 };
 #endif
 
