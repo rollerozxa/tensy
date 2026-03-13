@@ -47,12 +47,10 @@ void puzzle_select_event(const SDL_Event *ev) {
 		}
 	}
 
-#ifdef DEBUG
 	if (ev->type == SDL_EVENT_KEY_DOWN && ev->key.key == SDLK_F8) {
 		sound_play(SND_WOOZY);
 		scene_switch("puzzle_editor");
 	}
-#endif
 }
 
 void puzzle_select_draw(void) {
