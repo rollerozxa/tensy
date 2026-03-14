@@ -250,13 +250,13 @@ static void puzzle_editor_draw(void) {
 	float gy = (SCREEN_H - grid_h) / 2.0f;
 
 	// background
-	draw_set_color(0x202020);
+	draw_set_color(0xA0A0A0);
 	draw_fill_rect(&RECT(gx-4, gy-4, grid_w+8, grid_h+8));
 
 	for (int y = 0; y < dim.y; y++) {
 		for (int x = 0; x < dim.x; x++) {
 			SDL_FRect cellrect = RECT(gx + x*CELL, gy + y*CELL, CELL-2, CELL-2);
-			draw_set_color((x == sel.x && y == sel.y) ? 0xA6ADDB : 0xFFFFFF);
+			draw_set_color((x == sel.x && y == sel.y) ? 0x303080 : 0x303030);
 			draw_fill_rect(&cellrect);
 
 			int v = board[y][x];
@@ -264,7 +264,7 @@ static void puzzle_editor_draw(void) {
 				continue;
 
 			font_set_color(color_numbers(v));
-			font_draw_char_shadow((char)('0' + v), cellrect.x + 3, cellrect.y - 1, 3);
+			font_draw_char_shadow((char)('0' + v), cellrect.x + 3, cellrect.y - 2, 3);
 		}
 	}
 }
