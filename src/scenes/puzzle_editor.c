@@ -28,30 +28,128 @@ static void puzzle_editor_init(void) {
 	sel = (SDL_Point){0, 0};
 }
 
-static void copy_board_to_clipboard(void) {
-	char *buf = malloc(2048);
-	char *p = buf;
-	int n = snprintf(p, 2048, "%d\n%d\n30\n", dim.x, dim.y);
-	p += n;
+static void SDLCALL save_puzzle_level_cb(void *userdata, const char * const *filelist, int filter) {
+	if (!filelist || !*filelist)
+		return;
+
+	const char *path = *filelist;
+
+	SDL_IOStream *stream = SDL_IOFromFile(path, "w");
+	if (!stream) {
+		toast_show("Couldn't open file for writing", 3);
+		sound_play(SND_CLICK);
+		return;
+	}
+
+	SDL_IOprintf(stream, "%d\n%d\n30\n", dim.x, dim.y);
 
 	for (int y = 0; y < dim.y; y++) {
+		// build row into small buffer then write
+		char rowbuf[64];
+		int p = 0;
 		for (int x = 0; x < dim.x; x++) {
 			int v = board[y][x];
-			*p++ = (char)('0' + v);
+			rowbuf[p++] = (char)('0' + v);
+			if (p >= (int)sizeof(rowbuf) - 2) break;
 		}
-		*p++ = '\n';
+		rowbuf[p++] = '\n';
+		SDL_WriteIO(stream, rowbuf, (size_t)p);
 	}
-	*p = '\0';
 
-	SDL_SetClipboardText(buf);
-	free(buf);
+	SDL_FlushIO(stream);
+	SDL_CloseIO(stream);
 
 	sound_play(SND_WOOZY);
-	toast_show("Board copied to clipboard", 3);
+	toast_show("Board saved", 3);
 }
 
-static void copy_board_from_clipboard(void) {
-	// TODO
+static int read_line_from_io(SDL_IOStream *stream, char *buf, int maxlen) {
+	size_t r = 0;
+	int i = 0;
+
+	while (i < maxlen - 1) {
+		char c;
+		r = SDL_ReadIO(stream, &c, 1);
+		if (r == 0)
+			break;
+
+		buf[i++] = c;
+		if (c == '\n')
+			break;
+	}
+
+	if (i == 0 && r == 0)
+		return -1;
+
+	buf[i] = '\0';
+	return i;
+}
+
+static void SDLCALL open_puzzle_level_cb(void *userdata, const char * const *filelist, int filter) {
+	if (!filelist || !*filelist)
+		return;
+
+	const char *path = *filelist;
+
+	SDL_IOStream *stream = SDL_IOFromFile(path, "r");
+	if (!stream)
+		return;
+
+	char line[64];
+
+#define READ_LINE() \
+	if (read_line_from_io(stream, line, sizeof(line)) <= 0) { \
+		SDL_CloseIO(stream); \
+		return; \
+	}
+
+	puzzle_editor_init();
+
+	READ_LINE();
+	int w = atoi(line);
+
+	READ_LINE();
+	int h = atoi(line);
+
+	READ_LINE();
+	int cellsize = atoi(line);
+
+	if (w <= 0 || h <= 0 || w > MAX_W || h > MAX_H) {
+		SDL_CloseIO(stream);
+		return;
+	}
+
+	for (int y = 0; y < h; y++) {
+		READ_LINE();
+		for (int x = 0; x < w; x++)
+			board[y][x] = line[x] - '0';
+	}
+
+	SDL_CloseIO(stream);
+
+	dim = (SDL_Point){w, h};
+	sel = (SDL_Point){0, 0};
+
+	sound_play(SND_WOOZY);
+	toast_show("Board loaded", 3);
+}
+
+static void save_or_open_puzzle_level(bool save) {
+	const SDL_DialogFileFilter filters[] = {
+		{ "Tensy puzzle", "puz" },
+		{ "All files", "*" }
+	};
+
+	if (save)
+		SDL_ShowSaveFileDialog(save_puzzle_level_cb,
+			NULL, NULL,
+			filters, SDL_arraysize(filters),
+			SDL_GetBasePath());
+	else
+		SDL_ShowOpenFileDialog(open_puzzle_level_cb,
+			NULL, NULL,
+			filters, SDL_arraysize(filters),
+			SDL_GetBasePath(), false);
 }
 
 #define CELL 30.0f
@@ -85,13 +183,13 @@ static void puzzle_editor_event(const SDL_Event *ev) {
 		SDL_Keycode key = ev->key.key;
 		SDL_Keymod mods = SDL_GetModState();
 
-		// Clipboard copy: Ctrl+C
-		if ((mods & SDL_KMOD_CTRL) && (key == SDLK_C))
-			copy_board_to_clipboard();
+		// Ctrl+S to save puzzle file
+		if ((mods & SDL_KMOD_CTRL) && (key == SDLK_S))
+			save_or_open_puzzle_level(true);
 
-		// Ctrl+V: paste from clipboard is not implemented
-		if ((mods & SDL_KMOD_CTRL) && (key == SDLK_V))
-			copy_board_from_clipboard();
+		// Ctrl+O to open a puzzle file
+		if ((mods & SDL_KMOD_CTRL) && (key == SDLK_O))
+			save_or_open_puzzle_level(false);
 
 		// Page up/down with SHIFT change size by 0.5
 		if (key == SDLK_PAGEUP) {
