@@ -192,18 +192,15 @@ void game_init(void) {
 
 	gamestate_clear();
 
-	if (game.mode == GM_Puzzle) {
-		game.identifier = 0;
-		board_reset(&board);
-		return;
-	}
-
 	if (game.loaded_existing) {
 		game.loaded_existing = false;
 		return;
 	}
 
-	game.identifier = SDL_rand_bits() + ((uint64_t)SDL_rand_bits() << 32);
+	if (game.mode == GM_Puzzle)
+		game.identifier = 0;
+	else
+		game.identifier = SDL_rand_bits() + ((uint64_t)SDL_rand_bits() << 32);
 
 	if (gamemodes[game.mode].time_limit) {
 		total_time = time_left = board_sizes[board.boardsize].seconds;
@@ -217,7 +214,10 @@ void game_init(void) {
 
 	game.score = 0;
 	game.dead = false;
-	board_change_size(&board, board.w, board.h, board.scale);
+
+	if (game.mode != GM_Puzzle)
+		board_change_size(&board, board.w, board.h, board.scale);
+
 	board_reset(&board);
 
 	gp_selector_pos = (SDL_Point){(int)(board.w / 2), (int)(board.h / 2)};
