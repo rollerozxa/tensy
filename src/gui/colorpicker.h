@@ -16,6 +16,10 @@ typedef struct {
 	SDL_FRect _slider_rect; // area for the hue slider
 	bool _dragging;      // dragging the colour box
 	bool _dragging_hue;  // dragging the hue slider
+
+	// cached grid texture (regenerated when hue changes)
+	SDL_Texture *grid_tex;
+	double grid_text_hue;
 } ColorPicker;
 
 #define COLORPICKER(obj, rect, initial_hex) \

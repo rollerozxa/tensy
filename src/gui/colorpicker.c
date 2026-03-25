@@ -36,6 +36,37 @@ static void update_color(ColorPicker *picker) {
 	}
 }
 
+static void regenerate_grid_texture(ColorPicker *picker, int w, int h) {
+	if (w <= 0 || h <= 0)
+		return;
+
+	if (picker->grid_tex) {
+		SDL_DestroyTexture(picker->grid_tex);
+		picker->grid_tex = NULL;
+	}
+
+	SDL_Surface *surf = SDL_CreateSurface(w, h, SDL_PIXELFORMAT_RGBA8888);
+
+	uint32_t *pixels = (uint32_t *)surf->pixels;
+	int pitch_pixels = surf->pitch / 4;
+
+	for (int y = 0; y < h; y++) {
+	for (int x = 0; x < w; x++) {
+		SDL_Color c = HSVtoRGB(
+			picker->hue,
+			(x + 0.5) / (double)w,
+			1.0 - ((y + 0.5) / (double)h));
+
+		uint32_t mapped = SDL_MapSurfaceRGBA(surf, c.r, c.g, c.b, 255);
+		pixels[y * pitch_pixels + x] = mapped;
+	}}
+
+	picker->grid_tex = SDL_CreateTextureFromSurface(renderer, surf);
+	SDL_DestroySurface(surf);
+
+	picker->grid_text_hue = picker->hue;
+}
+
 void colorpicker_init(ColorPicker *picker, const char *initial_hex) {
 	SDL_FRect grid = picker->rect;
 
@@ -54,6 +85,9 @@ void colorpicker_init(ColorPicker *picker, const char *initial_hex) {
 	picker->_slider_rect = (SDL_FRect){grid.x, grid.y + grid.h + 8, grid.w, 18.f};
 	picker->_dragging = false;
 	picker->_dragging_hue = false;
+
+	picker->grid_tex = NULL;
+	picker->grid_text_hue = -1.0;
 }
 
 bool colorpicker_event(const SDL_Event *ev, ColorPicker *picker) {
@@ -95,6 +129,7 @@ bool colorpicker_event(const SDL_Event *ev, ColorPicker *picker) {
 			float x = SDL_clamp(mouse.x - slider.x, 0, slider.w);
 
 			picker->hue = x / slider.w;
+			picker->grid_text_hue = -1.0;
 		}
 
 		SDL_Color c = HSVtoRGB(picker->hue, picker->sat, picker->val);
@@ -111,6 +146,7 @@ bool colorpicker_event(const SDL_Event *ev, ColorPicker *picker) {
 			unsigned int col = parse_hex_color_bitpack(picker->hex.buffer);
 			picker->color = col;
 			update_color(picker);
+			picker->grid_text_hue = -1.0;
 			return true;
 		}
 
@@ -125,20 +161,11 @@ void colorpicker(ColorPicker *picker) {
 	SDL_FRect grid = picker->rect;
 	SDL_FRect slider = picker->_slider_rect;
 
-	// Draw color grid
-	for (int j = 0; j < grid.h; j++) {
-	for (int i = 0; i < grid.w; i++) {
-		SDL_Color c = HSVtoRGB(
-			picker->hue,
-			(i + 0.5) / (double)grid.w, // saturation across x
-			1.0 - ((j + 0.5) / (double)grid.h)); // value downwards
+	// Regenerate colour grid texture when something changes
+	if (!picker->grid_tex || picker->grid_tex->w != grid.w || picker->grid_tex->h != grid.h || fabs(picker->grid_text_hue - picker->hue) > 1e-6)
+		regenerate_grid_texture(picker, grid.w, grid.h);
 
-		draw_set_color(color_sdl_to_bitpack(c));
-		draw_fill_rect(&RECT(
-			grid.x + i,
-			grid.y + j,
-			1, 1));
-	}}
+	SDL_RenderTexture(renderer, picker->grid_tex, NULL, &grid);
 
 	// Draw selection box for color grid
 	draw_set_color(0xFFFFFF);
