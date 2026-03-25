@@ -1,9 +1,11 @@
 #include "puzzles.h"
-#include "media/assetloader.h"
 #include <SDL3/SDL.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+
+// asset loader stuff
+#include "media/assetloader.h"
 
 // Helper to read whole SDL_IOStream into a NUL-terminated buffer.
 static char *read_all_from_io(SDL_IOStream *io, size_t *out_size) {
@@ -62,7 +64,7 @@ int puzzle_get_count(void) {
 
 #ifdef ASSETLOADER_LOOSE
 	if (levels == 0) {
-		SDL_IOStream *dot_count = SDL_IOFromFile("puzzles/.count", "rb");
+		SDL_IOStream *dot_count = SDL_IOFromFile(PREFIX "puzzles/.count", "rb");
 		char tmp[8] = {0};
 		SDL_ReadIO(dot_count, tmp, sizeof(tmp) - 1);
 		SDL_CloseIO(dot_count);
@@ -79,7 +81,7 @@ char *puzzle_get_file(int index) {
 
 #ifdef ASSETLOADER_LOOSE
 	char path[256];
-	snprintf(path, sizeof(path), "puzzles/lvl_%d.puz", index);
+	snprintf(path, sizeof(path), PREFIX "puzzles/lvl_%d.puz", index);
 	SDL_IOStream *io = SDL_IOFromFile(path, "rb");
 #else
 	SDL_IOStream *io = SDL_IOFromMem(puzzle_files[index], puzzle_file_sizes[index]);
