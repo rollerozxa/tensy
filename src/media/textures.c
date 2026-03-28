@@ -16,6 +16,7 @@
 #include <data/intro_text_png.h>
 #include <data/itchio_png.h>
 #include <data/pause_png.h>
+#include <data/puzzle_png.h>
 #include <data/settings_png.h>
 #include <data/shuffle_png.h>
 #include <data/undo_png.h>
@@ -53,6 +54,7 @@ void textures_init(SDL_Renderer *renderer) {
 	LOAD_TEX_LIN(TEX_INTRO_TEXT, intro_text_png, "intro_text.png");
 	LOAD_TEX(TEX_ITCHIO, itchio_png, "itchio.png");
 	LOAD_TEX(TEX_PAUSE, pause_png, "pause.png");
+	LOAD_TEX(TEX_PUZZLE, puzzle_png, "puzzle.png");
 	LOAD_TEX(TEX_SETTINGS, settings_png, "settings.png");
 	LOAD_TEX(TEX_SHUFFLE, shuffle_png, "shuffle.png");
 	LOAD_TEX(TEX_UNDO, undo_png, "undo.png");
