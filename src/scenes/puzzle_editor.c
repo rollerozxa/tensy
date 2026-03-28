@@ -167,7 +167,7 @@ static void save_or_open_puzzle_level(bool save) {
 
 static void puzzle_editor_event(const SDL_Event *ev) {
 	if (is_escaping(ev)) {
-		scene_switch("selectmode");
+		overlay_switch("puzzle_editor_exit");
 		return;
 	}
 

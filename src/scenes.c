@@ -32,6 +32,7 @@ extern Overlay exitconfirm_overlay;
 extern Overlay game_statistics_numbers_overlay;
 extern Overlay gameover_overlay;
 extern Overlay pause_overlay;
+extern Overlay puzzle_editor_exit_overlay;
 extern Overlay puzzle_editor_help_overlay;
 extern Overlay shuffle_overlay;
 extern Overlay success_overlay;
@@ -62,6 +63,7 @@ void scenes_register(void) {
 	overlay_add(game_statistics_numbers_overlay);
 	overlay_add(gameover_overlay);
 	overlay_add(pause_overlay);
+	overlay_add(puzzle_editor_exit_overlay);
 	overlay_add(puzzle_editor_help_overlay);
 	overlay_add(shuffle_overlay);
 	overlay_add(success_overlay);
