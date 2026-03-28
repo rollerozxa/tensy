@@ -64,7 +64,7 @@ int puzzle_get_count(void) {
 
 #ifdef ASSETLOADER_LOOSE
 	if (levels == 0) {
-		SDL_IOStream *dot_count = SDL_IOFromFile(PREFIX "puzzles/.count", "rb");
+		SDL_IOStream *dot_count = SDL_IOFromFile(PREFIX "puzzles/_lvl_count", "rb");
 		char tmp[8] = {0};
 		SDL_ReadIO(dot_count, tmp, sizeof(tmp) - 1);
 		SDL_CloseIO(dot_count);
