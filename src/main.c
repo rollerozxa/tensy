@@ -14,8 +14,10 @@
 #define SDL_MAIN_USE_CALLBACKS
 #include <SDL3/SDL_main.h>
 
-#if !SDL_MIXER_VERSION_ATLEAST(3,1,2) || !SDL_VERSION_ATLEAST(3,4,0)
-#error Tensy currently requires being compiled with a recent enough master version of SDL and SDL_mixer. To build with vendored versions of those libraries pass -DUSE_VENDORED_LIBS=ON to CMake when reconfiguring.
+#if !SDL_MIXER_VERSION_ATLEAST(3,2,0) || !SDL_VERSION_ATLEAST(3,4,0)
+#error Tensy currently requires being compiled with at least SDL 3.4.0 and SDL_mixer 3.2.0.\
+  To build with vendored versions of those libraries pass -DUSE_VENDORED_LIBS=ON to CMake when reconfiguring.
+
 #endif
 
 #include "media/assetloader.h"
