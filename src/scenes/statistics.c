@@ -20,16 +20,24 @@ void statistics_init(void) {
 	BUTTON(ok_button, RECT(245,300,150,40), "Back");
 }
 
-void statistics_event(const SDL_Event *ev) {
+bool statistics_event(const SDL_Event *ev) {
 
-	if (button_event(ev, &leaderboard_button))
+	if (button_event(ev, &leaderboard_button)) {
 		scene_switch("leaderboard");
+		return true;
+	}
 
-	if (button_event(ev, &numbers_button))
+	if (button_event(ev, &numbers_button)) {
 		scene_switch("statistics_numbers");
+		return true;
+	}
 
-	if (button_event(ev, &ok_button) || is_escaping(ev))
+	if (button_event(ev, &ok_button) || is_escaping(ev)) {
 		scene_switch("mainmenu");
+		return true;
+	}
+
+	return false;
 }
 
 void statistics_update(float dt) {

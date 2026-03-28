@@ -25,18 +25,25 @@ void about_init(void) {
 	BUTTON(credits_button, RECT(470, 280, 140, 40), "Credits");
 }
 
-void about_event(const SDL_Event *ev) {
-	if (button_event(ev, &credits_button))
+bool about_event(const SDL_Event *ev) {
+	if (button_event(ev, &credits_button)) {
 		scene_switch("credits");
+		return true;
+	}
 
-	if (button_event(ev, &ok_button) || is_escaping(ev))
+	if (button_event(ev, &ok_button) || is_escaping(ev)) {
 		scene_switch("mainmenu");
+		return true;
+	}
 
 	bool mouse_in_image = SDL_PointInRectFloat(&POINT(ev->motion.x, ev->motion.y), &RECT(450, 50, 175, 160));
 	if (ev->type == SDL_EVENT_MOUSE_BUTTON_DOWN && mouse_in_image) {
 		sound_play(SND_WOOZY);
 		draw_mode = (draw_mode + 1) % 2;
+		return true;
 	}
+
+	return false;
 }
 
 void about_update(float dt) {

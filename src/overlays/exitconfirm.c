@@ -16,14 +16,19 @@ void exitconfirm_init(void) {
 	BUTTON(back_button, RECT(0, 0, 120, 35), "Back");
 }
 
-void exitconfirm_event(const SDL_Event *ev) {
-	if (button_event(ev, &back_button) || is_escaping(ev))
+bool exitconfirm_event(const SDL_Event *ev) {
+	if (button_event(ev, &back_button) || is_escaping(ev)) {
 		overlay_switch("pause");
+		return true;
+	}
 
 	if (button_event(ev, &exit_button)) {
 		overlay_hide();
 		scene_switch("mainmenu");
+		return true;
 	}
+
+	return false;
 }
 
 void exitconfirm_draw(void) {

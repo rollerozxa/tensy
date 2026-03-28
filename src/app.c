@@ -45,8 +45,12 @@ void AppInit(SDL_Window *window, SDL_Renderer *renderer) {
 void AppEvent(SDL_Event *ev) {
 	gamepad_handle_hotswap(ev);
 	virtual_cursor_event(ev);
-	scene_run_event(ev);
-	overlay_run_event(ev);
+
+	if (overlay_run_event(ev))
+		return;
+
+	if (scene_run_event(ev))
+		return;
 
 	if (ev->type == SDL_EVENT_KEY_UP && ev->key.key == SDLK_F12)
 		screenshot_queue();

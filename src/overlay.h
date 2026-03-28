@@ -6,7 +6,7 @@
 typedef struct {
 	const char *name;
 	void (*init)(void);
-	void (*event)(const SDL_Event *);
+	bool (*event)(const SDL_Event *);
 	void (*update)(void);
 	void (*draw)(void);
 } Overlay;
@@ -23,6 +23,6 @@ void overlay_hide(void);
 bool overlay_exists(void);
 
 void overlay_run_init(void);
-void overlay_run_event(const SDL_Event *ev);
+bool overlay_run_event(const SDL_Event *ev);
 void overlay_run_update(void);
 void overlay_run_draw(void);

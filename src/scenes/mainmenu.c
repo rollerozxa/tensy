@@ -48,32 +48,45 @@ void mainmenu_init(void) {
 	music_play(MUS_MAINMENU, -1);
 }
 
-void mainmenu_event(const SDL_Event *ev) {
+bool mainmenu_event(const SDL_Event *ev) {
 	if (ev->type == SDL_EVENT_KEY_UP) {
-		if (ev->key.key == SDLK_RETURN || ev->key.key == SDLK_RETURN2)
+		if (ev->key.key == SDLK_RETURN || ev->key.key == SDLK_RETURN2) {
 			scene_switch("selectmode");
+			return true;
+		}
 	}
 
-	if (button_event(ev, &play_button))
+	if (button_event(ev, &play_button)) {
 		scene_switch("selectmode");
+		return true;
+	}
 
-	if (button_event(ev, &about_button))
+	if (button_event(ev, &about_button)) {
 		scene_switch("about");
+		return true;
+	}
 
-	if (button_event(ev, &statistics_button))
+	if (button_event(ev, &statistics_button)) {
 		scene_switch("statistics");
+		return true;
+	}
 
 	if (tex_button_event(ev, &itchio_button)) {
 		toast_show("Opening rollerozxa.itch.io/tensy...", 15);
 		SDL_OpenURL("https://rollerozxa.itch.io/tensy");
+		return true;
 	}
 
-	if (tex_button_event(ev, &settings_button))
+	if (tex_button_event(ev, &settings_button)) {
 		scene_switch("settings");
+		return true;
+	}
 
 #ifdef ENABLE_EXITING
-	if (is_escaping(ev))
+	if (is_escaping(ev)) {
 		AppQuit();
+		return true;
+	}
 #endif
 
 	if (ev->type == SDL_EVENT_MOUSE_BUTTON_UP
@@ -81,7 +94,10 @@ void mainmenu_event(const SDL_Event *ev) {
 
 		sound_play(SND_WOOZY);
 		toast_show("Built by " COMPILER_VERSION, 5);
+		return true;
 	}
+
+	return false;
 }
 
 static char title[] = "Tensy";

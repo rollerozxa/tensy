@@ -14,7 +14,7 @@
 static bool hidden = true;
 #endif
 
-void devintro_event(const SDL_Event *ev) {
+bool devintro_event(const SDL_Event *ev) {
 	if (ev->type == SDL_EVENT_KEY_UP || ev->type == SDL_EVENT_MOUSE_BUTTON_UP) {
 #ifdef REC_CALIBRATOR
 		if (hidden)
@@ -22,7 +22,11 @@ void devintro_event(const SDL_Event *ev) {
 		else
 #endif
 			scene_switch("intro");
+
+		return true;
 	}
+
+	return false;
 }
 
 static void print_center(const char *text, float y, float scale) {

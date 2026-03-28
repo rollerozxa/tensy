@@ -21,16 +21,21 @@ void pause_init(void) {
 	BUTTON(exit_button, RECT(0, 0, 150, 40), "Exit");
 }
 
-void pause_event(const SDL_Event *ev) {
-	if (button_event(ev, &resume_button) || is_escaping(ev))
+bool pause_event(const SDL_Event *ev) {
+	if (button_event(ev, &resume_button) || is_escaping(ev)) {
 		overlay_hide();
+		return true;
+	}
 
-	if (button_event(ev, &statistics_button))
+	if (button_event(ev, &statistics_button)) {
 		overlay_switch("game_statistics_numbers");
+		return true;
+	}
 
 	if (button_event(ev, &save_button)) {
 		savestate_save();
 		toast_show("Saved!", 2);
+		return true;
 	}
 
 	if (button_event(ev, &exit_button)) {
@@ -40,7 +45,11 @@ void pause_event(const SDL_Event *ev) {
 			overlay_hide();
 			scene_switch("mainmenu");
 		}
+
+		return true;
 	}
+
+	return false;
 }
 
 void pause_update(void) {

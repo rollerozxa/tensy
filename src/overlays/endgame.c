@@ -16,14 +16,19 @@ void endgame_init(void) {
 	BUTTON(no_button, RECT(0, 0, 120, 35), "No");
 }
 
-void endgame_event(const SDL_Event *ev) {
-	if (button_event(ev, &no_button) || is_escaping(ev))
+bool endgame_event(const SDL_Event *ev) {
+	if (button_event(ev, &no_button) || is_escaping(ev)) {
 		overlay_hide();
+		return true;
+	}
 
 	if (button_event(ev, &yes_button)) {
 		overlay_hide();
 		gamestate_gameover();
+		return true;
 	}
+
+	return false;
 }
 
 void endgame_draw(void) {

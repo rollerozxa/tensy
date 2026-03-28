@@ -32,18 +32,18 @@ void customize_colors_init(void) {
 SDL_FPoint start = {20, 80};
 SDL_FPoint gap = {100, 48};
 
-void customize_colors_event(const SDL_Event *ev) {
+bool customize_colors_event(const SDL_Event *ev) {
 
 	if (button_event(ev, &reset_button)) {
 		color_numbers_reset();
 		read_number_colors();
 		active_number = -1;
-		return;
+		return true;
 	}
 
 	if (button_event(ev, &cancel_button)) {
 		scene_switch("settings");
-		return;
+		return true;
 	}
 
 	if (button_event(ev, &save_button)) {
@@ -53,12 +53,12 @@ void customize_colors_event(const SDL_Event *ev) {
 		color_save_custom_numbers();
 
 		scene_switch("settings");
-		return;
+		return true;
 	}
 
 	if (active_number != -1 && colorpicker_event(ev, &color_picker)) {
 		number_colors[active_number - 1] = color_picker.color;
-		return;
+		return true;
 	}
 
 	// Not active: check clicks on color boxes
@@ -76,9 +76,12 @@ void customize_colors_event(const SDL_Event *ev) {
 				color_to_hex6(number_colors[i], hex);
 
 				COLORPICKER(color_picker, RECT(360, start.y, 150, 150), hex);
+				return true;
 			}
 		}
 	}
+
+	return false;
 }
 
 void customize_colors_update(float dt) {

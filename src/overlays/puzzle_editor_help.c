@@ -12,9 +12,13 @@ void puzzle_editor_help_init(void) {
 	BUTTON(back_button, RECT(CENTER(SCREEN_W, 140), SCREEN_H - 50, 140, 40), "Back");
 }
 
-void puzzle_editor_help_event(const SDL_Event *ev) {
-	if (button_event(ev, &back_button))
+bool puzzle_editor_help_event(const SDL_Event *ev) {
+	if (button_event(ev, &back_button)) {
 		overlay_hide();
+		return true;
+	}
+
+	return false;
 }
 
 void puzzle_editor_help_draw(void) {

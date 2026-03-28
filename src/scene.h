@@ -6,7 +6,7 @@
 typedef struct {
 	const char *name;
 	void (*init)(void);
-	void (*event)(const SDL_Event *);
+	bool (*event)(const SDL_Event *);
 	void (*update)(float dt);
 	void (*draw)(void);
 	int color;
@@ -22,7 +22,7 @@ void scene_switch_instant(const char *name);
 const char *scene_get_current(void);
 
 void scene_run_init(void);
-void scene_run_event(const SDL_Event *ev);
+bool scene_run_event(const SDL_Event *ev);
 void scene_run_update(float dt);
 void scene_run_draw(void);
 

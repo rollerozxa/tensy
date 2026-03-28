@@ -17,7 +17,7 @@ void shuffle_init(void) {
 	BUTTON(no_button, RECT(0, 0, 70, 25), "No");
 }
 
-void shuffle_event(const SDL_Event *ev) {
+bool shuffle_event(const SDL_Event *ev) {
 	if (button_event(ev, &yes_button)) {
 		gamestate_clear();
 		board_shuffle_animated(&game.board, 1);
@@ -26,10 +26,15 @@ void shuffle_event(const SDL_Event *ev) {
 			game.shuffles--;
 
 		overlay_hide();
+		return true;
 	}
 
-	if (button_event(ev, &no_button) || is_escaping(ev))
+	if (button_event(ev, &no_button) || is_escaping(ev)) {
 		overlay_hide();
+		return true;
+	}
+
+	return false;
 }
 
 void shuffle_update(void) {

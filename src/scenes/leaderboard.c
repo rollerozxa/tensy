@@ -24,13 +24,17 @@ void leaderboard_init(void) {
 	BUTTON(back_button, RECT(450,300,150,40), "Back");
 }
 
-void leaderboard_event(const SDL_Event *ev) {
+bool leaderboard_event(const SDL_Event *ev) {
 
 	dropdown_event(ev, &gamemode_dropdown);
 	dropdown_event(ev, &board_size_dropdown);
 
-	if (is_escaping(ev) || button_event(ev, &back_button))
+	if (is_escaping(ev) || button_event(ev, &back_button)) {
 		scene_switch("statistics");
+		return true;
+	}
+
+	return false;
 }
 
 void leaderboard_update(float dt) {

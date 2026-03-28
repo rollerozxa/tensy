@@ -11,9 +11,13 @@ void game_statistics_numbers_init(void) {
 	BUTTON(back_button, RECT(480, 315, 95, 30), "Back");
 }
 
-void game_statistics_numbers_event(const SDL_Event *ev) {
-	if (button_event(ev, &back_button))
+bool game_statistics_numbers_event(const SDL_Event *ev) {
+	if (button_event(ev, &back_button)) {
 		overlay_switch("pause");
+		return true;
+	}
+
+	return false;
 }
 
 void game_statistics_numbers_draw(void) {

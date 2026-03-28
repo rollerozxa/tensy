@@ -42,41 +42,56 @@ void settings_init(void) {
 
 extern SDL_Window *window;
 
-void settings_event(const SDL_Event *ev) {
-	if (checkbox_event(ev, &mono_numbers_checkbox))
+bool settings_event(const SDL_Event *ev) {
+	if (checkbox_event(ev, &mono_numbers_checkbox)) {
 		settings_toggleflag(FLAG_MONO_NUMBERS);
+		return true;
+	}
 
-	if (checkbox_event(ev, &sound_checkbox))
+	if (checkbox_event(ev, &sound_checkbox)) {
 		settings_toggleflag(FLAG_SOUND);
+		return true;
+	}
 
-	if (checkbox_event(ev, &reduced_motion_checkbox))
+	if (checkbox_event(ev, &reduced_motion_checkbox)) {
 		settings_toggleflag(FLAG_REDUCED_MOTION);
+		return true;
+	}
 
 #ifndef ALWAYS_FULLSCREEN
 	if (checkbox_event(ev, &fullscreen_checkbox)) {
 		settings_toggleflag(FLAG_FULLSCREEN);
 		SDL_SetWindowFullscreen(window, settings_getflag(FLAG_FULLSCREEN));
+		return true;
 	}
 #endif
 
 	if (checkbox_event(ev, &music_checkbox)) {
 		settings_toggleflag(FLAG_MUSIC);
 		music_mute(!settings_getflag(FLAG_MUSIC));
+		return true;
 	}
 
 	if (checkbox_event(ev, &pixel_perfect_checkbox)) {
 		settings_toggleflag(FLAG_PIXEL_PERFECT);
 		renderer_set_logical_presentation();
+		return true;
 	}
 
-	if (button_event(ev, &save_button) || is_escaping(ev))
+	if (button_event(ev, &save_button) || is_escaping(ev)) {
 		scene_switch("mainmenu");
+		return true;
+	}
 
-	if (button_event(ev, &customize_colors_button))
+	if (button_event(ev, &customize_colors_button)) {
 		scene_switch("customize_colors");
+		return true;
+	}
 
-	if (ev->type == SDL_EVENT_KEY_UP && ev->key.scancode == SDL_SCANCODE_5)
+	if (ev->type == SDL_EVENT_KEY_UP && ev->key.scancode == SDL_SCANCODE_5) {
 		trigger_secret_five();
+		return true;
+	}
 
 	// Ctrl+Shift+Delete to clear data
 	bool special_combo = ev->type == SDL_EVENT_KEY_UP && ev->key.key == SDLK_DELETE
@@ -84,12 +99,16 @@ void settings_event(const SDL_Event *ev) {
 
 	if (button_event(ev, &delete_data_button) || special_combo) {
 		scene_switch("clear_data");
+		return true;
 	}
 
 	if (ev->type == SDL_EVENT_KEY_UP && ev->key.key == SDLK_U && (ev->key.mod & SDL_KMOD_CTRL)) {
 		SDL_OpenURL(SDL_GetPrefPath(APP_ORG, APP_NAME));
 		toast_show("Opening save data folder...", 3);
+		return true;
 	}
+
+	return false;
 }
 
 void settings_update(float dt) {

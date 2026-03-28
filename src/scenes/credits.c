@@ -106,11 +106,14 @@ void credits_init(void) {
 	introcard_opacity = 0;
 }
 
-void credits_event(const SDL_Event *ev) {
+bool credits_event(const SDL_Event *ev) {
 	if (is_escaping(ev)) {
 		music_fade_out(1000);
 		scene_switch("mainmenu");
+		return true;
 	}
+
+	return false;
 }
 
 void credits_update(float dt) {

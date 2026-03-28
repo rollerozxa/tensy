@@ -24,22 +24,28 @@ void clear_data_init(void) {
 	music_play(MUS_MYSTERY, -1);
 }
 
-void clear_data_event(const SDL_Event *ev) {
+bool clear_data_event(const SDL_Event *ev) {
 	if (confirm_checkbox.checked && button_event(ev, &confirm_button)) {
 		settings_clear();
 		highscores_clear();
 		savestate_delete();
 		music_reset();
 		scene_switch_instant("intro");
+		return true;
 	}
 
-	if (checkbox_event(ev, &confirm_checkbox))
+	if (checkbox_event(ev, &confirm_checkbox)) {
 		confirm_button._disabled = !confirm_checkbox.checked;
+		return true;
+	}
 
 	if (button_event(ev, &cancel_button) || is_escaping(ev)) {
 		music_play(MUS_MAINMENU, -1);
 		scene_switch("settings");
+		return true;
 	}
+
+	return false;
 }
 
 void clear_data_update(float dt) {

@@ -44,18 +44,18 @@ static void select_mode_num(int num) {
 	gamemodes[num].sm_click();
 }
 
-void selectmode_event(const SDL_Event *ev) {
+bool selectmode_event(const SDL_Event *ev) {
 	if (is_escaping(ev))
 		scene_switch("mainmenu");
 
 	switch (ev->type) {
 		case SDL_EVENT_MOUSE_WHEEL:
 			xvel -= ev->wheel.y * 45;
-			break;
+			return true;
 
 		case SDL_EVENT_MOUSE_BUTTON_DOWN:
 			holdingdown = true;
-			break;
+			return true;
 
 		case SDL_EVENT_MOUSE_BUTTON_UP:
 			if (xvel < 0.05 && selected_mode != -1 && !scene_is_transitioning()) {
@@ -64,14 +64,14 @@ void selectmode_event(const SDL_Event *ev) {
 			}
 			motion = 0;
 			holdingdown = false;
-			break;
+			return true;
 
 		case SDL_EVENT_MOUSE_MOTION:
 			if (holdingdown) {
 				xvel -= ev->motion.xrel;
 				motion += SDL_fabs(ev->motion.xrel);
 			}
-			break;
+			return true;
 
 		case SDL_EVENT_KEY_UP:
 			if (ev->key.key == SDLK_1) select_mode_num(0);
@@ -84,7 +84,7 @@ void selectmode_event(const SDL_Event *ev) {
 			if (ev->key.key == SDLK_8) select_mode_num(7);
 			if (ev->key.key == SDLK_9) select_mode_num(8);
 			if (ev->key.key == SDLK_0) select_mode_num(0);
-			break;
+			return true;
 	}
 
 	if (has_savestate && button_event(ev, &continue_button)) {
@@ -92,7 +92,10 @@ void selectmode_event(const SDL_Event *ev) {
 		game.loaded_existing = true;
 		music_fade_out(1000);
 		scene_switch("game");
+		return true;
 	}
+
+	return false;
 }
 
 void selectmode_update(float dt) {

@@ -16,14 +16,19 @@ void puzzle_editor_exit_init(void) {
 	BUTTON(back_button, RECT(0, 0, 120, 35), "Back");
 }
 
-void puzzle_editor_exit_event(const SDL_Event *ev) {
-	if (button_event(ev, &back_button))
+bool puzzle_editor_exit_event(const SDL_Event *ev) {
+	if (button_event(ev, &back_button)) {
 		overlay_hide();
+		return true;
+	}
 
 	if (button_event(ev, &exit_button)) {
 		overlay_hide();
 		scene_switch("mainmenu");
+		return true;
 	}
+
+	return false;
 }
 
 void puzzle_editor_exit_draw(void) {

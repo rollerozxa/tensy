@@ -43,15 +43,17 @@ void gameconfig_init(void) {
 	board_zerofill(&board_preview);
 }
 
-void gameconfig_event(const SDL_Event *ev) {
+bool gameconfig_event(const SDL_Event *ev) {
 
 	if (ev->type == SDL_EVENT_KEY_DOWN && ev->key.scancode == SDL_SCANCODE_LSHIFT)
 		show_hyuge = true;
 	else if (ev->type == SDL_EVENT_KEY_UP && ev->key.scancode == SDL_SCANCODE_LSHIFT)
 		show_hyuge = false;
 
-	if (is_escaping(ev))
+	if (is_escaping(ev)) {
 		scene_switch("selectmode");
+		return true;
+	}
 
 	for (size_t i = 0; i < num_board_sizes; i++) {
 		BoardSize *board_size = &board_sizes[i];
@@ -61,16 +63,22 @@ void gameconfig_event(const SDL_Event *ev) {
 			board_change_size(&board_preview, board_size->w, board_size->h, SDL_max(0.5f, board_size->scale - 1));
 			board_zerofill(&game.board);
 			board_zerofill(&board_preview);
+			return true;
 		}
 	}
 
 	if (button_event(ev, &go_button)) {
 		music_fade_out(1000);
 		scene_switch("game");
+		return true;
 	}
 
-	if (current_gamemode().gravity_mode == GRA_Ask && checkbox_event(ev, &physics_checkbox))
+	if (current_gamemode().gravity_mode == GRA_Ask && checkbox_event(ev, &physics_checkbox)) {
 		game.board.physics = physics_checkbox.checked;
+		return true;
+	}
+
+	return false;
 }
 
 void gameconfig_draw(void) {

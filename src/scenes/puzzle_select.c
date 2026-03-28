@@ -38,9 +38,11 @@ void puzzle_select_init(void) {
 	BUTTON(editor_button, RECT(SCREEN_W - 210, SCREEN_H - 50, 200, 40), "Puzzle editor");
 }
 
-void puzzle_select_event(const SDL_Event *ev) {
-	if (is_escaping(ev))
+bool puzzle_select_event(const SDL_Event *ev) {
+	if (is_escaping(ev)) {
 		scene_switch("selectmode");
+		return true;
+	}
 
 	for (int i = 0; i < puzzle_get_count(); i++) {
 		if (button_event(ev, &puzzle_buttons[i])) {
@@ -48,16 +50,22 @@ void puzzle_select_event(const SDL_Event *ev) {
 			// Start game with the selected puzzle
 			game.puzzle_id = i;
 			scene_switch("game");
+			return true;
 		}
 	}
 
 	if (ev->type == SDL_EVENT_KEY_DOWN && ev->key.key == SDLK_F8) {
 		sound_play(SND_WOOZY);
 		scene_switch("puzzle_editor");
+		return true;
 	}
 
-	if (button_event(ev, &editor_button))
+	if (button_event(ev, &editor_button)) {
 		scene_switch("puzzle_editor");
+		return true;
+	}
+
+	return false;
 }
 
 void puzzle_select_draw(void) {

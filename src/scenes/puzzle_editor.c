@@ -165,10 +165,10 @@ static void save_or_open_puzzle_level(bool save) {
 
 #define CELL 30.0f
 
-static void puzzle_editor_event(const SDL_Event *ev) {
+static bool puzzle_editor_event(const SDL_Event *ev) {
 	if (is_escaping(ev)) {
 		overlay_switch("puzzle_editor_exit");
-		return;
+		return true;
 	}
 
 	switch (ev->type) {
@@ -187,6 +187,8 @@ static void puzzle_editor_event(const SDL_Event *ev) {
 			int cy = (int)((mouse.y - gy) / CELL);
 			if (cx >= 0 && cx < dim.x && cy >= 0 && cy < dim.y)
 				sel = (SDL_Point){cx, cy};
+
+			return true;
 		}
 		break;
 
@@ -195,12 +197,16 @@ static void puzzle_editor_event(const SDL_Event *ev) {
 		SDL_Keymod mods = SDL_GetModState();
 
 		// Ctrl+S to save puzzle file
-		if ((mods & SDL_KMOD_CTRL) && (key == SDLK_S))
+		if ((mods & SDL_KMOD_CTRL) && (key == SDLK_S)) {
 			save_or_open_puzzle_level(true);
+			return true;
+		}
 
 		// Ctrl+O to open a puzzle file
-		if ((mods & SDL_KMOD_CTRL) && (key == SDLK_O))
+		if ((mods & SDL_KMOD_CTRL) && (key == SDLK_O)) {
 			save_or_open_puzzle_level(false);
+			return true;
+		}
 
 		// Page up/down with SHIFT change size by 0.5
 		if (key == SDLK_PAGEUP) {
@@ -231,6 +237,8 @@ static void puzzle_editor_event(const SDL_Event *ev) {
 
 			sel.x = SDL_clamp(sel.x, 0, dim.x - 1);
 			sel.y = SDL_clamp(sel.y, 0, dim.y - 1);
+
+			return true;
 		}
 
 		// Number input (0-9)
@@ -242,19 +250,28 @@ static void puzzle_editor_event(const SDL_Event *ev) {
 				v = key - SDLK_KP_0;
 
 			board[sel.y][sel.x] = v;
+			return true;
 		}
 
 		break;
 	}
 
-	if (button_event(ev, &btn_open))
+	if (button_event(ev, &btn_open)) {
 		save_or_open_puzzle_level(false);
+		return true;
+	}
 
-	if (button_event(ev, &btn_save))
+	if (button_event(ev, &btn_save)) {
 		save_or_open_puzzle_level(true);
+		return true;
+	}
 
-	if (button_event(ev, &btn_help))
+	if (button_event(ev, &btn_help)) {
 		overlay_switch("puzzle_editor_help");
+		return true;
+	}
+
+	return false;
 }
 
 static void puzzle_editor_update(float dt) {
@@ -301,4 +318,3 @@ Scene puzzle_editor_scene = {
 	puzzle_editor_draw,
 	CLR_BACKGROUND_1
 };
-

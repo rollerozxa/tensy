@@ -15,11 +15,14 @@ void success_init(void) {
 	BUTTON(exit_button, RECT(0, 0, 150, 40), "Return");
 }
 
-void success_event(const SDL_Event *ev) {
+bool success_event(const SDL_Event *ev) {
 	if (button_event(ev, &exit_button) || is_escaping(ev)) {
 		overlay_hide();
 		scene_switch("selectmode");
+		return true;
 	}
+
+	return false;
 }
 
 void success_draw(void) {

@@ -232,14 +232,15 @@ static void begin_move(void) {
 	held_sum = -1;
 }
 
-void game_event(const SDL_Event *ev) {
+bool game_event(const SDL_Event *ev) {
 	#define CELL_X (ev->motion.x - board.rect.x) / board.cell_size
 	#define CELL_Y (ev->motion.y - board.rect.y) / board.cell_size
 
 	int cx = CELL_X;
 	int cy = CELL_Y;
 
-	if (overlay_exists()) return;
+	if (overlay_exists())
+		return false;
 
 	switch (ev->type) {
 		case SDL_EVENT_MOUSE_BUTTON_DOWN:
@@ -251,6 +252,7 @@ void game_event(const SDL_Event *ev) {
 				current_held_pos = first_held_pos;
 				helddown = true;
 				sound_play(SND_SELECT);
+				return true;
 			}
 			break;
 
@@ -286,17 +288,25 @@ void game_event(const SDL_Event *ev) {
 			break;
 
 		case SDL_EVENT_KEY_UP:
-			if (ev->key.key == SDLK_F5)
+			if (ev->key.key == SDLK_F5) {
 				savestate_save();
+				return true;
+			}
 
-			if (ev->key.key == SDLK_F6)
+			if (ev->key.key == SDLK_F6) {
 				savestate_load();
+				return true;
+			}
 
-			if (ev->key.key == SDLK_F1)
+			if (ev->key.key == SDLK_F1) {
 				board_shuffle_animated(&board, 1);
+				return true;
+			}
 
-			if (ev->key.key == SDLK_U)
+			if (ev->key.key == SDLK_U) {
 				gamestate_undo();
+				return true;
+			}
 
 			break;
 
@@ -305,7 +315,7 @@ void game_event(const SDL_Event *ev) {
 
 			if (b == SDL_GAMEPAD_BUTTON_START) {
 				overlay_switch("pause");
-				break;
+				return true;
 			}
 
 			// D-Pad moves the selector
@@ -323,7 +333,7 @@ void game_event(const SDL_Event *ev) {
 				// mark this D-Pad direction as pressed for repeat handling
 				gp_dpad.repeat_started = false;
 				gp_dpad.repeat_timer = GP_REPEAT_INITIAL;
-				break;
+				return true;
 			}
 
 			// SOUTH starts selection when pressed
@@ -336,6 +346,7 @@ void game_event(const SDL_Event *ev) {
 				gp_selecting = true;
 				held_sum = calculate_sum();
 				sound_play(SND_SELECT);
+				return true;
 			}
 		} break;
 
@@ -344,6 +355,7 @@ void game_event(const SDL_Event *ev) {
 			if (gp_selecting && b == SDL_GAMEPAD_BUTTON_SOUTH) {
 				begin_move();
 				gp_selecting = false;
+				return true;
 			}
 
 			gp_dpad_check_buttons(b, false);
@@ -357,21 +369,31 @@ void game_event(const SDL_Event *ev) {
 		} break;
 	}
 
-	if (tex_button_event(ev, &pause_button) || is_escaping(ev))
+	if (tex_button_event(ev, &pause_button) || is_escaping(ev)) {
 		overlay_switch("pause");
+		return true;
+	}
 
 	if (game.shuffles != 0) {
-		if (tex_button_event(ev, &shuffle_button))
+		if (tex_button_event(ev, &shuffle_button)) {
 			overlay_switch("shuffle");
+			return true;
+		}
 	}
 
 	if (gamestate_has_undo()) {
-		if (tex_button_event(ev, &undo_button))
+		if (tex_button_event(ev, &undo_button)) {
 			gamestate_undo();
+			return true;
+		}
 	}
 
-	if (!current_gamemode().time_limit && tex_button_event(ev, &end_button))
+	if (!current_gamemode().time_limit && tex_button_event(ev, &end_button)) {
 		overlay_switch("endgame");
+		return true;
+	}
+
+	return false;
 }
 
 void game_update(float dt) {

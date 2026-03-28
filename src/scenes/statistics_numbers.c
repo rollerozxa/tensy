@@ -16,9 +16,13 @@ void statistics_numbers_init(void) {
 	BUTTON(back_button, RECT(480, 315, 95, 30), "Back");
 }
 
-void statistics_numbers_event(const SDL_Event *ev) {
-	if (button_event(ev, &back_button) || is_escaping(ev))
+bool statistics_numbers_event(const SDL_Event *ev) {
+	if (button_event(ev, &back_button) || is_escaping(ev)) {
 		scene_switch("statistics");
+		return true;
+	}
+
+	return false;
 }
 
 void statistics_numbers_update(float dt) {

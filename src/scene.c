@@ -84,9 +84,11 @@ void scene_run_init(void) {
 		scenes[current_scene].init();
 }
 
-void scene_run_event(const SDL_Event *ev) {
+bool scene_run_event(const SDL_Event *ev) {
 	if (scenes[current_scene].event)
-		scenes[current_scene].event(ev);
+		return scenes[current_scene].event(ev);
+
+	return false;
 }
 
 void scene_run_update(float dt) {

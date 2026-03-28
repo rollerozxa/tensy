@@ -13,9 +13,13 @@ void intro_init(void) {
 	music_play(MUS_MAINMENU, -1);
 }
 
-void intro_event(const SDL_Event *ev) {
-	if (ev->type == SDL_EVENT_KEY_DOWN && ev->key.scancode == SDL_SCANCODE_ESCAPE)
+bool intro_event(const SDL_Event *ev) {
+	if (ev->type == SDL_EVENT_KEY_DOWN && ev->key.scancode == SDL_SCANCODE_ESCAPE) {
 		scene_switch("mainmenu");
+		return true;
+	}
+
+	return false;
 }
 
 void intro_update(float dt) {

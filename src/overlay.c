@@ -47,9 +47,11 @@ void overlay_run_init(void) {
 		overlays[current_overlay].init();
 }
 
-void overlay_run_event(const SDL_Event *ev) {
+bool overlay_run_event(const SDL_Event *ev) {
 	if (overlay_exists() && overlays[current_overlay].event)
-		overlays[current_overlay].event(ev);
+		return overlays[current_overlay].event(ev);
+
+	return false;
 }
 
 void overlay_run_update(void) {
