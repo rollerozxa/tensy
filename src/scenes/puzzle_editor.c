@@ -2,9 +2,11 @@
 #include "consts.h"
 #include "draw.h"
 #include "font.h"
+#include "gui/button.h"
 #include "input.h"
 #include "media/sound.h"
 #include "mouse.h"
+#include "overlay.h"
 #include "scene.h"
 #include "text.h"
 #include "toast.h"
@@ -14,6 +16,8 @@
 
 #define MAX_W 32
 #define MAX_H 32
+
+static Button btn_open, btn_save, btn_help;
 
 static SDL_Point dim = {10, 8};
 static int board[MAX_H][MAX_W];
@@ -26,6 +30,13 @@ static void puzzle_editor_init(void) {
 
 	dim = (SDL_Point){10, 8};
 	sel = (SDL_Point){0, 0};
+
+	int x = 340;
+	BUTTON(btn_open, RECT(x, 10, 80, 30), "Open");
+	x += 90;
+	BUTTON(btn_save, RECT(x, 10, 80, 30), "Save");
+	x += 90;
+	BUTTON(btn_help, RECT(x, 10, 80, 30), "Help");
 }
 
 static void SDLCALL save_puzzle_level_cb(void *userdata, const char * const *filelist, int filter) {
@@ -235,6 +246,15 @@ static void puzzle_editor_event(const SDL_Event *ev) {
 
 		break;
 	}
+
+	if (button_event(ev, &btn_open))
+		save_or_open_puzzle_level(false);
+
+	if (button_event(ev, &btn_save))
+		save_or_open_puzzle_level(true);
+
+	if (button_event(ev, &btn_help))
+		overlay_switch("puzzle_editor_help");
 }
 
 static void puzzle_editor_update(float dt) {
@@ -267,6 +287,10 @@ static void puzzle_editor_draw(void) {
 			font_draw_char_shadow((char)('0' + v), cellrect.x + 3, cellrect.y - 2, 3);
 		}
 	}
+
+	button(&btn_open);
+	button(&btn_save);
+	button(&btn_help);
 }
 
 Scene puzzle_editor_scene = {

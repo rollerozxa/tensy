@@ -14,6 +14,8 @@
 #define PUZZLE_LEVELS 32
 #define PUZZLE_COLS 8
 
+static Button editor_button;
+
 static Button puzzle_buttons[PUZZLE_LEVELS];
 static char puzzle_labels[PUZZLE_LEVELS][8];
 
@@ -32,6 +34,8 @@ void puzzle_select_init(void) {
 		SDL_FRect rect = RECT(x, y, btn_w, btn_h);
 		BUTTON(puzzle_buttons[i], rect, puzzle_labels[i]);
 	}
+
+	BUTTON(editor_button, RECT(SCREEN_W - 210, SCREEN_H - 50, 200, 40), "Puzzle editor");
 }
 
 void puzzle_select_event(const SDL_Event *ev) {
@@ -51,6 +55,9 @@ void puzzle_select_event(const SDL_Event *ev) {
 		sound_play(SND_WOOZY);
 		scene_switch("puzzle_editor");
 	}
+
+	if (button_event(ev, &editor_button))
+		scene_switch("puzzle_editor");
 }
 
 void puzzle_select_draw(void) {
@@ -58,6 +65,8 @@ void puzzle_select_draw(void) {
 
 	for (int i = 0; i < puzzle_get_count(); i++)
 		button(&puzzle_buttons[i]);
+
+	button(&editor_button);
 }
 
 Scene puzzle_select_scene = {

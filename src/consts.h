@@ -27,7 +27,7 @@
 
 #define FULL_RECT() RECT(0, 0, SCREEN_W, SCREEN_H)
 
-#define CENTER(outside, inside) ((outside - inside) / 2)
+#define CENTER(outside, inside) ((float)(outside - inside) / 2)
 
 #define FMT_STRING(buf, size, fmt, ...) \
 	char (buf)[(size)]; \
