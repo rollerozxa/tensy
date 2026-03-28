@@ -1,10 +1,10 @@
 
-set(DEP_SDL_VER "89393c5519d8cbdc0e3f16a387c37cac2642d0a1")
+set(DEP_SDL_VER "a157d96de87fce84f06e60f4049dd96b8a6993e3")
 download_dep_tarball(
 	"SDL"
 	"${DEP_SDL_VER}"
 	"https://github.com/libsdl-org/SDL/archive/${DEP_SDL_VER}.tar.gz"
-	"0e433088d666cadc0206e64aa48ee38fd7fbc964858e4676d67d043d67207c28"
+	"247a75ee6f5cd431b58c3ee3eeb0818e13840293694512efb066dc044f6deaad"
 )
 set(SDL_SHARED OFF CACHE BOOL "" FORCE)
 set(SDL_STATIC ON CACHE BOOL "" FORCE)
