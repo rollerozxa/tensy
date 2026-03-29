@@ -3,6 +3,7 @@
 #include "draw.h"
 #include "gui/button.h"
 #include "gui/colorpicker.h"
+#include "input.h"
 #include "scene.h"
 #include "text.h"
 #include <SDL3/SDL.h>
@@ -41,7 +42,7 @@ bool customize_colors_event(const SDL_Event *ev) {
 		return true;
 	}
 
-	if (button_event(ev, &cancel_button)) {
+	if (is_escaping(ev) || button_event(ev, &cancel_button)) {
 		scene_switch("settings");
 		return true;
 	}

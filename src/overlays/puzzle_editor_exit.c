@@ -17,7 +17,7 @@ void puzzle_editor_exit_init(void) {
 }
 
 bool puzzle_editor_exit_event(const SDL_Event *ev) {
-	if (button_event(ev, &back_button)) {
+	if (is_escaping(ev) || button_event(ev, &back_button)) {
 		overlay_hide();
 		return true;
 	}
