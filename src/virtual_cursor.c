@@ -69,6 +69,9 @@ int virtual_cursor_clicked(void) {
 void virtual_cursor_event(const SDL_Event *ev) {
 	if (!ev) return;
 
+	if (!gamepad_enabled())
+		return;
+
 	// Allow forcibly disabling virtual cursor by pressing the right joystick button
 	if (ev->type == SDL_EVENT_GAMEPAD_BUTTON_DOWN && ev->gbutton.button == SDL_GAMEPAD_BUTTON_RIGHT_STICK) {
 		if (virtual_state == VC_FORCE_OFF) {
@@ -103,7 +106,7 @@ void virtual_cursor_event(const SDL_Event *ev) {
 }
 
 void virtual_cursor_update(void) {
-	if (!gamepad_is_connected() || virtual_state == VC_FORCE_OFF)
+	if (!gamepad_enabled() || !gamepad_is_connected() || virtual_state == VC_FORCE_OFF)
 		return;
 
 	SDL_FPoint joystick = gamepad_get_left_stick();

@@ -1,5 +1,6 @@
 #include "gamepad.h"
 #include "consts.h"
+#include "gamesettings.h"
 #include "toast.h"
 #include <SDL3/SDL.h>
 
@@ -12,6 +13,10 @@ static inline SDL_JoystickID getControllerInstanceID(SDL_Gamepad *controller) {
 
 void gamepad_init(void) {
 	_gamepad = gamepad_find();
+}
+
+bool gamepad_enabled(void) {
+	return _gamepad != NULL && !settings_getflag(FLAG_DISABLE_GAMEPAD);
 }
 
 SDL_Gamepad *gamepad_find(void) {
@@ -49,7 +54,7 @@ SDL_Gamepad *gamepad_get() {
 }
 
 bool gamepad_get_button(SDL_GamepadButton button) {
-	if (!_gamepad)
+	if (!gamepad_enabled())
 		return false;
 
 	return SDL_GetGamepadButton(_gamepad, button);
@@ -57,7 +62,7 @@ bool gamepad_get_button(SDL_GamepadButton button) {
 
 SDL_FPoint gamepad_get_left_stick(void) {
 	SDL_FPoint pos = {0.0f, 0.0f};
-	if (!_gamepad)
+	if (!_gamepad || !gamepad_enabled())
 		return pos;
 
 	pos.x = (float) SDL_GetGamepadAxis(_gamepad,

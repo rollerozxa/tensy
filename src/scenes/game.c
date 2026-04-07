@@ -4,6 +4,7 @@
 #include "draw.h"
 #include "font.h"
 #include "gamemode.h"
+#include "gamepad.h"
 #include "gamesettings.h"
 #include "gamestate.h"
 #include "gui/tex_button.h"
@@ -311,6 +312,9 @@ bool game_event(const SDL_Event *ev) {
 			break;
 
 		case SDL_EVENT_GAMEPAD_BUTTON_DOWN: {
+			if (!gamepad_enabled())
+				break;
+
 			int b = ev->gbutton.button;
 
 			if (b == SDL_GAMEPAD_BUTTON_START) {
@@ -351,6 +355,9 @@ bool game_event(const SDL_Event *ev) {
 		} break;
 
 		case SDL_EVENT_GAMEPAD_BUTTON_UP: {
+			if (!gamepad_enabled())
+				break;
+
 			int b = ev->gbutton.button;
 			if (gp_selecting && b == SDL_GAMEPAD_BUTTON_SOUTH) {
 				begin_move();

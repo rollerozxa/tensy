@@ -63,3 +63,7 @@
 #if !defined(SDL_PLATFORM_ANDROID) && !defined(SDL_PLATFORM_VITA)
 	#define SUPPORTS_PIXEL_PERFECT true
 #endif
+
+#if defined(SDL_PLATFORM_VITA)
+	#define ALWAYS_GAMEPAD true
+#endif

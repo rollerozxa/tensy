@@ -11,9 +11,10 @@
 #include "scene.h"
 #include "text.h"
 #include "toast.h"
+#include "virtual_cursor.h"
 #include <SDL3/SDL.h>
 
-static Checkbox mono_numbers_checkbox, sound_checkbox, reduced_motion_checkbox, fullscreen_checkbox, music_checkbox, pixel_perfect_checkbox;
+static Checkbox mono_numbers_checkbox, sound_checkbox, reduced_motion_checkbox, fullscreen_checkbox, music_checkbox, pixel_perfect_checkbox, gamepad_checkbox;
 
 static Button save_button, delete_data_button, customize_colors_button;
 
@@ -34,6 +35,7 @@ void settings_init(void) {
 
 	CHECKBOX(music_checkbox, POINT(320, 80), settings_getflag(FLAG_MUSIC), "Music");
 	CHECKBOX(pixel_perfect_checkbox, POINT(320, 80+40*1), settings_getflag(FLAG_PIXEL_PERFECT), "Pixel perfect scaling");
+	CHECKBOX(gamepad_checkbox, POINT(320, 80+40*2), settings_getflag(FLAG_DISABLE_GAMEPAD), "Disable gamepad input");
 
 	BUTTON(save_button, RECT(220,300,200,40), "Save & Go back");
 	BUTTON(delete_data_button, RECT(420,20,200,40), "Clear save data");
@@ -88,6 +90,16 @@ bool settings_event(const SDL_Event *ev) {
 		return true;
 	}
 
+	if (checkbox_event(ev, &gamepad_checkbox)) {
+		settings_toggleflag(FLAG_DISABLE_GAMEPAD);
+		if (!settings_getflag(FLAG_DISABLE_GAMEPAD)) {
+			virtual_cursor_set_state(VC_INACTIVE);
+		} else {
+			virtual_cursor_set_state(VC_FORCE_OFF);
+		}
+		return true;
+	}
+
 	if (ev->type == SDL_EVENT_KEY_UP && ev->key.scancode == SDL_SCANCODE_5) {
 		trigger_secret_five();
 		return true;
@@ -133,6 +145,9 @@ void settings_draw(void) {
 	checkbox(&music_checkbox);
 #ifdef SUPPORTS_PIXEL_PERFECT
 	checkbox(&pixel_perfect_checkbox);
+#endif
+#ifndef ALWAYS_GAMEPAD
+	checkbox(&gamepad_checkbox);
 #endif
 
 	button(&save_button);
