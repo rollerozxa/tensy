@@ -18,7 +18,11 @@ void success_init(void) {
 bool success_event(const SDL_Event *ev) {
 	if (button_event(ev, &exit_button) || is_escaping(ev)) {
 		overlay_hide();
-		scene_switch("selectmode");
+		if (game.mode == GM_Puzzle) {
+			scene_switch("puzzle_select");
+		} else {
+			scene_switch("selectmode");
+		}
 		return true;
 	}
 
