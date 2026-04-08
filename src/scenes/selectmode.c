@@ -58,7 +58,7 @@ bool selectmode_event(const SDL_Event *ev) {
 			return true;
 
 		case SDL_EVENT_MOUSE_BUTTON_UP:
-			if (xvel < 0.05 && selected_mode != -1 && !scene_is_transitioning()) {
+			if (selected_mode != -1 && !scene_is_transitioning()) {
 				sound_play(SND_CLICK);
 				gamemodes[gamemode_selectmode[selected_mode]].sm_click();
 			}
@@ -113,7 +113,6 @@ void selectmode_update(float dt) {
 }
 
 void selectmode_draw(void) {
-
 	text_draw_shadow("Select mode", 10, 10, 3);
 
 	for (size_t i = 0; i < gamemode_selectmode_count; i++) {
@@ -132,7 +131,7 @@ void selectmode_draw(void) {
 		SDL_FPoint mouse;
 		int pressed = mouse_get_state_scaled(&mouse);
 		if (SDL_PointInRectFloat(&mouse, &rect) && !mode.disabled) {
-			if (motion < 4) {
+			if (motion < 8) {
 				if (pressed) {
 					selected_mode = i;
 					mod = -10;
