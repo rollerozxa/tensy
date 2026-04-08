@@ -17,7 +17,7 @@
 #define MAX_W 32
 #define MAX_H 32
 
-static Button btn_open, btn_save, btn_help;
+static Button btn_new, btn_open, btn_save, btn_play, btn_help;
 
 static SDL_Point dim = {10, 8};
 static int board[MAX_H][MAX_W];
@@ -31,12 +31,16 @@ static void puzzle_editor_init(void) {
 	dim = (SDL_Point){10, 8};
 	sel = (SDL_Point){0, 0};
 
-	int x = 340;
-	BUTTON(btn_open, RECT(x, 10, 80, 30), "Open");
-	x += 90;
-	BUTTON(btn_save, RECT(x, 10, 80, 30), "Save");
-	x += 90;
-	BUTTON(btn_help, RECT(x, 10, 80, 30), "Help");
+	int x = 20;
+	BUTTON(btn_new, RECT(x, 10, 90, 30), "New");
+	x += 100;
+	BUTTON(btn_open, RECT(x, 10, 90, 30), "Open");
+	x += 100;
+	BUTTON(btn_save, RECT(x, 10, 90, 30), "Save");
+	x += 100;
+	BUTTON(btn_play, RECT(x, 10, 90, 30), "Play");
+	x += 100;
+	BUTTON(btn_help, RECT(x, 10, 90, 30), "Help");
 }
 
 static void SDLCALL save_puzzle_level_cb(void *userdata, const char * const *filelist, int filter) {
@@ -279,7 +283,7 @@ static void puzzle_editor_update(float dt) {
 }
 
 static void puzzle_editor_draw(void) {
-	text_draw_shadow("Puzzle Editor", 10, 10, 3);
+	//text_draw_shadow("Puzzle Editor", 10, 10, 3);
 
 	float grid_w = dim.x * CELL;
 	float grid_h = dim.y * CELL;
@@ -305,8 +309,10 @@ static void puzzle_editor_draw(void) {
 		}
 	}
 
+	button(&btn_new);
 	button(&btn_open);
 	button(&btn_save);
+	button(&btn_play);
 	button(&btn_help);
 }
 
