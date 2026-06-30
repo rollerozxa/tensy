@@ -34,7 +34,7 @@ elif [ $TARGET == 'macos' ]; then
 
 	CMAKE_FLAGS+=(
 		"-DCMAKE_OSX_ARCHITECTURES=arm64;x86_64"
-		-DCMAKE_OSX_DEPLOYMENT_TARGET=10.11
+		-DCMAKE_OSX_DEPLOYMENT_TARGET=10.12
 	)
 elif [ $TARGET == 'vita' ]; then
 	FOLDER="vita"
