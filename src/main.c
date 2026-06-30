@@ -60,17 +60,6 @@ SDL_AppResult SDL_AppInit(void **rustptr, int argc, char **argv) {
 
 	SDL_Init(SDL_INIT_VIDEO | SDL_INIT_GAMEPAD);
 
-#ifdef SDL_PLATFORM_WINDOWS
-	if (argc > 1 && strncmp(argv[1], "-d3d", 4) == 0)
-		SDL_SetHint(SDL_HINT_RENDER_DRIVER, "direct3d11,direct3d");
-	else
-		// Prefer OpenGL on Windows because direct3d11 is blurry with pixelart scaling,
-		// and probably some other reasons.
-		SDL_SetHint(SDL_HINT_RENDER_DRIVER, "opengl");
-
-	retry_render_creation:
-#endif
-
 	if (argc > 1 && strncmp(argv[1], "-unblur", 7) == 0)
 		textures_force_nearest(true);
 
@@ -86,25 +75,8 @@ SDL_AppResult SDL_AppInit(void **rustptr, int argc, char **argv) {
 
 	if (!window || !renderer) {
 		const char *error = SDL_GetError();
-
-#ifdef SDL_PLATFORM_WINDOWS
-		// There are many cases where OpenGL just doesn't work on Windows... Usually means
-		// there is some more serious issue with your system, but just let the user know and
-		// fall back to the direct3d render driver, better than nothing.
-		if (strcmp(error, "OpenGL not initialized") == 0
-		|| SDL_strnstr(error, "Couldn't load GL function", 25) != NULL
-		|| strcmp(error, "Could not create GL context") == 0) {
-			SDL_HideWindow(window);
-			SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_WARNING, APP_NAME, "Failed to start the game using OpenGL. Your graphics card drivers may be broken or out of date.\n\nFalling back to Direct3D rendering. (you can launch the game with '-d3d' to use Direct3D without this message)", NULL);
-			SDL_ShowWindow(window);
-
-			SDL_SetHint(SDL_HINT_RENDER_DRIVER, "direct3d11,direct3d");
-
-			goto retry_render_creation;
-		}
-#endif
-
 		FMT_STRING(msg, 1024, "Failed to start the game. Error: %s", error);
+
 		SDL_HideWindow(window);
 		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, APP_NAME, msg, NULL);
 		return SDL_APP_FAILURE;
