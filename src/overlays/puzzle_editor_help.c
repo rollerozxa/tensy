@@ -1,8 +1,7 @@
 #include "color.h"
 #include "consts.h"
 #include "draw.h"
-#include "gamestate.h"
-#include "graph.h"
+#include "gui/button.h"
 #include "overlay.h"
 #include "text.h"
 

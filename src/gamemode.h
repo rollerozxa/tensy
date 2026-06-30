@@ -33,7 +33,7 @@ static const int gamemode_selectmode[] = {
 	GM_Puzzle,
 	GM_Five,
 };
-static const int gamemode_selectmode_count = SDL_arraysize(gamemode_selectmode);
+static const size_t gamemode_selectmode_count = SDL_arraysize(gamemode_selectmode);
 
 static const char *gamemode_names[] = {
 	"Classic",

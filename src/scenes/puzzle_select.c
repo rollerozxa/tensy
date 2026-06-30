@@ -30,7 +30,7 @@ void puzzle_select_init(void) {
 		float x = 20.f + cx * (btn_w + 10.f);
 		float y = 60.f + cy * (btn_h + 10.f);
 
-		snprintf(puzzle_labels[i], sizeof(puzzle_labels[i]), "%d", i + 1);
+		snprintf(puzzle_labels[i], sizeof(puzzle_labels[i]), "%d", (uint16_t)(i + 1));
 		SDL_FRect rect = RECT(x, y, btn_w, btn_h);
 		BUTTON(puzzle_buttons[i], rect, puzzle_labels[i]);
 	}

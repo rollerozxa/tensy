@@ -19,7 +19,7 @@ void screenshot_poll(void) {
 	}
 }
 
-static char pref_path[512];
+static char pref_path[256];
 
 void screenshot(void) {
 	SDL_DateTime now;

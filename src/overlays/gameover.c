@@ -28,7 +28,7 @@ void gameover_init(void) {
 bool gameover_event(const SDL_Event *ev) {
 	if (button_event(ev, &exit_button) || is_escaping(ev)) {
 		highscore_register(game, name_input.buffer);
-		strncpy(settings()->last_username, name_input.buffer, 12);
+		memcpy(settings()->last_username, name_input.buffer, 12);
 		overlay_hide();
 		scene_switch("selectmode");
 		return true;
