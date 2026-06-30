@@ -1,10 +1,10 @@
 
-set(DEP_SDL_MIXER_VER "8c52ef985c3c6495fcb5cf7a118aa544388c2765")
+set(DEP_SDL_MIXER_VER "4aab76ed760ce521501e36b07962ba18d4a73e34")
 download_dep_tarball(
 	"SDL_mixer"
 	"${DEP_SDL_MIXER_VER}"
 	"https://github.com/libsdl-org/SDL_mixer/archive/${DEP_SDL_MIXER_VER}.tar.gz"
-	"4bafc96d16f302fa49bb02352eb27459727302cb18b02d49c685ca163cf3c1eb"
+	"c1530fd974193cca7824c6137b45cca9e146566800e6ebeea007b45e9bf8874d"
 )
 
 file(REMOVE_RECURSE "${CMAKE_SOURCE_DIR}/lib/SDL_mixer/external/libxmp")

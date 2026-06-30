@@ -6,7 +6,7 @@ on:
 
 env:
   # Check https://github.com/mstorsjo/llvm-mingw/releases for the latest version
-  LLVM_MINGW_VERSION: 20260224
+  LLVM_MINGW_VERSION: 20260616
 
 jobs:
   windows:
