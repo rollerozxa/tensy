@@ -3,15 +3,14 @@
 #include "font.h"
 #include "gamemode.h"
 #include "media/textures.h"
-#include "scene.h"
+#include "overlay.h"
 #include "text.h"
 #include <SDL3/SDL.h>
 #include <stdbool.h>
 
 static void puzzle_click(void) {
 	switch_gamemode(GM_Puzzle);
-	// Puzzle mode uses a custom level-select scene rather than the standard config
-	scene_switch("puzzle_select");
+	overlay_switch("puzzle_note");
 }
 
 static void sm_draw(SDL_FRect rect) {

@@ -11,6 +11,7 @@
 #include "media/music.h"
 #include "media/sound.h"
 #include "mouse.h"
+#include "overlay.h"
 #include "savestate.h"
 #include "scene.h"
 #include "text.h"
@@ -45,6 +46,9 @@ static void select_mode_num(int num) {
 }
 
 bool selectmode_event(const SDL_Event *ev) {
+	if (overlay_exists())
+		return false;
+
 	if (is_escaping(ev))
 		scene_switch("mainmenu");
 
@@ -99,6 +103,9 @@ bool selectmode_event(const SDL_Event *ev) {
 }
 
 void selectmode_update(float dt) {
+	if (overlay_exists())
+		return;
+
 	if (gamepad_get_button(SDL_GAMEPAD_BUTTON_DPAD_LEFT))
 		xvel = -30;
 	else if (gamepad_get_button(SDL_GAMEPAD_BUTTON_DPAD_RIGHT))
