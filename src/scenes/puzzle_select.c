@@ -49,6 +49,7 @@ bool puzzle_select_event(const SDL_Event *ev) {
 			music_fade_out(1000);
 			// Start game with the selected puzzle
 			game.puzzle_id = i;
+			game.puzzle = &puzzles()[i];
 			scene_switch("game");
 			return true;
 		}

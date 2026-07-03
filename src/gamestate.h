@@ -2,6 +2,7 @@
 
 #include "board.h"
 #include "gamemode.h"
+#include "puzzles.h"
 #include <stdbool.h>
 #include <stdint.h>
 
@@ -18,6 +19,7 @@ typedef struct {
 	// Random identifier used to check if an active game corresponds to the current saved game
 	uint64_t identifier;
 	int puzzle_id;
+	Puzzle *puzzle;
 } Game;
 
 // Smaller state struct used for undo history

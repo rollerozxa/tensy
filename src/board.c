@@ -70,14 +70,11 @@ void board_reset(Board *board) {
 	if (current_gamemode().on_start)
 		current_gamemode().on_start();
 
-	Puzzle *puz = NULL;
 	if (game.mode == GM_Puzzle) {
-		puz = &puzzles()[game.puzzle_id];
-
-		board->w = puz->width;
-		board->h = puz->height;
-		board->scale = puz->boardsize;
-		board->cell_size = puz->boardsize * 10;
+		board->w = game.puzzle->width;
+		board->h = game.puzzle->height;
+		board->scale = game.puzzle->boardsize;
+		board->cell_size = game.puzzle->boardsize * 10;
 
 		board_recalculate_rect(board);
 	}
@@ -90,8 +87,8 @@ void board_reset(Board *board) {
 		for (int y = 0; y < board->h; y++) {
 			if (game.mode == GM_Puzzle) {
 				char ch = '.';
-				if (y < puz->height && x < puz->width)
-					ch = puz->board[y][x];
+				if (y < game.puzzle->height && x < game.puzzle->width)
+					ch = game.puzzle->board[y][x];
 
 				if (ch >= '1' && ch <= '9') {
 					board->p[x][y].number = ch - '0';

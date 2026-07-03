@@ -2,11 +2,13 @@
 #include "consts.h"
 #include "draw.h"
 #include "font.h"
+#include "gamestate.h"
 #include "gui/button.h"
 #include "input.h"
 #include "media/sound.h"
 #include "mouse.h"
 #include "overlay.h"
+#include "puzzles.h"
 #include "scene.h"
 #include "text.h"
 #include "toast.h"
@@ -19,16 +21,33 @@
 
 static Button btn_new, btn_open, btn_save, btn_play, btn_help;
 
-static SDL_Point dim = {10, 8};
-static int board[MAX_H][MAX_W];
+static Puzzle puzzle = {NULL, 3.0f, 10, 8};
+
 static SDL_Point sel = {0, 0};
 
-static void puzzle_editor_init(void) {
-	for (int y = 0; y < MAX_H; y++)
-		for (int x = 0; x < MAX_W; x++)
-			board[y][x] = 0;
+static void reset_board(void) {
+	if (puzzle.board != NULL) {
+		for (int y = 0; y < MAX_H; y++)
+			free(puzzle.board[y]);
+		free(puzzle.board);
+		puzzle.board = NULL;
+	}
 
-	dim = (SDL_Point){10, 8};
+	puzzle.board = malloc(sizeof(char *) * MAX_H);
+	for (int y = 0; y < MAX_H; y++) {
+		puzzle.board[y] = malloc(sizeof(char) * MAX_W);
+		for (int x = 0; x < MAX_W; x++)
+			puzzle.board[y][x] = 0;
+	}
+
+	puzzle.width = 10;
+	puzzle.height = 8;
+}
+
+static void puzzle_editor_init(void) {
+	if (puzzle.board == NULL)
+		reset_board();
+
 	sel = (SDL_Point){0, 0};
 
 	int x = 20;
@@ -56,14 +75,14 @@ static void SDLCALL save_puzzle_level_cb(void *userdata, const char * const *fil
 		return;
 	}
 
-	SDL_IOprintf(stream, "%d\n%d\n30\n", dim.x, dim.y);
+	SDL_IOprintf(stream, "%d\n%d\n30\n", puzzle.width, puzzle.height);
 
-	for (int y = 0; y < dim.y; y++) {
+	for (int y = 0; y < puzzle.height; y++) {
 		// build row into small buffer then write
 		char rowbuf[64];
 		int p = 0;
-		for (int x = 0; x < dim.x; x++) {
-			int v = board[y][x];
+		for (int x = 0; x < puzzle.width; x++) {
+			int v = puzzle.board[y][x];
 			rowbuf[p++] = (char)('0' + v);
 			if (p >= (int)sizeof(rowbuf) - 2) break;
 		}
@@ -137,12 +156,13 @@ static void SDLCALL open_puzzle_level_cb(void *userdata, const char * const *fil
 	for (int y = 0; y < h; y++) {
 		READ_LINE();
 		for (int x = 0; x < w; x++)
-			board[y][x] = line[x] - '0';
+			puzzle.board[y][x] = line[x] - '0';
 	}
 
 	SDL_CloseIO(stream);
 
-	dim = (SDL_Point){w, h};
+	puzzle.width = w;
+	puzzle.height = h;
 	sel = (SDL_Point){0, 0};
 
 	sound_play(SND_WOOZY);
@@ -182,14 +202,14 @@ static bool puzzle_editor_event(const SDL_Event *ev) {
 		mouse_get_state_scaled(&mouse);
 
 		// center grid
-		float grid_w = dim.x * CELL;
-		float grid_h = dim.y * CELL;
+		float grid_w = puzzle.width * CELL;
+		float grid_h = puzzle.height * CELL;
 		float gx = (SCREEN_W - grid_w) / 2.0f;
 		float gy = (SCREEN_H - grid_h) / 2.0f;
 		if (SDL_PointInRectFloat(&POINT(mouse.x, mouse.y), &RECT(gx, gy, grid_w, grid_h))) {
 			int cx = (int)((mouse.x - gx) / CELL);
 			int cy = (int)((mouse.y - gy) / CELL);
-			if (cx >= 0 && cx < dim.x && cy >= 0 && cy < dim.y)
+			if (cx >= 0 && cx < puzzle.width && cy >= 0 && cy < puzzle.height)
 				sel = (SDL_Point){cx, cy};
 
 			return true;
@@ -224,13 +244,13 @@ static bool puzzle_editor_event(const SDL_Event *ev) {
 		if (key == SDLK_UP || key == SDLK_DOWN || key == SDLK_LEFT || key == SDLK_RIGHT) {
 			if (mods & SDL_KMOD_SHIFT) {
 				// resize integer steps
-				if (key == SDLK_LEFT)  dim.x--;
-				if (key == SDLK_RIGHT) dim.x++;
-				if (key == SDLK_UP)    dim.y--;
-				if (key == SDLK_DOWN)  dim.y++;
+				if (key == SDLK_LEFT)  puzzle.width--;
+				if (key == SDLK_RIGHT) puzzle.width++;
+				if (key == SDLK_UP)    puzzle.height--;
+				if (key == SDLK_DOWN)  puzzle.height++;
 
-				dim.x = SDL_clamp(dim.x, 1, MAX_W);
-				dim.y = SDL_clamp(dim.y, 1, MAX_H);
+				puzzle.width = SDL_clamp(puzzle.width, 1, MAX_W);
+				puzzle.height = SDL_clamp(puzzle.height, 1, MAX_H);
 			} else {
 				// move selector
 				if (key == SDLK_LEFT)  sel.x--;
@@ -239,21 +259,22 @@ static bool puzzle_editor_event(const SDL_Event *ev) {
 				if (key == SDLK_DOWN)  sel.y++;
 			}
 
-			sel.x = SDL_clamp(sel.x, 0, dim.x - 1);
-			sel.y = SDL_clamp(sel.y, 0, dim.y - 1);
+			sel.x = SDL_clamp(sel.x, 0, puzzle.width - 1);
+			sel.y = SDL_clamp(sel.y, 0, puzzle.height - 1);
 
 			return true;
 		}
 
 		// Number input (0-9)
 		if ((key >= SDLK_0 && key <= SDLK_9) || (key >= SDLK_KP_0 && key <= SDLK_KP_9)) {
-			int v = 0;
+			char v = 0;
 			if (key >= SDLK_0 && key <= SDLK_9)
 				v = key - SDLK_0;
 			else
 				v = key - SDLK_KP_0;
+			v += '0';
 
-			board[sel.y][sel.x] = v;
+			puzzle.board[sel.y][sel.x] = v;
 			return true;
 		}
 
@@ -285,8 +306,8 @@ static void puzzle_editor_update(float dt) {
 static void puzzle_editor_draw(void) {
 	//text_draw_shadow("Puzzle Editor", 10, 10, 3);
 
-	float grid_w = dim.x * CELL;
-	float grid_h = dim.y * CELL;
+	float grid_w = puzzle.width * CELL;
+	float grid_h = puzzle.height * CELL;
 	float gx = (SCREEN_W - grid_w) / 2.0f;
 	float gy = (SCREEN_H - grid_h) / 2.0f;
 
@@ -294,18 +315,18 @@ static void puzzle_editor_draw(void) {
 	draw_set_color(0xA0A0A0);
 	draw_fill_rect(&RECT(gx-4, gy-4, grid_w+8, grid_h+8));
 
-	for (int y = 0; y < dim.y; y++) {
-		for (int x = 0; x < dim.x; x++) {
+	for (int y = 0; y < puzzle.height; y++) {
+		for (int x = 0; x < puzzle.width; x++) {
 			SDL_FRect cellrect = RECT(gx + x*CELL, gy + y*CELL, CELL-2, CELL-2);
 			draw_set_color((x == sel.x && y == sel.y) ? 0x303080 : 0x303030);
 			draw_fill_rect(&cellrect);
 
-			int v = board[y][x];
+			char v = puzzle.board[y][x];
 			if (v == 0)
 				continue;
 
-			font_set_color(color_numbers(v));
-			font_draw_char_shadow((char)('0' + v), cellrect.x + 3, cellrect.y - 2, 3);
+			font_set_color(color_numbers((int)(v - '0')));
+			font_draw_char_shadow(v, cellrect.x + 3, cellrect.y - 2, 3);
 		}
 	}
 
