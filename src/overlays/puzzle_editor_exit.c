@@ -11,6 +11,8 @@
 
 static Button exit_button, back_button;
 
+extern void puzzle_editor_reset_board(void);
+
 void puzzle_editor_exit_init(void) {
 	BUTTON(exit_button, RECT(0, 0, 120, 35), "Exit");
 	BUTTON(back_button, RECT(0, 0, 120, 35), "Back");
@@ -23,8 +25,9 @@ bool puzzle_editor_exit_event(const SDL_Event *ev) {
 	}
 
 	if (button_event(ev, &exit_button)) {
+		puzzle_editor_reset_board();
 		overlay_hide();
-		scene_switch("mainmenu");
+		scene_switch("selectmode");
 		return true;
 	}
 

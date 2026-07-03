@@ -23,9 +23,11 @@ static Button btn_new, btn_open, btn_save, btn_play, btn_help;
 
 static Puzzle puzzle = {NULL, 3.0f, 10, 8};
 
+static bool editor_dirty = false;
+
 static SDL_Point sel = {0, 0};
 
-static void reset_board(void) {
+void puzzle_editor_reset_board(void) {
 	if (puzzle.board != NULL) {
 		for (int y = 0; y < MAX_H; y++)
 			free(puzzle.board[y]);
@@ -42,14 +44,23 @@ static void reset_board(void) {
 
 	puzzle.width = 10;
 	puzzle.height = 8;
+
+	editor_dirty = false;
+	btn_play._disabled = true;
+}
+
+static bool puzzle_editor_board_empty(void) {
+	for (int y = 0; y < puzzle.height; y++) {
+		for (int x = 0; x < puzzle.width; x++) {
+			if (puzzle.board[y][x] != 0)
+				return false;
+		}
+	}
+
+	return true;
 }
 
 static void puzzle_editor_init(void) {
-	if (puzzle.board == NULL)
-		reset_board();
-
-	sel = (SDL_Point){0, 0};
-
 	int x = 20;
 	BUTTON(btn_new, RECT(x, 10, 90, 30), "New");
 	x += 100;
@@ -60,6 +71,16 @@ static void puzzle_editor_init(void) {
 	BUTTON(btn_play, RECT(x, 10, 90, 30), "Play");
 	x += 100;
 	BUTTON(btn_help, RECT(x, 10, 90, 30), "Help");
+
+	if (puzzle.board == NULL)
+		puzzle_editor_reset_board();
+
+	sel = (SDL_Point){0, 0};
+
+#if defined(SDL_PLATFORM_VITA) || defined(SDL_PLATFORM_EMSCRIPTEN)
+	btn_open._disabled = true;
+	btn_save._disabled = true;
+#endif
 }
 
 static void SDLCALL save_puzzle_level_cb(void *userdata, const char * const *filelist, int filter) {
@@ -83,7 +104,7 @@ static void SDLCALL save_puzzle_level_cb(void *userdata, const char * const *fil
 		return;
 	}
 
-	SDL_IOprintf(stream, "%d\n%d\n30\n", puzzle.width, puzzle.height);
+	SDL_IOprintf(stream, "1\n%d\n%d\n30\n", puzzle.width, puzzle.height);
 
 	for (int y = 0; y < puzzle.height; y++) {
 		// build row into small buffer then write
@@ -210,7 +231,11 @@ static void save_or_open_puzzle_level(bool save) {
 
 static bool puzzle_editor_event(const SDL_Event *ev) {
 	if (is_escaping(ev)) {
-		overlay_switch("puzzle_editor_exit");
+		if (editor_dirty)
+			overlay_switch("puzzle_editor_exit");
+		else
+			scene_switch("selectmode");
+
 		return true;
 	}
 
@@ -293,7 +318,13 @@ static bool puzzle_editor_event(const SDL_Event *ev) {
 				v = key - SDLK_KP_0;
 			v += '0';
 
+			if (v == '0')
+				v = 0;
+
 			puzzle.board[sel.y][sel.x] = v;
+			editor_dirty = true;
+
+			btn_play._disabled = puzzle_editor_board_empty();
 			return true;
 		}
 
@@ -301,7 +332,7 @@ static bool puzzle_editor_event(const SDL_Event *ev) {
 	}
 
 	if (button_event(ev, &btn_new)) {
-		reset_board();
+		puzzle_editor_reset_board();
 		sel = (SDL_Point){0, 0};
 		return true;
 	}
