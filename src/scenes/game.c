@@ -193,7 +193,10 @@ void game_init(void) {
 
 	gamestate_clear();
 
+	game.dirty = true;
+
 	if (game.loaded_existing) {
+		game.dirty = false;
 		game.loaded_existing = false;
 		return;
 	}

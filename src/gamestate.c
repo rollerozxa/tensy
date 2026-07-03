@@ -13,7 +13,7 @@ Game game = {
 	.mode = GM_Leisure,
 	.loaded_existing = false,
 	.shuffles = 0,
-	.dirty = true,
+	.dirty = false,
 	.dead = false,
 	.number_stats = {0},
 };
@@ -64,8 +64,6 @@ void gamestate_undo(void) {
 }
 
 void gamestate_clear(void) {
-	game.dirty = true;
-
 	while (head) {
 		ChkNode *node = head;
 		head = node->prev;
@@ -88,8 +86,7 @@ void gamestate_traverse(void) {
 	printf("NULL\n");
 }
 
-void gamestate_gameover(void) {
-	overlay_switch("gameover");
+static void gamestate_finish(void) {
 	uint64_t identifier = savestate_read_identifier();
 	if (identifier == game.identifier) {
 		// destroy savestate
@@ -98,12 +95,12 @@ void gamestate_gameover(void) {
 	game.dead = true;
 }
 
+void gamestate_gameover(void) {
+	overlay_switch("gameover");
+	gamestate_finish();
+}
+
 void gamestate_success(void) {
 	overlay_switch("success");
-	uint64_t identifier = savestate_read_identifier();
-	if (identifier == game.identifier) {
-		// destroy savestate
-		savestate_delete();
-	}
-	game.dead = true;
+	gamestate_finish();
 }
