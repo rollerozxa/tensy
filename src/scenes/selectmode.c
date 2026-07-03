@@ -52,6 +52,14 @@ bool selectmode_event(const SDL_Event *ev) {
 	if (is_escaping(ev))
 		scene_switch("mainmenu");
 
+	if (has_savestate && button_event(ev, &continue_button)) {
+		savestate_load();
+		game.loaded_existing = true;
+		music_fade_out(1000);
+		scene_switch("game");
+		return true;
+	}
+
 	switch (ev->type) {
 		case SDL_EVENT_MOUSE_WHEEL:
 			xvel -= ev->wheel.y * 45;
@@ -89,14 +97,6 @@ bool selectmode_event(const SDL_Event *ev) {
 			if (ev->key.key == SDLK_9) select_mode_num(8);
 			if (ev->key.key == SDLK_0) select_mode_num(0);
 			return true;
-	}
-
-	if (has_savestate && button_event(ev, &continue_button)) {
-		savestate_load();
-		game.loaded_existing = true;
-		music_fade_out(1000);
-		scene_switch("game");
-		return true;
 	}
 
 	return false;
