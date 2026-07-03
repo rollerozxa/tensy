@@ -67,11 +67,19 @@ static void SDLCALL save_puzzle_level_cb(void *userdata, const char * const *fil
 		return;
 
 	const char *path = *filelist;
+	char *newpath = NULL;
 
-	SDL_IOStream *stream = SDL_IOFromFile(path, "w");
+	// If path does not end with ".tpz", append it
+	const char *ext = SDL_strrchr(path, '.');
+	if (!ext || SDL_strcasecmp(ext, ".tpz") != 0) {
+		SDL_asprintf(&newpath, "%s.tpz", path);
+	}
+
+	SDL_IOStream *stream = SDL_IOFromFile(newpath ? newpath : path, "w");
 	if (!stream) {
 		toast_show("Couldn't open file for writing", 3);
 		sound_play(SND_CLICK);
+		SDL_free(newpath);
 		return;
 	}
 
@@ -92,6 +100,7 @@ static void SDLCALL save_puzzle_level_cb(void *userdata, const char * const *fil
 
 	SDL_FlushIO(stream);
 	SDL_CloseIO(stream);
+	SDL_free(newpath);
 
 	sound_play(SND_WOOZY);
 	toast_show("Board saved", 3);
@@ -140,6 +149,15 @@ static void SDLCALL open_puzzle_level_cb(void *userdata, const char * const *fil
 	puzzle_editor_init();
 
 	READ_LINE();
+	int ver = atoi(line);
+
+	if (ver > 1) {
+		toast_show("Unsupported puzzle file version", 3);
+		SDL_CloseIO(stream);
+		return;
+	}
+
+	READ_LINE();
 	int w = atoi(line);
 
 	READ_LINE();
@@ -149,6 +167,7 @@ static void SDLCALL open_puzzle_level_cb(void *userdata, const char * const *fil
 	int cellsize = atoi(line);
 
 	if (w <= 0 || h <= 0 || w > MAX_W || h > MAX_H) {
+		toast_show("Invalid puzzle dimensions", 3);
 		SDL_CloseIO(stream);
 		return;
 	}
@@ -171,7 +190,7 @@ static void SDLCALL open_puzzle_level_cb(void *userdata, const char * const *fil
 
 static void save_or_open_puzzle_level(bool save) {
 	const SDL_DialogFileFilter filters[] = {
-		{ "Tensy puzzle", "puz" },
+		{ "Tensy puzzle", "tpz" },
 		{ "All files", "*" }
 	};
 

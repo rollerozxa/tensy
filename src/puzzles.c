@@ -103,6 +103,11 @@ void puzzles_load(void) {
 	for (int i = 0; i < levels; ++i) {
 		char *buf = puzzle_get_file(i);
 
+		int ver = atoi(next_line(&buf));
+		if (ver > 1) {
+			// don't know what to do here for now
+			continue;
+		}
 		int width = atoi(next_line(&buf));
 		int height = atoi(next_line(&buf));
 		float boardsize = (float)atoi(next_line(&buf)) / 10;
