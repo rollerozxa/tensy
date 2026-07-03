@@ -19,7 +19,10 @@ bool success_event(const SDL_Event *ev) {
 	if (button_event(ev, &exit_button) || is_escaping(ev)) {
 		overlay_hide();
 		if (game.mode == GM_Puzzle) {
-			scene_switch("puzzle_select");
+			if (game.testplaying_puzzle)
+				scene_switch("puzzle_editor");
+			else
+				scene_switch("puzzle_select");
 		} else {
 			scene_switch("selectmode");
 		}

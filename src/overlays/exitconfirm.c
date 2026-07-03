@@ -1,6 +1,7 @@
 #include "color.h"
 #include "consts.h"
 #include "draw.h"
+#include "gamestate.h"
 #include "gui/button.h"
 #include "input.h"
 #include "overlay.h"
@@ -24,7 +25,14 @@ bool exitconfirm_event(const SDL_Event *ev) {
 
 	if (button_event(ev, &exit_button)) {
 		overlay_hide();
-		scene_switch("mainmenu");
+		if (game.mode == GM_Puzzle) {
+			if (game.testplaying_puzzle)
+				scene_switch("puzzle_editor");
+			else
+				scene_switch("puzzle_select");
+		} else
+			scene_switch("mainmenu");
+
 		return true;
 	}
 

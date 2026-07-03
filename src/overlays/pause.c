@@ -43,7 +43,13 @@ bool pause_event(const SDL_Event *ev) {
 			overlay_switch("exitconfirm");
 		else {
 			overlay_hide();
-			scene_switch("mainmenu");
+			if (game.mode == GM_Puzzle) {
+				if (game.testplaying_puzzle)
+					scene_switch("puzzle_editor");
+				else
+					scene_switch("puzzle_select");
+			} else
+				scene_switch("mainmenu");
 		}
 
 		return true;

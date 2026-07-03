@@ -281,6 +281,12 @@ static bool puzzle_editor_event(const SDL_Event *ev) {
 		break;
 	}
 
+	if (button_event(ev, &btn_new)) {
+		reset_board();
+		sel = (SDL_Point){0, 0};
+		return true;
+	}
+
 	if (button_event(ev, &btn_open)) {
 		save_or_open_puzzle_level(false);
 		return true;
@@ -288,6 +294,14 @@ static bool puzzle_editor_event(const SDL_Event *ev) {
 
 	if (button_event(ev, &btn_save)) {
 		save_or_open_puzzle_level(true);
+		return true;
+	}
+
+	if (button_event(ev, &btn_play)) {
+		game.puzzle_id = -1;
+		game.puzzle = &puzzle;
+		game.testplaying_puzzle = true;
+		scene_switch("game");
 		return true;
 	}
 

@@ -20,6 +20,7 @@ typedef struct {
 	uint64_t identifier;
 	int puzzle_id;
 	Puzzle *puzzle;
+	bool testplaying_puzzle;
 } Game;
 
 // Smaller state struct used for undo history

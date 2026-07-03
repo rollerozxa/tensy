@@ -511,6 +511,10 @@ void game_draw(void) {
 
 		draw_fill_rect(&progbar_rect);
 	}
+
+	if (game.testplaying_puzzle) {
+		text_draw_shadow_centered("Testplaying mode", &RECT(0, 0, SCREEN_W, 30), 2);
+	}
 }
 
 Scene game_scene = {
