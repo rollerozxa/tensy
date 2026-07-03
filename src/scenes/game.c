@@ -212,6 +212,8 @@ void game_init(void) {
 		board.physics = current_gamemode().gravity_mode == GRA_Always;
 
 	game.shuffles = current_gamemode().unlimited_shuffles ? -1 : 3;
+	if (game.mode == GM_Puzzle)
+		game.shuffles = 0;
 
 	game.score = 0;
 	game.dead = false;
