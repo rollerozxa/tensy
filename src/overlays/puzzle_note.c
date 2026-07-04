@@ -3,6 +3,7 @@
 #include "draw.h"
 #include "gui/button.h"
 #include "input.h"
+#include "media/music.h"
 #include "overlay.h"
 #include "scene.h"
 #include "text.h"
@@ -22,6 +23,7 @@ bool puzzle_note_event(const SDL_Event *ev) {
 	if (button_event(ev, &ok_button)) {
 		overlay_hide();
 		scene_switch("puzzle_editor");
+		music_fade_out(1000);
 		return true;
 	}
 
