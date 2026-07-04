@@ -227,7 +227,7 @@ static void save_or_open_puzzle_level(bool save) {
 			SDL_GetBasePath(), false);
 }
 
-#define CELL 30.0f
+#define CELL 10.0f * puzzle.boardsize
 
 static bool puzzle_editor_event(const SDL_Event *ev) {
 	if (is_escaping(ev)) {
@@ -251,8 +251,8 @@ static bool puzzle_editor_event(const SDL_Event *ev) {
 		float gx = (SCREEN_W - grid_w) / 2.0f;
 		float gy = (SCREEN_H - grid_h) / 2.0f;
 		if (SDL_PointInRectFloat(&POINT(mouse.x, mouse.y), &RECT(gx, gy, grid_w, grid_h))) {
-			int cx = (int)((mouse.x - gx) / CELL);
-			int cy = (int)((mouse.y - gy) / CELL);
+			int cx = (int)((mouse.x - gx) / (CELL));
+			int cy = (int)((mouse.y - gy) / (CELL));
 			if (cx >= 0 && cx < puzzle.width && cy >= 0 && cy < puzzle.height)
 				sel = (SDL_Point){cx, cy};
 
@@ -278,10 +278,12 @@ static bool puzzle_editor_event(const SDL_Event *ev) {
 
 		// Page up/down with SHIFT change size by 0.5
 		if (key == SDLK_PAGEUP) {
-			// TODO
+			puzzle.boardsize += 0.5f;
+			puzzle.boardsize = SDL_min(puzzle.boardsize, 4.0f);
 		}
 		if (key == SDLK_PAGEDOWN) {
-			// TODO
+			puzzle.boardsize -= 0.5f;
+			puzzle.boardsize = SDL_max(puzzle.boardsize, 1.0f);
 		}
 
 		// Arrow keys
@@ -381,7 +383,7 @@ static void puzzle_editor_draw(void) {
 
 	for (int y = 0; y < puzzle.height; y++) {
 		for (int x = 0; x < puzzle.width; x++) {
-			SDL_FRect cellrect = RECT(gx + x*CELL, gy + y*CELL, CELL-2, CELL-2);
+			SDL_FRect cellrect = RECT(gx + x*CELL+1, gy + y*CELL+1, CELL-2, CELL-2);
 			draw_set_color((x == sel.x && y == sel.y) ? 0x303080 : 0x303030);
 			draw_fill_rect(&cellrect);
 
@@ -390,7 +392,7 @@ static void puzzle_editor_draw(void) {
 				continue;
 
 			font_set_color(color_numbers((int)(v - '0')));
-			font_draw_char_shadow(v, cellrect.x + 3, cellrect.y - 2, 3);
+			font_draw_char_shadow(v, cellrect.x + puzzle.boardsize, cellrect.y - 2, puzzle.boardsize);
 		}
 	}
 
