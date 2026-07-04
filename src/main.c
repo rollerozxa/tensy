@@ -25,6 +25,8 @@
 SDL_Window *window;
 SDL_Renderer *renderer;
 
+bool rec_calibrator = false;
+
 #if !EMBEDDED_DATA
 bool can_access_data(void) {
 	char path[512] = {0};
@@ -62,6 +64,9 @@ SDL_AppResult SDL_AppInit(void **rustptr, int argc, char **argv) {
 
 	if (argc > 1 && strncmp(argv[1], "-unblur", 7) == 0)
 		textures_force_nearest(true);
+
+	if (argc > 1 && strncmp(argv[1], "-rec", 4) == 0)
+		rec_calibrator = true;
 
 	SDL_WindowFlags windowflags = 0;
 #ifdef WINDOW_RESIZABLE

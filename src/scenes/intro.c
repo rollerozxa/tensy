@@ -8,14 +8,28 @@
 
 static float intro_timer = 0;
 
+extern bool rec_calibrator;
+
+static bool hidden = false;
+
 void intro_init(void) {
 	intro_timer = 0;
-	music_play(MUS_MAINMENU, -1);
+
+	if (rec_calibrator)
+		hidden = true;
+
+	if (!hidden)
+		music_play(MUS_MAINMENU, -1);
 }
 
 bool intro_event(const SDL_Event *ev) {
 	if (ev->type == SDL_EVENT_KEY_DOWN && ev->key.scancode == SDL_SCANCODE_ESCAPE) {
-		scene_switch("mainmenu");
+		if (hidden) {
+			hidden = false;
+			music_play(MUS_MAINMENU, -1);
+		} else
+			scene_switch("mainmenu");
+
 		return true;
 	}
 
@@ -23,6 +37,12 @@ bool intro_event(const SDL_Event *ev) {
 }
 
 void intro_update(float dt) {
+	if (hidden) {
+		draw_set_color(0x0);
+		draw_fill_rect(&FULL_RECT());
+		return;
+	}
+
 	if (scene_is_transitioning())
 		return;
 
@@ -33,6 +53,12 @@ void intro_update(float dt) {
 }
 
 void intro_draw(void) {
+	if (hidden) {
+		draw_set_color(0x0);
+		draw_fill_rect(&FULL_RECT());
+		return;
+	}
+
 	draw_texture(TEX_INTRO_RACCOON, NULL, &FULL_RECT());
 	draw_texture(TEX_INTRO_TEXT, NULL, &FULL_RECT());
 }
