@@ -73,6 +73,13 @@ SDL_AppResult SDL_AppInit(void **rustptr, int argc, char **argv) {
 	windowflags |= SDL_WINDOW_RESIZABLE;
 #endif
 
+#ifdef ALWAYS_FULLSCREEN
+	if (true)
+#else
+	if (settings_getflag(FLAG_FULLSCREEN))
+#endif
+		windowflags |= SDL_WINDOW_FULLSCREEN;
+
 	SDL_CreateWindowAndRenderer(
 		APP_NAME,
 		WINDOW_W, WINDOW_H,
@@ -93,13 +100,6 @@ SDL_AppResult SDL_AppInit(void **rustptr, int argc, char **argv) {
 	if (strcmp(SDL_GetRendererName(renderer), "opengl") == 0)
 		textures_force_nearest(true);
 #endif
-
-#ifdef ALWAYS_FULLSCREEN
-	if (true)
-#else
-	if (settings_getflag(FLAG_FULLSCREEN))
-#endif
-		SDL_SetWindowFullscreen(window, true);
 
 	renderer_set_logical_presentation();
 
