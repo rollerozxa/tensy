@@ -50,6 +50,7 @@ bool puzzle_select_event(const SDL_Event *ev) {
 			// Start game with the selected puzzle
 			game.puzzle_id = i;
 			game.puzzle = &puzzles()[i];
+			game.testplaying_puzzle = false;
 			scene_switch("game");
 			return true;
 		}

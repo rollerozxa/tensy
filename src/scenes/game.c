@@ -195,6 +195,9 @@ void game_init(void) {
 
 	game.dirty = true;
 
+	if (game.mode != GM_Puzzle)
+		game.testplaying_puzzle = false;
+
 	if (game.loaded_existing) {
 		game.dirty = false;
 		game.loaded_existing = false;
