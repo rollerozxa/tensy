@@ -1,6 +1,7 @@
 #include "board.h"
 #include "color.h"
 #include "consts.h"
+#include "datetime.h"
 #include "draw.h"
 #include "font.h"
 #include "gamemode.h"
@@ -12,6 +13,7 @@
 #include "media/sound.h"
 #include "media/textures.h"
 #include "overlay.h"
+#include "power.h"
 #include "savestate.h"
 #include "scene.h"
 #include "text.h"
@@ -440,6 +442,36 @@ void game_update(float dt) {
 	}
 }
 
+static void draw_time_n_battery(void) {
+	char time_str[6];
+	SDL_DateTime now = datetime_now();
+	snprintf(time_str, sizeof(time_str), "%02d%c%02d",
+		now.hour,
+		(now.second % 2 == 0) ? ':' : ' ',
+		now.minute);
+
+	SDL_FRect rect = text_calc_rect(time_str, 2);
+
+	rect.w += 10;
+	rect.x = (SCREEN_W - rect.w) / 2;
+	rect.h = 30;
+	rect.y = 0;
+
+	if (power_has_battery())
+		rect.w += 44;
+
+	draw_set_blend(true);
+	draw_set_color_alpha(0xFFFFFF30);
+	draw_fill_rect(&rect);
+	draw_set_color(0xFFFFFF);
+	draw_set_blend(false);
+
+	text_draw_shadow_centered(time_str, &RECT(0, 0, SCREEN_W, 30), 2);
+
+	if (power_has_battery())
+		power_draw(&(SDL_FPoint){(int)(SCREEN_W / 2) + 42, 6});
+}
+
 void game_draw(void) {
 	SDL_FPoint first_held_point = board_to_screen_coord(&board, first_held_pos.x, first_held_pos.y);
 	SDL_FPoint current_held_point = board_to_screen_coord(&board, current_held_pos.x, current_held_pos.y);
@@ -522,6 +554,10 @@ void game_draw(void) {
 
 	if (game.testplaying_puzzle) {
 		text_draw_shadow_centered("Testplaying mode", &RECT(0, 0, SCREEN_W, 30), 2);
+	} else {
+		// Draw a 24 hour digital clock in the top center, with a blinking colon every second
+		if (settings_getflag(FLAG_CLOCK))
+			draw_time_n_battery();
 	}
 }
 

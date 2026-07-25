@@ -20,7 +20,8 @@ typedef enum {
 	FLAG_REDUCED_MOTION,
 	FLAG_MUSIC,
 	FLAG_PIXEL_PERFECT,
-	FLAG_DISABLE_GAMEPAD
+	FLAG_DISABLE_GAMEPAD,
+	FLAG_CLOCK,
 } SettingFlags;
 
 Settings *settings(void);
