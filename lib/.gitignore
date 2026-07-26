@@ -1,4 +1,5 @@
 libxmp
 SDL
 SDL_mixer
+SDL-switch
 *.tar.gz

@@ -46,13 +46,14 @@
  * - SDL_PLATFORM_EMSCRIPTEN
  * - SDL_PLATFORM_HAIKU
  * - SDL_PLATFORM_VITA
+ * - SDL_PLATFORM_SWITCH
  */
 
-#if defined(SDL_PLATFORM_ANDROID) || defined(SDL_PLATFORM_VITA)
+#if defined(SDL_PLATFORM_ANDROID) || defined(SDL_PLATFORM_VITA) || defined(SDL_PLATFORM_SWITCH)
 	#define ALWAYS_FULLSCREEN true
 #endif
 
-#if !defined(SDL_PLATFORM_EMSCRIPTEN) && !defined(SDL_PLATFORM_ANDROID) && !defined(SDL_PLATFORM_VITA)
+#if !defined(SDL_PLATFORM_EMSCRIPTEN) && !defined(SDL_PLATFORM_ANDROID) && !defined(SDL_PLATFORM_VITA) && !defined(SDL_PLATFORM_SWITCH)
 	#define WINDOW_RESIZABLE true
 #endif
 
@@ -64,6 +65,6 @@
 	#define SUPPORTS_PIXEL_PERFECT true
 #endif
 
-#if defined(SDL_PLATFORM_VITA)
+#if defined(SDL_PLATFORM_VITA) || defined(SDL_PLATFORM_SWITCH)
 	#define ALWAYS_GAMEPAD true
 #endif

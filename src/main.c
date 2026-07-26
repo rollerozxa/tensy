@@ -80,6 +80,10 @@ SDL_AppResult SDL_AppInit(void **rustptr, int argc, char **argv) {
 #endif
 		windowflags |= SDL_WINDOW_FULLSCREEN;
 
+#ifdef SDL_PLATFORM_SWITCH
+	windowflags |= SDL_WINDOW_OPENGL;
+#endif
+
 	SDL_CreateWindowAndRenderer(
 		APP_NAME,
 		WINDOW_W, WINDOW_H,
@@ -90,6 +94,8 @@ SDL_AppResult SDL_AppInit(void **rustptr, int argc, char **argv) {
 		FMT_STRING(msg, 1024, "Failed to start the game. Error: %s", error);
 
 		SDL_HideWindow(window);
+
+		SDL_Log("Failed to start the game. Error: %s", error);
 		SDL_ShowSimpleMessageBox(SDL_MESSAGEBOX_ERROR, APP_NAME, msg, NULL);
 		return SDL_APP_FAILURE;
 	}

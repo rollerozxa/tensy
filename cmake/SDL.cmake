@@ -1,11 +1,22 @@
 
-set(DEP_SDL_VER "4fe0d8c1cd132d6fde0518640fff316afb67270c")
-download_dep_tarball(
-	"SDL"
-	"${DEP_SDL_VER}"
-	"https://github.com/libsdl-org/SDL/archive/${DEP_SDL_VER}.tar.gz"
-	"e36c6f4cdaad5cd53d3f5bb7589f4504d2a23ae95636e39d3776ae6bb27f440f"
-)
+if(NINTENDO_SWITCH)
+	set(DEP_SDL_VER "69c1e47162c0951f952ca420cf5eb8d51cce88f1")
+	download_dep_tarball(
+		"SDL-switch"
+		"${DEP_SDL_VER}"
+		"https://github.com/rollerozxa/SDL/archive/${DEP_SDL_VER}.tar.gz"
+		"SKIP"
+	)
+else()
+	set(DEP_SDL_VER "4fe0d8c1cd132d6fde0518640fff316afb67270c")
+	download_dep_tarball(
+		"SDL"
+		"${DEP_SDL_VER}"
+		"https://github.com/libsdl-org/SDL/archive/${DEP_SDL_VER}.tar.gz"
+		"e36c6f4cdaad5cd53d3f5bb7589f4504d2a23ae95636e39d3776ae6bb27f440f"
+	)
+endif()
+
 set(SDL_SHARED OFF CACHE BOOL "" FORCE)
 set(SDL_STATIC ON CACHE BOOL "" FORCE)
 
@@ -33,6 +44,10 @@ endif()
 
 if(NOT NINTENDO_3DS)
 	add_definitions(-DSDL_LEAN_AND_MEAN=1)
+endif()
+
+if(NINTENDO_SWITCH)
+	add_definitions(-DSDL_HAVE_STB=1)
 endif()
 
 add_subdirectory(lib/SDL EXCLUDE_FROM_ALL)

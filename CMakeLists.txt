@@ -99,6 +99,8 @@ if(VITA)
 	install(FILES "${CMAKE_BINARY_DIR}/tensy.vpk" DESTINATION .)
 elseif(NINTENDO_3DS)
 	ctr_create_3dsx(${PROJ})
+elseif(NINTENDO_SWITCH)
+	nx_create_nro(${PROJ})
 elseif(APPLE)
 	set(BUNDLE_PATH "${PROJ}.app/Contents")
 
