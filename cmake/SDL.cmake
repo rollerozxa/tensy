@@ -48,6 +48,8 @@ endif()
 
 if(NINTENDO_SWITCH)
 	add_definitions(-DSDL_HAVE_STB=1)
+	
+	add_subdirectory(lib/SDL-switch EXCLUDE_FROM_ALL)
+else()
+	add_subdirectory(lib/SDL EXCLUDE_FROM_ALL)
 endif()
-
-add_subdirectory(lib/SDL EXCLUDE_FROM_ALL)
