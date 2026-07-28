@@ -7,6 +7,9 @@ void fileio_pref_path(char *buf, size_t bufsize, const char *filename) {
 	if (buf[0] != '\0')
 		return;
 
-	strncpy(buf, SDL_GetPrefPath(APP_ORG, APP_NAME), bufsize - 1);
+	char *pref_path = SDL_GetPrefPath(APP_ORG, APP_NAME);
+	strncpy(buf, pref_path, bufsize - 1);
 	strncat(buf, filename, bufsize - 1);
+
+	SDL_free(pref_path);
 }

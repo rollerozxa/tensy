@@ -36,14 +36,20 @@ SDL_ScaleMode textures_get_scalemode(void) {
 }
 
 #define LOAD_TEX(id, data, path) \
-	texture_bank[id] = SDL_CreateTextureFromSurface(renderer, ASSETLOADER_PNG(data, path)); \
+	surface = ASSETLOADER_PNG(data, path); \
+	texture_bank[id] = SDL_CreateTextureFromSurface(renderer, surface); \
+	SDL_DestroySurface(surface); \
 	SDL_SetTextureScaleMode(texture_bank[id], textures_get_scalemode())
 
 #define LOAD_TEX_LIN(id, data, path) \
-	texture_bank[id] = SDL_CreateTextureFromSurface(renderer, ASSETLOADER_PNG(data, path)); \
+	surface = ASSETLOADER_PNG(data, path); \
+	texture_bank[id] = SDL_CreateTextureFromSurface(renderer, surface); \
+	SDL_DestroySurface(surface); \
 	SDL_SetTextureScaleMode(texture_bank[id], SDL_SCALEMODE_LINEAR)
 
 void textures_init(SDL_Renderer *renderer) {
+	SDL_Surface *surface;
+
 	LOAD_TEX(TEX_BG_STRIPES, background_stripes_png, "background_stripes.png");
 	LOAD_TEX(TEX_CHECK, check_png, "check.png");
 	LOAD_TEX(TEX_CLOCK, clock_png, "clock.png");

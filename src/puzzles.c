@@ -12,7 +12,7 @@ static char *read_all_from_io(SDL_IOStream *io, size_t *out_size) {
 	Sint64 size = SDL_SeekIO(io, 0, SDL_IO_SEEK_END);
 
 	SDL_SeekIO(io, 0, SDL_IO_SEEK_SET);
-	char *buf = malloc(size + 1);
+	char *buf = SDL_malloc(size + 1);
 
 	size_t got = SDL_ReadIO(io, buf, size);
 	buf[got] = '\0';
@@ -102,6 +102,7 @@ void puzzles_load(void) {
 
 	for (int i = 0; i < levels; ++i) {
 		char *buf = puzzle_get_file(i);
+		char *start = buf;
 
 		int ver = atoi(next_line(&buf));
 		if (ver > 1) {
@@ -120,6 +121,8 @@ void puzzles_load(void) {
 			SDL_memcpy(row, ln, copylen);
 			board[r] = row;
 		}
+
+		SDL_free(start);
 
 		puzs[i].board = board;
 		puzs[i].boardsize = boardsize;

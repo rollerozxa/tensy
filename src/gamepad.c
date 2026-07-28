@@ -24,6 +24,7 @@ SDL_Gamepad *gamepad_find(void) {
 	SDL_JoystickID *gamepads = SDL_GetGamepads(&num_gamepads);
 	for (int i = 0; i < num_gamepads; i++)
 		return SDL_OpenGamepad(gamepads[i]);
+	SDL_free(gamepads);
 
 	return NULL;
 }

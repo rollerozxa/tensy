@@ -13,10 +13,10 @@
 
 	#define EMBEDDED_DATA false
 #else
-	#define ASSETLOADER_MUSIC(data, path) MIX_LoadAudio_IO(mixer, SDL_IOFromMem(data, data##_len), false, false)
-	#define ASSETLOADER_SOUND(data, path) MIX_LoadAudio_IO(mixer, SDL_IOFromMem(data, data##_len), true, false)
+	#define ASSETLOADER_MUSIC(data, path) MIX_LoadAudio_IO(mixer, SDL_IOFromMem(data, data##_len), false, true)
+	#define ASSETLOADER_SOUND(data, path) MIX_LoadAudio_IO(mixer, SDL_IOFromMem(data, data##_len), true, true)
 	#define ASSETLOADER_QOI(data, path) SDL_LoadQOI_IO(SDL_IOFromMem(data, data##_len))
-	#define ASSETLOADER_PNG(data, path) SDL_LoadPNG_IO(SDL_IOFromMem(data, data##_len), false)
+	#define ASSETLOADER_PNG(data, path) SDL_LoadPNG_IO(SDL_IOFromMem(data, data##_len), true)
 
 	#define EMBEDDED_DATA true
 #endif
