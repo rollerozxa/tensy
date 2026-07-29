@@ -78,6 +78,9 @@ static bool do_move(void) {
 
 	for (size_t x = fminf(first_held_pos.x, current_held_pos.x); x <= fmaxf(current_held_pos.x, first_held_pos.x); x++) {
 	for (size_t y = fminf(first_held_pos.y, current_held_pos.y); y <= fmaxf(current_held_pos.y, first_held_pos.y); y++) {
+		if (board.p[x][y].removed)
+			continue;
+
 		board.p[x][y].removed = true;
 		removed_cells++;
 		game.number_stats[board.p[x][y].number - 1]++;
