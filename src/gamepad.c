@@ -21,12 +21,14 @@ bool gamepad_enabled(void) {
 
 SDL_Gamepad *gamepad_find(void) {
 	int num_gamepads;
+
+	SDL_Gamepad *gamepad = NULL;
 	SDL_JoystickID *gamepads = SDL_GetGamepads(&num_gamepads);
 	for (int i = 0; i < num_gamepads; i++)
-		return SDL_OpenGamepad(gamepads[i]);
-	SDL_free(gamepads);
+		gamepad = SDL_OpenGamepad(gamepads[i]);
 
-	return NULL;
+	SDL_free(gamepads);
+	return gamepad;
 }
 
 void gamepad_handle_hotswap(const SDL_Event *ev) {
