@@ -2,19 +2,28 @@
 #include "consts.h"
 #include "draw.h"
 #include "gui/button.h"
+#include "gui/hyperlink.h"
 #include "overlay.h"
 #include "text.h"
 
 static Button back_button;
 
+static Hyperlink puzzle_link;
+
 void puzzle_editor_help_init(void) {
-	BUTTON(back_button, RECT(CENTER(SCREEN_W, 140), SCREEN_H - 50, 140, 40), "Back");
+	BUTTON(back_button, RECT(420, SCREEN_H - 50, 140, 40), "Back");
+	HYPERLINK(puzzle_link, POINT(80, 315), "tensy.voxelmanip.se/puzzles");
 }
 
 bool puzzle_editor_help_event(const SDL_Event *ev) {
 	if (button_event(ev, &back_button)) {
 		overlay_hide();
 		return true;
+	}
+
+	if (hyperlink_event(ev, &puzzle_link)) {
+		// Handle hyperlink click event
+		SDL_OpenURL("https://tensy.voxelmanip.se/puzzles");
 	}
 
 	return false;
@@ -51,6 +60,8 @@ void puzzle_editor_help_draw(void) {
 	}
 
 	button(&back_button);
+
+	hyperlink(&puzzle_link);
 }
 
 Overlay puzzle_editor_help_overlay = {
