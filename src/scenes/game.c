@@ -248,14 +248,14 @@ static void begin_move(void) {
 }
 
 bool game_event(const SDL_Event *ev) {
+	if (overlay_exists())
+		return false;
+
 	#define CELL_X (ev->motion.x - board.rect.x) / board.cell_size
 	#define CELL_Y (ev->motion.y - board.rect.y) / board.cell_size
 
 	int cx = CELL_X;
 	int cy = CELL_Y;
-
-	if (overlay_exists())
-		return false;
 
 	switch (ev->type) {
 		case SDL_EVENT_MOUSE_BUTTON_DOWN:

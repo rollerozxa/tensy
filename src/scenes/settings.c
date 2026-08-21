@@ -121,8 +121,10 @@ bool settings_event(const SDL_Event *ev) {
 	}
 
 	if (ev->type == SDL_EVENT_KEY_UP && ev->key.key == SDLK_U && (ev->key.mod & SDL_KMOD_CTRL)) {
-		SDL_OpenURL(SDL_GetPrefPath(APP_ORG, APP_NAME));
+		char *path = SDL_GetPrefPath(APP_ORG, APP_NAME);
+		SDL_OpenURL(path);
 		toast_show("Opening save data folder...", 3);
+		SDL_free(path);
 		return true;
 	}
 
