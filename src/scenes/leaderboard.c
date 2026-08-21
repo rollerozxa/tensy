@@ -56,8 +56,6 @@ void leaderboard_draw(void) {
 
 		SDL_FPoint row = { rect.x + 20, rect.y + 5 };
 
-		//char text[16];
-		//snprintf(text, 511, "%d. %lu", i+1, highscores()[i].score);
 		if ((i+1) > 9)
 			row.x -= 12;
 

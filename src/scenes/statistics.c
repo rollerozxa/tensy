@@ -51,34 +51,23 @@ void statistics_draw(void) {
 	for (int i = 0; i < 3; i++)
 		draw_fill_rect(&RECT(20, 60 + i * 50, SCREEN_W - 40, 40));
 
-	{
-		char formatted[64], label[96];
-		datetime_formatduration(settings()->playtime, formatted, sizeof(formatted));
-		snprintf(label, sizeof(label), "Total playtime: %s", formatted);
+	char label[96], formatted[64];
 
-		text_draw_shadow(label, 30, 68, 2);
-	}
+	datetime_formatduration(settings()->playtime, formatted, sizeof(formatted));
+	FMT_STATIC(label, "Total playtime: %s", formatted);
+	text_draw_shadow(label, 30, 68, 2);
 
-	{
-		char label[96];
-		snprintf(label, sizeof(label), "Total numbers removed: %" SDL_PRIu64, settings()->numbers_removed);
+	FMT_STATIC(label, "Total numbers removed: %" SDL_PRIu64, settings()->numbers_removed);
+	text_draw_shadow(label, 30, 118, 2);
 
-		text_draw_shadow(label, 30, 118, 2);
-	}
-
-	{
-		char label[96];
-		snprintf(label, sizeof(label), "Total score accumulated: %" SDL_PRIu64, settings()->total_accumulated_score);
-
-		text_draw_shadow(label, 30, 168, 2);
-	}
+	FMT_STATIC(label, "Total score accumulated: %" SDL_PRIu64, settings()->total_accumulated_score);
+	text_draw_shadow(label, 30, 168, 2);
 
 	button(&leaderboard_button);
 
 	button(&numbers_button);
 
 	button(&ok_button);
-
 }
 
 Scene statistics_scene = {

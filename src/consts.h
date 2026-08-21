@@ -31,7 +31,10 @@
 
 #define FMT_STRING(buf, size, fmt, ...) \
 	char (buf)[(size)]; \
-	snprintf((buf), (size), (fmt), ##__VA_ARGS__)
+	SDL_snprintf((buf), (size), (fmt), ##__VA_ARGS__)
+
+#define FMT_STATIC(buf, fmt, ...) \
+	SDL_snprintf((buf), sizeof((buf)), (fmt), ##__VA_ARGS__)
 
 #define STR(x) SDL_STRINGIFY_ARG(x)
 

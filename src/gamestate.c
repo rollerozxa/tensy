@@ -79,11 +79,11 @@ void gamestate_traverse(void) {
 	ChkNode *node = head;
 
 	while (node != NULL) {
-		printf("%d <- ", node->checkpoint.score);
+		SDL_Log("%d <- ", node->checkpoint.score);
 		node = node->prev;
 	}
 
-	printf("NULL\n");
+	SDL_Log("NULL\n");
 }
 
 static void gamestate_finish(void) {

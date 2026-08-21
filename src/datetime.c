@@ -31,7 +31,7 @@ void datetime_formatduration(double seconds_d, char *out, size_t outlen) {
 		seconds = seconds % units[i].sec;
 		size_t used = strlen(out);
 
-		snprintf(out + used, outlen - used, "%lu%s", value, units[i].suf);
+		SDL_snprintf(out + used, outlen - used, "%lu%s", value, units[i].suf);
 
 		parts++;
 		if (parts == 2)

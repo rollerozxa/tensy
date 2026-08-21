@@ -36,7 +36,7 @@ unsigned int parse_hex_color_bitpack(const char *hex) {
 
 void color_to_hex6(unsigned int color, char *out) {
 	SDL_Color c = color_bitpack_to_sdl(color);
-	snprintf(out, 7, "%02X%02X%02X", c.r, c.g, c.b);
+	SDL_snprintf(out, 7, "%02X%02X%02X", c.r, c.g, c.b);
 	out[6] = '\0';
 }
 

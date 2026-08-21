@@ -105,8 +105,7 @@ void customize_colors_draw(void) {
 		draw_fill_rect(&RECT(r.x + 2, r.y + 2, r.w - 4, r.h - 4));
 
 		// label
-		char label[8];
-		snprintf(label, sizeof(label), "#%d", i + 1);
+		FMT_STRING(label, 8, "#%d", i + 1);
 		text_draw_shadow(label, r.x + r.w + 8, r.y + 8, 2);
 	}
 

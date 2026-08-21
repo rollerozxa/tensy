@@ -30,7 +30,7 @@ bool rec_calibrator = false;
 #if !EMBEDDED_DATA
 bool can_access_data(void) {
 	char path[512] = {0};
-	snprintf(path, sizeof(path), PREFIX "textures/check.png");
+	FMT_STATIC(path, PREFIX "textures/check.png");
 	return access(path, F_OK) == 0;
 }
 #endif

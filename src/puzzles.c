@@ -80,8 +80,7 @@ int puzzle_get_count(void) {
 char *puzzle_get_file(int index) {
 
 #ifdef ASSETLOADER_LOOSE
-	char path[256];
-	snprintf(path, sizeof(path), PREFIX "puzzles/lvl_%d.puz", index);
+	FMT_STRING(path, 256, PREFIX "puzzles/lvl_%d.puz", index);
 	SDL_IOStream *io = SDL_IOFromFile(path, "rb");
 #else
 	SDL_IOStream *io = SDL_IOFromMem(puzzle_files[index], puzzle_file_sizes[index]);

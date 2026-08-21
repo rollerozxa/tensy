@@ -449,7 +449,7 @@ void game_update(float dt) {
 static void draw_time_n_battery(void) {
 	char time_str[6];
 	SDL_DateTime now = datetime_now();
-	snprintf(time_str, sizeof(time_str), "%02d%c%02d",
+	FMT_STATIC(time_str, "%02d%c%02d",
 		now.hour,
 		(now.second % 2 == 0) ? ':' : ' ',
 		now.minute);
