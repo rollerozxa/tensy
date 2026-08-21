@@ -1,6 +1,5 @@
 #include "gamesettings.h"
 #include "fileio.h"
-#include <stdio.h>
 
 #define DEFAULT_FLAGS \
 	  (1ULL << FLAG_SOUND) \
@@ -32,7 +31,7 @@ void settings_toggleflag(SettingFlags flag) {
 	settings_data.flags = settings_data.flags ^ (1ULL << flag);
 }
 
-static const char filever = 1;
+static const uint8_t filever = 1;
 
 static char settings_file[512];
 
@@ -52,46 +51,45 @@ void settings_savetimer(float dt) {
 bool settings_load(void) {
 	fileio_pref_path(settings_file, sizeof(settings_file), "settings.dat");
 
-	FILE *fp = fopen(settings_file, "rb");
-	if (!fp)
+	SDL_IOStream *io = SDL_IOFromFile(settings_file, "rb");
+	if (!io)
 		return false;
 
-	char tmp;
-	READ_CHAR(tmp);
+	uint8_t tmp;
+	READ_BYTE(tmp);
 	if (tmp != filever)
 		return false; // uhh
 
-	READ_INT(settings_data.flags);
+	READ_UINT(settings_data.flags);
 	READ_DOUBLE(settings_data.playtime);
 	READ_LONG(settings_data.numbers_removed);
 	READ_LONG(settings_data.total_accumulated_score);
 	READ_STRING(settings_data.last_username, 12);
 
 	for (int i = 0; i < 9; ++i)
-		READ_INT(settings_data.numbers[i]);
+		READ_UINT(settings_data.numbers[i]);
 
-	fclose(fp);
+	SDL_CloseIO(io);
 
 	return true;
 }
 
 bool settings_save(void) {
-
-	FILE *fp = fopen(settings_file, "wb");
-	if (!fp)
+	SDL_IOStream *io = SDL_IOFromFile(settings_file, "wb");
+	if (!io)
 		return false;
 
-	WRITE_CHAR(filever);
-	WRITE_INT(settings_data.flags);
+	WRITE_BYTE(filever);
+	WRITE_UINT(settings_data.flags);
 	WRITE_DOUBLE(settings_data.playtime);
 	WRITE_LONG(settings_data.numbers_removed);
 	WRITE_LONG(settings_data.total_accumulated_score);
 	WRITE_STRING(settings_data.last_username, 12);
 
 	for (int i = 0; i < 9; ++i)
-		WRITE_INT(settings_data.numbers[i]);
+		WRITE_UINT(settings_data.numbers[i]);
 
-	fclose(fp);
+	SDL_CloseIO(io);
 
 	return true;
 }

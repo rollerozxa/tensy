@@ -100,7 +100,7 @@ void color_load_custom_numbers(void) {
 	char path[512] = {0};
 	fileio_pref_path(path, sizeof(path), "number_colors.txt");
 
-	FILE *f = fopen(path, "r");
+	SDL_IOStream *f = SDL_IOFromFile(path, "r");
 
 	if (!f) {
 		color_numbers_load((char *)default_colors);
@@ -108,8 +108,8 @@ void color_load_custom_numbers(void) {
 	}
 
 	char data[6 * 9 + 8]; // 9 colours of 6 hex digits + colons
-	fread(data, 1, sizeof(data), f);
-	fclose(f);
+	SDL_ReadIO(f, data, sizeof(data));
+	SDL_CloseIO(f);
 
 	color_numbers_load(data);
 }
@@ -118,7 +118,7 @@ void color_save_custom_numbers(void) {
 	char path[512] = {0};
 	fileio_pref_path(path, sizeof(path), "number_colors.txt");
 
-	FILE *f = fopen(path, "w");
+	SDL_IOStream *f = SDL_IOFromFile(path, "w");
 	if (!f) return;
 
 	char buf[8] = {0};
@@ -126,12 +126,12 @@ void color_save_custom_numbers(void) {
 		SDL_Color c = color_numbers(i);
 		unsigned int bp = color_sdl_to_bitpack(c);
 		color_to_hex6(bp, buf);
-		fputs(buf, f);
+		SDL_WriteIO(f, buf, strlen(buf));
 		if (i != COLOR_COUNT)
-			fputc(':', f);
+			SDL_WriteIO(f, ":", 1);
 	}
 
-	fclose(f);
+	SDL_CloseIO(f);
 }
 
 void color_numbers_reset(void) {

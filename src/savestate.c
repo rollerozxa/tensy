@@ -5,21 +5,21 @@
 #include <stdio.h>
 #include <unistd.h>
 
-static const char filever = 2;
+static const uint8_t filever = 2;
 
 static char statesave_file[512];
 
 bool savestate_exists(void) {
 	fileio_pref_path(statesave_file, sizeof(statesave_file), "savestate.bin");
 
-	FILE *fp = fopen(statesave_file, "r");
-	if (fp) {
-		char tmp;
-		READ_CHAR(tmp);
+	SDL_IOStream *io = SDL_IOFromFile(statesave_file, "rb");
+	if (io) {
+		uint8_t tmp;
+		READ_BYTE(tmp);
 		if (tmp != filever)
 			return false; // wrong version, pretend it doesn't exist
 
-		fclose(fp);
+		SDL_CloseIO(io);
 		return true;
 	}
 
@@ -27,11 +27,11 @@ bool savestate_exists(void) {
 }
 
 bool savestate_delete(void) {
-	FILE *file = fopen(statesave_file, "r");
-	if (file) {
+	SDL_IOStream *io = SDL_IOFromFile(statesave_file, "rb");
+	if (io) {
 		// Make sure we grabbed a file and not the user's home folder or something equally horrifying
-		fclose(file);
-		unlink(statesave_file);
+		SDL_CloseIO(io);
+		SDL_RemovePath(statesave_file);
 		return true;
 	}
 
@@ -39,16 +39,16 @@ bool savestate_delete(void) {
 }
 
 bool savestate_save(void) {
-	FILE *fp = fopen(statesave_file, "wb");
-	if (!fp)
+	SDL_IOStream *io = SDL_IOFromFile(statesave_file, "wb");
+	if (!io)
 		return false;
 
-	WRITE_CHAR(filever);
+	WRITE_BYTE(filever);
 	WRITE_LONG(game.identifier);
-	WRITE_INT(game.score);
+	WRITE_UINT(game.score);
 	WRITE_INT(game.mode);
-	WRITE_INT(game.time_left);
-	WRITE_INT(game.total_time);
+	WRITE_FLOAT(game.time_left);
+	WRITE_FLOAT(game.total_time);
 	WRITE_INT(game.board.w);
 	WRITE_INT(game.board.h);
 	WRITE_FLOAT(game.board.scale);
@@ -57,16 +57,16 @@ bool savestate_save(void) {
 	for (int x = 0; x < game.board.w; x++) {
 		for (int y = 0; y < game.board.h; y++) {
 			// MSB is used to store whether a cell has been removed
-			char packed = game.board.p[x][y].number
+			uint8_t packed = game.board.p[x][y].number
 					+ (game.board.p[x][y].removed << 7);
-			WRITE_CHAR(packed);
+			WRITE_BYTE(packed);
 		}
 	}
 
 	for (int i = 0; i < 9; i++)
 		WRITE_SHORT(game.number_stats[i]);
 
-	fclose(fp);
+	SDL_CloseIO(io);
 
 	game.dirty = false;
 
@@ -74,20 +74,22 @@ bool savestate_save(void) {
 }
 
 bool savestate_load(void) {
-	FILE *fp = fopen(statesave_file, "rb");
-	if (!fp)
+	SDL_IOStream *io = SDL_IOFromFile(statesave_file, "rb");
+	if (!io)
 		return false;
 
-	char tmp;
-	READ_CHAR(tmp);
+	uint8_t tmp;
+	READ_BYTE(tmp);
 	if (tmp != filever)
 		return false; // uhh
 
 	READ_LONG(game.identifier);
-	READ_INT(game.score);
-	READ_INT(game.mode);
-	READ_INT(game.time_left);
-	READ_INT(game.total_time);
+	READ_UINT(game.score);
+	int mode;
+	READ_INT(mode);
+	game.mode = (enum GameMode)mode;
+	READ_FLOAT(game.time_left);
+	READ_FLOAT(game.total_time);
 	READ_INT(game.board.w);
 	READ_INT(game.board.h);
 	READ_FLOAT(game.board.scale);
@@ -97,32 +99,35 @@ bool savestate_load(void) {
 	board_reset(&game.board);
 	for (int x = 0; x < game.board.w; x++) {
 		for (int y = 0; y < game.board.h; y++) {
-			char packed;
-			READ_CHAR(packed);
+			uint8_t packed;
+			READ_BYTE(packed);
 			// Unpack cell removed value from the MSB
 			game.board.p[x][y].number = packed & 0x7F;
 			game.board.p[x][y].removed = (packed & 0x80) != 0;
 		}
 	}
-	for (int i = 0; i < 9; i++)
-		READ_SHORT(game.number_stats[i]);
+	for (int i = 0; i < 9; i++) {
+		uint16_t stat;
+		READ_SHORT(stat);
+		game.number_stats[i] = stat;
+	}
 
-	fclose(fp);
+	SDL_CloseIO(io);
 
 	return true;
 }
 
 uint64_t savestate_read_identifier(void) {
-	FILE *fp = fopen(statesave_file, "rb");
-	if (!fp)
+	SDL_IOStream *io = SDL_IOFromFile(statesave_file, "rb");
+	if (!io)
 		return false;
 
-	char tmp;
-	READ_CHAR(tmp);
+	uint8_t tmp;
+	READ_BYTE(tmp);
 	if (tmp != filever)
 		return false; // uhh
 
 	uint64_t identifier;
-	fread(&identifier, sizeof(uint64_t), 1, fp);
+	READ_LONG(identifier);
 	return identifier;
 }

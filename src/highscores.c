@@ -30,7 +30,7 @@ void highscore_register(Game state, const char *name) {
 	highscores_file_save();
 }
 
-static const char filever = 3;
+static const uint8_t filever = 3;
 
 static char hs_filepath[512];
 
@@ -61,13 +61,13 @@ void highscores_clear(void) {
 }
 
 bool highscores_file_save(void) {
-	FILE *fp = fopen(hs_filepath, "wb");
-	if (!fp)
+	SDL_IOStream *io = SDL_IOFromFile(hs_filepath, "wb");
+	if (!io)
 		return false;
 
-	WRITE_CHAR(filever);
-	char gmc = gamemode_count;
-	WRITE_CHAR(gmc);
+	WRITE_BYTE(filever);
+	uint8_t gmc = gamemode_count;
+	WRITE_BYTE(gmc);
 
 	for (int i = 0; i < gamemode_count; i++) {
 		WRITE_INT(gamemodes[i].key);
@@ -81,7 +81,7 @@ bool highscores_file_save(void) {
 		}
 	}
 
-	fclose(fp);
+	SDL_CloseIO(io);
 
 	game.dirty = false;
 
@@ -95,18 +95,18 @@ bool highscores_file_load(void) {
 	//highscores_file_save();
 	//return true;
 
-	FILE *fp = fopen(hs_filepath, "rb");
-	if (!fp)
+	SDL_IOStream *io = SDL_IOFromFile(hs_filepath, "rb");
+	if (!io)
 		return false;
 
-	char ver;
-	READ_CHAR(ver);
+	uint8_t ver;
+	READ_BYTE(ver);
 
 	if (ver < 3)
 		return false; // Version <3 is obsolete
 
-	char gmc;
-	READ_CHAR(gmc);
+	uint8_t gmc;
+	READ_BYTE(gmc);
 
 	for (int i = 0; i < gmc; i++) {
 		int gm_key;
@@ -118,18 +118,18 @@ bool highscores_file_load(void) {
 			for (int k = 0; k < MAX_HIGHSCORES; k++) {
 				if (gamemode_index == -1) {
 					SDL_Log("What! Unknown gamemode key in highscores file: %d", gm_key);
-					fseek(fp, sizeof(int) + 12, SEEK_CUR);
+					SDL_SeekIO(io, sizeof(int) + 12, SDL_IO_SEEK_CUR);
 					continue;
 				}
 
 				Highscore *entry = &highscores[gamemode_index][j][k];
-				READ_INT(entry->score);
+				READ_UINT(entry->score);
 				READ_STRING(entry->name, 12);
 			}
 		}
 	}
 
-	fclose(fp);
+	SDL_CloseIO(io);
 
 	return true;
 }
