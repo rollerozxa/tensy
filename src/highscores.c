@@ -10,7 +10,7 @@ void highscore_register(Game state, const char *name) {
 	Highscore entry = {
 		.score=state.score};
 
-	strncpy(entry.name, name, sizeof(entry.name) - 1);
+	SDL_strlcpy(entry.name, name, sizeof(entry.name));
 
 	int pos = 0;
 

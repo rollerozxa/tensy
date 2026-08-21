@@ -26,8 +26,8 @@ void textinput_clear(TextInput *input) {
 }
 
 void textinput_settext(TextInput *input, const char *text) {
-	strncpy(input->buffer, text, 12); // XXX
-	input->cursor_pos = strnlen(input->buffer, TEXTINPUT_BUFFER_SIZE);
+	SDL_strlcpy(input->buffer, text, SDL_strnlen(text, TEXTINPUT_BUFFER_SIZE));
+	input->cursor_pos = SDL_strnlen(input->buffer, TEXTINPUT_BUFFER_SIZE);
 }
 
 bool textinput_event(const SDL_Event *ev, TextInput *input) {
@@ -150,7 +150,7 @@ void textinput(TextInput *input) {
 		return;
 
 	char temp_buffer[TEXTINPUT_BUFFER_SIZE];
-	strncpy(temp_buffer, input->buffer, input->cursor_pos);
+	SDL_strlcpy(temp_buffer, input->buffer, input->cursor_pos + 1);
 	temp_buffer[input->cursor_pos] = '\0';
 
 	SDL_FRect cursor_rect = text_calc_rect(temp_buffer, 2.0f);

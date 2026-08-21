@@ -17,7 +17,7 @@ typedef struct {
 #define TEXTINPUT(obj, rect, initial_text) do { \
 	obj = (TextInput){rect, {0}, 0, false, false}; \
 	if (initial_text[0] != '\0') { \
-		strncpy(obj.buffer, initial_text, TEXTINPUT_BUFFER_SIZE - 1); \
+		SDL_strlcpy(obj.buffer, initial_text, TEXTINPUT_BUFFER_SIZE); \
 		obj.cursor_pos = strlen(obj.buffer); \
 	} \
 } while (0)
