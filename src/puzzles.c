@@ -7,6 +7,10 @@
 // asset loader stuff
 #include "media/assetloader.h"
 
+#ifdef ASSETLOADER_LOOSE
+#include "consts.h"
+#endif
+
 // Helper to read whole SDL_IOStream into a NUL-terminated buffer.
 static char *read_all_from_io(SDL_IOStream *io, size_t *out_size) {
 	Sint64 size = SDL_SeekIO(io, 0, SDL_IO_SEEK_END);
