@@ -2,6 +2,8 @@
 #ifdef ASSETLOADER_LOOSE
 	#ifdef SDL_PLATFORM_VITA
 		#define PREFIX "app0:data/"
+	#elif defined(SDL_PLATFORM_IOS)
+		#define PREFIX "data/"
 	#else
 		#define PREFIX ""
 	#endif

@@ -80,6 +80,10 @@ SDL_AppResult SDL_AppInit(void **rustptr, int argc, char **argv) {
 #endif
 		windowflags |= SDL_WINDOW_FULLSCREEN;
 
+#ifdef SDL_PLATFORM_IOS
+	windowflags |= SDL_WINDOW_HIGH_PIXEL_DENSITY;
+#endif
+
 #ifdef SDL_PLATFORM_SWITCH
 	windowflags |= SDL_WINDOW_OPENGL;
 #endif
