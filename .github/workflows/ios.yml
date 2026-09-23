@@ -1,0 +1,39 @@
+name: iOS
+
+on:
+  - push
+  - pull_request
+
+jobs:
+  ios:
+    name: "iOS ${{ matrix.IOS_SDK }}-${{ matrix.IOS_ARCH }}-${{ matrix.IOS_DEPLOYMENT_TARGET }}"
+    runs-on: macos-26
+    strategy:
+      matrix:
+        include:
+          - { SDK: iphoneos, ARCH: arm64, MIN_VER: 11.0 }
+          - { SDK: iphonesimulator, ARCH: x86_64, MIN_VER: 11.0 }
+          - { SDK: iphonesimulator, ARCH: arm64, MIN_VER: 11.0 }
+    steps:
+      - uses: actions/checkout@v6
+
+      - name: Install build dependencies
+        run: |
+          export HOMEBREW_NO_INSTALLED_DEPENDENTS_CHECK=1
+          export HOMEBREW_NO_INSTALL_CLEANUP=1
+          brew update --auto-update
+          brew install zip ninja cmake
+
+      - name: Build Tensy
+        run: |
+          IOS_SDK=${{ matrix.SDK }} \
+            IOS_ARCH=${{ matrix.ARCH }} \
+            IOS_DEPLOYMENT_TARGET=${{ matrix.MIN_VER }} \
+            ./packaging/build-ios.sh
+
+      - name: Upload output
+        uses: ./.github/actions/upload-output
+        with:
+          file: Tensy-${{ matrix.SDK }}-${{ matrix.ARCH }}-${{ matrix.MIN_VER }}.ipa
+          name: Tensy-${{ matrix.SDK }}-${{ matrix.ARCH }}-${{ matrix.MIN_VER }}.ipa
+          repo_token: ${{ secrets.GITHUB_TOKEN }}
